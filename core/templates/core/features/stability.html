@@ -1,0 +1,94 @@
+{% extends 'parent/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link href="{% static 'css/navbar.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+
+<section class="stability-wrapper">
+    <div class="stability-container">
+
+        <!-- هدر صفحه -->
+        <div class="stability-hero">
+            <div class="brand-badge">
+                <!-- SVG آیکون سپر / امنیت و پایداری -->
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                </svg>
+                پایداری زیرساخت
+            </div>
+            <h1 class="stability-main-title">تضمین آپتایم <span class="uptime-highlight">۹۹.۹۹٪</span>، بدون قطعی!</h1>
+            <p class="stability-subtitle">معماری نرم‌افزاری آتراوب به گونه‌ای مهندسی شده است که بالاترین ترافیک‌ها و سنگین‌ترین پردازش‌ها را بدون ذره‌ای افت سرعت مدیریت کند. کسب‌وکار شما هرگز متوقف نخواهد شد.</p>
+        </div>
+
+        <!-- گرید داشبورد -->
+        <div class="dashboard-grid">
+
+            <!-- کارت ۱: تمام عرض (ویژگی کلیدی) -->
+            <div class="dashboard-card full-width-card">
+                <div class="card-content">
+                    <div class="card-header">
+                        <div class="icon-wrapper">
+                            <!-- SVG معماری توزیع شده / توازن بار -->
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="3" width="20" height="4" rx="1"></rect>
+                                <rect x="2" y="10" width="20" height="4" rx="1"></rect>
+                                <rect x="2" y="17" width="20" height="4" rx="1"></rect>
+                                <path d="M6 5h.01"></path>
+                                <path d="M6 12h.01"></path>
+                                <path d="M6 19h.01"></path>
+                            </svg>
+                        </div>
+                        <div class="status-indicator">
+                            <div class="status-dot"></div>
+                            Online
+                        </div>
+                    </div>
+                    <h3 class="item-title">توازن بار هوشمند (Smart Load Balancing)</h3>
+                    <p class="item-text">آتراوب درخواست‌های کاربران شما را به صورت کاملاً هوشمندانه بین چندین سرور یا هسته پردازشی توزیع می‌کند. در زمان برگزاری کمپین‌های فروش یا هجوم ناگهانی کاربران، سیستم به صورت خودکار منابع را مدیریت کرده و از کرش کردن (Crash) سایت یا اپلیکیشن جلوگیری می‌کند. همه چیز روان و بی‌نقص پیش می‌رود.</p>
+                </div>
+            </div>
+
+            <!-- کارت ۲: مانیتورینگ -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <div class="icon-wrapper">
+                        <!-- SVG نبض / مانیتورینگ -->
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                        </svg>
+                    </div>
+                    <div class="status-indicator">
+                        <div class="status-dot"></div>
+                        Active
+                    </div>
+                </div>
+                <h3 class="item-title">مانیتورینگ ۲۴/۷ لحظه‌ای</h3>
+                <p class="item-text">سیستم‌های ما به صورت شبانه‌روزی و در هر میلی‌ثانیه سلامت سرورها، میزان مصرف رم، پردازنده و دیتابیس را پایش می‌کنند. کوچکترین اختلال قبل از اینکه توسط کاربر احساس شود، شناسایی و برطرف می‌گردد.</p>
+            </div>
+
+            <!-- کارت ۳: خودترمیمی -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <div class="icon-wrapper">
+                        <!-- SVG ریستارت / خودترمیمی -->
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                            <polyline points="3 3 3 8 8 8"></polyline>
+                        </svg>
+                    </div>
+                    <div class="status-indicator">
+                        <div class="status-dot"></div>
+                        Stable
+                    </div>
+                </div>
+                <h3 class="item-title">معماری خودترمیم (Self-Healing)</h3>
+                <p class="item-text">در صورتی که یک سرویس یا پردازش دچار خطای نرم‌افزاری شود، سیستم بدون نیاز به دخالت انسان، آن بخش را در کسری از ثانیه ایزوله کرده و مجدداً راه‌اندازی می‌کند تا خللی در کل سیستم ایجاد نشود.</p>
+            </div>
+
+        </div>
+    </div>
+</section>
+{% endblock %}

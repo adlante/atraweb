@@ -1,0 +1,111 @@
+{% extends 'parent/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link href="{% static 'css/solution.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<main class="atra-solution-wrapper">
+    
+    <!-- بخش هیرو اختصاصی فروشگاه‌ها -->
+    <section class="solution-hero">
+        <div class="hero-content">
+            <span class="solution-badge">فروشگاه‌های آنلاین و اینستاگرامی</span>
+            <h1 class="hero-title">حسابداری دقیق، از سبد خرید تا ترازنامه مالی</h1>
+            <p class="hero-description">
+                فروشگاه شما ۲۴ ساعته باز است، حسابداری شما هم باید همین‌طور باشد! با آترا، ثبت فاکتورهای فروش، مدیریت دقیق موجودی انبار و رصد لحظه‌ای سودتان را به ساده‌ترین و حرفه‌ای‌ترین شکل ممکن انجام دهید.
+            </p>
+            <div class="hero-actions">
+                <a href="#" class="btn-primary-solution">شروع رایگان</a>
+                <a href="#" class="btn-secondary-solution">مشاهده دموی پنل</a>
+            </div>
+        </div>
+        <div class="hero-image-box">
+            <img src="{% static 'img/ecommerce_2.jpg' %}" alt="حسابداری فروشگاه اینترنتی" class="hero-img">
+        </div>
+    </section>
+
+    <!-- بخش ویژگی‌های توسعه‌یافته (۶ کارت) -->
+    <section class="solution-features">
+        <div class="section-heading text-center">
+            <h2>چرا فروشگاه‌های آنلاین عاشق آترا هستند؟</h2>
+            <p class="heading-subtitle">امکاناتی که برای مدیریت حجم بالای سفارشات طراحی شده‌اند.</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🛒</div>
+                <h3>صدور فاکتور سریع</h3>
+                <p>سفارشات مشتریان را در چند ثانیه به فاکتور رسمی یا غیررسمی تبدیل کنید و اسناد مالی خود را به‌روز نگه دارید.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📦</div>
+                <h3>همگام‌سازی موجودی انبار</h3>
+                <p>با فروش هر کالا، موجودی انبار در لحظه آپدیت شده و در صورت رسیدن به نقطه سفارش، هشدار دریافت می‌کنید.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💳</div>
+                <h3>ثبت دقیق پرداختی‌ها</h3>
+                <p>مدیریت یکپارچه واریزی‌های درگاه‌های بانکی، کارت‌به‌کارت و پرداخت در محل برای جلوگیری از خطای انسانی.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🚚</div>
+                <h3>مدیریت هزینه‌های ارسال</h3>
+                <p>تفکیک دقیق هزینه پیک، پست و بسته‌بندی از مبلغ خالص کالا برای محاسبه دقیق سود واقعی هر سفارش.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">↩️</div>
+                <h3>مدیریت بی‌دردسر مرجوعی‌ها</h3>
+                <p>ثبت آسان کالاهای مرجوعی، برگشت وجه به مشتری و اصلاح خودکار موجودی انبار و اسناد مالی.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📈</div>
+                <h3>تحلیل پرفروش‌ترین‌ها</h3>
+                <p>شناسایی کالاهای پرحاشیه سود و محصولات راکد برای بهینه‌سازی کمپین‌های بازاریابی و فروش.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- بخش جدید: نمایش دوگانه آترا (جایگزین یکپارچگی) -->
+    <section class="solution-dual-showcase">
+        <div class="section-heading text-center">
+            <h2>مدیریت فروشگاه، دقیق‌تر و زیباتر از همیشه</h2>
+            <p class="heading-subtitle">دو نمای مختلف از آنچه آترا برای کسب‌وکار شما به ارمغان می‌آورد؛ ساده، سریع و کاربردی!</p>
+        </div>
+
+        <div class="dual-showcase-grid">
+            <!-- تصویر و توضیحات اول -->
+            <div class="showcase-card">
+                <div class="showcase-image-wrapper">
+                    <!-- مسیر تصویر اول رو اینجا بذار -->
+                    <img src="{% static 'img/ecommerce_1.jpg' %}" alt="داشبورد فروش و درآمد آترا" class="showcase-img">
+                </div>
+                <div class="showcase-content">
+                    <h3>رصد لحظه‌ای فروش و درآمد</h3>
+                    <p>گزارش‌های گرافیکی و دقیق از میزان فروش روزانه، هفتگی و ماهانه. نبض فروشگاهتان همیشه در دستان شماست و می‌دانید کدام محصول بیشترین سود را داشته است.</p>
+                </div>
+            </div>
+
+            <!-- تصویر و توضیحات دوم -->
+            <div class="showcase-card">
+                <div class="showcase-image-wrapper">
+                    <!-- مسیر تصویر دوم رو اینجا بذار -->
+                    <img src="{% static 'img/ecommerce.webp' %}" alt="مدیریت انبار و فاکتورها" class="showcase-img">
+                </div>
+                <div class="showcase-content">
+                    <h3>کنترل هوشمند موجودی و فاکتورها</h3>
+                    <p>با ثبت سریع فاکتورهای خرید و فروش، موجودی کالاها به صورت خودکار به‌روزرسانی می‌شود تا هرگز با خطای ناموجودی یا مغایرت مالی روبه‌رو نشوید.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- بخش بنر دعوت به اقدام (CTA) نهایی -->
+    <section class="solution-cta-banner">
+        <h2>آماده‌اید تا حسابداری فروشگاهتان را روی خلبان خودکار بگذارید؟</h2>
+        <p>بدون نیاز به کارت بانکی، ۱۴ روز رایگان از تمام امکانات آترا استفاده کنید.</p>
+        <a href="#" class="btn-primary-solution cta-btn-large">همین الان شروع کنید</a>
+    </section>
+
+</main>
+{% endblock %}

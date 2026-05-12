@@ -1,0 +1,98 @@
+{% extends 'parent/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link href="{% static 'css/navbar.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<section class="decentralized-light-wrapper">
+    <div class="decentralized-container">
+
+        <!-- هدر صفحه -->
+        <div class="tech-hero">
+            <div class="enterprise-badge">
+                <!-- SVG آیکون سرور -->
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
+                    <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
+                    <line x1="6" y1="6" x2="6.01" y2="6"></line>
+                    <line x1="6" y1="18" x2="6.01" y2="18"></line>
+                </svg>
+                معماری ایزوله و امن
+            </div>
+            <h1 class="tech-main-title">اطلاعات شما، <span class="tech-highlight">در قلب شرکت شماست!</span></h1>
+            <p class="tech-subtitle">با آتراوب، کنترل کامل داده‌هایتان را در دست بگیرید. ما پایگاه داده را به جای سرورهای ابری عمومی، به عنوان یک دژ نفوذناپذیر در سخت‌افزار اختصاصی خودتان مستقر می‌کنیم.</p>
+        </div>
+
+        <!-- لایوت کارت‌های شبکه‌ای -->
+        <div class="nodes-layout">
+
+            <!-- کارت ۱: مالکیت داده -->
+            <div class="node-card">
+                <div class="node-content">
+                    <div class="icon-wrapper">
+                        <!-- SVG سپر امنیتی -->
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="node-title">مالکیت ۱۰۰٪ و بدون شرط</h3>
+                    <p class="node-text">نرم‌افزارهای ابری (Cloud-based)، اطلاعات حیاتی شما را در سرورهای شرکت‌های ثالث ذخیره می‌کنند. در آتراوب، هسته مرکزی مستقیماً روی سرور شما نصب می‌شود. هیچکس جز شما به این داده‌ها دسترسی نخواهد داشت.</p>
+                </div>
+                <div class="node-image">
+                    <img src="{% static 'img/bento_2.jpg' %}" alt="سرور اختصاصی سازمان">
+                </div>
+            </div>
+
+            <!-- دو کارت میانی -->
+            <div class="node-grid-2">
+                <div class="node-card-small">
+                    <div class="icon-wrapper">
+                        <!-- SVG مدیریت هزینه‌ها -->
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="12" y1="1" x2="12" y2="23"></line>
+                            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                        </svg>
+                    </div>
+                    <h3 class="node-title">حذف هزینه‌های اجاره سرور</h3>
+                    <p class="node-text">با پیاده‌سازی معماری غیرابری، نیازی به پرداخت حق اشتراک ماهیانه برای هاست، ترافیک و نگهداری ابری ندارید. سیستم را یک بار راه‌اندازی کنید و هزینه‌های جاری زیرساخت را کاهش دهید.</p>
+                </div>
+
+                <div class="node-card-small">
+                    <div class="icon-wrapper">
+                        <!-- SVG شبکه -->
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="16" y="16" width="6" height="6" rx="1"></rect>
+                            <rect x="2" y="16" width="6" height="6" rx="1"></rect>
+                            <rect x="9" y="2" width="6" height="6" rx="1"></rect>
+                            <path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"></path>
+                            <path d="M12 12V8"></path>
+                        </svg>
+                    </div>
+                    <h3 class="node-title">اکوسیستم غیرقابل نفوذ</h3>
+                    <p class="node-text">وقتی دیتابیس شما به اینترنت جهانی متصل نباشد، حملات سایبری عملاً غیرممکن است! سیستم شما درون یک شبکه محلی ایزوله، مانند یک گاوصندوق دیجیتال فعالیت می‌کند.</p>
+                </div>
+            </div>
+
+            <!-- کارت ۴: ارتباط شبکه -->
+            <div class="node-card reverse">
+                <div class="node-content">
+                    <div class="icon-wrapper">
+                        <!-- SVG اتصال پرسرعت / صاعقه -->
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                        </svg>
+                    </div>
+                    <h3 class="node-title">ارتباط بی‌نقص در شبکه محلی</h3>
+                    <p class="node-text">حتی با حضور ده‌ها کاربر همزمان، معماری کلاینت-سرور محلی اجازه می‌دهد همه را در یک شبکه داخلی متصل کنید. داده‌ها بدون نیاز به اینترنت، با بالاترین سرعت ممکن جریان دارند.</p>
+                </div>
+                <div class="node-image">
+                    <img src="{% static 'img/bento_1.avif' %}" alt="تکنولوژی شبکه داخلی">
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends 'parent/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link href="{% static 'css/solution.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<!-- تمام محتوا داخل این Wrapper قرار می‌گیرد تا استایل‌ها ایزوله بمانند -->
+<main class="atra-solution-wrapper">
+
+    <!-- بخش هیرو (Hero Section) -->
+    <section class="solution-hero">
+        <div class="hero-content">
+            <span class="solution-badge">راهکار اختصاصی آترا</span>
+            <h1 class="hero-title">مدیریت مالی هوشمند برای کسب‌وکارهای کوچک و متوسط</h1>
+            <p class="hero-description">
+                با آترا، جریان‌های نقدی خود را کنترل کنید، فاکتورها را خودکار صادر کنید و بدون نیاز به دانش پیچیده حسابداری، روی رشد کسب‌وکار خود تمرکز کنید.
+            </p>
+            <div class="hero-actions">
+                <a href="#" class="btn-primary-solution">شروع استفاده رایگان</a>
+                <a href="#" class="btn-secondary-solution">مشاوره با کارشناسان</a>
+            </div>
+        </div>
+        <div class="hero-image-box">
+            <!-- جایگذاری تصویر شماتیک داشبورد یا گرافیک مرتبط -->
+            <img src="{% static 'img/solution.jpg' %}" alt="راهکار کسب و کارهای کوچک" class="hero-img">
+        </div>
+    </section>
+
+    <!-- بخش ویژگی‌های کلیدی (Key Features) -->
+    <section class="solution-features">
+        <div class="section-heading">
+            <h2>چرا آترا بهترین انتخاب برای شماست؟</h2>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>گزارش‌دهی لحظه‌ای</h3>
+                <p>در هر لحظه از وضعیت سود و زیان و جریان مالی خود با داشبوردهای جذاب مطلع شوید.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💳</div>
+                <h3>مدیریت فاکتور و پرداخت</h3>
+                <p>صدور فاکتور آنلاین و اتصال مستقیم به درگاه پرداخت برای وصول سریع‌تر مطالبات.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🤝</div>
+                <h3>مدیریت مشتریان (CRM مالی)</h3>
+                <p>تاریخچه تراکنش‌ها و حساب‌های هر مشتری را به صورت یکپارچه و دقیق پیگیری کنید.</p>
+            </div>
+        </div>
+    </section>
+
+</main>
+{% endblock %}

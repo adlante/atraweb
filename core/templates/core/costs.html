@@ -1,0 +1,62 @@
+{% extends 'parent/base.html' %}
+{% load static %}
+{% block extra_css %}
+    <link href="{% static 'css/landings.css' %}" rel="stylesheet">
+{% endblock %}
+{% block content %}
+    <section class="infrastructure-costs">
+        <div class="container">
+            <!-- هدر صفحه -->
+            <div class="section-header">
+                <span class="badge">شفافیت مالی آترا</span>
+                <h2>چرا برای بک‌آپ و زیرساخت هزینه دریافت می‌کنیم؟</h2>
+                <p>ما به امنیت اطلاعات شما و پایداری کسب‌وکارتان اهمیت می‌دهیم. در اینجا به صورت کاملاً شفاف توضیح
+                    داده‌ایم که هزینه‌های زیرساختی چگونه صرف محافظت از داده‌های شما می‌شود.</p>
+            </div>
+
+            <!-- کارت‌های توضیحات -->
+            <div class="costs-grid">
+
+                <!-- کارت 1: امنیت و بک‌آپ -->
+                <div class="cost-card">
+                    <div class="card-icon blue">
+                        <i class="fa-solid fa-server"></i>
+                        <i class="fa-solid fa-cloud-arrow-up secondary-icon"></i>
+                    </div>
+                    <h3>حفاظت سه‌لایه از داده‌ها</h3>
+                    <p>اطلاعات مالی شما قلب تپنده کسب‌وکارتان است. ما داده‌های شما را روی قدرتمندترین سرورهای ابری
+                        نگهداری می‌کنیم و روزانه در ۳ لایه و لوکیشن فیزیکی مختلف از آن‌ها بک‌آپ می‌گیریم. این هزینه،
+                        تضمین می‌کند که حتی در صورت وقوع بدترین حوادث، حتی یک بیت از اطلاعات شما از دست نرود.</p>
+                </div>
+
+                <!-- کارت 2: واقعیت ارزی -->
+                <div class="cost-card highlight-card">
+                    <div class="card-icon red">
+                        <i class="fa-solid fa-chart-line"></i>
+                        <i class="fa-solid fa-dollar-sign secondary-icon"></i>
+                    </div>
+                    <h3>هزینه‌های دلاری زیرساخت</h3>
+                    <p>برای ارائه بالاترین کیفیت، ما از سرورها و دیتاسنترهای تراز اول جهانی استفاده می‌کنیم که هزینه‌های
+                        آن‌ها به صورت <strong>ارزی (دلار/یورو)</strong> پرداخت می‌شود. با توجه به نوسانات نرخ ارز، هزینه
+                        نگهداری این زیرساخت‌ها دائماً در حال تغییر است. ما این هزینه‌ها را با کمترین حاشیه سود و کاملاً
+                        منطبق بر واقعیت بازار مدیریت می‌کنیم.</p>
+                </div>
+
+                <!-- کارت 3: سپر ضد تورم (مزیت یکساله) -->
+                <div class="cost-card success-card">
+                    <div class="card-icon green">
+                        <i class="fa-solid fa-shield-halved"></i>
+                        <i class="fa-solid fa-lock secondary-icon"></i>
+                    </div>
+                    <h3>سپر ضد تورم (خرید سالانه)</h3>
+                    <p>پیشنهاد ویژه ما به شما: با پرداخت هزینه زیرساخت به صورت <strong>سالانه</strong>، شما در برابر
+                        تمام نوسانات ارزی یک سال آینده بیمه می‌شوید! هر اتفاقی برای قیمت ارز بیفتد، هیچ هزینه اضافه‌ای
+                        از شما دریافت نخواهد شد و ریسک افزایش قیمت کاملاً بر عهده آترا خواهد بود.</p>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

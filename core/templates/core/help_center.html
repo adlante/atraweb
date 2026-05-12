@@ -1,0 +1,43 @@
+{% extends 'parent/base.html' %}
+{% load static %}
+{% block extra_css %}
+    <link href="{% static 'css/navbar.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="atra-resource-wrapper">
+    <!-- بخش هیرو پشتیبانی -->
+    <div class="atra-resource-hero" style="background: linear-gradient(135deg, #fffaf0 0%, #fff2e6 100%);">
+        <div class="atra-resource-hero-text">
+            <h1 style="color: #995c00;">مرکز راهنمایی و پشتیبانی</h1>
+            <p>سوالی دارید؟ مشکلی پیش آمده؟ تیم پشتیبانی آترا و پایگاه دانش جامع ما اینجا هستند تا در سریع‌ترین زمان ممکن پاسخگوی شما باشند.</p>
+        </div>
+        <div class="atra-resource-hero-image">
+            <img src="{% static 'img/support.jpg' %}" alt="پشتیبانی آترا">
+        </div>
+    </div>
+
+    <!-- گرید راهنماها -->
+    <div class="atra-resource-grid">
+        <div class="atra-resource-card">
+            <img src="{% static 'img/support_1.jpg' %}" alt="آموزش" class="atra-resource-card-img">
+            <div class="atra-resource-card-content">
+                <span class="atra-resource-card-tag" style="background: #ffebd6; color: #cc7a00;">شروع به کار</span>
+                <h3>راهنمای راه‌اندازی اولیه پنل کاربری</h3>
+                <p>آموزش قدم به قدم ثبت‌نام، تکمیل پروفایل تجاری و اتصال درگاه‌های بانکی برای شروع فروش در کمتر از ۱۰ دقیقه.</p>
+                <a href="#" class="atra-resource-card-link" style="color: #cc7a00;">مشاهده راهنما ←</a>
+            </div>
+        </div>
+
+        <div class="atra-resource-card">
+            <img src="{% static 'img/support_2.jpg' %}" alt="تیکت" class="atra-resource-card-img">
+            <div class="atra-resource-card-content">
+                <span class="atra-resource-card-tag" style="background: #ffebd6; color: #cc7a00;">پشتیبانی فنی</span>
+                <h3>ارسال تیکت و تماس با کارشناسان</h3>
+                <p>اگر پاسخ خود را در مستندات پیدا نکردید، می‌توانید به صورت ۲۴ ساعته با کارشناسان فنی ما در ارتباط باشید.</p>
+                <a href="{% url 'core:submit_ticket' %}" class="atra-resource-card-link" style="color: #cc7a00;">ارسال تیکت جدید ←</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends 'parent/base.html' %}
+{% load static %}
+{% block extra_css %}
+    <link href="{% static 'css/navbar.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="atra-resource-wrapper">
+    <!-- بخش هیرو توسعه‌دهندگان -->
+    <div class="atra-resource-hero" style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);">
+        <div class="atra-resource-hero-text">
+            <h1 style="color: #166534;">مستندات توسعه‌دهندگان (API)</h1>
+            <p>قدرت آترا را به سیستم‌های اختصاصی خود متصل کنید. مستندات جامع، وب‌هوک‌ها و نمونه کدهای آماده برای توسعه‌دهندگان حرفه‌ای.</p>
+        </div>
+        <div class="atra-resource-hero-image">
+            <img src="{% static 'img/api.png' %}" alt="توسعه‌دهندگان آترا">
+        </div>
+    </div>
+
+    <!-- گرید مستندات API -->
+    <div class="atra-resource-grid">
+        <div class="atra-resource-card">
+            <img src="{% static 'img/api_2.webp' %}" alt="API Rest" class="atra-resource-card-img">
+            <div class="atra-resource-card-content">
+                <span class="atra-resource-card-tag" style="background: #d1fae5; color: #047857;">Core API</span>
+                <h3>مستندات RESTful API آترا</h3>
+                <p>دسترسی کامل به مدیریت محصولات، کاربران و سفارشات از طریق اندپوینت‌های امن و بهینه‌سازی شده با معماری REST.</p>
+                <a href="#" class="atra-resource-card-link" style="color: #047857;">مشاهده Endpoint ها ←</a>
+            </div>
+        </div>
+
+        <div class="atra-resource-card">
+            <img src="{% static 'img/api_1.png' %}" alt="Webhooks" class="atra-resource-card-img">
+            <div class="atra-resource-card-content">
+                <span class="atra-resource-card-tag" style="background: #d1fae5; color: #047857;">Real-time</span>
+                <h3>راهنمای پیاده‌سازی Webhook</h3>
+                <p>دریافت آنی رویدادهای سیستم (مثل ثبت سفارش جدید یا تغییر وضعیت پرداخت) روی سرورهای اختصاصی شما.</p>
+                <a href="#" class="atra-resource-card-link" style="color: #047857;">آموزش وب‌هوک ←</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

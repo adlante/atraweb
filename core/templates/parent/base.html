@@ -1,0 +1,100 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}آتراوب | اپلیکیشن حسابداری آفلاین{% endblock %}</title>    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- ================= توضیحات سئو ================= -->
+    <meta name="description"
+          content="اترا اپ | نرم‌افزار حسابداری آفلاین قدرتمند برای مدیریت مالی، فاکتور، مشتریان و گزارش‌های دقیق. مناسب کسب‌وکارهای کوچک تا بزرگ با سه پلن اقتصادی، پیشرفته و حرفه‌ای. سریع، امن و بدون نیاز به اینترنت.">
+
+    <meta name="keywords"
+          content="اترا اپ, AtraApp, نرم افزار حسابداری آفلاین, حسابداری شرکتی, حسابداری فروشگاهی, برنامه حسابداری, مدیریت مالی, صدور فاکتور, مدیریت مشتریان, گزارش مالی, نرم افزار حسابداری ایران, حسابداری کسب و کار, پلن اقتصادی, پلن پیشرفته, پلن حرفه ای">
+
+    <meta name="author" content="AtraDev - AtraApp Accounting Software">
+    <meta name="theme-color" content="#0f172a">
+
+    <!-- ================= Open Graph (شبکه‌های اجتماعی) ================= -->
+    <meta property="og:title" content="اترا اپ | نرم افزار حسابداری آفلاین با ۳ پلن اقتصادی، پیشرفته و حرفه‌ای">
+    <meta property="og:description" content="AtraApp یک نرم‌افزار حسابداری آفلاین سریع و امن برای مدیریت کامل مالی کسب‌وکار شماست. صدور فاکتور، مدیریت مشتریان، گزارش‌های حرفه‌ای و کنترل مالی دقیق با سه پلن اقتصادی، پیشرفته و حرفه‌ای.">
+    <meta property="og:image" content="https://atraapp.ir/img/preview.jpg">
+    <meta property="og:url" content="https://atraapp.ir">
+    <meta property="og:type" content="website">
+
+    <!-- ================= Twitter Card ================= -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="آتراوب | طراحی وب‌سایت با پایتون و جنگو">
+    <meta name="twitter:description" content="طراحی وب‌سایت حرفه‌ای، سئو شده و امن با آتراوب.">
+    <meta name="twitter:image" content="https://atraweb.co/img/preview.jpg">
+
+    <!-- ================= Favicon (اصلاح شده با تگ استاتیک) ================= -->
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'img/favicon-16x16.png' %}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/apple-touch-icon.png' %}">
+
+    <!-- ================= Google Fonts (تجمیع شده برای سرعت بالاتر) ================= -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@700&family=Poppins:wght@600&family=Saira:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <!-- ================= Icon Fonts (حذف نسخه تکراری ۵ و حفظ نسخه ۶) ================= -->
+<script src="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/js/all.min.js" defer></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css">
+
+    <!-- ================= فایل استایل اصلی ================= -->
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet">
+
+    <!-- ================= فضای رزرو شده برای استایل‌های اختصاصی صفحات (Thematic CSS) ================= -->
+    {% block extra_css %}
+
+    {% endblock %}
+
+</head>
+<body>
+
+    <!-- هدر سایت -->
+    {% include 'parts/header.html' %}
+
+    <!-- سیستم نمایش پیام‌های جنگو -->
+    {% if messages %}
+        <div class="message-container-container">
+            {% for message in messages %}
+                <div class="message-container {{ message.tags }}">
+                        <span class="message-icon">
+                            {% if message.tags == "success" %}
+                                ✅
+                            {% elif message.tags == "error" %}
+                                ❌
+                            {% else %}
+                                ℹ️
+                            {% endif %}
+                        </span>
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <!-- محتوای اصلی هر صفحه اینجا قرار می‌گیرد -->
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <!-- فوتر سایت -->
+    {% include 'parts/footer.html' %}
+
+    <!-- ================= فایل‌های جاوااسکریپت ================= -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.lordicon.com/lordicon.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="{% static 'js/main.js' %}"></script>
+
+    <!-- ================= فضای رزرو شده برای اسکریپت‌های اختصاصی صفحات ================= -->
+    {% block extra_js %}{% endblock %}
+
+</body>
+</html>

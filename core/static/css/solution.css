@@ -1,0 +1,425 @@
+/* =========================================
+   Solution Pages Isolated Styles
+   ========================================= */
+
+/* استایل کانتینر اصلی */
+.atra-solution-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 60px 20px;
+    direction: rtl;
+    font-family: inherit; /* ارث‌بری از فونت پایه سایت */
+    color: #2c3e50;
+}
+
+/* --- Hero Section --- */
+.atra-solution-wrapper .solution-hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 50px;
+    margin-bottom: 100px;
+}
+
+.atra-solution-wrapper .hero-content {
+    flex: 1;
+}
+
+.atra-solution-wrapper .solution-badge {
+    display: inline-block;
+    background-color: #e0f2fe;
+    color: #0284c7;
+    padding: 6px 16px;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.atra-solution-wrapper .hero-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    line-height: 1.4;
+    margin-bottom: 20px;
+    color: #0f172a;
+}
+
+.atra-solution-wrapper .hero-description {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #64748b;
+    margin-bottom: 35px;
+}
+
+/* دکمه‌ها */
+.atra-solution-wrapper .hero-actions {
+    display: flex;
+    gap: 15px;
+}
+
+.atra-solution-wrapper .btn-primary-solution {
+    background-color: #2563eb;
+    color: #fff;
+    padding: 14px 28px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2);
+}
+
+.atra-solution-wrapper .btn-primary-solution:hover {
+    background-color: #1d4ed8;
+    transform: translateY(-2px);
+}
+
+.atra-solution-wrapper .btn-secondary-solution {
+    background-color: #f8fafc;
+    color: #334155;
+    padding: 14px 28px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    border: 1px solid #cbd5e1;
+    transition: all 0.3s ease;
+}
+
+.atra-solution-wrapper .btn-secondary-solution:hover {
+    background-color: #f1f5f9;
+    border-color: #94a3b8;
+}
+
+.atra-solution-wrapper .hero-image-box {
+    flex: 1;
+    text-align: left;
+}
+
+.atra-solution-wrapper .hero-img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 12px;
+    /* یک افکت سایه جذاب برای عکس/وکتور */
+    filter: drop-shadow(0 20px 30px rgba(0,0,0,0.08));
+}
+
+/* --- Features Section --- */
+.atra-solution-wrapper .section-heading {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.atra-solution-wrapper .section-heading h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.atra-solution-wrapper .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.atra-solution-wrapper .feature-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 30px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.atra-solution-wrapper .feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    border-color: #bfdbfe;
+}
+
+.atra-solution-wrapper .feature-icon {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+.atra-solution-wrapper .feature-card h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: #1e293b;
+}
+
+.atra-solution-wrapper .feature-card p {
+    color: #64748b;
+    line-height: 1.7;
+    font-size: 0.95rem;
+}
+
+/* --- Responsive (Mobile & Tablet) --- */
+@media (max-width: 992px) {
+    .atra-solution-wrapper .solution-hero {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .atra-solution-wrapper .hero-actions {
+        justify-content: center;
+    }
+
+    .atra-solution-wrapper .hero-image-box {
+        margin-top: 30px;
+    }
+}
+
+@media (max-width: 576px) {
+    .atra-solution-wrapper .hero-title {
+        font-size: 2rem;
+    }
+
+    .atra-solution-wrapper .hero-actions {
+        flex-direction: column;
+    }
+
+    .atra-solution-wrapper .btn-primary-solution,
+    .atra-solution-wrapper .btn-secondary-solution {
+        width: 100%;
+        text-align: center;
+    }
+}
+/* ==========================================================================
+   Dual Showcase Section (بخش نمایش دوگانه - جایگزین یکپارچگی)
+   ========================================================================== */
+.atra-solution-wrapper .solution-dual-showcase {
+    margin: 80px 0;
+    padding: 20px 0;
+}
+
+.atra-solution-wrapper .solution-dual-showcase .section-heading {
+    margin-bottom: 50px;
+}
+
+.atra-solution-wrapper .dual-showcase-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+    align-items: stretch;
+}
+
+.atra-solution-wrapper .showcase-card {
+    background: #ffffff;
+    border-radius: 24px;
+    border: 1px solid #e2e8f0;
+    overflow: hidden;
+    transition: all 0.4s ease;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.03);
+    display: flex;
+    flex-direction: column;
+}
+
+.atra-solution-wrapper .showcase-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(37, 99, 235, 0.08);
+    border-color: #bfdbfe;
+}
+
+.atra-solution-wrapper .showcase-image-wrapper {
+    background: #f8fafc;
+    padding: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid #f1f5f9;
+    height: 280px; /* فضای کافی برای نمایش زیبای تصاویر */
+}
+
+.atra-solution-wrapper .showcase-img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 12px;
+    transition: transform 0.3s ease;
+}
+
+.atra-solution-wrapper .showcase-card:hover .showcase-img {
+    transform: scale(1.03); /* افکت زوم ملایم روی عکس موقع هاور */
+}
+
+.atra-solution-wrapper .showcase-content {
+    padding: 35px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.atra-solution-wrapper .showcase-content h3 {
+    font-size: 1.4rem;
+    color: #0f172a;
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+.atra-solution-wrapper .showcase-content p {
+    color: #475569;
+    font-size: 1.05rem;
+    line-height: 1.8;
+    margin: 0;
+}
+
+/* واکنش‌گرایی (Responsive) برای موبایل و تبلت */
+@media (max-width: 992px) {
+    .atra-solution-wrapper .dual-showcase-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .atra-solution-wrapper .showcase-image-wrapper {
+        height: 220px; /* تنظیم ارتفاع منطقی‌تر برای موبایل */
+    }
+
+    .atra-solution-wrapper .showcase-content {
+        padding: 25px; /* کاهش پدینگ برای استفاده بهتر از فضا در موبایل */
+    }
+}
+/* ==========================================================================
+   CTA Banner Section (بخش دعوت به اقدام نهایی - پایین صفحه)
+   ========================================================================== */
+.atra-solution-wrapper .solution-cta-banner {
+    background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); /* گرادیانت آبی فوق‌العاده جذاب */
+    border-radius: 24px;
+    padding: 60px 40px;
+    text-align: center;
+    color: #ffffff;
+    margin: 80px 0 40px 0;
+    box-shadow: 0 15px 30px rgba(59, 130, 246, 0.25);
+    position: relative;
+    overflow: hidden;
+}
+
+/* یک افکت نوری محو برای زیباتر شدن بک‌گراند بنر */
+.atra-solution-wrapper .solution-cta-banner::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
+    pointer-events: none;
+}
+
+.atra-solution-wrapper .solution-cta-banner h2 {
+    font-size: 2.2rem;
+    font-weight: 800;
+    margin-bottom: 20px;
+    color: #ffffff;
+    position: relative;
+    z-index: 1;
+}
+
+.atra-solution-wrapper .solution-cta-banner p {
+    font-size: 1.2rem;
+    margin-bottom: 40px;
+    opacity: 0.9;
+    position: relative;
+    z-index: 1;
+}
+
+/* استایل اختصاصی دکمه بزرگ داخل بنر */
+.atra-solution-wrapper .solution-cta-banner .cta-btn-large {
+    display: inline-block;
+    background-color: #ffffff;
+    color: #1e3a8a; /* رنگ متن آبی تیره برای تضاد و خوانایی عالی */
+    font-size: 1.15rem;
+    font-weight: bold;
+    padding: 16px 45px;
+    border-radius: 50px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    position: relative;
+    z-index: 1;
+}
+
+.atra-solution-wrapper .solution-cta-banner .cta-btn-large:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.25);
+    background-color: #f8fafc;
+    color: #2563eb;
+}
+
+/* ==========================================================================
+   ریسپانسیو بنر نهایی برای تبلت و موبایل
+   ========================================================================== */
+@media (max-width: 768px) {
+    .atra-solution-wrapper .solution-cta-banner {
+        padding: 40px 20px;
+        margin: 60px 0 20px 0;
+        border-radius: 20px;
+    }
+
+    .atra-solution-wrapper .solution-cta-banner h2 {
+        font-size: 1.6rem;
+    }
+
+    .atra-solution-wrapper .solution-cta-banner p {
+        font-size: 1.05rem;
+        margin-bottom: 30px;
+    }
+
+    .atra-solution-wrapper .solution-cta-banner .cta-btn-large {
+        padding: 14px 35px;
+        font-size: 1.05rem;
+        width: 100%; /* در موبایل دکمه تمام عرض بشه بهتره */
+        max-width: 300px;
+    }
+}
+/* =========================================
+   اصلاح تداخل و ریسپانسیو Feature Cards
+   ========================================= */
+
+.atra-solution-wrapper .feature-card {
+    /* تبدیل به فلکس‌باکس ستونی برای جلوگیری از شناور شدن (Float) عناصر */
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 30px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+/* خنثی کردن استایل‌های مخرب سراسری روی آیکون، تیتر و متن */
+.atra-solution-wrapper .feature-card .feature-icon,
+.atra-solution-wrapper .feature-card h3,
+.atra-solution-wrapper .feature-card p {
+    float: none !important;
+    display: block !important;
+    width: 100% !important;
+    text-align: right;
+}
+
+.atra-solution-wrapper .feature-icon {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: #2563eb; /* اگه رنگ نداشت، این رنگ آبی جذاب رو بهش میده */
+}
+
+.atra-solution-wrapper .feature-card h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: #1e293b;
+    /* حل مشکل شکستگی خطوط کلمات انگلیسی و فارسی در موبایل */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.atra-solution-wrapper .feature-card p {
+    color: #64748b;
+    line-height: 1.7;
+    font-size: 0.95rem;
+    margin: 0;
+}

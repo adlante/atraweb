@@ -1,0 +1,153 @@
+{% load static %}
+<header class="top-bar">
+    <!-- بخش جستجو و دکمه‌ها به سمت راست منتقل شد -->
+    <div class="top-right-section">
+        <!-- Hollow minimal SVG Search Icon -->
+        <div class="search-icon-svg" title="جستجو">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+        </div>
+        <div class="atra-inline-hamburger" id="atraMenuToggle">
+            <span></span><span></span><span></span>
+        </div>
+        {% if user.is_authenticated %}
+            <!-- ================= حالت کاربر لاگین‌شده ================= -->
+
+            <!-- نمایش نام کاربری (فقط برای نمایش، بدون لینک) -->
+            <span class="minimal-btn user-badge">
+            <i class=""></i> خوش اومدی، {{ user.username }}
+        </span>
+
+            <!-- دکمه پروفایل -->
+            <a href="{% url 'accounts:profile_dashboard' %}" class="minimal-btn animated-border">
+                پروفایل کاربری
+            </a>
+
+            <!-- دکمه خروج -->
+            <a href="{% url 'accounts:logout' %}" class="minimal-btn logout-btn">
+                خروج
+            </a>
+
+        {% else %}
+            <!-- ================= حالت کاربر مهمان (لاگین نشده) ================= -->
+
+            <!-- دکمه ورود (لینک ورود رو هم بهش اضافه کردم) -->
+            <a href="{% url 'accounts:login' %}" class="minimal-btn animated-border">
+                ورود
+            </a>
+
+            <!-- دکمه ثبت‌نام -->
+            <a href="{% url 'accounts:register' %}" class="minimal-btn signup-btn">
+                ثبت‌نام
+            </a>
+        {% endif %}
+    </div>
+
+    <!-- بخش لوگو و منو به سمت چپ منتقل شد -->
+    <div class="top-left-section">
+        {#        <nav class="top-nav">#}
+        {#            <a href="">هزینه‌ها</a>#}
+        {#            <a href="">سازنده</a>#}
+        {##}
+        {#        </nav>#}
+
+        <div class="zoho-text">
+            <a href="{% url 'core:home' %}"
+               style="text-decoration:none; color:inherit; display:flex; align-items:center; gap:8px;">
+                <img src="{% static 'img/logo.png' %}" alt="اترا اپ" style="height:80px;">
+
+            </a>
+        </div>
+
+    </div>
+</header>
+
+<!-- Bottom Bar Section -->
+<nav class="bottom-bar">
+    <!-- منوهای پایین به سمت راست منتقل شد -->
+    <div class="bottom-nav">
+        <a href="{% url 'core:home' %}">خانه</a>
+        <!-- دراپ‌داون ویژگی‌ها: تمرکز روی قابلیت‌های کلیدی سیستم -->
+       <div class="dropdown">
+    <a href="#">ویژگی‌ها <span class="arrow">▼</span></a>
+    <ul class="dropdown-content">
+        <li><a href="{% url 'core:feature_offline_first' %}">تکنولوژی Offline-First</a></li>
+        <li><a href="{% url 'core:feature_decentralized' %}">معماری غیرمتمرکز داده‌ها</a></li>
+        <li><a href="{% url 'core:feature_smart_backup' %}">بک‌آپ‌گیری هوشمند لوکال</a></li>
+        <li><a href="{% url 'core:feature_stability' %}">پایداری تضمین‌شده (۹۹.۹٪)</a></li>
+    </ul>
+</div>
+
+        <div class="dropdown">
+    <!-- لینک اصلی می‌تونه بره به صفحه کلی مقایسه قیمت‌ها -->
+    <a href="">پلن ها <span class="arrow">▼</span></a>
+    <ul class="dropdown-content">
+        <li><a href="{% url 'core:plan_economic' %}"> پلن اقتصادی </a></li>
+        <li><a href="{% url 'core:plan_advanced' %}"> پلن پیشرفته </a></li>
+        <li><a href="{% url 'core:plan_professional' %}"> پلن حرفه‌ای </a></li>
+        <li><a href="{% url 'core:plan_custom' %}"> پلن سفارشی </a></li>
+    </ul>
+</div>
+
+        <a href="{% url 'core:pricing' %}">قیمت‌گذاری</a>
+
+        <!-- دراپ‌داون راهکارها: شخصی‌سازی برای صنایع مختلف (جذب هدفمند مشتری) -->
+       <div class="dropdown">
+    <a href="#">راهکارها <span class="arrow">▼</span></a>
+    <ul class="dropdown-content">
+        <li><a href="{% url 'core:solution_smb' %}">کسب‌وکارهای کوچک و متوسط</a></li>
+        <li><a href="{% url 'core:solution_ecommerce' %}">فروشگاه‌های اینترنتی</a></li>
+        <li><a href="{% url 'core:solution_b2b' %}">شرکت‌های خدماتی و B2B</a></li>
+        <li><a href="{% url 'core:solution_freelancer' %}">مشاغل آزاد و فریلنسرها</a></li>
+    </ul>
+</div>
+
+
+        <a href="#">مشتریان</a>
+        <a href="#">همکاری با ما</a>
+
+        <!-- دراپ‌داون منابع: ارزش‌آفرینی و پشتیبانی کاربر -->
+       <div class="dropdown">
+    <a href="#">منابع <span class="arrow">▼</span></a>
+
+    <ul class="dropdown-content">
+        <!-- اتصال به view وبلاگ -->
+        <li><a href="{% url 'core:blog' %}">وبلاگ و مقالات آموزشی</a></li>
+
+        <!-- اتصال به view پشتیبانی -->
+        <li><a href="{% url 'core:help_center' %}">مرکز راهنمایی و پشتیبانی</a></li>
+
+        <!-- اتصال به view توسعه‌دهندگان -->
+        <li><a href="{% url 'core:developers' %}">مستندات توسعه‌دهندگان (API)</a></li>
+
+
+    </ul>
+</div>
+
+    </div>
+    </div>
+
+    <!-- دکمه نسخه آزمایشی و لوگو به سمت چپ منتقل شد -->
+    <div class="bottom-left-section">
+        <div class="books-logo-mock">
+
+            <!-- لوگو (جایگزین آیکون قبلی) -->
+            <div class="books-icon">
+                <img src="{% static 'img/logo_book.webp' %}"
+                     alt="logo"
+                     style="width:32px; height:32px; object-fit:contain;">
+            </div>
+
+            <!-- متن دریافت نسخه آزمایشی -->
+            <div class="books-text">
+                <a href="https://your-link.com" style="text-decoration:none; color:inherit;">
+                    <span>دریافت نسخه آزمایشی</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+</nav>

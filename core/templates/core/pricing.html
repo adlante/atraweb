@@ -1,0 +1,134 @@
+{% extends 'parent/base.html' %}
+{% load static %}
+{% block extra_css %}
+    <link href="{% static 'css/navbar.css' %}" rel="stylesheet">
+{% endblock %}
+{% block content %}
+<section class="pricing-wrapper">
+    <div class="pricing-container">
+
+        <!-- هدر -->
+        <div class="pricing-header">
+            <h1 class="pricing-title">سرمایه‌گذاری روی قدرت و پایداری</h1>
+            <p class="pricing-subtitle">بدون هزینه‌های پنهان. متناسب با نیازهای کسب‌وکار شما، از استارتاپ‌های نوپا تا سازمان‌های بزرگ، پلن ایده‌آل خود را انتخاب کنید.</p>
+        </div>
+
+        <!-- گرید کارت‌ها -->
+        <div class="pricing-grid">
+
+            <!-- پلن اقتصادی -->
+            <div class="pricing-card">
+                <h3 class="plan-name">اقتصادی</h3>
+                <p class="plan-desc">مناسب برای فریلنسرها و تیم‌های کوچک با نیازهای پایه.</p>
+                <div class="plan-price">
+                    ۶۹۹,۰۰۰ <span class="currency">تومان</span>
+                </div>
+                <span class="billing-cycle">پرداخت سالانه</span>
+                <a href="#" class="btn-buy btn-outline">انتخاب پلن اقتصادی</a>
+
+                <ul class="features-list">
+                    <li>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        دسترسی به هسته آفلاین
+                    </li>
+                    <li>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        بکاپ‌گیری روزانه (استاندارد)
+                    </li>
+                    <li>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        پشتیبانی از طریق تیکت
+                    </li>
+                    <li>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        آپتایم ۹۹.۹٪ تضمین‌شده
+                    </li>
+                </ul>
+            </div>
+
+            <!-- پلن پیشرفته (محبوب‌ترین) -->
+            <div class="pricing-card popular">
+                <div class="popular-badge">پیشنهاد ویژه آتراوب</div>
+                <h3 class="plan-name">پیشرفته</h3>
+                <p class="plan-desc">بهترین انتخاب برای کسب‌وکارهای در حال رشد با ترافیک بالا.</p>
+                <div class="plan-price">
+                    ۱,۴۹۹,۰۰۰ <span class="currency">تومان</span>
+                </div>
+                <span class="billing-cycle">پرداخت سالانه</span>
+                <a href="#" class="btn-buy btn-solid">شروع قدرتمند</a>
+
+                <ul class="features-list">
+                    <li>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        تمام امکانات پلن اقتصادی
+                    </li>
+                    <li>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        <strong>معماری غیرمتمرکز (۳ نود)</strong>
+                    </li>
+                    <li>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        بکاپ‌گیری آنی و هوشمند
+                    </li>
+                    <li>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        توازن بار (Load Balancing) پایه
+                    </li>
+                    <li>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        پشتیبانی اولویت‌دار آنلاین
+                    </li>
+                </ul>
+            </div>
+
+            <!-- پلن حرفه‌ای -->
+            <div class="pricing-card">
+                <h3 class="plan-name">حرفه‌ای</h3>
+                <p class="plan-desc">برای پلتفرم‌های حساس که حتی یک ثانیه قطعی برایشان حیاتی است.</p>
+                <div class="plan-price">
+                    ۱,۹۹۹,۰۰۰ <span class="currency">تومان</span>
+                </div>
+                <span class="billing-cycle">پرداخت سالانه</span>
+                <a href="#" class="btn-buy btn-outline">انتخاب پلن حرفه‌ای</a>
+
+                <ul class="features-list">
+                    <li>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        تمام امکانات پلن پیشرفته
+                    </li>
+                    <li>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        <strong>سیستم خودترمیم (Self-Healing)</strong>
+                    </li>
+                    <li>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        شبکه توزیع‌شده نامحدود
+                    </li>
+                    <li>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        رمزنگاری نظامی داد‌ه‌ها
+                    </li>
+                    <li>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        آپتایم ۹۹.۹۹٪ تضمینی
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+
+        <!-- پلن سفارشی (Enterprise) -->
+        <div class="custom-plan-card">
+            <div class="custom-plan-info">
+                <h3 class="custom-plan-title">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="#00A651" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 28px; height: 28px;"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>
+                    پلن سازمانی و اختصاصی (Enterprise)
+                </h3>
+                <p class="custom-plan-desc">آیا سازمان شما نیاز به استقرار روی سرورهای داخلی (On-Premise)، قراردادهای SLA اختصاصی یا توسعه فیچرهای شخصی‌سازی‌شده دارد؟ تیم مهندسی ما آماده طراحی معماری مختص شماست.</p>
+            </div>
+            <a href="#" class="btn-custom">تماس با کارشناسان فروش</a>
+        </div>
+
+    </div>
+</section>
+{% endblock %}

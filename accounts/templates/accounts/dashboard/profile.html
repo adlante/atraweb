@@ -1,0 +1,765 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- متاتگ حیاتی برای ریسپانسیو و رفع مشکل ذره‌بین در موبایل -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>پروفایل کاربری | داشبورد آترا</title>
+
+    <!-- اتصال فونت استاندارد فارسی (اختیاری - برای زیبایی بیشتر در حالت مستقل) -->
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.0.0/Vazirmatn-font-face.css" rel="stylesheet"
+          type="text/css"/>
+
+    <!-- لینک فایل استایل اختصاصی پروفایل -->
+    <link rel="stylesheet" href="{% static 'css/dashboard/profile.css' %}">
+</head>
+<body>
+
+<div class="atra-dashboard-layout">
+
+    <!-- ==========================================
+         بخش موبایل: دکمه همبرگری و روکش تاریک
+         ========================================== -->
+    <button class="mobile-menu-toggle" id="menuToggle" aria-label="باز کردن منو">
+        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none"
+             stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+    </button>
+
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- ==========================================
+         سایدبار حرفه‌ای (نسخه سرمه‌ای تیره)
+         ========================================== -->
+    <aside class="sidebar-premium" id="sidebar">
+        <div class="sidebar-header">
+            <div class="modern-logo">
+                <img src="{% static 'img/logo_panel.png' %}" alt="لوگو آترا" class="logo-image"
+                     onerror="this.src='https://via.placeholder.com/48x48/00d26a/ffffff?text=A'">
+                <div class="logo-text">
+                    <h2>آترا</h2>
+                    <span>سیستم حسابداری یکپارچه</span>
+                </div>
+            </div>
+        </div>
+        <nav class="sidebar-nav">
+            <ul>
+                <!-- منوی پروفایل من (اصلاح شد: id و onclick اضافه شد) -->
+                <li class="active" id="nav-profile">
+                    <a href="javascript:void(0)" onclick="showSection('profile-section', 'nav-profile')">
+                        <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2"
+                             fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                        پروفایل من
+                    </a>
+                </li>
+                <!-- به id و onclick اضافه شده دقت کن -->
+                <li id="nav-password-edit">
+                    <a href="#" class="nav-link"
+                       onclick="showSection('edit-password-section', 'nav-password-edit'); return false;">
+                        <svg class="nav-link-icon" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor"
+                             stroke-width="2"
+                             fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"></path>
+                        </svg>
+                        <span>ویرایش پسورد</span>
+                    </a>
+                </li>
+
+
+                <!-- منوی خرید پلن‌ها -->
+                <li id="nav-plans">
+                    <a href="javascript:void(0)" onclick="showSection('plans-section', 'nav-plans')">
+                        <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2"
+                             fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                            <line x1="1" y1="10" x2="23" y2="10"></line>
+                        </svg>
+                        خرید پلن‌ها
+                    </a>
+                </li>
+
+                <li id="nav-licenses">
+                    <a href="javascript:void(0)" onclick="showSection('my-licenses-section', 'nav-licenses')">
+                        <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2"
+                             fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                        </svg>
+                        لایسنس‌های من
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#">
+                        <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2"
+                             fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="9" cy="21" r="1"></circle>
+                            <circle cx="20" cy="21" r="1"></circle>
+                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                        </svg>
+                        تاریخچه خرید
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <div class="sidebar-footer">
+            <a href="/" class="home-btn">
+                <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none"
+                     stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+                صفحه اصلی
+            </a>
+            <a href="{% url 'accounts:logout' %}" class="logout-btn">
+                <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none"
+                     stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                    <polyline points="16 17 21 12 16 7"></polyline>
+                    <line x1="21" y1="12" x2="9" y2="12"></line>
+                </svg>
+                خروج از سیستم
+            </a>
+        </div>
+    </aside>
+
+    <!-- ==========================================
+         محتوای اصلی داشبورد
+         ========================================== -->
+    <main class="main-content-area">
+        <!-- نوار بالایی -->
+        <div class="content-top-bar">
+            <div>
+                <h1 class="page-title">سلام، <span>{{ user.username|default:"کاربر" }}</span> عزیز! 👋</h1>
+                <p class="page-subtitle">به پنل مدیریت یکپارچه حسابداری خود خوش آمدید.</p>
+            </div>
+
+            <div class="user-quick-profile">
+                <div class="user-details">
+                    <span class="user-role">کاربر تایید شده</span>
+                    <span class="user-phone">{{ user.phone|default:"-" }}</span>
+                </div>
+                <div class="premium-avatar">
+                    {{ user.username|default:"A"|make_list|first|upper }}
+                </div>
+            </div>
+        </div>
+
+        <!-- کارت اصلی فرم مشخصات (اصلاح شد: id="profile-section" اضافه شد) -->
+        <div class="premium-card" id="profile-section">
+            <div class="card-header">
+                <div>
+                    <h2 class="card-title">اطلاعات هویتی و حساب</h2>
+                    <p class="card-desc">مشخصات پایه شما برای ورود و احراز هویت در سیستم.</p>
+                </div>
+                {% if user.has_license %}
+                    <span class="status-badge valid">دارای لایسنس فعال</span>
+                {% else %}
+                    <span class="status-badge pending">بدون لایسنس</span>
+                {% endif %}
+            </div>
+
+            <form method="post" action="." class="atra-form">
+                {% csrf_token %}
+
+                <div class="form-grid-2">
+                    <!-- نام کاربری (قفل شده) -->
+                    <div class="form-group">
+                        <label>نام کاربری (شناسه یکتا)</label>
+                        <input type="text" class="form-control" value="{{ user.username|default:'' }}" readonly>
+                        <span class="input-hint">نام کاربری قابل تغییر نمی‌باشد.</span>
+                    </div>
+
+                    <!-- ایمیل (اختیاری) -->
+                    <div class="form-group">
+                        <label>پست الکترونیک (اختیاری)</label>
+                        <input type="email" name="email" class="form-control" value="{{ user.email|default:'' }}"
+                               placeholder="example@domain.com">
+                    </div>
+                </div>
+
+                <!-- شماره موبایل با منطق داینامیک لایسنس -->
+                <div class="form-group">
+                    <label>شماره موبایل (شناسه اصلی لایسنس)</label>
+                    <div class="phone-input-wrapper">
+                        {% if user.has_license %}
+                            <!-- حالت دارای لایسنس: قفل + دکمه درخواست ویرایش -->
+                            <a href="#" class="action-link">درخواست ویرایش</a>
+                            <input type="text" class="form-control phone-input" value="{{ user.phone|default:'' }}"
+                                   readonly>
+                        {% else %}
+                            <!-- حالت بدون لایسنس: باز و قابل ویرایش -->
+                            <input type="text" name="phone" class="form-control phone-input"
+                                   value="{{ user.phone|default:'' }}">
+                        {% endif %}
+                    </div>
+                    <p class="message-info">پس از خرید اولین لایسنس، این شماره برای همیشه قفل خواهد شد.</p>
+                </div>
+
+                <!-- بخش اطلاعات تکمیلی حقوقی -->
+                <div class="advanced-profile-section {% if not user.has_license %}hidden-by-default{% endif %}">
+                    <div class="section-divider">
+                        <span>اطلاعات تکمیلی صدور فاکتور رسمی</span>
+                    </div>
+
+                    <div class="form-grid-2">
+                        <div class="form-group">
+                            <label>نام / نام شرکت</label>
+                            <input type="text" name="company_name" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>کد ملی / شناسه ملی شرکت</label>
+                            <input type="text" name="national_id" class="form-control">
+                        </div>
+                        <div class="form-group full-width-grid">
+                            <label>آدرس پستی</label>
+                            <input type="text" name="address" class="form-control">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-footer">
+                    <button type="submit" class="btn-primary-atra">ذخیره و اعمال تغییرات</button>
+                </div>
+            </form>
+        </div>
+        <!-- ==========================================
+                                   تغییر رمز
+             ========================================== -->
+        <section id="edit-password-section" style="display: none;">
+            <div class="premium-card">
+                <div class="card-header">تغییر رمز عبور</div>
+                <div class="card-body">
+                    <form id="password-change-form" method="POST" action="{% url 'accounts:password_change_ajax' %}">
+                        {% csrf_token %}
+                        <div id="password-messages"></div>
+
+                        <div class="form-group">
+                            <label for="id_old_password">رمز عبور فعلی</label>
+                            <input type="password" name="old_password" id="id_old_password" class="form-control"
+                                   required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="id_new_password1">رمز عبور جدید</label>
+                            <input type="password" name="new_password1" id="id_new_password1" class="form-control"
+                                   required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="id_new_password2">تکرار رمز عبور جدید</label>
+                            <!-- دقت کنید: نام فیلد حتما باید new_password2 باشد -->
+                            <input type="password" name="new_password2" id="id_new_password2" class="form-control"
+                                   required>
+                        </div>
+
+                        <button type="submit" class="btn-primary-atra">ذخیره تغییرات</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+         بخش پلن‌ها (چهار پلن شیک و هماهنگ با جاوااسکریپت)
+         ========================================== -->
+        <div id="plans-section" style="display: none;">
+
+            <!-- آیکون‌های تکرار شونده (SVG) برای تیک و ضربدر (بدون تغییر) -->
+            <svg style="display: none;">
+                <symbol id="icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                </symbol>
+                <symbol id="icon-cross" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </symbol>
+            </svg>
+
+            <div class="pricing-container">
+
+                <!-- حلقه روی پلن‌های ساخته شده در دیتابیس -->
+                {% for plan in plans %}
+                    <div class="plan-card {% if plan.is_highlight %}highlight{% endif %} {% if plan.is_custom %}custom{% endif %}"
+                         id="plan-{{ plan.id }}"
+                         data-plan-id="{{ plan.id }}"
+                         data-plan-title="{{ plan.title }}"
+                         data-plan-price="{{ plan.price }}"
+                         data-plan-suffix="{{ plan.price_suffix }}">
+
+                        {% if plan.is_highlight %}
+                            <div><span class="plan-badge">پیشنهاد ویژه</span></div>
+                        {% endif %}
+
+                        <h3 class="plan-title">{{ plan.title }}</h3>
+
+                        <div class="plan-price">{{ plan.price }} <span>{{ plan.price_suffix }}</span></div>
+
+                        <ul class="plan-features">
+                            <!-- حلقه روی امکانات همون پلن -->
+                            {% for feature in plan.features.all %}
+                                <li>
+                                    {% if feature.is_included %}
+                                        <svg width="18" height="18" class="icon-check">
+                                            <use href="#icon-check"></use>
+                                        </svg>
+                                    {% else %}
+                                        <svg width="18" height="18" class="icon-cross">
+                                            <use href="#icon-cross"></use>
+                                        </svg>
+                                    {% endif %}
+                                    {{ feature.title }}
+                                </li>
+                            {% endfor %}
+                        </ul>
+
+                        <!-- بخش دکمه داخل حلقه پلن‌ها -->
+                        {% if plan.is_custom %}
+                            <!-- اگر پلن سفارشی بود، میره به صفحه مشاوره یا تماس با ما -->
+                            <a href="{% url 'core:submit_ticket' %}" class="plan-btn">
+                                {{ plan.button_text }}
+                            </a>
+                        {% else %}
+                            <!-- اگر پلن عادی بود، میره به صفحه خرید/پرداخت همون پلن -->
+                            <a href="{{ plan.id }}/" class="plan-btn">
+                                {{ plan.button_text }}
+                            </a>
+                        {% endif %}
+
+                    </div>
+                {% endfor %}
+
+            </div>
+        </div>
+        <div class="premium-card" id="my-licenses-section" style="display: none;">
+            <div class="card-header">
+                <div>
+                    <h2 class="card-title">لایسنس‌ها و پیش‌فاکتورهای شما</h2>
+                    <p class="card-desc">در این بخش می‌توانید لایسنس‌های فعال و پیش‌فاکتورهای پرداخت‌نشده را مدیریت
+                        کنید.</p>
+                </div>
+            </div>
+
+            <!-- این کانتینر، میزبان پیش‌فاکتورهای تولید شده توسط جاوااسکریپت خواهد بود -->
+            <div id="licenses-list-container">
+                <!-- پیش‌فاکتورها به صورت داینامیک اینجا اضافه می‌شوند -->
+            </div>
+
+            <!-- پیامی برای زمانی که هیچ لایسنس یا پیش‌فاکتوری وجود ندارد -->
+            <div id="no-licenses-message" class="empty-state-message">
+                <svg viewBox="0 0 24 24" width="48" height="48" stroke="currentColor">
+                    <path d="M22 10v6M7 10.37A6.5 6.5 0 0 1 12 5a6.5 6.5 0 0 1 5 10.37M2 16h20"/>
+                </svg>
+                <p>در حال حاضر هیچ لایسنس یا پیش‌فاکتوری برای نمایش وجود ندارد.</p>
+                <span>با کلیک روی "خرید پلن‌ها"، اولین لایسنس خود را تهیه کنید.</span>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- ==========================================
+     اسکریپت‌های داشبورد
+     ========================================== -->
+<script>
+    // ==========================================
+    // توابع عمومی و کمکی
+    // ==========================================
+
+    function persianIntJS(value) {
+        if (!value) return value;
+        let commaSeparated = value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        const persianDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+        return commaSeparated.replace(/\d/g, x => persianDigits[x]);
+    }
+
+    // کد آپدیت شده - این رو جایگزین کد قبلی کن
+    function showSection(sectionId, navId) {
+        // مرحله ۱: ID های جدید رو به لیست ها اضافه میکنیم
+        let sections = ['profile-section', 'plans-section', 'my-licenses-section', 'edit-password-section']; // 'edit-password-section' اضافه شد
+        let navs = ['nav-profile', 'nav-plans', 'nav-licenses', 'nav-password-edit']; // 'nav-password-edit' اضافه شد
+
+        // مرحله ۲: مثل قبل، همه رو مخفی و غیرفعال کن
+        sections.forEach(id => {
+            let sec = document.getElementById(id);
+            if (sec) sec.style.display = 'none';
+        });
+
+        navs.forEach(id => {
+            let nav = document.getElementById(id);
+            if (nav) nav.classList.remove('active');
+        });
+
+        // مرحله ۳: حالا بخش و منوی مورد نظر رو فعال کن
+        let targetSec = document.getElementById(sectionId);
+        if (targetSec) targetSec.style.display = 'block';
+
+        let targetNav = document.getElementById(navId);
+        if (targetNav) targetNav.classList.add('active');
+
+        // (اختیاری) برای بستن منوی موبایل بعد از کلیک
+        if (window.innerWidth <= 992) {
+            document.getElementById('sidebar').classList.remove('active');
+            document.getElementById('sidebarOverlay').classList.remove('active');
+        }
+    }
+
+
+    document.getElementById('password-change-form').addEventListener('submit', function (e) {
+        e.preventDefault();
+        const form = this;
+        const formData = new FormData(form);
+        const msgDiv = document.getElementById('password-messages');
+
+        fetch(form.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    msgDiv.innerHTML = `<div class="alert alert-success">${data.message}</div>`;
+                    form.reset();
+                } else {
+                    // نمایش خطاها
+                    let errorHtml = '<div class="alert alert-danger"><ul>';
+                    for (let field in data.errors) {
+                        data.errors[field].forEach(err => {
+                            errorHtml += `<li>${err}</li>`;
+                        });
+                    }
+                    errorHtml += '</ul></div>';
+                    msgDiv.innerHTML = errorHtml;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                msgDiv.innerHTML = `<div class="alert alert-danger">خطای غیرمنتظره رخ داد.</div>`;
+            });
+    });
+
+    // ==========================================
+    // اجرای اسکریپت‌ها بعد از لود کامل صفحه (DOM)
+    // ==========================================
+    document.addEventListener('DOMContentLoaded', function () {
+
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebarOverlay');
+
+        function toggleMenu() {
+            if (sidebar && overlay) {
+                sidebar.classList.toggle('active');
+                overlay.classList.toggle('active');
+            }
+        }
+
+        if (menuToggle && sidebar && overlay) {
+            menuToggle.addEventListener('click', toggleMenu);
+            overlay.addEventListener('click', toggleMenu);
+        }
+
+        const licensesContainer = document.getElementById('licenses-list-container');
+        const noLicensesMessage = document.getElementById('no-licenses-message');
+
+        function updateVisibility() {
+            if (licensesContainer && noLicensesMessage) {
+                if (licensesContainer.children.length > 0) {
+                    noLicensesMessage.style.display = 'none';
+                } else {
+                    noLicensesMessage.style.display = 'flex';
+                }
+            }
+        }
+
+        function renderProformas() {
+            if (!licensesContainer) return;
+            licensesContainer.innerHTML = '';
+            let proformaPlans = JSON.parse(localStorage.getItem('proforma_plans')) || [];
+
+            if (proformaPlans.length > 0) {
+                showSection('my-licenses-section', 'nav-licenses');
+
+                proformaPlans.forEach(plan => {
+                    const invoiceId = 'invoice-' + plan.id;
+                    const formattedPrice = persianIntJS(plan.price);
+
+                    const invoiceHTML = `
+                        <div class="proforma-horizontal-card" id="${invoiceId}">
+                            <div class="proforma-info-group">
+                                <div class="proforma-icon-box">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                                </div>
+                                <div class="proforma-text-content">
+                                    <h3 class="plan-title">${plan.title}</h3>
+                                    <span class="status-badge-warning">پیش‌فاکتور - در انتظار پرداخت</span>
+                                </div>
+                            </div>
+
+                            <div class="proforma-price-group">
+                                <span class="price-amount">${formattedPrice}</span>
+                                <span class="price-unit">${plan.suffix || 'تومان'}</span>
+                            </div>
+
+                           <div class="proforma-action-group">
+    <!-- دکمه جدید چاپ -->
+    <button class="btn-print-icon" onclick="printInvoice('${plan.id}')" title="چاپ پیش‌فاکتور">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+    </button>
+
+    <button class="btn-delete-icon" onclick="cancelInvoice('${plan.id}')" title="حذف پیش‌فاکتور">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+    </button>
+
+    <!-- این خط اصلاح شد -->
+<a href="/accounts/dashboard/checkout/${plan.slug || plan.id}/" class="btn-pay-green">تکمیل خرید</a>
+</div>
+
+                        </div>
+                    `;
+                    licensesContainer.innerHTML += invoiceHTML;
+                });
+            }
+            updateVisibility();
+        }
+
+        window.cancelInvoice = function (planId) {
+            let proformaPlans = JSON.parse(localStorage.getItem('proforma_plans')) || [];
+            proformaPlans = proformaPlans.filter(plan => String(plan.id) !== String(planId));
+            localStorage.setItem('proforma_plans', JSON.stringify(proformaPlans));
+            renderProformas();
+        }
+
+
+
+        // ==========================================
+        // تابع موتور چاپ پیش‌فاکتور (کاملا حرفه‌ای و A4)
+        // ==========================================
+        window.printInvoice = function (planId) {
+            let proformaPlans = JSON.parse(localStorage.getItem('proforma_plans')) || [];
+            let plan = proformaPlans.find(p => String(p.id) === String(planId));
+
+            if (!plan) {
+                alert('خطا: اطلاعات این پیش‌فاکتور یافت نشد.');
+                return;
+            }
+
+            // تولید تاریخ و شماره پیش‌فاکتور رندوم
+            const today = new Date();
+            const dateString = today.toLocaleDateString('fa-IR'); // خروجی: ۱۴۰۵/۰۲/۲۱
+            const rawDate = dateString.replace(/\//g, ''); // تبدیل به ۱۴۰۵۰۲۲۱
+            const randomCode = Math.floor(1000 + Math.random() * 9000); // عدد ۴ رقمی
+            const invoiceNo = `PF-${persianIntJS(rawDate)}-${persianIntJS(randomCode)}`;
+
+            // قالب HTML برای فاکتور چاپی
+            const printContent = `
+                <!DOCTYPE html>
+                <html lang="fa" dir="rtl">
+                <head>
+                    <meta charset="UTF-8">
+                    <title>پیش فاکتور - ${plan.title}</title>
+                    <style>
+                        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap');
+                        body {
+                            font-family: 'Vazirmatn', Tahoma, sans-serif;
+                            padding: 40px;
+                            color: #1f2937;
+                            background: #fff;
+                        }
+                        .invoice-box {
+                            max-width: 800px;
+                            margin: auto;
+                            border: 1px solid #e5e7eb;
+                            padding: 30px;
+                            border-radius: 12px;
+                            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+                        }
+                        .header {
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                            border-bottom: 2px solid #059669;
+                            padding-bottom: 20px;
+                            margin-bottom: 30px;
+                        }
+                        .header .title {
+                            font-size: 28px;
+                            font-weight: 700;
+                            color: #059669;
+                        }
+                        .header-details {
+                            text-align: left;
+                            font-size: 14px;
+                            line-height: 1.8;
+                        }
+                        table {
+                            width: 100%;
+                            border-collapse: collapse;
+                            margin-top: 20px;
+                        }
+                        th, td {
+                            border: 1px solid #d1d5db;
+                            padding: 12px 15px;
+                            text-align: right;
+                        }
+                        th {
+                            background-color: #f3f4f6;
+                            font-weight: 700;
+                            color: #374151;
+                        }
+                        .total-row {
+                            font-size: 18px;
+                            font-weight: bold;
+                            color: #059669;
+                            background-color: #ecfdf5;
+                        }
+                        .footer {
+                            margin-top: 50px;
+                            text-align: center;
+                            font-size: 12px;
+                            color: #6b7280;
+                            border-top: 1px dashed #d1d5db;
+                            padding-top: 20px;
+                        }
+                        /* مخفی کردن المان‌های اضافی در زمان چاپ واقعی */
+                        @media print {
+                            body { -webkit-print-color-adjust: exact; padding: 0; }
+                            .invoice-box { border: none; box-shadow: none; max-width: 100%; }
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="invoice-box">
+                        <div class="header">
+                            <div class="title">پیش‌فاکتور نرم افزار آترا اپ</div>
+                            <div class="header-details">
+                                <div><strong>شماره پیش‌فاکتور:</strong> <span dir="ltr">${invoiceNo}</span></div>
+                                <div><strong>تاریخ صدور:</strong> ${dateString}</div>
+                            </div>
+                        </div>
+
+                        <h3 style="margin-bottom: 10px;">مشخصات سفارش</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th style="width: 10%; text-align: center;">ردیف</th>
+                                    <th style="width: 50%;">شرح خدمات / نام پلن</th>
+                                    <th style="width: 20%;">مبلغ واحد (${plan.suffix || 'تومان'})</th>
+                                    <th style="width: 20%;">مبلغ کل (${plan.suffix || 'تومان'})</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="text-align: center;">۱</td>
+                                    <td><strong>${plan.title}</strong></td>
+                                    <td>${persianIntJS(plan.price)}</td>
+                                    <td>${persianIntJS(plan.price)}</td>
+                                </tr>
+                                <tr class="total-row">
+                                    <td colspan="3" style="text-align: left;">مبلغ نهایی قابل پرداخت:</td>
+                                    <td>${persianIntJS(plan.price)}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="footer">
+                            <p>این سند یک پیش‌فاکتور موقت بوده و صرفاً جهت اطلاع مشتری صادر شده است. فاکتور رسمی و قطعی پس از تکمیل فرآیند پرداخت صادر خواهد شد.</p>
+                        </div>
+                    </div>
+                </body>
+                </html>
+            `;
+
+            // باز کردن یک پنجره مخفی/جدید و تزریق کدهای HTML
+            let printWindow = window.open('', '_blank', 'height=800,width=800');
+            printWindow.document.write(printContent);
+            printWindow.document.close();
+
+            // پس از لود شدن فونت‌ها و استایل‌ها، دستور چاپ رو صادر می‌کنیم
+            printWindow.onload = function () {
+                setTimeout(() => {
+                    printWindow.print();
+                }, 300); // یک مکث کوتاه برای اعمال کامل CSS و فونت Vazirmatn
+            };
+        }
+
+        renderProformas();
+    });
+
+// ==========================================
+// هندلر فرم تغییر رمز عبور (اصلاح شده)
+// ==========================================
+document.getElementById('password-change-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    const form = this;
+    const formData = new FormData(form);
+    const msgDiv = document.getElementById('password-messages');
+
+    // دیکشنری برای ترجمه نام فیلدهای انگلیسی به فارسی
+    const fieldLabels = {
+        'old_password': 'رمز عبور فعلی',
+        'new_password1': 'رمز عبور جدید',
+        'new_password2': 'تکرار رمز عبور جدید',
+        '__all__': 'خطای کلی' // برای خطاهایی که به فیلد خاصی مربوط نیستند
+    };
+
+    fetch(form.action, {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            msgDiv.innerHTML = `<div class="alert alert-success">${data.message}</div>`;
+            form.reset();
+        } else {
+            // نمایش خطاها با قابلیت ترجمه نام فیلدها
+            let errorHtml = '<div class="alert alert-danger"><ul style="margin: 0; padding-right: 20px;">';
+
+            // بررسی می‌کنیم آیا data.errors وجود دارد یا خیر
+            if (data.errors) {
+                for (const [field, messages] of Object.entries(data.errors)) {
+                    // دریافت نام فارسی یا استفاده از همان نام انگلیسی اگر پیدا نشد
+                    const label = fieldLabels[field] || field;
+
+                    messages.forEach(msg => {
+                        errorHtml += `<li><strong>${label}:</strong> ${msg}</li>`;
+                    });
+                }
+            } else {
+                // اگر خطا در قالب errors نبود (مثلاً خطای عمومی سرور)
+                errorHtml += `<li>خطای ناشناخته رخ داده است.</li>`;
+            }
+
+            errorHtml += '</ul></div>';
+            msgDiv.innerHTML = errorHtml;
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        msgDiv.innerHTML = `<div class="alert alert-danger">خطای غیرمنتظره رخ داد. لطفا دوباره تلاش کنید.</div>`;
+    });
+});
+
+</script>
+
+</body>
+</html>

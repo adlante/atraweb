@@ -1,0 +1,119 @@
+{% extends 'parent/base.html' %}
+{% load static %}
+{% block extra_css %}
+    <link href="{% static 'css/solution.css' %}" rel="stylesheet">
+{% endblock %}
+{% block title %}راهکار آترا برای مشاغل آزاد و فریلنسرها{% endblock %}
+
+{% block content %}
+<div class="atra-solution-wrapper">
+
+    <!-- ================= HERO SECTION ================= -->
+    <section class="solution-hero">
+        <div class="hero-content">
+            <span class="solution-badge">ساده، سریع و همراه</span>
+            <h1 class="hero-title">زمان شما ارزشمند است؛ <br> <span class="highlight-text">حسابداری را به ما بسپارید</span></h1>
+            <p class="hero-description">به عنوان یک فریلنسر، روی خلق آثار و انجام پروژه‌های عالی تمرکز کنید. صدور فاکتور، پیگیری پرداخت‌ها و مدیریت هزینه‌های کاری خود را به سیستم هوشمند و ساده‌ی آترا بسپارید.</p>
+            <div class="hero-actions">
+                <a href="#" class="btn-primary-solution">رایگان شروع کنید</a>
+            </div>
+        </div>
+        <!-- عکس هیرو اضافه شد تا لی‌اوت Flexbox کامل شود -->
+        <div class="hero-image-box">
+            <img src="{% static 'img/freelancer.avif' %}" alt="اپلیکیشن مالی فریلنسرها" class="hero-img">
+        </div>
+    </section>
+
+    <!-- ================= KEY FEATURES SECTION ================= -->
+    <section class="solution-features">
+        <div class="section-heading">
+            <h2>ویژگی‌هایی که کار شما را راحت می‌کند</h2>
+            <p>بدون نیاز به نصب هیچ نرم‌افزاری، دفتر کار مالی خود را همه‌جا همراه داشته باشید.</p>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-file-invoice"></i>
+                </div>
+                <h3>صدور سریع پیش‌فاکتور و فاکتور</h3>
+                <p>با چند کلیک، فاکتورهای زیبا و حرفه‌ای با نام و لوگوی شخصی خود بسازید و مستقیماً به تلگرام، واتس‌اپ یا ایمیل کارفرما ارسال کنید.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-link"></i>
+                </div>
+                <h3>لینک پرداخت مستقیم</h3>
+                <p>برای دریافت دستمزد، همراه با فاکتور یک لینک پرداخت امن برای کارفرما بفرستید تا سریع‌تر از همیشه پول به حساب شما واریز شود.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-wallet"></i>
+                </div>
+                <h3>تفکیک هزینه‌های شخصی و کاری</h3>
+                <p>هزینه‌های مربوط به پروژه‌ها (خرید ابزار، اینترنت، لایسنس‌ها) را به سادگی ثبت کنید تا در محاسبه سود خالص دچار اشتباه نشوید.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <h3>دسترسی آسان در موبایل</h3>
+                <p>در کافه، سفر یا خانه، فرقی نمی‌کند! پنل آترا کاملاً با موبایل سازگار است و در هر لحظه امکان ثبت اطلاعات یا بررسی وضعیت مالی را دارید.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= DUAL SHOWCASE SECTION ================= -->
+    <section class="solution-dual-showcase">
+        <div class="section-heading">
+            <h2>تصویری حرفه‌ای از برند شخصی شما</h2>
+            <p>ارتباطات مالی منظم، شما را از یک فریلنسر معمولی به یک متخصص قابل اعتماد تبدیل می‌کند.</p>
+        </div>
+
+        <div class="dual-showcase-grid">
+            <!-- Showcase 1 -->
+            <div class="showcase-card">
+                <div class="showcase-image-wrapper">
+                    <img src="{% static 'img/freelancer_1.webp' %}" alt="مدیریت درآمدهای فریلنسری" class="showcase-img">
+                </div>
+                <div class="showcase-content">
+                    <h3>مدیریت هوشمند پروژه‌های فریلنسری</h3>
+                    <p>درآمدها و هزینه‌های هر پروژه را به تفکیک بررسی کنید تا متوجه شوید کدام کارفرماها و کدام نوع از خدمات، بیشترین بازدهی مالی را برای شما دارند.</p>
+                    <ul class="showcase-list">
+                        <li><i class="fas fa-check-circle"></i> پیگیری وضعیت پرداخت کارفرماها</li>
+                        <li><i class="fas fa-check-circle"></i> گزارش‌گیری سریع برای ارائه اظهارنامه مالیاتی</li>
+                        <li><i class="fas fa-check-circle"></i> داشبورد بصری از وضعیت درآمدی ماه‌ها</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Showcase 2 -->
+            <div class="showcase-card">
+                <div class="showcase-image-wrapper">
+                    <img src="{% static 'img/freelancer_2.webp' %}" alt="ارسال فاکتور و یادآوری پرداخت فریلنسرها" class="showcase-img">
+                </div>
+                <div class="showcase-content">
+                    <h3>بدون دغدغه‌ی فراموشی و تاخیر</h3>
+                    <p>دیگر نیازی نیست برای دریافت حق‌الزحمه‌ی خود با کارفرما تماس بگیرید. آترا پیامک‌ها و ایمیل‌های یادآوری پرداخت را به صورت محترمانه و خودکار برای مشتریان شما ارسال می‌کند.</p>
+                    <ul class="showcase-list">
+                        <li><i class="fas fa-check-circle"></i> تنظیم زمان‌بندی یادآوری‌ها</li>
+                        <li><i class="fas fa-check-circle"></i> قالب‌های آماده و محترمانه برای پیامک</li>
+                        <li><i class="fas fa-check-circle"></i> حفظ رابطه دوستانه و حرفه‌ای با کارفرما</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= CTA BANNER ================= -->
+    <section class="solution-cta-banner">
+        <h2>مسیر استقلال مالی خود را هموارتر کنید</h2>
+        <p>استفاده از آترا برای فریلنسرها به شدت آسان است. همین الان بدون نیاز به اطلاعات بانکی، رایگان امتحان کنید.</p>
+        <a href="#" class="cta-btn-large">ساخت حساب شخصی رایگان</a>
+    </section>
+
+</div>
+{% endblock %}

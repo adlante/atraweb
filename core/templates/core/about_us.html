@@ -1,0 +1,73 @@
+{% extends 'parent/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+    {{ block.super }}
+    <!-- اتصال فایل CSS اختصاصی این صفحه -->
+    <link rel="stylesheet" href="{% static 'css/landings.css' %}">
+{% endblock %}
+
+{% block content %}
+<main class="about-us-page">
+    <div class="glass-container">
+        
+        <!-- بخش هدر -->
+        <header class="about-header text-center">
+            <h1 class="gradient-text">🚀 داستان خلق یک راهکار بی‌وقفه</h1>
+            <p class="subtitle">طراحی و توسعه توسط مهندسین <strong>آتراوب (AtraWeb)</strong></p>
+        </header>
+
+        <!-- بخش توضیحات اصلی -->
+        <section class="about-content">
+            <p class="lead-text">
+                ما در <strong>تیم برنامه‌نویسان آتراوب</strong>، به کدنویسی صرف اعتقادی نداریم؛ ما عاشق حل چالش‌های واقعی هستیم. در دنیایی که ارتباطات شبکه‌ای ناپایدارند، هدف ما ساخت ابزاری بود که کاربر را در هیچ شرایطی تنها نگذارد و جریان کار او متوقف نشود.
+            </p>
+        </section>
+
+        <!-- بخش معماری آفلاین -->
+        <section class="offline-architecture">
+            <div class="section-title">
+                <i class="fa-solid fa-wifi-slash"></i>
+                <h2>معماری Offline-First</h2>
+            </div>
+            <p>
+                وقتی شبکه دچار اختلال می‌شود، اپلیکیشن ما وارد یک "حالت بقای هوشمند" می‌شود. تمام داده‌های شما با استفاده از پایگاه‌داده‌های محلی به صورت رمزنگاری‌شده ذخیره می‌شوند. به محض برقراری ارتباط، همگام‌سازی اطلاعات با سرور خودکار انجام می‌شود. از نظر ریاضی، پایداری سیستم ما برای دسترسی به داده‌ها در هنگام قطعی شبکه  محاسبه می‌شود.
+            </p>
+
+        </section>
+
+        <!-- بخش پلن ها -->
+        <section class="pricing-plans">
+            <h2 class="text-center mb-4"><i class="fa-solid fa-layer-group"></i> جامعیت در سه سطح</h2>
+            <div class="plans-grid">
+                
+                <!-- کارت پلن پایه -->
+                <div class="plan-card glass-card">
+                    <div class="card-icon"><i class="fa-solid fa-seedling"></i></div>
+                    <h3>پلن پایه</h3>
+                    <span class="plan-badge">همراه همیشگی</span>
+                    <p>برای کاربرانی که به امکانات اصلی و هسته قدرتمند سیستم نیاز دارند. پایداری در برابر قطعی شبکه تضمین شده است.</p>
+                </div>
+
+                <!-- کارت پلن پیشرفته -->
+                <div class="plan-card glass-card premium-card">
+                    <div class="card-icon"><i class="fa-solid fa-rocket"></i></div>
+                    <h3>پلن پیشرفته</h3>
+                    <span class="plan-badge">شتاب‌دهنده حرفه‌ای</span>
+                    <p>ابزارهای تحلیلی عمیق‌تر، سرعت پردازش بالاتر و امکانات مدیریتی جامع‌تر برای افراد حرفه‌ای.</p>
+                </div>
+
+                <!-- کارت پلن سازمانی -->
+                <div class="plan-card glass-card">
+                    <div class="card-icon"><i class="fa-solid fa-building-shield"></i></div>
+                    <h3>پلن سازمانی</h3>
+                    <span class="plan-badge">قدرت بی‌نهایت</span>
+                    <p>بالاترین سطح همگام‌سازی، ابزارهای کار گروهی و پشتیبانی ویژه آتراوب. بدون هیچ محدودیتی!</p>
+                </div>
+
+            </div>
+        </section>
+
+    </div>
+</main>
+{% endblock %}

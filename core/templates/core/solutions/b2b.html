@@ -1,0 +1,120 @@
+{% extends 'parent/base.html' %}
+{% load static %}
+{% block extra_css %}
+    <link href="{% static 'css/solution.css' %}" rel="stylesheet">
+{% endblock %}
+{% block title %}راهکار آترا برای شرکت‌های خدماتی و B2B{% endblock %}
+
+{% block content %}
+<div class="atra-solution-wrapper">
+
+    <!-- ================= HERO SECTION ================= -->
+    <section class="solution-hero">
+        <div class="hero-content">
+            <span class="solution-badge">ویژه کسب و کارهای B2B</span>
+            <h1 class="hero-title">مدیریت مالی حرفه‌ای؛ <br> <span class="highlight-text">اعتبار شما در نگاه مشتریان شرکتی</span></h1>
+            <p class="hero-description">قراردادهای پیچیده، صورت‌حساب‌های دوره‌ای و پروژه‌های خدماتی خود را با سیستم حسابداری یکپارچه آترا به سادگی مدیریت کنید و تمرکزتان را روی ارائه خدمات عالی بگذارید.</p>
+            <div class="hero-actions">
+                <a href="#" class="btn-primary-solution">شروع استفاده رایگان</a>
+                <a href="#" class="btn-secondary-solution">مشاهده دمو</a>
+            </div>
+        </div>
+        <!-- عکس هیرو اضافه شد تا لی‌اوت Flexbox کامل شود -->
+        <div class="hero-image-box">
+            <img src="{% static 'img/b2b_1.webp' %}" alt="داشبورد مدیریت B2B" class="hero-img">
+        </div>
+    </section>
+
+    <!-- ================= KEY FEATURES SECTION ================= -->
+    <section class="solution-features">
+        <div class="section-heading">
+            <h2>امکانات تخصصی برای شرکت‌های B2B</h2>
+            <p>ابزارهایی که برای اتوماسیون فرآیندهای مالی و ارتباط بهتر با کارفرمایان نیاز دارید.</p>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-file-signature"></i>
+                </div>
+                <h3>مدیریت قراردادها</h3>
+                <p>قراردادهای کاری خود را در سیستم ثبت کنید، سقف بودجه تعیین کنید و پیشرفت مالی هر قرارداد را لحظه‌به‌لحظه پیگیری کنید.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-sync-alt"></i>
+                </div>
+                <h3>صورت‌حساب‌های دوره‌ای </h3>
+                <p>برای خدمات پشتیبانی یا اشتراکی، فاکتورهای خودکار بسازید تا سیستم سررسید هر ماه، به طور خودکار برای مشتری ارسال کند.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-project-diagram"></i>
+                </div>
+                <h3>حسابداری پروژه‌محور</h3>
+                <p>هزینه‌ها و درآمدهای هر پروژه را به تفکیک ثبت کنید تا بدانید کدام خدمات و پروژه‌ها بیشترین حاشیه سود را برای شما دارند.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-hand-holding-usd"></i>
+                </div>
+                <h3>پیگیری هوشمند مطالبات</h3>
+                <p>سیستم یادآوری خودکار آترا، سررسید پرداخت‌ها را به مشتریان شما اطلاع می‌دهد تا جریان نقدینگی شرکت دچار اختلال نشود.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= DUAL SHOWCASE SECTION ================= -->
+    <section class="solution-dual-showcase">
+        <div class="section-heading">
+            <h2>دقت در جزئیات، قدرت در تصمیم‌گیری</h2>
+            <p>ارتباطات مالی B2B نیازمند دقت بالا و گزارش‌گیری چندبعدی است.</p>
+        </div>
+
+        <div class="dual-showcase-grid">
+            <!-- Showcase 1 -->
+            <div class="showcase-card">
+                <div class="showcase-image-wrapper">
+                    <img src="{% static 'img/b2b_2.jpg' %}" alt="تحلیل سودآوری پروژه‌های B2B" class="showcase-img">
+                </div>
+                <div class="showcase-content">
+                    <h3>تحلیل سودآوری پروژه‌ها و خدمات</h3>
+                    <p>در شرکت‌های خدماتی، زمان و تخصص سرمایه اصلی شماست. با گزارش‌های تحلیلی آترا متوجه می‌شوید که دقیقاً کدام مشتریان و کدام پروژه‌ها، بالاترین نرخ بازگشت سرمایه را به همراه داشته‌اند.</p>
+                    <ul class="showcase-list">
+                        <li><i class="fas fa-check-circle"></i> تخصیص هزینه‌های مستقیم و غیرمستقیم به پروژه‌ها</li>
+                        <li><i class="fas fa-check-circle"></i> مقایسه بودجه برآوردی با هزینه‌های واقعی</li>
+                        <li><i class="fas fa-check-circle"></i> گزارش سود و زیان تفکیکی</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Showcase 2 -->
+            <div class="showcase-card">
+                <div class="showcase-image-wrapper">
+                    <img src="{% static 'img/ecommerce_1.jpg' %}" alt="مدیریت مطالبات مشتریان B2B" class="showcase-img">
+                </div>
+                <div class="showcase-content">
+                    <h3>مدیریت جامع حساب مشتریان (ارباب رجوع)</h3>
+                    <p>شفافیت مالی بین شما و کارفرمایان، ضامن تداوم همکاری است. با ارائه صورت‌وضعیت‌های دقیق و صورت‌حساب‌های حرفه‌ای، اعتماد مشتریان شرکتی خود را جلب کنید.</p>
+                    <ul class="showcase-list">
+                        <li><i class="fas fa-check-circle"></i> صورت مغایرت‌گیری سریع و دقیق</li>
+                        <li><i class="fas fa-check-circle"></i> رهگیری پیش‌فاکتورها تا مرحله تبدیل به فاکتور قطعی</li>
+                        <li><i class="fas fa-check-circle"></i> مدیریت کسورات قانونی (بیمه، مالیات، حسن انجام کار)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= CTA BANNER ================= -->
+    <section class="solution-cta-banner">
+        <h2>استانداردهای مالی شرکت خود را ارتقا دهید</h2>
+        <p>با سیستم یکپارچه آترا، در مناقصات و قراردادهای بزرگتر با اعتماد به نفس بیشتری شرکت کنید.</p>
+        <a href="#" class="cta-btn-large">ساخت حساب کاربری شرکتی</a>
+    </section>
+
+</div>
+{% endblock %}

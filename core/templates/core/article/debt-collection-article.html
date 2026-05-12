@@ -1,0 +1,105 @@
+{% extends 'parent/base.html' %}
+{% load static %}
+
+{% block title %}استراتژی‌های نوین وصول مطالبات | آترا{% endblock %}
+
+{% block extra_css %}
+<!-- فایل CSS مجزا برای این لی‌آوت دو ستونه -->
+<link rel="stylesheet" href="{% static 'css/article.css' %}">
+{% endblock %}
+
+{% block content %}
+<main class="article-page-wrapper dc-wrapper">
+    <div class="dc-container">
+
+        <!-- ستون سمت راست: سایدبار -->
+        <aside class="dc-sidebar">
+            <div class="sidebar-widget author-widget">
+                <img src="{% static 'img/report_2.jpg' %}" alt="نویسنده" class="author-avatar">
+                <h4 class="author-name">سارا احمدی</h4>
+                <p class="author-role">کارشناس ارشد امور مالی</p>
+            </div>
+
+            <div class="sidebar-widget toc-widget">
+                <h3 class="widget-title">فهرست مطالب</h3>
+                <ul class="toc-list">
+                    <li><a href="#digital-trans">۱. مقدمه‌ای بر تحول دیجیتال</a></li>
+                    <li><a href="#ai-data">۲. نقش هوش مصنوعی و داده‌ها</a></li>
+                    <li><a href="#ethics">۳. ارتباط موثر و اخلاقی</a></li>
+                    <li><a href="#conclusion">۴. آینده وصول مطالبات</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- ستون سمت چپ: محتوای اصلی مقاله -->
+        <article class="dc-main-content single-article">
+
+            <!-- هدر مقاله -->
+            <header class="article-header">
+                <div class="article-badges">
+                    <span class="badge category-badge">مدیریت مالی</span>
+                    <span class="badge hot-badge">آموزشی</span>
+                </div>
+                <h1 class="article-main-title">استراتژی‌های نوین وصول مطالبات در عصر دیجیتال</h1>
+                <div class="article-meta-info">
+                    <span class="meta-item date">۱۱ اردیبهشت ۱۴۰۵</span>
+                    <span class="meta-item read-time">۸ دقیقه مطالعه</span>
+                </div>
+            </header>
+
+            <!-- تصویر اصلی -->
+            <figure class="article-image-container hero-image">
+                <img src="{% static 'img/report_1.jpg' %}" alt="وصول مطالبات هوشمند" class="responsive-img">
+                <figcaption class="image-caption">مدیریت هوشمند مطالبات، کلید بقای کسب‌وکارهای مدرن</figcaption>
+            </figure>
+
+            <!-- بدنه اصلی مقاله -->
+            <div class="article-body-content">
+
+                <section id="digital-trans">
+                    <p class="lead-paragraph">
+                        صنعت وصول مطالبات به طور سنتی بر تماس‌های تلفنی مکرر و نامه‌نگاری استوار بوده است. اما با ظهور فناوری‌های جدید، این صنعت در آستانه یک تحول بزرگ قرار گرفته است. شرکت‌ها دیگر نمی‌توانند به روش‌های قدیمی بسنده کنند و باید فرآیندهای خود را هوشمندتر سازند.
+                    </p>
+                </section>
+
+                <section id="ai-data">
+                    <h2>۲. نقش هوش مصنوعی و تحلیل داده‌ها</h2>
+                    <p>
+                        هوش مصنوعی (AI) و تحلیل داده‌های کلان (Big Data) قلب تپنده استراتژی‌های نوین وصول مطالبات هستند. الگوریتم‌های هوشمند می‌توانند با تحلیل رفتار پرداخت مشتریان، بهترین زمان و روش برای برقراری ارتباط را پیش‌بینی کنند.
+                    </p>
+                    <blockquote class="article-quote-box">
+                        <p>«الگوریتم‌های پیش‌بینی‌کننده آترا به جای یک رویکرد یکسان برای همه، یک استراتژی شخصی‌سازی شده برای هر مشتری ارائه می‌دهند که نرخ وصول را تا ۴۰٪ افزایش می‌دهد.»</p>
+                    </blockquote>
+                </section>
+
+                <section id="ethics">
+                    <h2>۳. ارتباط موثر و اخلاقی با مشتریان</h2>
+                    <p>
+                        فرآیند وصول مطالبات نباید یک تجربه منفی برای مشتری باشد. با استفاده از پلتفرم‌های ارتباطی چندکاناله مانند پیامک‌های هوشمند و ایمیل‌های شخصی‌سازی‌شده، می‌توان این فرآیند را به یک تعامل سازنده تبدیل کرد. تمرکز بر حل مشکل مشتری یک رویکرد برد-برد است.
+                    </p>
+                </section>
+
+                <section id="conclusion">
+                    <h2>۴. آینده وصول مطالبات با آترا</h2>
+                    <p>
+                        آینده این صنعت در گروی تلفیق هوشمندانه فناوری، داده‌ها و همدلی با مشتری است. نرم‌افزار آترا با ارائه داشبوردهای مدیریتی دقیق و سیستم‌های هشدار خودکار، به مدیران مالی کمک می‌کند تا چرخه عمر مطالبات خود را بهینه‌ترین شکل ممکن مدیریت کنند.
+                    </p>
+                </section>
+
+            </div>
+
+            <!-- دکمه بازگشت -->
+            <div class="article-footer-actions">
+                <a href="{% url 'core:home' %}" class="btn-back-to-list">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg>
+                    بازگشت به صفحه اصلی
+                </a>
+            </div>
+
+        </article>
+    </div>
+</main>
+{% endblock %}

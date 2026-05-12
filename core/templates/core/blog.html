@@ -1,0 +1,44 @@
+{% extends 'parent/base.html' %}
+{% load static %}
+{% block extra_css %}
+    <link href="{% static 'css/navbar.css' %}" rel="stylesheet">
+
+{% endblock %}
+
+{% block content %}
+<div class="atra-resource-wrapper">
+    <!-- بخش هیرو وبلاگ -->
+    <div class="atra-resource-hero">
+        <div class="atra-resource-hero-text">
+            <h1>وبلاگ و مقالات آموزشی آترا</h1>
+            <p>جدیدترین استراتژی‌های مدیریت کسب‌وکار، ترفندهای فروش و اخبار تکنولوژی را در وبلاگ تخصصی آترا بخوانید و همیشه یک قدم از رقبا جلوتر باشید.</p>
+        </div>
+        <div class="atra-resource-hero-image">
+            <img src="{% static 'img/blog.jpg' %}" alt="وبلاگ آترا">
+        </div>
+    </div>
+
+    <!-- گرید مقالات -->
+    <div class="atra-resource-grid">
+        <div class="atra-resource-card">
+            <img src="{% static 'img/costs.jpg' %}" alt="مقاله ۱" class="atra-resource-card-img">
+            <div class="atra-resource-card-content">
+                <span class="atra-resource-card-tag">مدیریت مالی</span>
+                <h3>۵ راهکار طلایی برای کاهش هزینه‌های پنهان</h3>
+                <p>در این مقاله به بررسی روش‌هایی می‌پردازیم که چگونه با استفاده از اتوماسیون، هزینه‌های سربار سازمان را تا ۳۰ درصد کاهش دهید.</p>
+                <a href="#" class="atra-resource-card-link">مطالعه مقاله ←</a>
+            </div>
+        </div>
+
+        <div class="atra-resource-card">
+            <img src="{% static 'img/banner_1.jpg' %}" alt="مقاله ۲" class="atra-resource-card-img">
+            <div class="atra-resource-card-content">
+                <span class="atra-resource-card-tag">به‌روزرسانی</span>
+                <h3>معرفی قابلیت‌های جدید نسخه ۴.۲ آترا</h3>
+                <p>داشبورد جدید، یکپارچگی با سرویس‌های پیامکی بیشتر و ابزارهای تحلیلی قدرتمندتر. با ویژگی‌های جدید پنل آشنا شوید.</p>
+                <a href="#" class="atra-resource-card-link">مطالعه مقاله ←</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

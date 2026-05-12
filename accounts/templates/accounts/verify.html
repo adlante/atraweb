@@ -1,0 +1,326 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تایید کد | آتراوب</title>
+    <link rel="stylesheet" href="{% static 'css/oauth/oauth.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+<div class="oauth-container">
+
+    <div class="oauth-form-panel">
+        <div class="form-wrapper">
+
+            <div class="brand-logo">
+                <a href="/" class="logo-link">
+                    <img src="{% static 'img/logo.png' %}" alt="اترا اپ" class="logo-img">
+                </a>
+            </div>
+
+            <div class="form-header verify-header">
+                <h1>تایید شماره موبایل</h1>
+                <!-- نمایش داینامیک شماره ماسک شده از ویو -->
+                <p>کد تایید ۵ رقمی به شماره <span dir="ltr"
+                                                  class="user-phone-mask">{{ masked_phone|default:"مشخص نامعتبر" }}</span>
+                    ارسال شد.</p>
+
+                <!-- اضافه شدن استایل درون‌خطی برای حذف خط زیر لینک -->
+                <a href="{% url 'accounts:login' %}" class="edit-phone-link" style="text-decoration: none;"><i
+                        class="fa-solid fa-pen"></i> ویرایش شماره</a>
+            </div>
+
+            <form class="atra-verify-form" method="POST" action="{% url 'accounts:verify_otp' %}" novalidate
+                  id="verifyForm">
+                {% csrf_token %}
+
+                <input type="hidden" name="otp_code" id="final_otp_code">
+
+                {% if messages %}
+                    <div class="messages">
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }}"
+                                 style="color: #ff4d4f; margin-bottom: 15px; font-size: 14px; background: #fff1f0; padding: 10px; border-radius: 8px;">
+                                <i class="fa-solid fa-triangle-exclamation"></i> {{ message }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <div class="otp-input-group" dir="ltr">
+                    <input type="text" class="otp-box" maxlength="1" pattern="[0-9]*" inputmode="numeric" autofocus>
+                    <input type="text" class="otp-box" maxlength="1" pattern="[0-9]*" inputmode="numeric">
+                    <input type="text" class="otp-box" maxlength="1" pattern="[0-9]*" inputmode="numeric">
+                    <input type="text" class="otp-box" maxlength="1" pattern="[0-9]*" inputmode="numeric">
+                    <input type="text" class="otp-box" maxlength="1" pattern="[0-9]*" inputmode="numeric">
+                </div>
+
+                <div class="resend-wrapper">
+                    <span id="countdown-timer" class="timer-text"><i class="fa-regular fa-clock"></i> 02:00</span>
+                    <button type="button" id="resend-btn" class="btn-resend disabled" disabled>ارسال مجدد کد</button>
+                </div>
+
+                <!-- آیدی اضافه شد تا بتونیم حالت لودینگ بهش بدیم -->
+                <button type="submit" id="submit-btn" class="btn-login-submit">تایید و ورود <i
+                        class="fa-solid fa-check-circle"></i></button>
+            </form>
+
+        </div>
+    </div>
+
+    <!-- پنل سمت چپ -->
+    <div class="oauth-slider-panel"
+         style="position: relative; overflow: hidden; background-color: transparent !important;">
+        <img src="{% static 'img/api_1.png' %}" alt="پس‌زمینه آتراوب" class="slider-bg-image"
+             style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; z-index: 1;">
+        <div class="slider-content"
+             style="position: relative; z-index: 2; color: white; text-align: center; display: flex; flex-direction: column; justify-content: center; height: 100%; padding: 2rem; text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.9);">
+            <h2 style="font-size: 2.8rem; margin-bottom: 1rem; font-weight: 900; letter-spacing: 1px;">به آتراوب خوش
+                آمدید</h2>
+            <p style="font-size: 1.15rem; line-height: 1.9; max-width: 75%; margin: 0 auto; opacity: 1; font-weight: 500;">
+                امنیت و سرعت در دسترسی به پنل مدیریت یکپارچه شما. با تایید شماره موبایل خود، وارد دنیای جدیدی از امکانات
+                شوید.</p>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        // ==========================================
+        // ۱. مقداردهی اولیه المان‌های DOM
+        // ==========================================
+        const otpBoxes = document.querySelectorAll('.otp-box');
+        const hiddenOtpInput = document.getElementById('final_otp_code');
+        const verifyForm = document.getElementById('verifyForm');
+        const submitBtn = document.getElementById('submit-btn');
+        const timerDisplay = document.getElementById('countdown-timer');
+        const resendBtn = document.getElementById('resend-btn');
+
+        let isSubmitting = false; // فلگ برای جلوگیری از چندبار سابمیت شدن همزمان
+
+        // ==========================================
+        // ۲. تابع قدرتمند برای گرفتن CSRF Token از کوکی (ضد باگ)
+        // ==========================================
+        function getCSRFToken() {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, 10) === ('csrftoken=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(10));
+                        break;
+                    }
+                }
+            }
+            // اگر تو کوکی نبود، سعی میکنه از فرم بگیره
+            if (!cookieValue) {
+                const tokenElement = document.querySelector('[name=csrfmiddlewaretoken]');
+                if (tokenElement) cookieValue = tokenElement.value;
+            }
+            return cookieValue;
+        }
+
+        // ==========================================
+        // ۳. منطق فرم و وارد کردن کد OTP
+        // ==========================================
+        function checkAndSubmit() {
+            if (isSubmitting) return; // اگه قبلا سابمیت شده، دیگه اجرا نشه
+
+            let finalCode = '';
+            otpBoxes.forEach(box => {
+                finalCode += box.value;
+            });
+            hiddenOtpInput.value = finalCode;
+
+            // اگر 5 رقم کامل شد، خودکار سابمیت کن
+            if (finalCode.length === 5) {
+                isSubmitting = true;
+                if (submitBtn) {
+                    submitBtn.innerHTML = 'در حال بررسی... <i class="fa-solid fa-spinner fa-spin"></i>';
+                    submitBtn.style.opacity = '0.8';
+                    submitBtn.disabled = true;
+                }
+                verifyForm.submit();
+            }
+        }
+
+        otpBoxes.forEach((box, index) => {
+            // رویداد تایپ کردن
+            box.addEventListener('input', (e) => {
+                e.target.value = e.target.value.replace(/[^0-9]/g, ''); // فقط عدد مجازه
+
+                if (e.target.value) {
+                    box.classList.add('filled');
+                    if (index < otpBoxes.length - 1) {
+                        otpBoxes[index + 1].focus();
+                    }
+                    checkAndSubmit(); // بررسی تکمیل شدن ۵ رقم
+                } else {
+                    box.classList.remove('filled');
+                }
+            });
+
+            // رویداد دکمه Backspace (پاک کردن)
+            box.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && !e.target.value && index > 0) {
+                    otpBoxes[index - 1].focus();
+                    otpBoxes[index - 1].value = '';
+                    otpBoxes[index - 1].classList.remove('filled');
+                }
+            });
+
+            // رویداد Paste کردن کد
+            box.addEventListener('paste', (e) => {
+                e.preventDefault();
+                const pastedData = e.clipboardData.getData('text').replace(/[^0-9]/g, '').slice(0, 5);
+
+                if (pastedData.length > 0) {
+                    let pasteArray = pastedData.split('');
+                    otpBoxes.forEach((b, i) => {
+                        if (pasteArray[i]) {
+                            b.value = pasteArray[i];
+                            b.classList.add('filled');
+                        } else {
+                            b.value = '';
+                            b.classList.remove('filled');
+                        }
+                    });
+
+                    if (pasteArray.length === 5) {
+                        otpBoxes[4].focus();
+                        checkAndSubmit();
+                    } else {
+                        otpBoxes[pasteArray.length - 1].focus();
+                    }
+                }
+            });
+        });
+
+        // ==========================================
+        // ۴. منطق تایمر معکوس
+        // ==========================================
+        let timeLeft = 120; // 2 دقیقه
+        let countdownInterval;
+
+        function startTimer() {
+            if (resendBtn) {
+                resendBtn.classList.add('disabled');
+                resendBtn.disabled = true;
+            }
+
+            // پاک کردن تایمر قبلی اگه وجود داشته باشه
+            if (countdownInterval) clearInterval(countdownInterval);
+
+            countdownInterval = setInterval(function () {
+                let minutes = Math.floor(timeLeft / 60);
+                let seconds = timeLeft % 60;
+
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                if (timerDisplay) {
+                    timerDisplay.innerHTML = `<i class="fa-regular fa-clock"></i> ${minutes}:${seconds}`;
+                }
+
+                if (timeLeft <= 0) {
+                    clearInterval(countdownInterval);
+                    if (timerDisplay) {
+                        timerDisplay.innerHTML = `<i class="fa-regular fa-clock"></i> 00:00`;
+                        timerDisplay.style.color = 'var(--text-muted)';
+                    }
+                    if (resendBtn) {
+                        resendBtn.classList.remove('disabled');
+                        resendBtn.disabled = false;
+                    }
+                } else {
+                    timeLeft -= 1;
+                }
+            }, 1000);
+        }
+
+        startTimer();
+
+        // ==========================================
+        // ۵. دکمه ارسال مجدد (AJAX) - کاملا مقاوم در برابر ارور
+        // ==========================================
+        if (resendBtn) {
+            resendBtn.addEventListener('click', function () {
+                if (!resendBtn.disabled && !resendBtn.classList.contains('disabled')) {
+
+                    const originalText = resendBtn.innerHTML;
+                    resendBtn.innerHTML = 'در حال ارسال... <i class="fa-solid fa-spinner fa-spin"></i>';
+                    resendBtn.disabled = true;
+
+                    const token = getCSRFToken();
+                    if (!token) {
+                        alert('خطای امنیتی: توکن CSRF یافت نشد. لطفا صفحه را رفرش کنید.');
+                        resendBtn.innerHTML = originalText;
+                        resendBtn.disabled = false;
+                        return;
+                    }
+
+                    // درخواست به سرور جنگو
+                    fetch("{% url 'accounts:resend_otp' %}", {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRFToken': token,
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        },
+                        body: JSON.stringify({action: 'resend'}) // در صورت نیاز بک‌اند
+                    })
+                        .then(response => {
+                            // چک میکنیم اگه وضعیت ارور داره، بره تو بلاک catch
+                            if (!response.ok) {
+                                throw new Error(`HTTP error! status: ${response.status}`);
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            if (data.status === 'success') {
+                                // موفقیت! ریست کردن بازی
+                                timeLeft = 120;
+                                if (timerDisplay) timerDisplay.style.color = 'var(--primary-color)';
+                                startTimer();
+                                resendBtn.innerHTML = 'ارسال مجدد کد';
+
+                                // خالی کردن باکس‌ها برای کد جدید
+                                otpBoxes.forEach(b => {
+                                    b.value = '';
+                                    b.classList.remove('filled');
+                                });
+                                hiddenOtpInput.value = '';
+                                otpBoxes[0].focus();
+                                isSubmitting = false; // باز کردن قفل سابمیت
+
+                                alert(data.message || 'کد با موفقیت مجدداً ارسال شد.');
+                            } else {
+                                // بک‌اند جواب داده ولی گفته عملیات موفق نبوده
+                                alert(data.message || 'مشکلی در ارسال مجدد پیش آمد.');
+                                resendBtn.innerHTML = originalText;
+                                resendBtn.disabled = false;
+                            }
+                        })
+                        .catch(error => {
+                            // این همون‌جاییه که قبلا گیر میکرد! الان کامل هندل شده.
+                            console.error('AJAX Error:', error);
+                            alert('ارتباط با سرور برقرار نشد! (آیا آدرس resend_otp در urls.py تعریف شده است؟)');
+                            resendBtn.innerHTML = originalText;
+                            resendBtn.disabled = false;
+                        });
+                }
+            });
+        }
+
+    });
+</script>
+
+
+</body>
+</html>

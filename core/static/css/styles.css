@@ -1,0 +1,3173 @@
+
+
+/* ==========================================================================
+   🌟 ATRA APP - MASTER STYLESHEET 🌟
+   ========================================================================== */
+
+/* =========================================
+   1. FONTS (تنظیمات فونت‌های اصلی و ایرانی)
+   ========================================= */
+
+/* --- اضافه کردن فونت‌های دانا (Dana) --- */
+
+/* دانا معمولی (برای متن‌های اصلی و توضیحات سایت) */
+@font-face {
+    font-family: "Dana";
+    src: url("/static/fonts/DanaPro(10Wt)/Farsi%20numerals/Dana-Regular.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* دانا مدیوم (متوسط - عالی برای منوها و نوبار) */
+@font-face {
+    font-family: "Dana";
+    src: url("/static/fonts/DanaPro(10Wt)/Farsi%20numerals/Dana-Medium.ttf") format("truetype");
+    font-weight: 500;
+    font-style: normal;
+}
+
+/* دانا بولد (برای تیترها و عناوین مهم) */
+@font-face {
+    font-family: "Dana";
+    src: url("/static/fonts/DanaPro(10Wt)/Farsi%20numerals/Dana-Bold.ttf") format("truetype");
+    font-weight: bold;
+    font-style: normal;
+}
+
+/* --- فونت‌های قبلی (به عنوان بک‌آپ نگه داشته شدند) --- */
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;700&display=swap');
+
+@font-face {
+    font-family: "Vazir";
+    src: url("/static/fonts/vazir-font-v16.1.0/Vazir.woff2") format("woff2"),
+         url("/static/fonts/vazir-font-v16.1.0/Vazir.woff") format("woff");
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Shabnam";
+    src: url("/static/fonts/shabnam-font-v5.0.1/Shabnam.woff2") format("woff2"),
+         url("/static/fonts/shabnam-font-v5.0.1/Shabnam.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Yekan";
+    src: url("/static/fonts/B_Yekan/BYekan.woff") format("woff");
+}
+
+/* =========================================
+   2. ROOT VARIABLES (متغیرهای سراسری سیستم)
+   ========================================= */
+:root {
+    /* فونت اصلی سایت (بادی، توضیحات و همه جا) حالا دانا است */
+    --font-main: "Dana", "Vazirmatn", "Vazir", Tahoma, sans-serif;
+
+    /* فونت نوبار هم دانا ست شده، اما با وزن مدیوم (توسط font-weight کنترل میشه) */
+    --font-navbar: "Dana", "Yekan", sans-serif;
+
+    /* فونت جایگزین در صورت نیاز */
+    --font-alt: "Shabnam", sans-serif;
+
+    --color-primary: #2563eb;
+    --color-secondary: #1e293b;
+    --color-success: #009b4c; /* رنگ سبز برند آترا */
+
+    --color-text: #1f2937;
+    --color-muted: #6b7280;
+
+    --bg-main: #ffffff;
+    --bg-soft: #f5f7fa;
+    --bg-page: #f9f9f9;
+
+    --radius: 10px;
+    --transition: 0.25s ease;
+}
+
+/* =========================================
+   3. RESET & BASE (ریست کردن استایل‌های مرورگر)
+   ========================================= */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    /* این خط باعث میشه فونت دانا روی همه عناصر اعمال بشه */
+    font-family: var(--font-main);
+}
+
+body {
+    background-color: var(--bg-page);
+    color: var(--color-text);
+    direction: rtl;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    /* به صورت پیش‌فرض وزن معمولی روی کل بادی اعمال می‌شود */
+    font-weight: normal;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+a {
+    text-decoration: none;
+    color: #333;
+    font-size: 14px;
+    transition: color 0.2s ease;
+}
+
+a:hover {
+    color: #000;
+}
+
+ul {
+    list-style: none;
+}
+
+button {
+    font-family: var(--font-main);
+    border: none;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: bold;
+    color: var(--color-secondary);
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: auto;
+}
+
+/* =========================================
+   4. NAVBAR & TOP BAR (هدر بالایی سایت)
+   ========================================= */
+.navbar {
+    font-family: var(--font-navbar);
+    background: var(--bg-main);
+    border-bottom: 1px solid #eee;
+    font-weight: 500;
+    border-bottom: 1px solid #eee;
+
+}
+
+.navbar a {
+    text-decoration: none;
+    color: var(--color-secondary);
+    transition: var(--transition);
+}
+
+.navbar a:hover {
+    color: var(--color-primary);
+}
+
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 30px;
+    background-color: #fff;
+    border-bottom: 1px solid #eaeaea;
+}
+
+.top-left-section {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+/* --- Zoho Logo Mock --- */
+.zoho-logo-mock {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+}
+
+.squares {
+    display: flex;
+    gap: 2px;
+}
+
+.sq {
+    width: 18px;
+    height: 18px;
+    border: 3px solid;
+    border-radius: 4px;
+    transform: rotate(-10deg);
+}
+
+.sq-red {
+    border-color: #e32228;
+}
+
+.sq-green {
+    border-color: var(--color-success);
+}
+
+.sq-blue {
+    border-color: #006ebc;
+}
+
+.sq-yellow {
+    border-color: #f6b21b;
+}
+
+.zoho-text {
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    color: #000;
+}
+
+.top-nav {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+/* --- Top Right Section (منطقه حیاتی هدر) --- */
+.top-right-section {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    /* ✨ راهکار اصلی برای جلوگیری از بریدگی دکمه‌ها ✨ */
+    flex-wrap: wrap !important;
+    justify-content: flex-end;
+}
+
+.search-icon-svg {
+    color: #666;
+    cursor: pointer;
+    transition: color 0.3s ease, transform 0.3s ease;
+    display: flex;
+    align-items: center;
+}
+
+.search-icon-svg:hover {
+    color: var(--color-success);
+    transform: scale(1.05);
+}
+
+/* =========================================
+   5. BUTTONS & AUTH SYSTEM (دکمه‌های ورود و ثبت‌نام)
+   ========================================= */
+
+/* --- دکمه‌های دارای بوردر انیمیشنی (ورود، پروفایل و...) --- */
+.minimal-btn.animated-border {
+    position: relative;
+    overflow: hidden;
+    border: none !important;
+    z-index: 1;
+    background-color: transparent !important;
+    min-width: 110px;
+    color: #333;
+}
+
+.minimal-btn.animated-border::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(from 0deg, transparent 40%, var(--color-success) 100%);
+    animation: spin-border 2.5s linear infinite;
+    z-index: -2;
+}
+
+.minimal-btn.animated-border::after {
+    content: '';
+    position: absolute;
+    inset: 3px;
+    background: #ffffff;
+    z-index: -1;
+    border-radius: 2px;
+    transition: background 0.3s ease;
+}
+
+@keyframes spin-border {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.minimal-btn.animated-border:hover::after {
+    background: rgba(0, 155, 76, 0.15);
+}
+
+.minimal-btn.animated-border:hover {
+    color: #008a43 !important;
+}
+
+
+/* --- دکمه پایه --- */
+.minimal-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    color: #333;
+    border: 1px solid #d1d1d1;
+    padding: 8px 24px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-family: var(--font-navbar);
+    font-weight: bold;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    text-decoration: none;
+    /* ✨ جادوی ضد بریدگی: متن نمی‌شکند و عرض دکمه کم نمی‌شود ✨ */
+    white-space: nowrap !important;
+    flex-shrink: 0 !important;
+    transition: all 0.3s ease !important;
+}
+
+.minimal-btn:hover {
+    background-color: var(--color-success);
+    color: #ffffff !important;
+    border-color: var(--color-success);
+}
+
+/* --- دکمه ورود (بوردر انیمیشنی) --- */
+.minimal-btn.login-btn.animated-border {
+    position: relative;
+    overflow: hidden;
+    border: none !important;
+    z-index: 1;
+    background-color: transparent !important;
+    min-width: 110px;
+    color: #333;
+}
+
+.minimal-btn.login-btn.animated-border::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(from 0deg, transparent 40%, var(--color-success) 100%);
+    animation: spin-border 2.5s linear infinite;
+    z-index: -2;
+}
+
+.minimal-btn.login-btn.animated-border::after {
+    content: '';
+    position: absolute;
+    inset: 3px;
+    background: #ffffff;
+    z-index: -1;
+    border-radius: 2px;
+    transition: background 0.3s ease;
+}
+
+@keyframes spin-border {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.minimal-btn.login-btn.animated-border:hover::after {
+    background: rgba(0, 155, 76, 0.15);
+}
+
+.minimal-btn.login-btn.animated-border:hover {
+    color: #008a43 !important;
+}
+
+/* --- دکمه ثبت نام --- */
+.minimal-btn.signup-btn {
+    border: 1px solid var(--color-success) !important;
+    background-color: var(--color-success) !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 15px rgba(0, 155, 76, 0.25) !important;
+    font-weight: 800 !important;
+}
+
+.minimal-btn.signup-btn:hover {
+    background-color: #007a3c !important;
+    border-color: #007a3c !important;
+    box-shadow: 0 8px 25px rgba(0, 155, 76, 0.45) !important;
+    transform: translateY(-3px) !important;
+}
+
+/* --- دکمه خوش‌آمدگویی (پروفایل کاربر) --- */
+.minimal-btn.user-badge {
+    gap: 8px;
+}
+
+/* نقطه وضعیت (Status Dot) داخل دکمه پروفایل */
+.minimal-btn.user-badge i {
+    display: inline-block;
+    width: 10px !important;
+    height: 10px !important;
+    /* ✨ جلوگیری از بیضی شدن نقطه وضعیت ✨ */
+    flex-shrink: 0 !important;
+    background-color: var(--color-success);
+    border-radius: 50%;
+    box-shadow: 0 0 8px rgba(0, 155, 76, 0.6);
+    animation: statusPulse 2s infinite ease-in-out;
+}
+
+@keyframes statusPulse {
+    0% {
+        transform: scale(0.9);
+        box-shadow: 0 0 0 0 rgba(0, 155, 76, 0.7);
+    }
+    70% {
+        transform: scale(1.1);
+        box-shadow: 0 0 0 6px rgba(0, 155, 76, 0);
+    }
+    100% {
+        transform: scale(0.9);
+        box-shadow: 0 0 0 0 rgba(0, 155, 76, 0);
+    }
+}
+
+/* =========================================
+   6. DROPDOWNS (منوهای کشویی)
+   ========================================= */
+.dropdown {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.dropdown > a {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.arrow {
+    font-size: 10px;
+    color: #666;
+    margin-right: 2px;
+    transition: transform 0.2s;
+}
+
+.dropdown:hover .arrow {
+    transform: rotate(180deg);
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: #fff;
+    min-width: 150px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    border: 1px solid #eee;
+    z-index: 100;
+    padding: 10px 0;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-content li a {
+    display: block;
+    padding: 8px 15px;
+    color: #333;
+}
+
+.dropdown-content li a:hover {
+    background-color: #f1f1f1;
+    color: var(--color-success);
+}
+
+/* حل مشکل بیرون زدن زیرمنوی آخرین آیتم */
+.bottom-nav .dropdown:last-child .dropdown-content,
+.top-nav .dropdown:last-child .dropdown-content {
+    right: auto;
+    left: 0;
+}
+
+/* =========================================
+   7. BOTTOM BAR (هدر پایینی)
+   ========================================= */
+.bottom-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.bottom-left-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.books-logo-mock {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.books-icon {
+    width: 30px;
+    height: 35px;
+    border: 2px solid #006ebc;
+    border-radius: 6px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.books-icon::before, .books-icon::after {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border: 2px solid #006ebc;
+    border-radius: 50%;
+}
+
+.books-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+}
+
+.books-text span:first-child {
+    font-size: 12px;
+    font-weight: bold;
+    color: #333;
+}
+
+.books-text span:last-child {
+    font-size: 18px;
+    font-weight: 800;
+    color: #000;
+    letter-spacing: -0.5px;
+}
+
+.bottom-nav {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.bottom-nav a {
+    font-size: 15px;
+    color: #000;
+}
+
+/* =========================================
+   8. HERO BANNER (بنر اصلی آترا)
+   ========================================= */
+.atra-hero-banner {
+    background-color: #B3C7F2;
+    width: 100%;
+    height: 650px;
+    max-height: 18cm;
+    font-family: 'Vazirmatn', 'Tahoma', sans-serif;
+    direction: rtl;
+    overflow: hidden;
+    position: relative;
+    background: linear-gradient(180deg, #ffffff 0%, #EBF8F0 100%);
+}
+
+.atra-hero-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    gap: 80px;
+}
+
+.atra-hero-content {
+    flex: 1;
+    max-width: 45%;
+    padding-left: 20px;
+    z-index: 10;
+    padding-right: 20px;
+}
+
+.atra-hero-content h1 {
+    font-family: 'Yekan Bakh', 'Vazirmatn', Tahoma, sans-serif;
+    font-size: 3.5rem;
+    font-weight: 900;
+    color: #1e293b;
+    margin-bottom: 15px;
+    line-height: 1.2;
+    letter-spacing: -1px;
+}
+
+.atra-brand-text {
+    color: #059669;
+    text-shadow: 0px 4px 15px rgba(5, 150, 105, 0.2);
+}
+
+.atra-hero-content p {
+    font-family: 'Yekan Bakh', 'Vazirmatn', Tahoma, sans-serif;
+    font-size: 1.25rem;
+    font-weight: 400;
+    color: #475569;
+    line-height: 1.8;
+    margin-bottom: 35px;
+    max-width: 480px;
+}
+
+.atra-store-buttons {
+    display: flex;
+    gap: 15px;
+}
+
+.atra-store-buttons a {
+    display: inline-block;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.atra-store-buttons a:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.atra-store-buttons img {
+    height: 55px;
+    width: auto;
+}
+
+/* --- موکاپ گوشی‌ها --- */
+.atra-hero-mockups {
+    flex: 1;
+    position: relative;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.atra-phone {
+    position: absolute;
+    border-radius: 40px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+    overflow: hidden;
+    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.atra-phone-iphone {
+    width: 280px;
+    height: 570px;
+    background-color: #1c1c1e;
+    border: 8px solid #1c1c1e;
+    transform: rotate(15deg) translate(-20px, -20px);
+    z-index: 2;
+}
+
+.atra-phone-android {
+    width: 290px;
+    height: 590px;
+    background-color: #212121;
+    border: 10px solid #212121;
+    transform: rotate(25deg) translate(40px, 50px);
+    z-index: 1;
+    opacity: 0.9;
+}
+
+.atra-phone-screen {
+    width: 100%;
+    height: 100%;
+    border-radius: 32px;
+    overflow: hidden;
+}
+
+.atra-app-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.atra-hero-banner:hover .atra-phone-iphone {
+    transform: rotate(12deg) translate(-30px, -30px) scale(1.02);
+}
+
+.atra-hero-banner:hover .atra-phone-android {
+    transform: rotate(28deg) translate(50px, 40px) scale(1.02);
+}
+
+/* =========================================
+Video Navigation Section ویدیوها
+   ========================================= */
+.video-premium-section {
+    width: 100%;
+    padding: 50px 20px; /* پدینگ رو کمتر کردم تا جمع‌وجور و مینیمال بشه */
+    position: relative;
+    overflow: hidden;
+    background-color: #f8fafc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+
+}
+
+/* هاله‌های نوری پس‌زمینه (جادوی کار) */
+.glow-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    z-index: -1;
+    opacity: 0.6;
+}
+
+.orb-1 {
+    width: 350px;
+    height: 350px;
+    background: radial-gradient(circle, #ff416c 0%, transparent 70%);
+    top: -80px;
+    right: 15%;
+    animation: floatOrb 10s ease-in-out infinite alternate;
+}
+
+.orb-2 {
+    width: 450px;
+    height: 450px;
+    background: radial-gradient(circle, #00c6ff 0%, transparent 70%);
+    bottom: -100px;
+    left: 10%;
+    animation: floatOrb 12s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes floatOrb {
+    0% {
+        transform: translate(0, 0) scale(1);
+    }
+    100% {
+        transform: translate(30px, 40px) scale(1.1);
+    }
+}
+/* استایل‌های پاپ‌آپ ویدیو */
+.video-popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.85); /* پس‌زمینه تاریک */
+    backdrop-filter: blur(10px); /* تار کردن بک‌گراند سایت */
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 999999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+/* کلاسی که پاپ‌آپ را نمایان می‌کند */
+.video-popup-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.video-popup-content {
+    position: relative;
+    width: 90%;
+    max-width: 1000px; /* حداکثر عرض در دسکتاپ */
+    background: #000;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.8), 0 0 20px rgba(255,255,255,0.1);
+    transform: scale(0.7); /* برای انیمیشن بزرگ‌نمایی */
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.video-popup-overlay.active .video-popup-content {
+    transform: scale(1); /* اجرای انیمیشن بزرگ‌نمایی در دسکتاپ و موبایل */
+}
+
+/* دکمه خروج */
+.close-popup-btn {
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    width: 45px;
+    height: 45px;
+    background: linear-gradient(135deg, #ff4d4d, #c0392b);
+    color: #fff;
+    border: 2px solid rgba(255,255,255,0.2);
+    border-radius: 50%;
+    font-size: 28px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    box-shadow: 0 5px 15px rgba(255, 77, 77, 0.5);
+    transition: all 0.3s ease;
+}
+
+.close-popup-btn:hover {
+    transform: rotate(90deg) scale(1.1);
+}
+
+/* خود ویدیو پلیر */
+#popupVideoPlayer {
+    width: 100%;
+    height: auto;
+    border-radius: 18px;
+    display: block;
+    outline: none;
+}
+
+/* ریسپانسیو برای موبایل */
+@media (max-width: 768px) {
+    .video-popup-content {
+        width: 95%;
+        border-radius: 12px;
+    }
+    #popupVideoPlayer {
+        border-radius: 10px;
+    }
+    .close-popup-btn {
+        top: -15px;
+        right: -10px;
+        width: 35px;
+        height: 35px;
+        font-size: 24px;
+    }
+}
+
+/* ==============================================================
+   VARIABLES & GLOBAL SETTINGS FOR PREMIUM SECTION (IMAGE BASED)
+=============================================================== */
+
+/* تنظیمات کلی سکشن */
+.premium-bento-analytics {
+    position: relative;
+    background-color: #f4fdf8;
+    padding: 50px 20px 40px;
+    overflow: hidden;
+    font-family: system-ui, -apple-system, sans-serif;
+    direction: rtl;
+}
+
+/* هاله نور پس‌زمینه */
+.bento-glow-bg {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    width: 70vw;
+    height: 70vw;
+    background: radial-gradient(circle, rgba(0, 255, 102, 0.12) 0%, rgba(204, 255, 221, 0) 60%);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* استایل‌های هدر */
+.bento-header {
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    margin-bottom: 40px;
+}
+
+.badge {
+    background: rgba(0, 255, 102, 0.15);
+    color: #008a37;
+    padding: 6px 16px;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border: 1px solid rgba(0, 255, 102, 0.3);
+}
+
+.bento-title {
+    font-size: 2.8rem;
+    color: #111;
+    margin: 15px 0;
+    font-weight: 800;
+}
+
+.text-gradient {
+    background: linear-gradient(to right, #00b34a, #004d26);
+    -webkit-background-clip: text;
+    color: transparent;
+    display: inline-block;
+}
+
+.bento-header p {
+    color: #555;
+    font-size: 1.1rem;
+}
+
+/* ساختار گرید اصلی */
+.bento-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+}
+
+.bento-col-left {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.bento-col-right {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+/* استایل‌های مربوط به لینک شدن تصاویر بنتو گرید */
+.bento-interactive-link {
+    position: relative;
+    display: block;
+    width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.bento-dynamic-img {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    display: block;
+    transition: transform 0.5s ease;
+}
+
+/* افکت لایه رویی هنگام هاور (سایه تاریک و متن) */
+.bento-hover-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6); /* لایه تاریک شیک */
+    backdrop-filter: blur(3px); /* کمی تار کردن عکس زیرین */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    z-index: 2;
+    transition: all 0.4s ease;
+    border-radius: 12px;
+}
+
+.overlay-text {
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: bold;
+    padding: 10px 20px;
+    border: 2px solid #00E676; /* استفاده از رنگ سبز برند شما */
+    border-radius: 30px;
+    transform: translateY(20px);
+    transition: transform 0.4s ease;
+    background: rgba(0, 230, 118, 0.1);
+}
+
+/* اتفاقاتی که هنگام هاور رخ می‌دهد */
+.bento-interactive-link:hover .bento-dynamic-img {
+    transform: scale(1.08); /* زوم شدن نرم عکس */
+}
+
+.bento-interactive-link:hover .bento-hover-overlay {
+    opacity: 1; /* نمایان شدن لایه تاریک */
+}
+
+.bento-interactive-link:hover .overlay-text {
+    transform: translateY(0); /* بالا آمدن جذاب متن */
+}
+
+/* ==============================================================
+   GLASSMORPHISM CARDS & IMAGE STYLES
+=============================================================== */
+
+/* کارت‌های شیشه‌ای پایه */
+.bento-card {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(0, 255, 102, 0.2);
+    border-radius: 24px;
+    padding: 16px; /* پدینگ رو کمی کمتر کردم تا عکس‌ها بهتر خودشون رو نشون بدن */
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.03), inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden; /* جلوگیری از بیرون زدن عکس هنگام زوم */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* افکت هاور جذاب برای کل کارت */
+.bento-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 50px rgba(0, 200, 100, 0.08);
+}
+
+/* تنظیمات سراسری برای عکس‌های داخل کارت‌ها */
+.bento-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* باعث میشه عکس دفرمه نشه و فضای کارت رو پر کنه */
+    border-radius: 12px;
+    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* انیمیشن نرم برای زوم عکس */
+    display: block;
+}
+
+/* افکت زوم ملایم روی عکس در زمان هاور کردن روی کارت */
+.bento-card:hover img {
+    transform: scale(1.03);
+}
+
+/* کلاس‌های اختصاصی (در صورت نیاز به تنظیمات مجزا در آینده) */
+.bento-image-card-small {
+    flex: 1; /* ارتفاع مساوی برای دو کارت کوچک در ستون چپ */
+}
+
+.bento-image-card-large {
+    flex: 1;
+    min-height: 400px; /* حداقل ارتفاع برای اینکه عکس نمودار اصلی به اندازه کافی بزرگ باشه */
+}
+
+/* ==============================================================
+   RESPONSIVE DESIGN (موبایل و تبلت)
+=============================================================== */
+
+@media (max-width: 900px) {
+    .bento-grid {
+        grid-template-columns: 1fr; /* در موبایل همه چیز در یک ستون قرار میگیره */
+    }
+
+    .bento-title {
+        font-size: 2.2rem;
+    }
+
+    .bento-image-card-large {
+        min-height: 300px; /* تو موبایل یکم ارتفاع عکس بزرگ رو کمتر میکنیم که تو اسکرول اذیت نکنه */
+    }
+}
+
+/* ========================================================
+     بخش مقالات و آموزش‌های آترا
+   ======================================================== */
+/* ==========================================================================
+   بخش مقالات آترا - استایل‌های ایزوله شده (بدون تداخل با قالب اصلی)
+   ========================================================================== */
+
+/* استایل والد: هیچ اثری خارج از این کلاس نخواهد داشت */
+.atra-knowledge-section {
+    padding: 100px 20px;
+    background: transparent;
+    position: relative;
+    direction: rtl;
+    /* فونت را از قالب اصلی شما ارث می‌برد، مگر اینکه بخواهید فورس کنید */
+}
+
+.atra-knowledge-section .knowledge-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* --- هدر بخش --- */
+.atra-knowledge-section .knowledge-header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.atra-knowledge-section .knowledge-title {
+    color:  #1a1f36;
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 15px;
+    letter-spacing: -0.5px;
+}
+
+.atra-knowledge-section .knowledge-title span {
+    color: #00E676;
+    text-shadow: 0 0 20px rgba(0, 230, 118, 0.4);
+}
+
+.atra-knowledge-section .knowledge-subtitle {
+    color: #a0aab5;
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+/* --- گرید مقالات --- */
+.atra-knowledge-section .knowledge-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 30px;
+}
+
+/* --- کارت مقالات (ایزوله شده) --- */
+.atra-knowledge-section .glass-article-card {
+    background: rgba(25, 30, 36, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 24px;
+    padding: 20px;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.atra-knowledge-section .glass-article-card:hover {
+    transform: translateY(-10px);
+    border-color: rgba(0, 230, 118, 0.3);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 30px rgba(0, 230, 118, 0.1) inset;
+}
+
+/* --- تصویر درون کارت --- */
+.atra-knowledge-section .card-image-wrapper {
+    position: relative;
+    width: 100%;
+    height: 220px;
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 24px;
+}
+
+.atra-knowledge-section .card-image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+.atra-knowledge-section .glass-article-card:hover .card-image-wrapper img {
+    transform: scale(1.08);
+}
+
+/* --- تگ (بج) روی تصویر --- */
+.atra-knowledge-section .article-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(0, 0, 0, 0.7);
+    color: #ffffff;
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 2;
+}
+
+/* --- محتوای متنی کارت --- */
+.atra-knowledge-section .card-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.atra-knowledge-section .card-title {
+    color: #ffffff;
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+    line-height: 1.4;
+    transition: color 0.3s ease;
+}
+
+.atra-knowledge-section .glass-article-card:hover .card-title {
+    color: #00E676;
+}
+
+.atra-knowledge-section .card-excerpt {
+    color: #a0aab5;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    margin-bottom: 25px;
+    flex-grow: 1;
+}
+
+/* --- دکمه/لینک مطالعه مقاله --- */
+.atra-knowledge-section .card-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #00E676;
+    font-weight: 600;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    align-self: flex-start;
+}
+
+.atra-knowledge-section .card-link svg {
+    transition: transform 0.3s ease;
+}
+
+.atra-knowledge-section .card-link:hover {
+    text-shadow: 0 0 10px rgba(0, 230, 118, 0.4);
+}
+
+.atra-knowledge-section .card-link:hover svg {
+    transform: translateX(-5px);
+}
+
+/* ==========================================================================
+   دکمه شناور مشاوره فروش (با پیشوند اختصاصی برای جلوگیری از تداخل)
+   ========================================================================== */
+.atra-floating-sales-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: #00E676;
+    padding: 12px 24px;
+    border-radius: 50px;
+    text-decoration: none;
+    z-index: 9999;
+    box-shadow: 0 10px 25px rgba(0, 230, 118, 0.4);
+
+    /* حالت پیش‌فرض: مخفی و پایین‌تر از صفحه */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(50px);
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.atra-floating-sales-btn:hover {
+    background: #00c853;
+    box-shadow: 0 15px 35px rgba(0, 230, 118, 0.6);
+    transform: translateY(-5px) !important;
+}
+
+/* کلاسی که JS برای نمایش دکمه اضافه میکنه */
+.atra-floating-sales-btn.is-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.atra-floating-sales-btn .floating-btn-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.atra-floating-sales-btn .phone-icon,
+.atra-floating-sales-btn .btn-text {
+    color: #ffffff;
+    font-weight: 700;
+}
+/* ========================================================
+   کدهای جدید و کامل برای کادر شیشه‌ای (افقی و مینیمال)
+   ======================================================== */
+
+/* کادر دربرگیرنده - افقی شدن آیتم‌ها در اینجا اتفاق می‌افتد */
+.video-glass-container {
+    display: flex; /* این خط آیتم‌ها را کنار هم قرار می‌دهد */
+    flex-direction: row-reverse; /* راست‌چین کردن اصولی برای فارسی */
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 950px; /* عرض کادر رو کمتر کردم تا جمع‌وجور و مینیمال بشه */
+    padding: 20px 40px; /* پدینگ داخلی کمتر و ظریف‌تر */
+    gap: 20px;
+    z-index: 2;
+
+    /* افکت شیشه‌ای مات (Glassmorphism) */
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+}
+
+/* استایل هر آیتم ویدیو */
+.video-item-lux {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px; /* فاصله بین آیکون، تایتل و دکمه (مینیمال) */
+    flex: 1; /* عرض مساوی برای همه */
+}
+
+/* استایل آیکون‌های تزئینی بالای تایتل */
+.video-icon-wrapper {
+    color: #4a5568;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.video-icon-wrapper svg {
+    width: 26px;
+    height: 26px;
+    opacity: 0.8;
+}
+
+/* استایل تایتل‌ها */
+.video-title-lux {
+    font-size: 0.95rem; /* فونت ظریف‌تر */
+    font-weight: 700;
+    color: #2d3748;
+    margin: 0;
+    text-align: center;
+    white-space: nowrap;
+}
+
+/* دکمه‌های جذاب و جمع‌وجور */
+.play-btn-lux {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 8px 20px; /* دکمه‌های ظریف‌تر */
+    background: linear-gradient(135deg, #ff4b2b, #ff416c);
+    color: #ffffff;
+    border: none;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 15px rgba(255, 65, 108, 0.3);
+    font-family: inherit;
+}
+
+.play-btn-lux svg {
+    width: 18px;
+    height: 18px;
+    transition: transform 0.3s ease;
+}
+
+.play-btn-lux:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(255, 65, 108, 0.4);
+}
+
+.play-btn-lux:hover svg {
+    transform: scale(1.15);
+}
+
+/* ========================================================
+   ریسپانسیو (برای تبلت و موبایل که در صفحه‌های کوچک خراب نشود)
+   ======================================================== */
+@media (max-width: 900px) {
+    .video-glass-container {
+        flex-wrap: wrap; /* در تبلت می‌شکنند */
+        padding: 20px;
+    }
+
+    .video-item-lux {
+        flex: 1 1 40%; /* دوتا بالا دوتا پایین */
+        margin-bottom: 15px;
+    }
+}
+
+@media (max-width: 500px) {
+    .video-item-lux {
+        flex: 1 1 100%; /* در موبایل کاملا زیر هم */
+        padding-bottom: 15px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .video-item-lux:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+        margin-bottom: 0;
+    }
+}
+
+/* =========================================
+Plans Section ( پلن خای اقتصادی پیشرفته حرفه ای)
+   ========================================= */
+
+/* تنظیمات کلی سکشن پلن‌ها */
+.plans-break-section {
+    padding: 80px 0;
+    background-color: #fafbfc; /* یک پس‌زمینه طوسی بسیار ملایم برای تفکیک از سفیدی مطلق سایر بخش‌ها */
+    position: relative;
+    z-index: 2;
+}
+
+/* هدر سکشن (عنوان و توضیحات) */
+.plans-break-section .section-header {
+    margin-bottom: 50px;
+}
+
+.plans-break-section .section-header h2 {
+    color: #2c3e50; /* رنگ تیره و حرفه‌ای برای عنوان */
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+}
+
+/* گرید‌بندی کارت‌ها برای چیدمان ریسپانسیو و خودکار */
+.plans-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    align-items: center; /* تراز کردن کارت‌ها در مرکز تا کارت ویژه (پیشرفته) که بزرگتر است زیباتر دیده شود */
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* استایل پایه برای هر کارت پلن */
+.plan-card {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 40px 30px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04); /* سایه نرم و محو */
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* انیمیشن فنری و بسیار جذاب برای هاور */
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* هم‌اندازه شدن ارتفاع کارت‌ها */
+}
+
+/* افکت شناور شدن کارت هنگام هاور */
+.plan-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 155, 76, 0.1); /* سایه ملایم سبز رنگ اختصاصی آترا */
+    border-color: rgba(0, 155, 76, 0.3);
+}
+
+/* --- استایل کارت ویژه (پلن پیشرفته در وسط) --- */
+.featured-plan {
+    transform: scale(1.05); /* کمی بزرگتر از بقیه کارت‌ها برای جلب توجه */
+    border: 2px solid #009b4c; /* حاشیه سبز رنگ برند */
+    box-shadow: 0 15px 35px rgba(0, 155, 76, 0.15);
+    z-index: 2; /* قرار گرفتن روی کارت‌های کناری در صورت نزدیک شدن */
+}
+
+/* جلوگیری از تداخل انیمیشن هاور با اسکیل پایه کارت ویژه */
+.featured-plan:hover {
+    transform: scale(1.05) translateY(-10px);
+}
+
+/* لیبل "پیشنهاد ویژه" برای کارت وسط */
+.popular-badge {
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, #009b4c, #00cc66); /* گرادیانت سبز حرفه‌ای */
+    color: #fff;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 10px rgba(0, 155, 76, 0.3);
+    white-space: nowrap;
+}
+
+/* --- استایل آیکون‌های بالای هر کارت --- */
+.plan-icon {
+    width: 70px;
+    height: 70px;
+    background: rgba(0, 155, 76, 0.08); /* پس‌زمینه سبز بسیار شفاف */
+    color: #009b4c;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    margin: 0 auto 20px auto;
+    transition: all 0.3s ease;
+}
+
+/* تغییر رنگ پس‌زمینه آیکون هنگام هاور روی کارت */
+.plan-card:hover .plan-icon {
+    background: #009b4c;
+    color: #fff;
+    transform: rotateY(180deg); /* یک افکت چرخش سه‌بعدی نرم برای آیکون */
+}
+
+/* --- تایپوگرافی داخل کارت‌ها --- */
+.plan-card h3 {
+    font-size: 1.5rem;
+    color: #1f2937;
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+.plan-desc {
+    font-size: 0.9rem;
+    color: #6b7280;
+    line-height: 1.6;
+    margin-bottom: 25px;
+    min-height: 45px; /* جلوگیری از بهم ریختگی چیدمان به خاطر طول متن‌های متفاوت */
+}
+
+/* --- لیست ویژگی‌های هر پلن --- */
+.plan-features {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 30px 0;
+    text-align: right;
+    flex-grow: 1; /* هُل دادن دکمه به سمت پایین */
+}
+
+.plan-features li {
+    font-size: 0.95rem;
+    color: #374151;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* استایل تیک‌های سبز رنگ کنار ویژگی‌ها */
+.plan-features li i {
+    color: #009b4c;
+    font-size: 1rem;
+    flex-shrink: 0; /* جلوگیری از فشرده شدن آیکون در صفحات کوچک */
+}
+
+/* --- استایل دکمه‌های انتخاب پلن --- */
+.plan-btn {
+    width: 100%;
+    display: block;
+    text-align: center;
+    padding: 12px 0;
+    border-radius: 12px;
+    font-weight: bold;
+    margin-top: auto; /* چسباندن دکمه به پایین کارت */
+}
+
+/* دکمه اختصاصی کارت ویژه (رنگ توپر) */
+.plan-btn.primary-btn {
+    background-color: #009b4c;
+    color: #fff;
+    border-color: #009b4c;
+}
+
+.plan-btn.primary-btn:hover {
+    background-color: #007f3d;
+    color: #fff;
+    box-shadow: 0 5px 15px rgba(0, 155, 76, 0.3);
+}
+
+
+/* ==========================================================================
+   مدیا کوئری‌ها (ریسپانسیو کردن سکشن پلن‌ها برای موبایل و تبلت)
+   ========================================================================== */
+/* =========================================
+   استایل‌های تضمینی بخش پلن‌ها
+========================================= */
+.pricing-section-wrapper {
+    padding: 80px 0;
+    background-color: #fcfcfc;
+    direction: rtl;
+    font-family: inherit;
+}
+
+.pricing-header-title {
+    color: #1f2937;
+    margin-bottom: 15px;
+    font-weight: 800;
+}
+
+.pricing-grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    align-items: center;
+    max-width: 1140px;
+    margin: 40px auto 0;
+}
+
+/* استایل پایه همه کارت‌ها */
+.pricing-card-box {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 40px 30px;
+    text-align: center;
+    position: relative;
+    border: 2px solid transparent !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03) !important;
+    /* این خط باعث افکت پرش ملایم به سمت بالا می‌شود */
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), border-color 0.4s ease, box-shadow 0.4s ease !important;
+}
+
+/* هاور قدرتمند برای همه کارت‌ها - دقیقا شبیه کارت وسط می‌شوند */
+.pricing-card-box:hover {
+    transform: scale(1.05) translateY(-8px) !important;
+    border-color: #059669 !important;
+    box-shadow: 0 20px 40px rgba(5, 150, 105, 0.15) !important;
+    z-index: 10;
+}
+
+/* کارت وسط (پیش‌فرض بزرگ و بالا آمده است) */
+.pricing-card-featured {
+    border-color: #059669 !important;
+    transform: scale(1.05) translateY(-8px) !important;
+    box-shadow: 0 20px 40px rgba(5, 150, 105, 0.1) !important;
+    z-index: 2;
+}
+
+.pricing-badge-special {
+    position: absolute;
+    top: -16px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #059669;
+    color: #ffffff;
+    padding: 6px 20px;
+    border-radius: 30px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    box-shadow: 0 4px 10px rgba(5, 150, 105, 0.3);
+}
+
+.pricing-card-box h3 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #111827;
+    margin-bottom: 15px;
+}
+
+.pricing-desc-text {
+    color: #6b7280;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 30px;
+    min-height: 70px;
+}
+
+/* تنظیم دایره‌ها و انیمیشن آیکون داخلشان */
+.pricing-icon-circle {
+    width: 85px;
+    height: 85px;
+    margin: 0 auto 25px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.4s ease;
+}
+
+.pricing-card-box:not(.pricing-card-featured) .pricing-icon-circle {
+    background: #ecfdf5;
+    color: #059669;
+}
+
+.pricing-card-featured .pricing-icon-circle {
+    background: #059669;
+    color: #ffffff;
+    box-shadow: 0 10px 20px rgba(5, 150, 105, 0.3);
+}
+
+/* چرخش زیبای آیکون وقتی روی کارت می‌روید */
+.pricing-card-box:hover .pricing-icon-circle {
+    transform: scale(1.1) rotate(10deg);
+}
+
+.pricing-features-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 35px 0;
+    text-align: right;
+}
+
+.pricing-features-list li {
+    margin-bottom: 16px;
+    font-size: 0.95rem;
+    color: #4b5563;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.pricing-features-list li svg {
+    color: #059669;
+    background: #ecfdf5;
+    padding: 5px;
+    border-radius: 50%;
+    min-width: 28px;
+    height: 28px;
+}
+
+/* دکمه‌ها */
+.pricing-action-btn {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    border-radius: 12px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.pricing-btn-outline {
+    background: transparent !important;
+    border: 1px solid #d1d5db !important;
+    color: #111827 !important;
+}
+
+.pricing-btn-outline:hover {
+    background: #f9fafb !important;
+    border-color: #059669 !important;
+    color: #059669 !important;
+}
+
+.pricing-btn-solid {
+    background: #059669 !important;
+    color: #ffffff !important;
+    border: none !important;
+}
+
+.pricing-btn-solid:hover {
+    background: #047857 !important;
+    box-shadow: 0 8px 20px rgba(5, 150, 105, 0.2) !important;
+    color: #ffffff !important;
+}
+
+/* ریسپانسیو */
+@media (max-width: 992px) {
+    .pricing-grid-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .pricing-card-featured {
+        grid-column: span 2;
+        max-width: 500px;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .pricing-grid-container {
+        grid-template-columns: 1fr;
+    }
+
+    .pricing-card-featured {
+        grid-column: span 1;
+    }
+}
+
+/* تنظیمات پایه برای کارت‌های قیمت‌گذاری شما */
+.pricing-card-box {
+    position: relative; /* بسیار مهم برای کنترل لایه پس‌زمینه */
+    overflow: hidden; /* جلوگیری از بیرون زدن رنگ از گوشه‌های گرد */
+    z-index: 1; /* ایجاد یک بستر لایه‌بندی */
+    /* یک ترانزیشن نرم برای حرکت کل کارت موقع هاور */
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+/* ساخت لایه سبز رنگ مخفی که از بالا قراره بیاد پایین */
+.pricing-card-box::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    /* یک سبز بسیار ملایم (شفافیت ۵ درصد) */
+    background-color: rgba(15, 157, 88, 0.05);
+
+    z-index: -1; /* می‌اندازیمش پشت محتوای کارت تا روی متن‌ها رو نگیره */
+
+    /* تنظیمات انیمیشن */
+    transform-origin: top; /* نقطه شروع انیمیشن: بالاترین قسمت کارت */
+    transform: scaleY(0); /* در حالت عادی ارتفاعش صفره و دیده نمیشه */
+
+    /* انیمیشن نرم و جذاب با زمان 0.4 ثانیه */
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* وقتی کاربر موس رو می‌بره روی کارت (اجرای افکت‌ها) */
+.pricing-card-box:hover::before {
+    transform: scaleY(1); /* ارتفاع لایه سبز به ۱۰۰٪ می‌رسه */
+}
+
+/* افکت اضافه و جذاب: خود کارت هم کمی میاد بالا و سایه‌اش بیشتر میشه */
+.pricing-card-box:hover {
+    transform: translateY(-8px); /* ۸ پیکسل حرکت نرم به سمت بالا */
+    box-shadow: 0 15px 35px rgba(15, 157, 88, 0.1); /* یک سایه سبز خیلی ملایم و جذاب */
+}
+
+/* اطمینان از اینکه متن‌ها، آیکون‌ها و دکمه‌های داخل کارت زیر رنگ نمیرن */
+.pricing-card-box > * {
+    position: relative;
+    z-index: 2;
+}
+
+/* =========================================
+   9. REAL GRID & FEATURES (بخش ویژگی‌ها و موکاپ معلق)
+   ========================================= */
+.real-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    padding: 5rem 0;
+}
+
+.real-content h2 {
+    font-size: 2.2rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    line-height: 1.4;
+    color: #1e1e1e;
+}
+
+.real-content .highlight-text {
+    color: #00c896;
+}
+
+.real-desc {
+    font-size: 1.1rem;
+    color: #666;
+    line-height: 1.8;
+    margin-bottom: 2.5rem;
+}
+
+.real-footer {
+    margin-top: 2.5rem;
+    font-size: 0.95rem;
+    color: #888;
+    font-weight: 500;
+    border-right: 3px solid #00c896;
+    padding-right: 15px;
+}
+
+.real-features {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem;
+}
+
+.feature-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 1rem 1.2rem;
+    background: #ffffff;
+    border-radius: 16px;
+    border: 1px solid rgba(0, 0, 0, 0.03);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: default;
+}
+
+.feature-card .icon {
+    font-size: 1.5rem;
+    transition: transform 0.3s ease;
+}
+
+.feature-card .text {
+    font-weight: 600;
+    color: #333;
+    font-size: 0.95rem;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 200, 150, 0.15);
+    border-color: rgba(0, 200, 150, 0.2);
+}
+
+.feature-card:hover .icon {
+    transform: scale(1.2);
+}
+
+.real-image-wrapper {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    perspective: 1200px;
+}
+
+.glow-halo {
+    position: absolute;
+    width: 300px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(0, 200, 150, 0.3) 0%, rgba(255, 255, 255, 0) 70%);
+    filter: blur(40px);
+    z-index: 0;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+@keyframes floatingMockup {
+    0% {
+        transform: translateY(0px) rotateX(5deg) rotateY(-15deg);
+    }
+    50% {
+        transform: translateY(-15px) rotateX(5deg) rotateY(-15deg);
+    }
+    100% {
+        transform: translateY(0px) rotateX(5deg) rotateY(-15deg);
+    }
+}
+
+.isometric-mockup {
+    position: relative;
+    z-index: 1;
+    transform: rotateX(5deg) rotateY(-15deg);
+    animation: floatingMockup 5s ease-in-out infinite;
+    box-shadow: -20px 30px 50px rgba(0, 0, 0, 0.2);
+    border-radius: 36px;
+}
+
+.phone-frame {
+    background: #111;
+    padding: 10px;
+    border-radius: 36px;
+    overflow: hidden;
+    border: 1px solid #333;
+}
+
+.phone-frame img {
+    display: block;
+    width: 100%;
+    max-width: 280px;
+    height: auto;
+    border-radius: 28px;
+    object-fit: cover;
+}
+
+/* ==============================================================
+FAQ
+=============================================================== */
+/* ===============================================================
+   بخش سوالات متداول (FAQ) - استایل فوق مینیمال و ظریف
+   =============================================================== */
+.premium-faq-section {
+    padding: 80px 20px;
+    background-color: #f8f9fa; /* پس‌زمینه بسیار روشن‌تر و ملایم‌تر */
+    font-family: system-ui, -apple-system, sans-serif;
+    direction: rtl;
+}
+
+.faq-container {
+    max-width: 1100px; /* کمی جمع‌وجورتر برای تمرکز بهتر روی متن */
+    margin: 0 auto;
+}
+
+/* هدر مینیمال */
+.faq-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.faq-badge {
+    display: inline-block;
+    background: transparent; /* حذف بک‌گراند رنگی */
+    color: #00cc55;
+    padding: 6px 16px;
+    border: 1px solid rgba(0, 204, 85, 0.3); /* حاشیه بسیار ظریف */
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.faq-title {
+    font-size: 2.2rem; /* کاهش سایز برای جلوگیری از زمختی */
+    color: #1a1f36; /* رنگ سرمه‌ای/خاکستری بسیار تیره و شیک */
+    margin: 0 0 10px 0;
+    font-weight: 800;
+    letter-spacing: -0.5px; /* فشرده‌سازی ظریف حروف */
+}
+
+.text-neon-green {
+    color: #00cc55;
+}
+
+.faq-subtitle {
+    color: #697386; /* رنگ ملایم‌تر برای زیرنویس */
+    font-size: 1.05rem;
+    font-weight: 400;
+}
+
+/* گرید دو ستونه */
+.faq-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px; /* فاصله ظریف‌تر بین کارت‌ها */
+    align-items: start;
+}
+
+/* استایل کارت سوالات - تمرکز روی ظرافت */
+.faq-item {
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.03); /* حاشیه نامحسوس */
+    border-radius: 16px; /* گوشه‌های نرم‌تر و مدرن‌تر */
+    overflow: hidden;
+    /* سایه بسیار ملایم شبیه استایل‌های اپل */
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.02), 0 1px 3px rgba(0, 0, 0, 0.03);
+    transition: all 0.3s ease;
+}
+
+.faq-item:hover {
+    transform: translateY(-2px); /* حرکت بسیار نرم */
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04); /* سایه نرم در هاور */
+}
+
+/* در حالت اکتیو، از رنگ‌های جیغ دوری می‌کنیم */
+.faq-item.active {
+    border-color: rgba(0, 204, 85, 0.2);
+    box-shadow: 0 8px 24px rgba(0, 204, 85, 0.06);
+}
+
+/* خط سبز ظریف کنار کارت‌های خاص (دقیقاً مثل عکس) */
+.highlight-offline {
+    border-right: 3px solid #00cc55; /* ضخامت کمتر و ظریف‌تر */
+}
+
+/* دکمه سوال */
+.faq-question {
+    width: 100%;
+    text-align: right;
+    background: transparent;
+    border: none;
+    padding: 24px; /* پدینگ متعادل‌تر */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.q-text {
+    font-size: 1.05rem; /* فونت ظریف‌تر */
+    font-weight: 600; /* کاهش وزن فونت از 700 به 600 */
+    color: #2d3748; /* خاکستری تیره نرم */
+    transition: color 0.3s ease;
+    line-height: 1.5;
+    padding-left: 15px;
+}
+
+.faq-item.active .q-text {
+    color: #00a344; /* سبز ملایم‌تر در حالت باز شده */
+}
+
+/* باکس آیکون - کوچک و مینیمال (مثل عکس) */
+.q-icon-box {
+    flex-shrink: 0;
+    width: 32px; /* کوچکتر شدن باکس */
+    height: 32px;
+    border-radius: 50%;
+    background: #f0f2f5; /* رنگ پس‌زمینه بسیار ملایم */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.q-icon {
+    width: 16px; /* آیکون کوچکتر و ظریف‌تر */
+    height: 16px;
+    color: #a0aec0; /* رنگ خاکستری روشن برای آیکون بسته */
+    stroke-width: 2; /* ضخامت کمتر خطوط آیکون */
+    transition: transform 0.3s ease;
+}
+
+.faq-item.active .q-icon-box {
+    background: rgba(0, 204, 85, 0.1); /* پس‌زمینه سبز بسیار شفاف */
+    box-shadow: none; /* حذف سایه اضافه */
+}
+
+.faq-item.active .q-icon {
+    color: #00cc55;
+    transform: rotate(180deg);
+}
+
+/* انیمیشن باز شدن (CSS Grid) */
+.faq-answer {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.3s ease;
+}
+
+.faq-item.active .faq-answer {
+    grid-template-rows: 1fr;
+}
+
+.answer-inner {
+    overflow: hidden;
+}
+
+/* استایل متن پاسخ */
+.answer-inner p {
+    padding: 0 24px 24px 24px; /* هماهنگ با پدینگ سوال */
+    margin: 0;
+    color: #697386; /* رنگ خوانا و ملایم برای چشم */
+    font-size: 0.95rem; /* کمی کوچکتر از سوال برای ایجاد سلسله مراتب بصری */
+    line-height: 1.8;
+    font-weight: 400;
+}
+
+.answer-inner strong {
+    color: #1a1f36;
+    font-weight: 600;
+}
+
+/* ریسپانسیو برای تبلت و موبایل */
+@media (max-width: 900px) {
+    .faq-grid {
+        grid-template-columns: 1fr; /* تبدیل به تک ستونه */
+    }
+
+    .faq-title {
+        font-size: 1.8rem;
+    }
+
+    .faq-item {
+        border-radius: 12px; /* گوشه‌های کمی تیزتر در موبایل */
+    }
+}
+
+/* =========================================
+     FOOTER
+   ========================================= */
+/* Atra Ultra Premium Footer */
+.atra-ultra-footer {
+    position: relative;
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border-top: 1px solid rgba(0, 179, 71, 0.2);
+    padding: 80px 5% 20px;
+    direction: rtl;
+    font-family: 'Vazirmatn', Tahoma, sans-serif;
+    overflow: hidden;
+    box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.02);
+}
+
+.footer-glow {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    z-index: -1;
+    opacity: 0.6;
+    animation: floatGlow 8s infinite alternate;
+}
+.glow-left {
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(0, 255, 102, 0.15) 0%, rgba(255, 255, 255, 0) 70%);
+    bottom: -100px; left: -100px;
+}
+.glow-right {
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(0, 179, 71, 0.1) 0%, rgba(255, 255, 255, 0) 70%);
+    top: -50px; right: 10%;
+    animation-delay: 2s;
+}
+
+@keyframes floatGlow {
+    0% { transform: translateY(0) scale(1); }
+    100% { transform: translateY(-30px) scale(1.1); }
+}
+
+.footer-content-wrapper {
+    max-width: 1300px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+
+/* ساختار جدید ۴ ستونه - متناسب با خبرنامه */
+.footer-grid {
+    display: grid;
+    grid-template-columns: 1.8fr 1fr 1.5fr 1fr;
+    gap: 40px;
+    margin-bottom: 50px;
+}
+
+.footer-col { display: flex; flex-direction: column; }
+
+.footer-main-logo {
+    max-width: 140px;
+    height: auto;
+    margin-bottom: 20px;
+    filter: drop-shadow(0 4px 6px rgba(0, 179, 71, 0.2));
+}
+
+.brand-desc {
+    color: #444; font-size: 15px; line-height: 1.9; margin-bottom: 25px;
+}
+
+/* Social Icons - اضافه شدن یوتیوب و لینکدین */
+.social-icons { display: flex; gap: 12px; flex-wrap: wrap; }
+.social-link {
+    display: flex; align-items: center; justify-content: center;
+    width: 42px; height: 42px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(0, 179, 71, 0.1);
+    color: #00b347;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.social-link svg { width: 20px; height: 20px; }
+.social-link:hover {
+    background: #00b347; color: #fff;
+    transform: translateY(-6px) scale(1.05);
+    box-shadow: 0 10px 20px rgba(0, 179, 71, 0.3);
+    border-color: #00b347;
+}
+
+/* Titles */
+.footer-title {
+    font-size: 18px; font-weight: 800; color: #111;
+    margin-bottom: 25px; position: relative; padding-right: 18px;
+}
+.footer-title::before {
+    content: ''; position: absolute; right: 0; top: 50%; transform: translateY(-50%);
+    width: 5px; height: 18px;
+    background: linear-gradient(to bottom, #00ff66, #00b347);
+    border-radius: 4px; box-shadow: 0 0 10px rgba(0, 255, 102, 0.4);
+}
+
+.footer-links { list-style: none; padding: 0; margin: 0; }
+.footer-links li { margin-bottom: 15px; }
+.footer-links a {
+    color: #555; text-decoration: none; font-size: 15px; font-weight: 500;
+    transition: all 0.3s ease; display: inline-flex; align-items: center;
+}
+.footer-links a::before {
+    content: '←'; margin-left: 8px; color: #00b347;
+    opacity: 0; transform: translateX(10px); transition: all 0.3s ease;
+}
+.footer-links a:hover { color: #00b347; transform: translateX(-5px); }
+.footer-links a:hover::before { opacity: 1; transform: translateX(0); }
+/* =========================================
+   Footer Bottom & Legal Links
+========================================= */
+.footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgba(0, 179, 71, 0.15); /* خط جداکننده محو و شیک */
+    padding-top: 20px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.footer-copyright p {
+    margin: 0;
+    color: #555;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.footer-legal-links {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.footer-legal-links a {
+    color: #666;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.footer-legal-links a:hover {
+    color: #00b347;
+    text-shadow: 0 0 8px rgba(0, 179, 71, 0.3); /* یه افکت درخشش ریز موقع هاور */
+}
+
+.footer-legal-links .separator {
+    color: #b3b3b3;
+    font-size: 16px;
+    user-select: none;
+}
+/* ==================================================
+   استایل‌های بخش پایینی فوتر (کپی‌رایت و لینک‌ها)
+================================================== */
+
+/* کانتینر اصلی که همه چیز رو دقیقاً وسط می‌کشه */
+.footer-bottom-container {
+    display: flex;
+    flex-direction: column; /* چیدمان زیر هم */
+    align-items: center; /* وسط‌چین کردن افقی */
+    justify-content: center;
+    text-align: center;
+    padding: 20px 0;
+    gap: 10px; /* فاصله دقیق بین متن کپی‌رایت و لینک‌ها */
+    border-top: 1px solid #e2e8f0; /* یه خط جداکننده خیلی ملایم در بالای این بخش (اختیاری) */
+}
+
+/* متن کپی‌رایت */
+.copyright-text {
+    color: #64748b; /* طوسی ملایم اما کاملاً خوانا */
+    font-size: 14px;
+    margin: 0;
+}
+
+/* رنگ کلمه آترا در کپی‌رایت */
+.atra-highlight {
+    color: #10b981; /* سبز جذاب آترا */
+    font-weight: 700;
+}
+
+/* کانتینر لینک‌های قانونی */
+.footer-legal-links {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px; /* فاصله بین لینک‌ها و نقطه وسط */
+}
+
+/* نقطه جداکننده بین لینک‌ها */
+.footer-legal-links .separator {
+    color: #94a3b8;
+    font-size: 18px;
+    line-height: 1;
+}
+
+/* استایل خود لینک‌ها (مشکل رنگ اینجا حل شد!) */
+.footer-legal-links a {
+    position: relative;
+    color: #475569; /* رنگ طوسی تیره و کاملاً مشخص برای دیده شدن عالی */
+    font-size: 14px;
+    font-weight: 600; /* کمی بولدتر تا به چشم بیاد */
+    text-decoration: none;
+    padding-bottom: 4px;
+    transition: color 0.3s ease;
+}
+
+/* افکت خط زیرین مخفی */
+.footer-legal-links a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    right: 0;
+    background-color: #10b981; /* خط متحرک به رنگ سبز آترا */
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 2px;
+}
+
+/* وقتی موس میره روی لینک‌ها */
+.footer-legal-links a:hover {
+    color: #10b981; /* متن هم سبز میشه */
+}
+
+/* ظاهر شدن خط زیرین موقع هاور */
+.footer-legal-links a:hover::after {
+    width: 100%;
+}
+
+/* ریسپانسیو کردن بخش پایین فوتر برای موبایل */
+@media (max-width: 768px) {
+    .footer-bottom {
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        padding-top: 25px;
+    }
+
+    .footer-legal-links {
+        justify-content: center;
+        margin-top: 5px;
+    }
+}
+
+/* Newsletter Form (مینیمال و شیشه‌ای) */
+.newsletter-desc {
+    font-size: 14px; color: #666; margin-bottom: 15px; line-height: 1.6;
+}
+.newsletter-form { position: relative; }
+.input-group {
+    display: flex;
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(0, 179, 71, 0.2);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+.input-group:focus-within {
+    border-color: #00b347;
+    box-shadow: 0 0 15px rgba(0, 179, 71, 0.15);
+    background: #fff;
+}
+.input-group input {
+    flex: 1; border: none; background: transparent;
+    padding: 12px 15px; font-family: inherit; font-size: 13px;
+    outline: none; color: #333;
+}
+.input-group input::placeholder { color: #aaa; }
+.input-group .submit-btn {
+    background: #00b347; border: none; color: white;
+    padding: 0 15px; cursor: pointer; transition: 0.3s ease;
+    display: flex; align-items: center; justify-content: center;
+}
+.input-group .submit-btn svg { width: 20px; height: 20px; }
+.input-group .submit-btn:hover { background: #00993d; }
+
+/* App Store Images (کلاس‌های جدید برای عکس‌ها) */
+.app-store-badges {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.store-badge-link {
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+.store-badge-img {
+    height: 45px; /* ارتفاع استاندارد استورها */
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
+    border-radius: 8px; /* گردی ملایم گوشه‌ها */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.store-badge-link:hover .store-badge-img {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 179, 71, 0.2);
+}
+
+.contact-info-mini p {
+    color: #666; font-size: 14px; font-weight: 600;
+    margin-top: 20px;
+}
+
+/* Footer Bottom */
+.footer-bottom {
+    text-align: center; padding-top: 25px;
+    border-top: 1px solid rgba(0, 179, 71, 0.15);
+    color: #777; font-size: 14px;
+}
+.footer-bottom strong { color: #00b347; }
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .footer-grid { grid-template-columns: repeat(2, 1fr); gap: 50px; }
+}
+@media (max-width: 768px) {
+    .atra-ultra-footer { padding: 50px 5% 20px; }
+    .footer-grid { grid-template-columns: 1fr; gap: 40px; }
+    .footer-col { align-items: center; text-align: center; }
+    .footer-title::before { display: none; }
+    .footer-links a::before { display: none; }
+    .footer-links a:hover { transform: none; }
+    .newsletter-desc { text-align: center; }
+}
+
+
+/* Glass Scroll to Top Button */
+.glass-scroll-btn {
+    position: fixed;
+    bottom: 30px;
+    left: 30px; /* چون سایت راست‌چین است، دکمه در سمت چپ قرار می‌گیرد */
+    width: 50px;
+    height: 50px;
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(0, 179, 71, 0.3);
+    border-radius: 50%;
+    color: #00b347;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+
+    /* افکت مخفی بودن در ابتدا */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+    /* انیمیشن پالس سبز رنگ */
+    animation: greenPulse 2s infinite;
+}
+
+.glass-scroll-btn svg {
+    width: 24px;
+    height: 24px;
+    transition: transform 0.3s ease;
+}
+
+/* حالتی که دکمه با اسکرول ظاهر می‌شود */
+.glass-scroll-btn.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* افکت هاور (رفتن موس روی دکمه) */
+.glass-scroll-btn:hover {
+    background: #00b347;
+    color: #ffffff;
+    box-shadow: 0 10px 25px rgba(0, 179, 71, 0.4);
+    border-color: #00b347;
+    animation: none; /* توقف پالس در حالت هاور */
+}
+
+.glass-scroll-btn:hover svg {
+    transform: translateY(-3px); /* پرش کوچک فلش به سمت بالا */
+}
+
+/* تعریف انیمیشن پالس */
+@keyframes greenPulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(0, 179, 71, 0.4);
+    }
+    70% {
+        box-shadow: 0 0 0 15px rgba(0, 179, 71, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(0, 179, 71, 0);
+    }
+}
+
+/* ریسپانسیو برای موبایل */
+@media (max-width: 768px) {
+    .glass-scroll-btn {
+        bottom: 20px;
+        left: 20px;
+        width: 45px;
+        height: 45px;
+    }
+}
+
+/* =========================================================
+   استایل‌های بخش همکاران ما (Infinite Marquee)
+   ========================================================= */
+
+/* کانتینر اصلی بخش */
+.atra-partners-section {
+    padding: 80px 0;
+    position: relative;
+    overflow: hidden; /* جلوگیری از ایجاد اسکرول افقی در کل سایت */
+    background: transparent; /* بک‌گراند رو می‌تونی با سایتت ست کنی */
+}
+
+/* هدر بخش */
+.atra-partners-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.atra-partners-title {
+    font-size: 28px;
+    font-weight: 800;
+    color: #1a1a1a;
+    margin-bottom: 10px;
+}
+
+.atra-partners-subtitle {
+    font-size: 15px;
+    color: #666;
+}
+
+/* کانتینر اسلایدر با ماسک برای محو شدن دو طرف */
+.atra-partners-slider {
+    display: flex;
+    overflow: hidden;
+    width: 100%;
+    /* ایجاد یک گرادیانت ماسک که وسط شفاف و لبه‌ها محو هستن */
+    -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+/* توقف انیمیشن وقتی ماوس میره روی اسلایدر (خیلی کاربرپسنده) */
+.atra-partners-slider:hover .atra-partners-track {
+    animation-play-state: paused;
+}
+
+/* نواری که آیتم‌ها داخلش هستن و حرکت می‌کنه */
+.atra-partners-track {
+    display: flex;
+    align-items: center;
+    gap: 50px; /* فاصله بین دایره‌ها */
+    padding-left: 50px; /* باید برابر با gap باشه تا لوپ یکدست بشه */
+    /* زمان 25s سرعت حرکت رو تعیین می‌کنه، می‌تونی کم و زیادش کنی */
+    animation: atraScrollRTL 25s linear infinite;
+}
+
+/* هر آیتم (دایره + متن) */
+.atra-partner-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    cursor: pointer;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* افکت هاور: پرش نرم به بالا */
+.atra-partner-item:hover {
+    transform: translateY(-10px);
+}
+
+/* دایره شیشه‌ای (Glassmorphism) */
+.atra-partner-circle {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    /* استایل شیشه‌ای */
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.04);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px; /* فضای داخلی برای لوگو */
+    transition: all 0.4s ease;
+}
+
+/* تغییر رنگ و درخشش دایره در زمان هاور */
+.atra-partner-item:hover .atra-partner-circle {
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    border-color: #fff;
+}
+
+/* استایل عکس لوگوها */
+.atra-partner-circle img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    /* این خط لوگوها رو سیاه و سفید می‌کنه تا یکدست بشن (اختیاری) */
+    filter: grayscale(100%) opacity(0.7);
+    transition: all 0.4s ease;
+}
+
+/* در زمان هاور لوگو رنگی و پررنگ میشه */
+.atra-partner-item:hover .atra-partner-circle img {
+    filter: grayscale(0%) opacity(1);
+    transform: scale(1.1);
+}
+
+/* نام شرکت زیر دایره */
+.atra-partner-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #444;
+    white-space: nowrap; /* جلوگیری از دو خط شدن اسم */
+    opacity: 0.8;
+    transition: color 0.3s ease;
+}
+
+.atra-partner-item:hover .atra-partner-name {
+    color: #000;
+    opacity: 1;
+}
+
+/* =========================================================
+   انیمیشن کلیدی برای حرکت پیوسته (RTL Support)
+   ========================================================= */
+@keyframes atraScrollRTL {
+    0% {
+        /* برای سایت‌های راست‌چین از 0 به مثبت صد حرکت می‌دیم */
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+/* ریسپانسیو برای تبلت و موبایل */
+@media (max-width: 768px) {
+    .atra-partner-circle {
+        width: 80px;
+        height: 80px;
+        padding: 15px;
+    }
+
+    .atra-partner-name {
+        font-size: 13px;
+    }
+
+    .atra-partners-track {
+        gap: 30px;
+        padding-left: 30px;
+    }
+
+    .atra-partners-title {
+        font-size: 22px;
+    }
+}
+
+
+/* =========================================
+   10. MEDIA QUERIES (ریسپانسیو سیستم)
+   ========================================= */
+
+@media (max-width: 1024px) {
+    .top-nav, .bottom-nav {
+        gap: 15px;
+    }
+
+    .top-bar, .bottom-bar {
+        padding: 10px 15px;
+    }
+}
+
+/* --- تنظیمات حیاتی هدر برای تبلت و موبایل ($992px$) --- */
+@media screen and (max-width: 992px) {
+    .atra-hero-banner {
+        height: auto;
+        padding: 80px 0;
+    }
+
+    .atra-hero-container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .atra-hero-content {
+        max-width: 100%;
+        padding-left: 0;
+        margin-bottom: 60px;
+    }
+
+    .atra-store-buttons {
+        justify-content: center;
+    }
+
+    .atra-hero-mockups {
+        height: 500px;
+        width: 100%;
+    }
+
+    .real-grid {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+    }
+
+    .isometric-mockup {
+        transform: rotateX(5deg) rotateY(0deg);
+        animation: none;
+    }
+
+    /* ✨ حل مشکل چیدمان دکمه‌های هدر در صفحات کوچکتر ✨ */
+    .top-right-section {
+        justify-content: center;
+        width: 100%;
+    }
+
+    /* دکمه خوش‌آمدگویی را تمام‌عرض کرده و به بالای سایر دکمه‌ها می‌فرستیم */
+    .minimal-btn.user-badge {
+        width: 100%;
+        order: -1;
+        justify-content: center;
+        margin-bottom: 8px;
+    }
+}
+
+@media (max-width: 850px) {
+    .top-nav {
+        display: none;
+    }
+
+    .bottom-bar {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+    }
+
+    .bottom-nav {
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .minimal-btn {
+        font-size: 13px;
+        padding: 6px 12px;
+    }
+}
+
+@media (max-width: 576px) {
+    .atra-hero-content h1 {
+        font-size: 36px;
+    }
+
+    .atra-hero-content p {
+        font-size: 18px;
+    }
+
+    .atra-store-buttons img {
+        height: 45px;
+    }
+
+    .atra-phone-android {
+        display: none;
+    }
+
+    .atra-phone-iphone {
+        width: 240px;
+        height: 490px;
+        transform: rotate(10deg) translate(0px, 0px);
+    }
+
+    .atra-hero-banner:hover .atra-phone-iphone {
+        transform: rotate(8deg) translate(0, -10px) scale(1.02);
+    }
+}
+
+@media (max-width: 500px) {
+    .top-bar {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .top-right-section {
+        width: 100%;
+        justify-content: center;
+    }
+}
+/* ==========================================================================
+   Responsive Design for Knowledge Section & Floating Button
+   ========================================================================== */
+
+/* 1. تنظیمات پایه گرید برای دسکتاپ (اگر از قبل نداری، اینو حتما بذار) */
+.atra-knowledge-section .knowledge-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 ستون در دسکتاپ */
+    gap: 30px;
+    padding: 0 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* ==========================================================================
+   تبلت‌های بزرگ و لپ‌تاپ‌های کوچک (حداکثر عرض 1024px)
+   ========================================================================== */
+@media screen and (max-width: 1024px) {
+    .atra-knowledge-section {
+        padding: 60px 0; /* کاهش فاصله کلی سکشن */
+    }
+
+    .atra-knowledge-section .knowledge-grid {
+        gap: 20px; /* کاهش فاصله بین کارت‌ها */
+        padding: 0 15px;
+    }
+
+    .atra-knowledge-section .knowledge-title {
+        font-size: 2.2rem; /* تنظیم سایز تیتر */
+    }
+}
+
+/* ==========================================================================
+   تبلت‌ها و موبایل‌های افقی (حداکثر عرض 768px)
+   ========================================================================== */
+@media screen and (max-width: 768px) {
+    /* تبدیل گرید به 2 ستون یا 1 ستون بسته به نیاز، اینجا 2 ستون میکنیم */
+    .atra-knowledge-section .knowledge-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    .atra-knowledge-section .knowledge-title {
+        font-size: 2rem;
+        margin-bottom: 10px;
+    }
+
+    /* تنظیمات دکمه شناور برای تبلت */
+    .atra-floating-sales-btn {
+        bottom: 20px;
+        right: 20px;
+        padding: 10px 20px;
+    }
+}
+
+/* ==========================================================================
+   گوشی‌های هوشمند (حداکثر عرض 576px - کاملا موبایلی)
+   ========================================================================== */
+@media screen and (max-width: 576px) {
+    .atra-knowledge-section {
+        padding: 40px 0;
+    }
+
+    /* تبدیل چیدمان به 1 ستون کامل برای موبایل */
+    .atra-knowledge-section .knowledge-grid {
+        grid-template-columns: 1fr;
+        gap: 25px; /* فاصله عمودی بین کارت‌ها در موبایل */
+    }
+
+    /* استایل‌های کارت در حالت موبایل برای حفظ زیبایی */
+    .atra-knowledge-section .knowledge-card {
+        min-height: 250px; /* ارتفاع متناسب برای موبایل */
+        border-radius: 15px;
+    }
+
+    /* تنظیم تیتر اصلی بخش مقالات برای صفحه نمایش کوچک */
+    .atra-knowledge-section .knowledge-title {
+        font-size: 1.7rem;
+        text-align: center; /* وسط‌چین کردن تیتر در موبایل معمولاً زیباتره */
+    }
+
+    /*
+       تنظیمات بسیار مهم دکمه شناور در موبایل:
+       سایز آیکون و فونت رو کمی جمع‌وجورتر می‌کنیم تا مزاحم تایپ یا اسکرول کاربر نشه
+    */
+    .atra-floating-sales-btn {
+        bottom: 15px;
+        right: 15px;
+        padding: 10px 15px;
+        border-radius: 40px;
+    }
+
+    .atra-floating-sales-btn .btn-text {
+        font-size: 0.9rem;
+    }
+
+    .atra-floating-sales-btn .phone-icon {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+/* ==========================================================================
+   گوشی‌های بسیار کوچک (حداکثر عرض 380px - مثل iPhone SE)
+   ========================================================================== */
+@media screen and (max-width: 380px) {
+    .atra-knowledge-section .knowledge-title {
+        font-size: 1.5rem;
+    }
+
+    /* در گوشی‌های خیلی کوچیک، فقط آیکون رو نشون میدیم و متن رو مخفی میکنیم تا فضا اشغال نشه */
+    .atra-floating-sales-btn .btn-text {
+        display: none;
+    }
+
+    .atra-floating-sales-btn {
+        padding: 12px;
+        border-radius: 50%; /* دکمه کاملا گرد میشه */
+    }
+}
+/* ==========================================================================
+   هدر چسبان (Sticky Header) - ویژه دسکتاپ
+   ========================================================================== */
+@media screen and (min-width: 992px) {
+    /* انیمیشن نرم برای زمان چسبیدن و جدا شدن */
+    .bottom-bar {
+        transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        z-index: 1000; /* برای اینکه همیشه روی بقیه المان‌ها قرار بگیره */
+    }
+
+    /* این کلاس توسط جاوااسکریپت در زمان اسکرول اضافه میشه */
+    .bottom-bar.is-sticky {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+
+        /* استایل فوق‌لوکس Glassmorphism */
+        background: rgba(255, 255, 255, 0.85) !important;
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+
+        /* کمی جمع‌وجور کردن منو در حالت چسبان برای زیبایی بیشتر */
+        padding-top: 8px;
+        padding-bottom: 8px;
+    }
+
+
+    body.has-sticky-menu {
+        padding-top: 60px;
+    }
+}
+
+
+
+
+
+/* =========================================================
+   محدودسازی استایل‌ها فقط برای موبایل و تبلت
+   ========================================================= */
+.atra-inline-hamburger {
+    display: none; /* در دسکتاپ مخفی است */
+}
+
+@media screen and (max-width: 992px) {
+    /* 1. نمایش دکمه همبرگری کنار آیکون سرچ */
+    .top-right-section {
+        display: flex;
+        align-items: center;
+        gap: 15px; /* فاصله بین المان‌های راست */
+    }
+
+    .atra-inline-hamburger {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        cursor: pointer;
+        z-index: 1001; /* باید بالاتر از منوی کشویی باشد */
+        padding: 5px;
+    }
+
+    .atra-inline-hamburger span {
+        width: 24px;
+        height: 2px;
+        background-color: #333; /* رنگ خطوط همبرگری */
+        border-radius: 2px;
+        transition: all 0.3s ease;
+    }
+
+    /* انیمیشن تبدیل همبرگر به ضربدر (هنگام باز بودن) */
+    .atra-inline-hamburger.active span:nth-child(1) {
+        transform: translateY(7px) rotate(45deg);
+    }
+    .atra-inline-hamburger.active span:nth-child(2) {
+        opacity: 0;
+    }
+    .atra-inline-hamburger.active span:nth-child(3) {
+        transform: translateY(-7px) rotate(-45deg);
+    }
+
+    /* 2. مخفی کردن منوی بالا در موبایل (برای خلوت شدن) */
+    .top-nav {
+        display: none !important;
+    }
+
+    /* 3. جادوی اصلی: تبدیل نوار پایینی به منوی کشویی Glassmorphism */
+    .bottom-bar {
+        position: fixed;
+        top: 0;
+        right: -100%; /* پیش‌فرض بیرون کادر در سمت راست */
+        width: 85%;
+        max-width: 320px;
+        height: 100vh; /* تمام قد */
+        background: rgba(255, 255, 255, 0.85) !important; /* پس‌زمینه شیشه‌ای */
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        flex-direction: column !important; /* چینش ستونی */
+        justify-content: flex-start !important;
+        align-items: flex-start !important;
+        padding: 80px 20px 20px !important; /* فاصله از بالا تا زیر دکمه ضربدر بمونه */
+        transition: right 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        z-index: 1000;
+        box-shadow: -5px 0 25px rgba(0,0,0,0.1);
+    }
+
+    /* وقتی کلاس active به bottom-bar اضافه شد، میاد داخل صفحه */
+    .bottom-bar.active {
+        right: 0;
+    }
+
+    /* 4. استایل دادن به لینک‌های داخل منوی موبایل */
+    .bottom-nav {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        gap: 0 !important;
+    }
+
+    .bottom-nav > a,
+    .bottom-nav .dropdown {
+        width: 100%;
+        margin: 0 !important;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .bottom-nav > a {
+        display: block;
+        padding: 15px 10px;
+        font-weight: 600;
+        color: #333;
+        text-align: right;
+    }
+
+    /* استایل Dropdown ها در موبایل */
+    .bottom-nav .dropdown > a {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 10px;
+        font-weight: 600;
+        color: #333;
+    }
+
+    /* تبدیل محتوای Dropdown از حالت Hover دسکتاپ به حالت آکاردئونی موبایل */
+    .bottom-nav .dropdown-content {
+        position: static !important; /* خروج از حالت Absolute */
+        display: none; /* پیش‌فرض مخفی */
+        box-shadow: none !important;
+        background: rgba(0,0,0,0.02) !important;
+        width: 100%;
+        padding: 5px 0;
+        border-radius: 0 0 8px 8px;
+    }
+
+    /* کلاسی که با جاوااسکریپت برای باز شدن زیرمنوها اضافه می‌کنیم */
+    .bottom-nav .dropdown.open .dropdown-content {
+        display: block;
+    }
+
+    /* چرخش فلش زیرمنو در حالت باز */
+    .bottom-nav .dropdown.open > a .arrow {
+        transform: rotate(180deg);
+        display: inline-block;
+        transition: transform 0.3s;
+    }
+
+    /* 5. دکمه نسخه آزمایشی (هل دادن به پایین منو) */
+    .bottom-left-section {
+        margin-top: auto; /* به انتهای منو می‌چسبد */
+        width: 100%;
+        padding-top: 20px;
+        display: flex;
+        justify-content: center;
+    }
+
+    /* یک Overlay مشکی تاریک برای پشت منو (اختیاری ولی برای زیبایی عالیه) */
+    .atra-mobile-overlay-inline {
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0,0,0,0.4);
+        z-index: 999; /* زیر منو، روی سایت */
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.4s ease;
+    }
+    .atra-mobile-overlay-inline.active {
+        opacity: 1;
+        visibility: visible;
+    }
+}

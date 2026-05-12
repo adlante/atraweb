@@ -1,0 +1,83 @@
+{% extends 'parent/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link href="{% static 'css/navbar.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<section class="offline-feature-page">
+    <div class="offline-container">
+
+        <!-- هدر صفحه -->
+        <div class="offline-hero">
+            <div class="offline-badge">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"></path><path d="M1.42 9a16 16 0 0 1 21.16 0"></path><path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path><line x1="12" y1="20" x2="12.01" y2="20"></line></svg>
+                معماری Offline-First
+            </div>
+            <h1 class="offline-main-title">قطعی اینترنت، <span class="title-highlight">پایان کار شما نیست!</span></h1>
+            <p class="offline-subtitle">سیستم حسابداری آتراوب با قدرتی بی‌نظیر، تمام امکانات خود را حتی در تاریک‌ترین نقاط بدون اینترنت، با همان سرعت نور در اختیار شما قرار می‌دهد.</p>
+        </div>
+
+        <!-- گرید بنتو حرفه‌ای -->
+        <div class="offline-bento-grid">
+
+            <!-- کارت ۱: پردازش آنی (بزرگ و اصلی همراه با تصویر) -->
+            <div class="offline-card bento-main">
+                <div class="offline-icon-wrapper">
+                    <!-- SVG Bolt -->
+                    <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                </div>
+                <h3 class="offline-card-title">سرعت پردازش آنی (Zero Latency)</h3>
+                <p class="offline-card-text">چرا باید منتظر پینگ سرور ماند؟ در آتراوب، موتور پردازشی مستقیماً روی سیستم شما نصب شده است. ثبت هزاران فاکتور، جستجو در بین بی‌نهایت کالا و دریافت گزارشات در کسری از ثانیه انجام می‌شود؛ تجربه‌ای که در نرم‌افزارهای سنتی ابری محال است.</p>
+
+                <!-- مکان قرارگیری تصویر (مثلا یک اسکرین‌شات از سرعت بالای داشبورد یا یک موکاپ سه بعدی) -->
+                <div class="offline-image-container">
+                    <!-- به جای لینک زیر، آدرس تصویر خودت رو بذار -->
+                    <img src="{% static 'img/bento_3.avif' %}" alt="سرعت پردازش داشبورد">
+                </div>
+            </div>
+
+            <!-- کارت ۲: امنیت داده (کوچک و روشن) -->
+            <div class="offline-card bento-square-1">
+                <div class="offline-icon-wrapper">
+                    <!-- SVG Shield -->
+                    <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                </div>
+                <h3 class="offline-card-title">دژ امنیتی در سیستم شما</h3>
+                <p class="offline-card-text">اطلاعات شما در زمان آفلاین بودن، رها نمی‌شوند. دیتابیس محلی آترا با پیشرفته‌ترین الگوریتم‌های استاندارد بانکی (AES-256) رمزنگاری می‌شود تا هیچکس جز شما به داده‌های مالی دسترسی نداشته باشد.</p>
+            </div>
+
+            <!-- کارت ۳: همگام‌سازی نامحسوس (طراحی تیره و خاص) -->
+            <div class="offline-card bento-square-2">
+                <div class="offline-icon-wrapper">
+                    <!-- SVG Cloud Sync -->
+                    <svg viewBox="0 0 24 24"><path d="M19 16.9A5 5 0 0 0 18 7h-1.26a8 8 0 1 0-11.62 9"/><polyline points="13 11 9 17 15 17 11 23"/></svg>
+                </div>
+                <h3 class="offline-card-title">همگام‌سازی جادویی</h3>
+                <p class="offline-card-text">به محض شناسایی اینترنت، تکنولوژی Sync آترا در پس‌زمینه بیدار می‌شود. بدون اینکه خللی در کار شما ایجاد کند، تمام داده‌های جدید را بسته‌بندی کرده و به سرور ابری منتقل می‌کند. شما فقط نتیجه را می‌بینید.</p>
+            </div>
+
+            <!-- کارت ۴: کارت افقی عریض با تصویر (برای تاکید روی کارکرد یکپارچه) -->
+            <div class="offline-card bento-wide">
+                <div class="wide-content">
+                    <div class="offline-icon-wrapper" style="background: transparent; box-shadow: none; border: 2px solid #00FF88; color: #0B192C;">
+                        <!-- SVG Devices -->
+                        <svg viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+                    </div>
+                    <h3 class="offline-card-title">یکپارچگی در تمام شعب شما</h3>
+                    <p class="offline-card-text">فرض کنید یک شعبه در منطقه‌ای با اینترنت ضعیف دارید و شعبه‌ای دیگر در مرکز شهر. شعبه آفلاین با سرعت بالا فاکتور می‌زند و به محض اتصال، مدیر در مرکز شهر تمام آمارها را یکپارچه و زنده مشاهده می‌کند. این قدرت واقعی معماری ماست.</p>
+                </div>
+                <!-- مکان قرارگیری تصویر دوم (مثلا موکاپ لپ‌تاپ و موبایل کنار هم) -->
+                <div class="wide-image">
+                     <!-- به جای لینک زیر، آدرس تصویر خودت رو بذار -->
+                    <img src="{% static 'img/bento_2.jpg' %}" alt="یکپارچگی شعب">
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+

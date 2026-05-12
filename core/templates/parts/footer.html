@@ -1,0 +1,131 @@
+{% load static %}
+
+<!-- Atra Ultra Premium Glass Footer -->
+<footer class="atra-ultra-footer">
+    <!-- Glowing Orbs Behind the Glass -->
+    <div class="footer-glow glow-left"></div>
+    <div class="footer-glow glow-right"></div>
+
+    <div class="footer-content-wrapper">
+        <div class="footer-grid">
+
+            <!-- Column 1: Brand & Socials -->
+            <div class="footer-col brand-col">
+                <a href="{% url 'core:home' %}" title="بازگشت به صفحه اصلی">
+                    <img src="{% static 'img/logo.png' %}" alt="لوگو آترا" class="footer-main-logo">
+                </a>
+                <p class="brand-desc">
+                    حسابداری پیچیده را فراموش کنید! آترا، دستیار مالی هوشمند و آفلاین شماست که همیشه و همه‌جا در جیب
+                    شماست.
+                </p>
+                <div class="social-icons">
+                    <!-- Instagram -->
+                    <a href="#" class="social-link" title="اینستاگرام">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                        </svg>
+                    </a>
+                    <!-- Telegram -->
+                    <a href="#" class="social-link" title="تلگرام">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                        </svg>
+                    </a>
+                    <!-- LinkedIn -->
+                    <a href="#" class="social-link" title="لینکدین">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                            <rect x="2" y="9" width="4" height="12"></rect>
+                            <circle cx="4" cy="4" r="2"></circle>
+                        </svg>
+                    </a>
+                    <!-- YouTube -->
+                    <a href="#" class="social-link" title="یوتیوب">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33 2.78 2.78 0 0 0 1.94 2c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.33 29 29 0 0 0-.46-5.33z"></path>
+                            <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Column 2: App Links -->
+            <div class="footer-col links-col">
+                <h4 class="footer-title">دسترسی سریع</h4>
+                <ul class="footer-links">
+                    <li><a href="#">ثبت آفلاین اطلاعات</a></li>
+                    <li><a href="#">راهنمای نصب اپلیکیشن</a></li>
+                    <li><a href="#">وبلاگ آموزشی آترا</a></li>
+                    <li><a href="#">سوالات متداول</a></li>
+                     <li><a href="{% url 'core:infrastructure_costs' %}">هزینه‌ها</a></li>
+                    <li><a href="{% url 'core:about_us' %}">سازنده</a></li>
+                </ul>
+            </div>
+
+            <!-- Column 3: Newsletter (شیک و مینیمال) -->
+            <div class="footer-col newsletter-col">
+                <h4 class="footer-title">عضویت در خبرنامه</h4>
+                <p class="newsletter-desc">از آخرین آپدیت‌های اپلیکیشن و تخفیف‌ها مطلع شوید.</p>
+
+                <!-- در فایل HTML قالب شما -->
+                <form class="newsletter-form" id="newsletterForm" data-url="{% url 'core:subscribe_newsletter' %}">
+                    {% csrf_token %}
+                    <div class="input-group">
+                        <input type="email" id="newsletterEmail" placeholder="ایمیل خود را وارد کنید..." required>
+                        <button type="submit" class="submit-btn" title="عضویت">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="19" y1="12" x2="5" y2="12"></line>
+                                <polyline points="12 19 5 12 12 5"></polyline>
+                            </svg>
+                        </button>
+                    </div>
+                </form>
+
+
+                <p id="newsletterMessage"
+                   style="margin-top: 10px; font-size: 13px; font-weight: bold; display: none; transition: 0.3s;"></p>
+            </div>
+
+
+            <!-- Column 4: Download Images -->
+            <div class="footer-col contact-col">
+                <h4 class="footer-title">دریافت اپلیکیشن</h4>
+
+                <!-- جایگاه‌های تصویر استورها -->
+                <div class="app-store-badges">
+                    <!-- تصویر گوگل پلی -->
+                    <a href="#" class="store-badge-link">
+                        <img src="{% static 'img/google.png' %}" alt="دانلود از Google Play" class="store-badge-img">
+                    </a>
+                    <!-- تصویر اپ استور -->
+                    <a href="#" class="store-badge-link">
+                        <img src="{% static 'img/apple.png' %}" alt="دانلود از App Store" class="store-badge-img">
+                    </a>
+                    <!-- تصویر کافه بازار -->
+                    <a href="#" class="store-badge-link">
+                        <img src="{% static 'img/baz.jpg' %}" alt="دانلود از Cafe Bazaar" class="store-badge-img">
+                    </a>
+                </div>
+
+                <div class="contact-info-mini">
+                    <p>پشتیبانی: ۰۲۱-۸۸۸۸۸۸۸۸</p>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="footer-bottom-container">
+            <p class="copyright-text">
+                تمامی حقوق برای اپلیکیشن حسابداری <span class="atra-highlight">آترا</span> محفوظ است. &copy; ۱۴۰۵
+            </p>
+            <div class="footer-legal-links">
+                <a href="{% url 'core:terms' %}">قوانین و مقررات</a>
+                <span class="separator">&bull;</span>
+                <a href="{% url 'core:privacy' %}">حریم خصوصی</a>
+            </div>
+        </div>
+
+    </div>
+</footer>

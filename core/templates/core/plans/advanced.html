@@ -1,0 +1,241 @@
+{% extends 'parent/base.html' %}
+{% load static %}
+
+<!-- اضافه کردن تایتل اختصاصی صفحه -->
+{% block title %}خرید پلن پیشرفته | اپلیکیشن حسابداری آفلاین آتراوب{% endblock %}
+
+{% block extra_css %}
+    <link href="{% static 'css/plan.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+    <div class="atra-plan-wrapper">
+
+        <!-- هدر صفحه پلن -->
+        <!-- هدر صفحه پلن (آپدیت شده با متغیرهای داینامیک) -->
+<header class="plan-hero">
+
+    {% comment %} اگر بج تکست در ادمین پر شده بود، نمایشش بده {% endcomment %}
+    {% if plan.badge_text %}
+    <div class="plan-badge-popular">{{ plan.badge_text }}</div>
+    {% endif %}
+
+    <h1 class="plan-title">{{ plan.title }}</h1>
+
+    {% if plan.subtitle %}
+    <p class="plan-subtitle">{{ plan.subtitle }}</p>
+    {% endif %}
+
+    <div class="plan-price-box">
+        <span class="price-currency">تومان</span>
+        {% comment %}
+        اینجا از پراپرتی جدیدی که در models.py ساختیم استفاده می‌کنیم.
+        عدد کاملاً فارسی و با کاما نمایش داده می‌شود و دیگر نیازی به humanize نیست!
+        {% endcomment %}
+        <span class="price-amount">{{ plan.persian_price }}</span>
+        <span class="price-period">/ {{ plan.period }}</span>
+    </div>
+
+    {% comment %}
+    ==================================================================
+    کد نهایی دکمه خرید هوشمند (داینامیک شده با دیتابیس)
+    ==================================================================
+    {% endcomment %}
+   {% if user.is_authenticated %}
+    {% comment %} کاربر لاگین کرده {% endcomment %}
+    <a href="{% url 'accounts:profile_dashboard' %}"
+       onclick="addPlanToProforma(event, this.href, '{{ plan.slug }}', '{{ plan.title }}', '{{ plan.price }}')"
+       class="plan-cta-button">
+        همین الان شروع کنید
+    </a>
+{% else %}
+    {% comment %} کاربر لاگین نکرده {% endcomment %}
+    <a href="{% url 'accounts:login' %}?next={% url 'accounts:profile_dashboard' %}"
+       onclick="addPlanToProforma(event, this.href, '{{ plan.slug }}', '{{ plan.title }}', '{{ plan.price }}')"
+       class="plan-cta-button">
+        همین الان شروع کنید
+    </a>
+{% endif %}
+
+
+    <p class="plan-guarantee">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+        </svg>
+        ۷ روز گارانتی بازگشت وجه بی‌قید و شرط
+    </p>
+</header>
+
+        <!-- بخش توضیحات بی‌نظیر و مفصل امکانات -->
+        <section class="plan-features-section">
+            <h2 class="section-heading">ارزش‌هایی که با خرید این پلن به دست می‌آورید:</h2>
+            <p class="section-subheading">ما فقط یک نرم‌افزار به شما نمی‌فروشیم، ما یک زیرساخت مالی شکست‌ناپذیر برای
+                کسب‌وکار شما بنا می‌کنیم.</p>
+
+            <div class="features-grid-detailed">
+
+                <!-- کارت امکانات ۱: معماری آفلاین -->
+                <div class="feature-card-pro">
+                    <div class="card-pro-header">
+                        <div class="feature-icon-wrapper green-bg">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#059669"
+                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path>
+                                <line x1="12" y1="2" x2="12" y2="12"></line>
+                            </svg>
+                        </div>
+                        <h3 class="feature-title">عملکرد ۱۰۰٪ مستقل از اینترنت (Offline-First)</h3>
+                    </div>
+                    <p class="feature-desc">در این پلن، هسته اصلی اپلیکیشن حسابداری مستقیماً روی مرورگر یا دستگاه شما
+                        بارگذاری می‌شود. شما برای ثبت اسناد مالی منتظر لودینگ‌های طولانی سرور نمی‌مانید.</p>
+                    <ul class="feature-bullet-list">
+                        <li>
+                            <svg viewBox="0 0 24 24">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            <b>صدور فاکتور در قطعی مطلق:</b> در اوج قطعی اینترنت، فاکتور صادر کنید، پرینت بگیرید و به
+                            مشتری بدهید.
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            <b>سرعت واکنش میلی‌ثانیه‌ای:</b> چون داده‌ها محلی پردازش می‌شوند، تغییر بین تب‌ها و ثبت
+                            سندها بدون صفر ثانیه تاخیر انجام می‌شود.
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            <b>همگام‌سازی پس‌زمینه (Background Sync):</b> به محض اتصال به اینترنت، سیستم بدون دخالت شما
+                            تمامی تراکنش‌های آفلاین را با سرور یکپارچه می‌کند.
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- کارت امکانات ۲: حسابداری و انبارداری -->
+                <div class="feature-card-pro">
+                    <div class="card-pro-header">
+                        <div class="feature-icon-wrapper green-bg">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#059669"
+                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                <line x1="3" y1="9" x2="21" y2="9"></line>
+                                <line x1="9" y1="21" x2="9" y2="9"></line>
+                            </svg>
+                        </div>
+                        <h3 class="feature-title">ماژول‌های حسابداری و انبارداری پیشرفته</h3>
+                    </div>
+                    <p class="feature-desc">این فقط یک صندوق فروشگاهی نیست؛ یک سیستم یکپارچه دوطرفه (Double-entry) است
+                        که مو به موی موجودی و جریانات نقدی شما را کنترل می‌کند.</p>
+                    <ul class="feature-bullet-list">
+                        <li>
+                            <svg viewBox="0 0 24 24">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            <b>مدیریت چند انبار همزمان:</b> موجودی کالاها را در ۳ انبار یا شعبه مختلف به صورت مجزا تعریف
+                            و ردیابی کنید.
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            <b>سقف فاکتور نامحدود:</b> در طول یک سال هر تعداد فاکتور خرید، فروش و مرجوعی که نیاز دارید
+                            صادر کنید (بدون محدودیت سیستمی).
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            <b>گزارشات ترازنامه و سود و زیان:</b> تولید خودکار خروجی‌های استاندارد مالیاتی با یک کلیک،
+                            حتی در حالت آفلاین.
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- کارت امکانات ۳: بکاپ هوشمند و امنیت -->
+                <div class="feature-card-pro">
+                    <div class="card-pro-header">
+                        <div class="feature-icon-wrapper green-bg">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#059669"
+                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"></path>
+                            </svg>
+                        </div>
+                        <h3 class="feature-title">تکنولوژی Smart Backup و امنیت غیرمتمرکز</h3>
+                    </div>
+                    <p class="feature-desc">داده‌های مالی شما ناموس کسب‌وکار شماست. ما از معماری چندلایه برای جلوگیری از
+                        هرگونه مفقودی یا سرقت اطلاعات استفاده می‌کنیم.</p>
+                    <ul class="feature-bullet-list">
+                        <li>
+                            <svg viewBox="0 0 24 24">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            <b>بکاپ‌گیری دوگانه و رمزنگاری‌شده:</b> فایل پشتیبان هم روی حافظه مرورگر شما و هم روی فضای
+                            ابری (با رمزنگاری AES-256) ذخیره می‌شود.
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            <b>ریکاوری ماشین زمان (Time-Machine):</b> امکان بازگردانی دیتابیس مالی به هر ساعت از ۳۰ روز
+                            گذشته در صورت اشتباهات کاربری.
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            <b>مالکیت کامل داده‌ها:</b> برخلاف نرم‌افزارهای ابری سنتی، فایل خام دیتابیس همیشه در سیستم
+                            خودتان نیز در دسترس است.
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- کارت امکانات ۴: پایداری و پشتیبانی -->
+                <div class="feature-card-pro">
+                    <div class="card-pro-header">
+                        <div class="feature-icon-wrapper green-bg">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#059669"
+                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                            </svg>
+                        </div>
+                        <h3 class="feature-title">پایداری صنعتی ۹۹.۹۹٪ و پشتیبانی ویژه</h3>
+                    </div>
+                    <p class="feature-desc">برای زمان‌هایی که به راهنمایی نیاز دارید یا اینترنت وصل است و می‌خواهید
+                        داده‌ها را سینک کنید، قدرتمندترین زیرساخت را در اختیار دارید.</p>
+                    <ul class="feature-bullet-list">
+                        <li>
+                            <svg viewBox="0 0 24 24">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            <b>آپتایم سرور سینک ۹۹.۹۹٪:</b> استفاده از کلاسترهای پرقدرت برای اطمینان از اینکه عملیات
+                            همگام‌سازی هرگز متوقف نمی‌شود.
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            <b>پشتیبانی اولویت‌دار (VIP):</b> تیکت‌های شما خارج از نوبت بررسی شده و زمان پاسخگویی
+                            گارانتی‌شده زیر ۳۰ دقیقه است.
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            <b>آموزش و Onboarding اختصاصی:</b> یک جلسه آنلاین رایگان برای راه‌اندازی، تنظیم کدینگ
+                            حسابداری و آموزش پرسنل شما.
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </section>
+
+    </div>
+    {% block extra_js %}
+        <script src="{% static 'js/plans.js' %}"></script>
+    {% endblock %}
+
+{% endblock %}

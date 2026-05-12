@@ -1,0 +1,212 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ثبت‌نام در آتراوب | پلتفرم مدیریت هوشمند</title>
+
+    <!-- فراخوانی CSS از اپ Core -->
+    <!-- توجه: اگر ساختار پوشه استاتیک در core به شکل core/static/css است، مسیر زیر درست است -->
+    <link rel="stylesheet" href="{% static 'css/oauth/oauth.css' %}">
+
+    <!-- فونت آیکون برای چشمک پسورد و آیکون‌های اسلایدر -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+<div class="oauth-container">
+
+    <!-- ==========================================
+         پنل سمت راست: فرم ثبت‌نام (۴۰٪ عرض صفحه)
+    =========================================== -->
+    <div class="oauth-form-panel">
+        <div class="form-wrapper">
+            <!-- هدر و لوگو -->
+            <div class="brand-logo">
+                <a href="/" class="logo-link">
+                    <img src="{% static 'img/logo.png' %}" alt="اترا اپ" class="logo-img">
+                </a>
+            </div>
+
+
+            <div class="form-header">
+                <h1>خوش‌آمدید!</h1>
+                <p>برای شروع تجربه کاربری متفاوت، اطلاعات خود را وارد کنید.</p>
+            </div>
+
+            <!-- فرم ثبت‌نام جنگو -->
+            <form method="POST"
+                  action="{% url 'accounts:register' %}{% if next_url %}?next={{ next_url }}{% endif %}"
+                  class="atra-form" novalidate>
+                {% csrf_token %}
+
+                {% comment %} الان دیگه این متغیر مستقیم از ویو میاد و هیچ ارور QueryDict نمی‌ده {% endcomment %}
+                {% if next_url %}
+                    <input type="hidden" name="next" value="{{ next_url }}">
+                {% endif %}
+
+                <!-- نمایش ارورهای کلی فرم (مثل خطاهای Clean متد) -->
+                {% if form.non_field_errors %}
+                    <div class="alert-danger">
+                        {% for error in form.non_field_errors %}
+                            <p><i class="fa-solid fa-triangle-exclamation"></i> {{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <!-- فیلد نام کاربری -->
+                <div class="input-group">
+                    <label for="{{ form.username.id_for_label }}">نام کاربری <span class="required">*</span></label>
+                    {{ form.username }}
+                    {% if form.username.errors %}<span class="error-text">{{ form.username.errors.0 }}</span>{% endif %}
+                </div>
+
+                <!-- فیلد شماره موبایل -->
+                <div class="input-group">
+                    <label for="{{ form.phone.id_for_label }}">شماره موبایل <span class="required">*</span></label>
+                    {{ form.phone }}
+                    {% if form.phone.errors %}<span class="error-text">{{ form.phone.errors.0 }}</span>{% endif %}
+                </div>
+
+                <!-- فیلد ایمیل -->
+                <div class="input-group">
+                    <label for="{{ form.email.id_for_label }}">ایمیل <span class="optional">(اختیاری)</span></label>
+                    {{ form.email }}
+                    {% if form.email.errors %}<span class="error-text">{{ form.email.errors.0 }}</span>{% endif %}
+                </div>
+
+                <!-- فیلد رمز عبور -->
+                <div class="input-group">
+                    <label for="{{ form.password.id_for_label }}">رمز عبور <span class="required">*</span></label>
+                    <div class="password-wrapper">
+                        {{ form.password }}
+                        <i class="fa-regular fa-eye toggle-password"></i>
+                    </div>
+                    {% if form.password.errors %}<span class="error-text">{{ form.password.errors.0 }}</span>{% endif %}
+                </div>
+
+                <!-- فیلد تکرار رمز عبور -->
+                <div class="input-group">
+                    <label for="{{ form.confirm_password.id_for_label }}">تکرار رمز عبور <span class="required">*</span></label>
+                    <div class="password-wrapper">
+                        {{ form.confirm_password }}
+                        <i class="fa-regular fa-eye toggle-password"></i>
+                    </div>
+                    {% if form.confirm_password.errors %}
+                        <span class="error-text">{{ form.confirm_password.errors.0 }}</span>{% endif %}
+                </div>
+
+                <button type="submit" class="btn-submit">ایجاد حساب کاربری <i class="fa-solid fa-arrow-left"></i>
+                </button>
+            </form>
+
+            <div class="form-footer">
+                <a href="{% url 'accounts:login' %}{% if next_url %}?next={{ next_url }}{% endif %}"
+                   class="login-link">
+                    قبلاً ثبت‌نام کرده‌اید؟ وارد شوید
+                </a>
+            </div>
+
+
+        </div>
+    </div>
+
+    <!-- ==========================================
+         پنل سمت چپ: اسلایدر ویژگی‌ها (۶۰٪ عرض صفحه)
+    =========================================== -->
+    <div class="oauth-slider-panel">
+        <div class="slider-overlay"></div>
+        <div class="slider-container">
+
+            <!-- اسلاید ۱ -->
+            <div class="slide active">
+                <div class="slide-icon"><i class="fa-solid fa-bolt"></i></div>
+                <h3>سرعت و قدرت بی‌نظیر</h3>
+                <p>تجربه‌ای سریع و روان با هسته قدرتمند آتراوب. داده‌های خود را در کسری از ثانیه مدیریت و تحلیل
+                    کنید.</p>
+            </div>
+
+            <!-- اسلاید ۲ -->
+            <div class="slide">
+                <div class="slide-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                <h3>امنیت و حریم خصوصی</h3>
+                <p>امنیت داده‌های شما، اولویت اول در اکوسیستم آترا است. با خیال راحت و در محیطی ایزوله کار کنید.</p>
+            </div>
+
+            <!-- اسلاید ۳ -->
+            <div class="slide">
+                <div class="slide-icon"><i class="fa-solid fa-layer-group"></i></div>
+                <h3>دسترسی کاملا اف لاین به سیستم </h3>
+                <p>دسترسی به جامع‌ترین پنل مدیریتی کسب‌وکار شما؛ کاملاً آفلاین، بدون نیاز به اینترنت، با بالاترین سطح
+                    امنیت و شخصی‌سازی شده دقیقاً برای نیازهای شما.</p></div>
+
+            <!-- نقاط ناوبری اسلایدر -->
+            <div class="slider-dots">
+                <span class="dot active" onclick="currentSlide(1)"></span>
+                <span class="dot" onclick="currentSlide(2)"></span>
+                <span class="dot" onclick="currentSlide(3)"></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- اسکریپت‌های صفحه (اسلایدر و نمایش پسورد) -->
+<script>
+    // --- Slider Logic ---
+    let slideIndex = 1;
+    const slides = document.querySelectorAll('.slide');
+    const dots = document.querySelectorAll('.dot');
+    let slideTimer;
+
+    function showSlides(n) {
+        if (n > slides.length) {
+            slideIndex = 1
+        }
+        if (n < 1) {
+            slideIndex = slides.length
+        }
+
+        slides.forEach(slide => slide.classList.remove('active'));
+        dots.forEach(dot => dot.classList.remove('active'));
+
+        slides[slideIndex - 1].classList.add('active');
+        dots[slideIndex - 1].classList.add('active');
+    }
+
+    function currentSlide(n) {
+        clearInterval(slideTimer); // ریست کردن تایمر وقتی کاربر کلیک میکنه
+        showSlides(slideIndex = n);
+        startTimer(); // شروع مجدد تایمر
+    }
+
+    function startTimer() {
+        slideTimer = setInterval(() => {
+            slideIndex++;
+            showSlides(slideIndex);
+        }, 4500); // هر 4.5 ثانیه اسلاید عوض میشه
+    }
+
+    startTimer(); // استارت اولیه
+
+    // --- Toggle Password Visibility ---
+    const toggleIcons = document.querySelectorAll('.toggle-password');
+    toggleIcons.forEach(icon => {
+        icon.addEventListener('click', function () {
+            // پیدا کردن اینپوت پسورد همسایه
+            const input = this.previousElementSibling;
+            if (input.type === 'password') {
+                input.type = 'text';
+                this.classList.remove('fa-eye');
+                this.classList.add('fa-eye-slash');
+                this.style.color = 'var(--primary-color)';
+            } else {
+                input.type = 'password';
+                this.classList.remove('fa-eye-slash');
+                this.classList.add('fa-eye');
+                this.style.color = 'var(--text-muted)';
+            }
+        });
+    });
+</script>
+</body>
+</html>

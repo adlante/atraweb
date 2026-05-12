@@ -1,0 +1,568 @@
+/* ==========================================================================
+   Article Page Styles (Isolated Classes)
+   ========================================================================== */
+
+.article-page-wrapper {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 0 20px;
+    direction: rtl;
+    font-family: 'Vazirmatn', Tahoma, sans-serif; /* فونت دلخواهت رو تنظیم کن */
+    color: #334155;
+}
+
+.single-article {
+    background: #ffffff;
+    border-radius: 24px;
+    padding: 40px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.03);
+}
+
+/* Header Styles */
+.article-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.article-badges {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.badge {
+    padding: 6px 14px;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.category-badge {
+    background-color: #ecfdf5;
+    color: #059669; /* رنگ سبز آترا */
+}
+
+.hot-badge {
+    background-color: #fef2f2;
+    color: #dc2626;
+}
+
+.article-main-title {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #0f172a;
+    line-height: 1.5;
+    margin-bottom: 20px;
+}
+
+.article-meta-info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    color: #64748b;
+    font-size: 0.95rem;
+}
+
+.meta-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Image Containers */
+.article-image-container {
+    margin: 40px 0;
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+}
+
+.hero-image {
+    margin-top: 0;
+}
+
+.responsive-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 16px;
+    transition: transform 0.3s ease;
+}
+
+.article-image-container:hover .responsive-img {
+    transform: scale(1.02);
+}
+
+.image-caption {
+    text-align: center;
+    font-size: 0.85rem;
+    color: #94a3b8;
+    margin-top: 12px;
+    font-style: italic;
+}
+
+/* Body Content Styles */
+.article-body-content {
+    font-size: 1.1rem;
+    line-height: 2;
+    color: #475569;
+}
+
+.lead-paragraph {
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: #1e293b;
+    line-height: 1.9;
+    margin-bottom: 30px;
+}
+
+.article-body-content h2 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    position: relative;
+    padding-right: 15px;
+}
+
+.article-body-content h2::before {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 15%;
+    height: 70%;
+    width: 4px;
+    background: #10b981; /* رنگ سبز آترا */
+    border-radius: 4px;
+}
+
+.article-body-content p {
+    margin-bottom: 24px;
+}
+
+/* Blockquote Style */
+.article-quote-box {
+    margin: 40px 0;
+    padding: 30px;
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    border-right: 5px solid #10b981;
+    border-radius: 12px 0 0 12px;
+    font-size: 1.2rem;
+    font-style: italic;
+    font-weight: 600;
+    color: #0f172a;
+    line-height: 1.8;
+}
+
+/* Footer Actions */
+.article-footer-actions {
+    margin-top: 50px;
+    padding-top: 30px;
+    border-top: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.btn-back-to-list {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 24px;
+    background-color: #f8fafc;
+    color: #334155;
+    text-decoration: none;
+    border-radius: 12px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    border: 1px solid #e2e8f0;
+}
+
+.btn-back-to-list:hover {
+    background-color: #f1f5f9;
+    color: #059669; /* هاور سبز */
+    transform: translateX(5px); /* حرکت ریز به سمت راست در زبان فارسی */
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .single-article {
+        padding: 20px;
+    }
+
+    .article-main-title {
+        font-size: 1.6rem;
+    }
+
+    .lead-paragraph {
+        font-size: 1.1rem;
+    }
+
+    .article-body-content h2 {
+        font-size: 1.3rem;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+/* core/static/css/article_dc.css */
+
+/* نگهدارنده اصلی دو ستونه */
+.dc-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+    display: flex;
+    gap: 40px;
+    align-items: flex-start; /* برای کار کردن حالت sticky سایدبار الزامی است */
+}
+
+/* استایل سایدبار (ستون سمت راست) */
+.dc-sidebar {
+    flex: 0 0 300px; /* عرض ثابت سایدبار */
+    position: sticky;
+    top: 100px; /* فاصله از بالا هنگام اسکرول (بستگی به ارتفاع هدر سایتت داره) */
+}
+
+/* ویجت‌های سایدبار */
+.sidebar-widget {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 25px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+    border: 1px solid #f0f0f0;
+}
+
+/* ویجت نویسنده */
+.author-widget {
+    text-align: center;
+}
+
+.author-avatar {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 15px;
+    border: 3px solid #e0e7ff;
+}
+
+.author-name {
+    font-size: 1.2rem;
+    color: #1f2937;
+    margin: 0 0 5px 0;
+    font-weight: 700;
+}
+
+.author-role {
+    font-size: 0.9rem;
+    color: #6b7280;
+    margin: 0;
+}
+
+/* ویجت فهرست مطالب */
+.widget-title {
+    font-size: 1.1rem;
+    color: #111827;
+    margin-top: 0;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e5e7eb;
+    font-weight: bold;
+}
+
+.toc-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.toc-list li {
+    margin-bottom: 12px;
+}
+
+.toc-list li:last-child {
+    margin-bottom: 0;
+}
+
+.toc-list a {
+    text-decoration: none;
+    color: #4b5563;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+}
+
+.toc-list a:hover {
+    color: #4f46e5; /* رنگ اصلی برند آترا رو اینجا بذار */
+    transform: translateX(-5px); /* افکت حرکت به سمت چپ در زبان فارسی */
+}
+
+/* محتوای اصلی مقاله (ستون سمت چپ) */
+.dc-main-content {
+    flex: 1; /* پر کردن فضای باقیمانده */
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 40px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+    border: 1px solid #f0f0f0;
+}
+
+/* طراحی واکنش‌گرا (Responsive) */
+@media (max-width: 992px) {
+    .dc-container {
+        flex-direction: column; /* تغییر به حالت تک ستونه در موبایل و تبلت */
+    }
+
+    .dc-sidebar {
+        width: 100%;
+        flex: none;
+        position: static; /* غیرفعال کردن sticky در موبایل */
+        order: 2; /* انتقال سایدبار به زیر مقاله در موبایل (اختیاری) */
+    }
+
+    .dc-main-content {
+        order: 1;
+        width: 100%;
+        padding: 20px;
+    }
+}
+
+
+
+
+
+
+/* ==========================================================================
+   فایل استایل عمومی برای مقالات تک‌ستونه سایت آترا (article.css)
+   ========================================================================== */
+
+/* نگهدارنده کل صفحه مقاله */
+.article-page-wrapper {
+    background-color: #f9fafb; /* رنگ پس‌زمینه خیلی ملایم برای تمایز با محتوا */
+    padding: 60px 20px;
+    font-family: 'IRANSans', Tahoma, Arial, sans-serif; /* فونت استانداردت رو اینجا بذار */
+}
+
+/* ساختار بدنه اصلی مقاله */
+.single-article {
+    background-color: #ffffff;
+    max-width: 900px;
+    margin: 0 auto;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    padding: 50px 60px;
+    overflow: hidden;
+}
+
+/* --------------------------------------------------------------------------
+   هدر مقاله (بج‌ها، عنوان و متا دیتا)
+   -------------------------------------------------------------------------- */
+.article-header {
+    margin-bottom: 40px;
+    text-align: right;
+}
+
+.article-badges {
+    margin-bottom: 20px;
+}
+
+.badge {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+.category-badge {
+    background-color: #e0e7ff;
+    color: #4338ca;
+}
+
+.hot-badge {
+    background-color: #fee2e2;
+    color: #ef4444;
+}
+
+.article-main-title {
+    font-size: 2.2rem;
+    color: #111827;
+    line-height: 1.5;
+    margin-bottom: 20px;
+    font-weight: 900;
+}
+
+.article-meta-info {
+    display: flex;
+    gap: 20px;
+    color: #6b7280;
+    font-size: 0.95rem;
+    border-bottom: 1px solid #f3f4f6;
+    padding-bottom: 20px;
+}
+
+.meta-item {
+    display: flex;
+    align-items: center;
+}
+
+/* --------------------------------------------------------------------------
+   تصاویر مقاله
+   -------------------------------------------------------------------------- */
+.article-image-container {
+    margin: 30px 0;
+    text-align: center;
+}
+
+.hero-image {
+    margin-top: 0;
+}
+
+.responsive-img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.image-caption {
+    margin-top: 12px;
+    font-size: 0.9rem;
+    color: #6b7280;
+    font-style: italic;
+}
+
+/* --------------------------------------------------------------------------
+   محتوای متنی (پاراگراف‌ها، تیترها و لیست‌ها)
+   -------------------------------------------------------------------------- */
+.article-body-content {
+    color: #374151;
+    font-size: 1.1rem;
+    line-height: 1.9;
+}
+
+.lead-paragraph {
+    font-size: 1.25rem;
+    color: #1f2937;
+    font-weight: bold;
+    margin-bottom: 30px;
+    line-height: 1.8;
+}
+
+.article-body-content h2 {
+    font-size: 1.6rem;
+    color: #111827;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.article-body-content p {
+    margin-bottom: 20px;
+}
+
+.article-body-content ul {
+    margin-bottom: 25px;
+    padding-right: 25px; /* برای راست‌چین بودن فارسی */
+}
+
+.article-body-content li {
+    margin-bottom: 10px;
+}
+
+.article-body-content strong {
+    color: #111827;
+}
+
+/* --------------------------------------------------------------------------
+   باکس نقل قول (Quote Box)
+   -------------------------------------------------------------------------- */
+.article-quote-box {
+    background-color: #f8fafc;
+    border-right: 5px solid #4f46e5; /* خط رنگی سمت راست برای زبان فارسی */
+    padding: 25px 30px;
+    margin: 40px 0;
+    border-radius: 12px 0 0 12px;
+    font-size: 1.2rem;
+    color: #1e293b;
+    font-style: italic;
+    font-weight: 600;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.article-quote-box p {
+    margin: 0;
+}
+
+/* --------------------------------------------------------------------------
+   فوتر مقاله و دکمه بازگشت
+   -------------------------------------------------------------------------- */
+.article-footer-actions {
+    margin-top: 50px;
+    padding-top: 30px;
+    border-top: 1px solid #f3f4f6;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.btn-back-to-list {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #ffffff;
+    color: #4f46e5;
+    padding: 12px 24px;
+    border-radius: 8px;
+    border: 1px solid #4f46e5;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.btn-back-to-list:hover {
+    background-color: #4f46e5;
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
+}
+
+/* --------------------------------------------------------------------------
+   واکنش‌گرایی (Responsive) برای موبایل و تبلت
+   -------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+    .single-article {
+        padding: 30px 20px;
+    }
+
+    .article-main-title {
+        font-size: 1.6rem;
+    }
+
+    .article-meta-info {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .article-body-content {
+        font-size: 1rem;
+    }
+
+    .lead-paragraph {
+        font-size: 1.1rem;
+    }
+}

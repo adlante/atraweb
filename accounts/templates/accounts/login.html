@@ -1,0 +1,220 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ورود به آتراوب | پلتفرم مدیریت هوشمند</title>
+
+    <!-- فراخوانی CSS اختصاصی صفحه لاگین -->
+    <link rel="stylesheet" href="{% static 'css/oauth/oauth.css' %}">
+
+    <!-- فونت آیکون‌ها -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+<div class="oauth-container">
+
+    <!-- ==========================================
+         پنل سمت راست: فرم ورود (۴۰٪ عرض صفحه)
+    =========================================== -->
+    <div class="oauth-form-panel">
+        <div class="form-wrapper">
+
+            <!-- هدر و لوگو -->
+            <div class="brand-logo">
+                <a href="/" class="logo-link">
+                    <img src="{% static 'img/logo.png' %}" alt="اترا اپ" class="logo-img">
+                </a>
+            </div>
+
+            <div class="form-header">
+                <h1>خوش برگشتید!</h1>
+                <p>برای دسترسی به داشبورد مدیریتی، لطفاً وارد حساب خود شوید.</p>
+            </div>
+
+            <!-- فرم ورود با کلاس‌های اختصاصی لاگین -->
+            <!-- درون تگ form در فایل login.html اینگونه بنویس: -->
+
+
+            <form class="atra-login-form" method="POST" action="{% url 'accounts:login' %}" novalidate>
+                {% csrf_token %}
+
+                {% comment %} سیستم هوشمند حفظ مسیر (بدون ارور QueryDict) {% endcomment %}
+                {% if next_url %}
+                    <input type="hidden" name="next" value="{{ next_url }}">
+                {% endif %}
+
+                <!-- نمایش ارورهای فرم (مسیج‌های ارور از ویو) -->
+                {% if messages %}
+                    <div class="messages">
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }}"
+                                 style="color: #ff4d4f; margin-bottom: 15px; font-size: 14px;">
+                                <i class="fa-solid fa-triangle-exclamation"></i> {{ message }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <!-- فیلد شماره موبایل -->
+                <div class="login-input-group">
+                    <label for="{{ form.username.id_for_label }}">نام کاربری</label>
+                    <div class="input-icon-wrapper">
+                        <i class="fa-solid fa-user input-prefix-icon"></i>
+                        {{ form.username }}
+                    </div>
+                    {% if form.username.errors %}
+                        <span style="color: #ff4d4f; font-size: 12px; margin-top: 5px; display: block;">
+                {{ form.username.errors.0 }}
+            </span>
+                    {% endif %}
+                </div>
+
+                <!-- فیلد رمز عبور -->
+                <div class="login-input-group">
+                    <div class="label-with-link">
+                        <label for="{{ form.password.id_for_label }}">رمز عبور</label>
+                        <a href="{% url 'accounts:password_reset_request' %}" class="forgot-password-link" >رمز عبور را فراموش کردید؟</a>
+                    </div>
+                    <div class="input-icon-wrapper password-wrapper">
+                        <i class="fa-solid fa-lock input-prefix-icon"></i>
+                        {{ form.password }}
+                        <i class="fa-regular fa-eye toggle-password"></i>
+                    </div>
+                    {% if form.password.errors %}
+                        <span style="color: #ff4d4f; font-size: 12px; margin-top: 5px; display: block;">
+                {{ form.password.errors.0 }}
+            </span>
+                    {% endif %}
+                </div>
+
+                <div class="remember-me-group">
+                    <input type="checkbox" id="remember-me" name="remember_me">
+                    <label for="remember-me">مرا به خاطر بسپار</label>
+                </div>
+
+                <button type="submit" class="btn-login-submit">
+                    ورود به سیستم <i class="fa-solid fa-right-to-bracket"></i>
+                </button>
+            </form>
+
+            <div class="form-footer">
+                <p>
+                    <a href="{% url 'accounts:register' %}{% if next_url %}?next={{ next_url }}{% endif %}"
+                       class="register-link">
+                        حساب کاربری ندارید؟ ثبت‌نام کنید
+                    </a>
+                </p>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ==========================================
+         پنل سمت چپ: اسلایدر ویژگی‌های جدید (۶۰٪ عرض صفحه)
+    =========================================== -->
+    <div class="oauth-slider-panel">
+        <div class="slider-overlay"></div>
+        <div class="slider-container">
+
+            <!-- اسلاید ۱: هوش مصنوعی و تحلیل -->
+            <div class="slide active">
+                <div class="slide-icon"><i class="fa-solid fa-brain"></i></div>
+                <h3>تحلیل‌های هوشمند و عمیق</h3>
+                <p>با الگوریتم‌های هوش مصنوعی آتراوب، داده‌های خام را به تصمیمات استراتژیک تبدیل کنید. آینده کسب‌وکارتان
+                    را پیش‌بینی کنید.</p>
+            </div>
+
+            <!-- اسلاید ۲: کار تیمی -->
+            <div class="slide">
+                <div class="slide-icon"><i class="fa-solid fa-users-gear"></i></div>
+                <h3>هم‌افزایی بی‌نظیر تیمی</h3>
+                <p>مدیریت دسترسی‌ها، پیگیری وظایف و ارتباطات درون‌سازمانی در یک بستر یکپارچه. اعضای تیم شما همیشه روی یک
+                    موج هستند.</p>
+            </div>
+
+            <!-- اسلاید ۳: ابری و همیشه در دسترس -->
+            <div class="slide">
+                <div class="slide-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+                <h3>دسترسی ابری و همگام‌سازی</h3>
+                <p>اطلاعات شما به صورت لحظه‌ای در زیرساخت ابری امن ما ذخیره می‌شود. از هر نقطه‌ای در جهان، به دفتر
+                    کارتان متصل باشید.</p>
+            </div>
+
+            <!-- نقاط ناوبری اسلایدر -->
+            <div class="slider-dots">
+                <span class="dot active" onclick="currentSlide(1)"></span>
+                <span class="dot" onclick="currentSlide(2)"></span>
+                <span class="dot" onclick="currentSlide(3)"></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // --- Slider Logic ---
+    let slideIndex = 1;
+    const slides = document.querySelectorAll('.slide');
+    const dots = document.querySelectorAll('.dot');
+    let slideTimer;
+
+    function showSlides(n) {
+        if (n > slides.length) {
+            slideIndex = 1
+        }
+        if (n < 1) {
+            slideIndex = slides.length
+        }
+
+        slides.forEach(slide => slide.classList.remove('active'));
+        dots.forEach(dot => dot.classList.remove('active'));
+
+        slides[slideIndex - 1].classList.add('active');
+        dots[slideIndex - 1].classList.add('active');
+    }
+
+    function currentSlide(n) {
+        clearInterval(slideTimer);
+        showSlides(slideIndex = n);
+        startTimer();
+    }
+
+    function startTimer() {
+        slideTimer = setInterval(() => {
+            slideIndex++;
+            showSlides(slideIndex);
+        }, 5000); // زمان رو کمی بیشتر کردم تا متن‌های جدید بهتر خونده بشن
+    }
+
+    startTimer();
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+        // انتخاب آیکون چشمک
+        const togglePasswordIcon = document.querySelector('.toggle-password');
+
+        // 🔥 ترفند جدید: انتخاب فیلد پسورد از طریق کلاس والد (بدون درگیری با آیدی جنگو)
+        const passwordInput = document.querySelector('.password-wrapper input');
+
+        // بررسی اینکه آیا عناصر در صفحه وجود دارند
+        if (togglePasswordIcon && passwordInput) {
+            togglePasswordIcon.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                // تغییر نوع اینپوت: اگر password است به text تبدیل شود و برعکس
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', type);
+
+                // تغییر ظاهر آیکون چشمک
+                this.classList.toggle('fa-eye');
+                this.classList.toggle('fa-eye-slash');
+            });
+        }
+    });
+
+
+</script>
+</body>
+</html>
