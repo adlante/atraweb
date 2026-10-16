@@ -61,20 +61,15 @@
                         پروفایل من
                     </a>
                 </li>
-                <!-- به id و onclick اضافه شده دقت کن -->
-                <li id="nav-password-edit">
-                    <a href="#" class="nav-link"
-                       onclick="showSection('edit-password-section', 'nav-password-edit'); return false;">
-                        <svg class="nav-link-icon" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor"
-                             stroke-width="2"
+                <li>
+                    <a href="#">
+                        <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2"
                              fill="none" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"></path>
                         </svg>
-                        <span>ویرایش پسورد</span>
+                        ویرایش پسورد
                     </a>
                 </li>
-
-
                 <!-- منوی خرید پلن‌ها -->
                 <li id="nav-plans">
                     <a href="javascript:void(0)" onclick="showSection('plans-section', 'nav-plans')">
@@ -233,42 +228,8 @@
                 </div>
             </form>
         </div>
-        <!-- ==========================================
-                                   تغییر رمز
-             ========================================== -->
-        <section id="edit-password-section" style="display: none;">
-            <div class="premium-card">
-                <div class="card-header">تغییر رمز عبور</div>
-                <div class="card-body">
-                    <form id="password-change-form" method="POST" action="{% url 'accounts:password_change_ajax' %}">
-                        {% csrf_token %}
-                        <div id="password-messages"></div>
 
-                        <div class="form-group">
-                            <label for="id_old_password">رمز عبور فعلی</label>
-                            <input type="password" name="old_password" id="id_old_password" class="form-control"
-                                   required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="id_new_password1">رمز عبور جدید</label>
-                            <input type="password" name="new_password1" id="id_new_password1" class="form-control"
-                                   required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="id_new_password2">تکرار رمز عبور جدید</label>
-                            <!-- دقت کنید: نام فیلد حتما باید new_password2 باشد -->
-                            <input type="password" name="new_password2" id="id_new_password2" class="form-control"
-                                   required>
-                        </div>
-
-                        <button type="submit" class="btn-primary-atra">ذخیره تغییرات</button>
-                    </form>
-                </div>
-            </div>
-        </section>
-
+        <!-- بخش پلن‌ها (اینجا هم درسته و دست نخورده) -->
         <!-- ==========================================
          بخش پلن‌ها (چهار پلن شیک و هماهنگ با جاوااسکریپت)
          ========================================== -->
@@ -383,13 +344,10 @@
         return commaSeparated.replace(/\d/g, x => persianDigits[x]);
     }
 
-    // کد آپدیت شده - این رو جایگزین کد قبلی کن
     function showSection(sectionId, navId) {
-        // مرحله ۱: ID های جدید رو به لیست ها اضافه میکنیم
-        let sections = ['profile-section', 'plans-section', 'my-licenses-section', 'edit-password-section']; // 'edit-password-section' اضافه شد
-        let navs = ['nav-profile', 'nav-plans', 'nav-licenses', 'nav-password-edit']; // 'nav-password-edit' اضافه شد
+        let sections = ['profile-section', 'plans-section', 'my-licenses-section'];
+        let navs = ['nav-profile', 'nav-plans', 'nav-licenses'];
 
-        // مرحله ۲: مثل قبل، همه رو مخفی و غیرفعال کن
         sections.forEach(id => {
             let sec = document.getElementById(id);
             if (sec) sec.style.display = 'none';
@@ -400,57 +358,12 @@
             if (nav) nav.classList.remove('active');
         });
 
-        // مرحله ۳: حالا بخش و منوی مورد نظر رو فعال کن
         let targetSec = document.getElementById(sectionId);
         if (targetSec) targetSec.style.display = 'block';
 
         let targetNav = document.getElementById(navId);
         if (targetNav) targetNav.classList.add('active');
-
-        // (اختیاری) برای بستن منوی موبایل بعد از کلیک
-        if (window.innerWidth <= 992) {
-            document.getElementById('sidebar').classList.remove('active');
-            document.getElementById('sidebarOverlay').classList.remove('active');
-        }
     }
-
-
-    document.getElementById('password-change-form').addEventListener('submit', function (e) {
-        e.preventDefault();
-        const form = this;
-        const formData = new FormData(form);
-        const msgDiv = document.getElementById('password-messages');
-
-        fetch(form.action, {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
-            }
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    msgDiv.innerHTML = `<div class="alert alert-success">${data.message}</div>`;
-                    form.reset();
-                } else {
-                    // نمایش خطاها
-                    let errorHtml = '<div class="alert alert-danger"><ul>';
-                    for (let field in data.errors) {
-                        data.errors[field].forEach(err => {
-                            errorHtml += `<li>${err}</li>`;
-                        });
-                    }
-                    errorHtml += '</ul></div>';
-                    msgDiv.innerHTML = errorHtml;
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                msgDiv.innerHTML = `<div class="alert alert-danger">خطای غیرمنتظره رخ داد.</div>`;
-            });
-    });
 
     // ==========================================
     // اجرای اسکریپت‌ها بعد از لود کامل صفحه (DOM)
@@ -462,7 +375,7 @@
         const overlay = document.getElementById('sidebarOverlay');
 
         function toggleMenu() {
-            if (sidebar && overlay) {
+            if(sidebar && overlay) {
                 sidebar.classList.toggle('active');
                 overlay.classList.toggle('active');
             }
@@ -515,20 +428,18 @@
                                 <span class="price-unit">${plan.suffix || 'تومان'}</span>
                             </div>
 
-                           <div class="proforma-action-group">
-    <!-- دکمه جدید چاپ -->
-    <button class="btn-print-icon" onclick="printInvoice('${plan.id}')" title="چاپ پیش‌فاکتور">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
-    </button>
+                            <div class="proforma-action-group">
+                                <!-- دکمه جدید چاپ -->
+                                <button class="btn-print-icon" onclick="printInvoice('${plan.id}')" title="چاپ پیش‌فاکتور">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+                                </button>
 
-    <button class="btn-delete-icon" onclick="cancelInvoice('${plan.id}')" title="حذف پیش‌فاکتور">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
-    </button>
+                                <button class="btn-delete-icon" onclick="cancelInvoice('${plan.id}')" title="حذف پیش‌فاکتور">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                                </button>
 
-    <!-- این خط اصلاح شد -->
-<a href="/accounts/dashboard/checkout/${plan.slug || plan.id}/" class="btn-pay-green">تکمیل خرید</a>
-</div>
-
+                                    <a href="/accounts/dashboard/checkout/${plan.id}/" class="btn-pay-green">تکمیل خرید</a>
+                            </div>
                         </div>
                     `;
                     licensesContainer.innerHTML += invoiceHTML;
@@ -537,19 +448,17 @@
             updateVisibility();
         }
 
-        window.cancelInvoice = function (planId) {
+        window.cancelInvoice = function(planId) {
             let proformaPlans = JSON.parse(localStorage.getItem('proforma_plans')) || [];
             proformaPlans = proformaPlans.filter(plan => String(plan.id) !== String(planId));
             localStorage.setItem('proforma_plans', JSON.stringify(proformaPlans));
             renderProformas();
         }
 
-
-
         // ==========================================
         // تابع موتور چاپ پیش‌فاکتور (کاملا حرفه‌ای و A4)
         // ==========================================
-        window.printInvoice = function (planId) {
+        window.printInvoice = function(planId) {
             let proformaPlans = JSON.parse(localStorage.getItem('proforma_plans')) || [];
             let plan = proformaPlans.find(p => String(p.id) === String(planId));
 
@@ -690,7 +599,7 @@
             printWindow.document.close();
 
             // پس از لود شدن فونت‌ها و استایل‌ها، دستور چاپ رو صادر می‌کنیم
-            printWindow.onload = function () {
+            printWindow.onload = function() {
                 setTimeout(() => {
                     printWindow.print();
                 }, 300); // یک مکث کوتاه برای اعمال کامل CSS و فونت Vazirmatn
@@ -699,66 +608,6 @@
 
         renderProformas();
     });
-
-// ==========================================
-// هندلر فرم تغییر رمز عبور (اصلاح شده)
-// ==========================================
-document.getElementById('password-change-form').addEventListener('submit', function (e) {
-    e.preventDefault();
-    const form = this;
-    const formData = new FormData(form);
-    const msgDiv = document.getElementById('password-messages');
-
-    // دیکشنری برای ترجمه نام فیلدهای انگلیسی به فارسی
-    const fieldLabels = {
-        'old_password': 'رمز عبور فعلی',
-        'new_password1': 'رمز عبور جدید',
-        'new_password2': 'تکرار رمز عبور جدید',
-        '__all__': 'خطای کلی' // برای خطاهایی که به فیلد خاصی مربوط نیستند
-    };
-
-    fetch(form.action, {
-        method: 'POST',
-        body: formData,
-        headers: {
-            'X-Requested-With': 'XMLHttpRequest',
-            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            msgDiv.innerHTML = `<div class="alert alert-success">${data.message}</div>`;
-            form.reset();
-        } else {
-            // نمایش خطاها با قابلیت ترجمه نام فیلدها
-            let errorHtml = '<div class="alert alert-danger"><ul style="margin: 0; padding-right: 20px;">';
-
-            // بررسی می‌کنیم آیا data.errors وجود دارد یا خیر
-            if (data.errors) {
-                for (const [field, messages] of Object.entries(data.errors)) {
-                    // دریافت نام فارسی یا استفاده از همان نام انگلیسی اگر پیدا نشد
-                    const label = fieldLabels[field] || field;
-
-                    messages.forEach(msg => {
-                        errorHtml += `<li><strong>${label}:</strong> ${msg}</li>`;
-                    });
-                }
-            } else {
-                // اگر خطا در قالب errors نبود (مثلاً خطای عمومی سرور)
-                errorHtml += `<li>خطای ناشناخته رخ داده است.</li>`;
-            }
-
-            errorHtml += '</ul></div>';
-            msgDiv.innerHTML = errorHtml;
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        msgDiv.innerHTML = `<div class="alert alert-danger">خطای غیرمنتظره رخ داد. لطفا دوباره تلاش کنید.</div>`;
-    });
-});
-
 </script>
 
 </body>

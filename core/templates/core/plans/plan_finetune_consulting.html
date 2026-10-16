@@ -1,0 +1,130 @@
+{% extends 'parent/base.html' %}
+{% load static %}
+
+{% block title %}پلن مشاوره و فاین‌تیونینگ مدل‌های زبانی (LoRA / QLoRA) | آترا{% endblock %}
+{% block meta_description %}خدمات ارزیابی، ساخت دیتاست استاندارد و آموزش وزن‌های مدل‌های زبانی Llama و Mistral با متد LoRA؛ کاهش مصرف سخت‌افزار و بومی‌سازی هوش مصنوعی.{% endblock %}
+{% block meta_keywords %}مشاوره فاین تیونینگ, هزینه آموزش مدل هوش مصنوعی, سفارشی سازی LLM, ساخت دیتاست آموزشی هوش مصنوعی, اجرای لاما روی سرور{% endblock %}
+
+{% block extra_schema %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "مشاوره و فاین‌تیونینگ مدل‌های زبانی با LoRA",
+  "provider": {"@type": "Organization", "name": "آترا"},
+  "description": "آموزش و شخصی‌سازی مدل‌های متن‌باز برای کسب‌وکارها",
+  "areaServed": "IR"
+}
+</script>
+{% endblock %}
+
+{% block extra_css %}
+    <link href="{% static 'css/navbar.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<section class="stability-wrapper">
+    <div class="stability-container">
+
+        <div class="stability-hero">
+            <div class="brand-badge">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                <span>شخصی‌سازی وزن‌ها و لحن سازمانی</span>
+            </div>
+            <h1 class="stability-main-title">
+                مشاوره و فاین‌تیونینگ مدل‌های <span class="uptime-highlight">LoRA / QLoRA</span>
+            </h1>
+            <p class="stability-subtitle">
+                آیا بیزینس شما به خروجی‌های ساختاریافته، اصطلاحات فنی خاص و درک ادبیات منحصربه‌فرد نیاز دارد؟ مدل‌های زبانی را برای نیازمندی دقیق شما آموزش می‌دهیم.
+            </p>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <div class="icon-wrapper">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                    </div>
+                    <div class="status-indicator">
+                        <span class="status-dot"></span>
+                        <span>Dataset Engineering</span>
+                    </div>
+                </div>
+                <h2 class="item-title">طراحی و غنی‌سازی دیتاست (Data Curation)</h2>
+                <p class="item-text">
+                    استخراج، پاکسازی و تبدیل اسناد و مکاتبات به دیتاست‌های استاندارد پرسش و پاسخ (Instruction Dataset) با فرمت بهینه برای آموزش بدون بیش‌برازش (Overfitting).
+                </p>
+            </div>
+
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <div class="icon-wrapper">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                    </div>
+                    <div class="status-indicator">
+                        <span class="status-dot"></span>
+                        <span>Low-VRAM Tech</span>
+                    </div>
+                </div>
+                <h2 class="item-title">آموزش پارامتری کم‌مصرف (PEFT & QLoRA)</h2>
+                <p class="item-text">
+                    آموزش وزن‌ها با تکنیک‌های مدرن ۴ بیتی بدون نیاز به کلاسترهای چند ده هزار دلاری سرور؛ امکان آموزش مدل‌های ۸ و ۱۴ میلیاردی روی کارت‌های گرافیک تک‌کاربره تجاری.
+                </p>
+            </div>
+
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <div class="icon-wrapper">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                    </div>
+                    <div class="status-indicator">
+                        <span class="status-dot"></span>
+                        <span>Structured Output</span>
+                    </div>
+                </div>
+                <h2 class="item-title">تضمین خروجی‌های ساخت‌یافته و فکت‌محور</h2>
+                <p class="item-text">
+                    آموزش مدل به نحوی که پاسخ‌ها را در ساختار بدون نقص JSON، جدول یا فیلدهای مورد انتظار وب‌سرویس تولید کند و خطاهای خارج از چهارچوب را به صفر برساند.
+                </p>
+            </div>
+
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <div class="icon-wrapper">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                    </div>
+                    <div class="status-indicator">
+                        <span class="status-dot"></span>
+                        <span>Fast Inference</span>
+                    </div>
+                </div>
+                <h2 class="item-title">کوانتیزه‌سازی و اجرای پرسرعت اینفرنس</h2>
+                <p class="item-text">
+                    تبدیل وزن‌های آموزش‌دیده به فرمت‌های AWQ و GGUF و استقرار بر روی موتورهای اجرایی vLLM جهت استریم فوق‌سریع پاسخ‌ها به هزاران کاربر همزمان.
+                </p>
+            </div>
+
+            <div class="dashboard-card full-width-card">
+                <div class="icon-wrapper" style="width: 75px; height: 75px;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"></path></svg>
+                </div>
+                <div class="card-content">
+                    <h3 class="item-title">مشاوره امکان‌سنجی فنی و انتخاب مدل پایه</h3>
+                    <p class="item-text">
+                        قبل از صرف هزینه‌های سنگین سرور، نیاز شما بررسی می‌شود تا مشخص شود آیا راه‌حل در RAG نهفته است یا فاین‌تیونینگ؛ و مدل پایه مناسب (Llama 3 ،Mistral یا Qwen) انتخاب خواهد شد.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="custom-plan-card">
+            <div class="custom-plan-info">
+                <h3 class="custom-plan-title">مدل زبانی هوشمند اختصاصی برند خود را راه‌اندازی کنید</h3>
+                <p class="custom-plan-desc">جلسه مشاوره و تست اولیه را با تیم فنی هوش مصنوعی آترا شروع کنید.</p>
+            </div>
+            <a href="{% url 'core:submit_ticket' %}" class="btn-custom">درخواست مشاوره و Fine-Tuning</a>
+        </div>
+
+    </div>
+</section>
+{% endblock %}

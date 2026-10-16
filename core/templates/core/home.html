@@ -2,527 +2,636 @@
 {% load static %}
 
 {% block content %}
-    <!DOCTYPE html>
-    <html lang="fa" dir="rtl">
-    <body>
-
 
     <!-- ========================================== -->
-    <!-- بخش اول: بنر اصلی اپلیکیشن (Hero Banner)   -->
+    <!-- بخش اول: بنر اصلی (Hero Banner)            -->
     <!-- ========================================== -->
-    <!-- ابتدا چک میکنیم آیا بنر فعالی در دیتابیس وجود دارد یا خیر -->
-    {% if banner %}
-        <section class="atra-hero-banner">
-            <div class="atra-hero-container">
+<!-- ========================================== -->
+<!-- بخش ۱: هیرو سکشن استودیو (Hero Section)  -->
+<!-- ========================================== -->
+<section class="atra-hero-root">
+    <div class="hero-cyber-grid"></div>
+    <div class="hero-glow-emerald"></div>
+    <div class="hero-glow-azure"></div>
 
-                <!-- 1. بخش محتوای متنی -->
-                <div class="atra-hero-content">
-                    <h1>
-                        {{ banner.title }}
-                        <!-- شرط‌گذاری برای متن هایلایت: اگر در ادمین خالی بود، تگ span الکی رندر نشود -->
-                        {% if banner.highlight_text %}
-                            <span class="atra-brand-text">
-                    {{ banner.highlight_text }}
-                </span>
-                        {% endif %}
-                    </h1>
+    <div class="atra-hero-container">
+        <!-- ستون محتوا و دکمه‌ها -->
+        <div class="hero-content-col">
+            <div class="hero-live-chip">
+                <span class="live-chip-dot"></span>
+                <span class="live-chip-text">{{ hero.badge_text|default:"اکوسیستم یکپارچه نرم‌افزار و هوش مصنوعی" }}</span>
+            </div>
 
-                    <p>{{ banner.subtitle }}</p>
+            <h1 class="hero-main-title">
+                {{ hero.title_p1|default:"توسعه نرم‌افزارهای مقیاس‌پذیر" }}<br>
+                <span class="text-emerald-glow">{{ hero.highlight_text|default:"Django ،Flutter و زیرساخت LLM/RAG" }}</span>
+            </h1>
 
-                    <div class="atra-store-buttons">
-                        <!-- نمایش دکمه اپ استور (اگر عکسش در پنل ادمین آپلود شده باشد) -->
-                        {% if banner.apple_store_image %}
-                            <a href="#" title="به زودی...">
-                                <img src="{{ banner.apple_store_image.url }}" alt="دانلود از اپ استور">
-                            </a>
-                        {% endif %}
+            <p class="hero-lead-text">
+                {{ hero.description|default:"طراحی بک‌اند پرسرعت و امن با Python و DRF، ساخت رابط‌های کاربری چندسکویی و پایدار در شرایط آفلاین با Flutter، و معماری اختصاصی خطوط بازیابی دانش (RAG)، تنظیم دقیق مدل‌ها (Fine-Tuning) و هوش مصنوعی چندوجهی." }}
+            </p>
 
-                        <!-- نمایش دکمه گوگل پلی/اندروید (اگر عکسش در پنل ادمین آپلود شده باشد) -->
-                        {% if banner.google_play_image %}
-                            <a href="#" title="به زودی...">
-                                <img src="{{ banner.google_play_image.url }}" alt="دریافت نسخه اندروید">
-                            </a>
-                        {% endif %}
+            <div class="hero-cta-actions">
+                <a href="{% url 'core:portfolio' %}" class="btn-emerald-solid">
+                    <span>مشاهده پروژه‌ها و کارنامه مهندسی</span>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg>
+                </a>
+                <a href="{% url 'core:submit_ticket' %}" class="btn-glass-outline">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                    </svg>
+                    <span>مشاوره و شروع همکاری</span>
+                </a>
+            </div>
+
+            <div class="hero-stats-band">
+                <div class="stat-metric-block">
+                    <span class="stat-number">{{ hero.stat_1_number|default:"99.9%" }}</span>
+                    <span class="stat-label">{{ hero.stat_1_label|default:"پایداری دیتابیس و بک‌اند" }}</span>
+                </div>
+                <div class="stat-metric-block">
+                    <span class="stat-number">{{ hero.stat_2_number|default:"< 45ms" }}</span>
+                    <span class="stat-label">{{ hero.stat_2_label|default:"تاخیر استریم و همگام‌سازی" }}</span>
+                </div>
+                <div class="stat-metric-block">
+                    <span class="stat-number">{{ hero.stat_3_number|default:"Offline-1st" }}</span>
+                    <span class="stat-label">{{ hero.stat_3_label|default:"معماری بدون توقف کلاینت" }}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ستون کنسول شبیه‌ساز مهندسی هوش مصنوعی -->
+        <div class="hero-visual-col">
+            <div class="ai-studio-window">
+                <div class="window-header">
+                    <div class="window-traffic-dots">
+                        <span class="traffic-dot dot-close"></span>
+                        <span class="traffic-dot dot-min"></span>
+                        <span class="traffic-dot dot-max"></span>
                     </div>
-
+                    <div class="window-title-tag">
+                        <span>{{ hero.console_filename|default:"pipeline_orchestrator.py" }}</span>
+                    </div>
                 </div>
 
-                <!-- 2. موکاپ‌ها -->
-                <div class="atra-hero-mockups">
+                <div class="window-body">
+                    <div class="studio-prompt-card">
+                        <span class="prompt-label">{{ hero.console_prompt_label|default:"RAG Knowledge Retrieval" }}</span>
+                        <div class="prompt-body">
+                            {{ hero.console_prompt_text|default:"«پایگاه داده اسناد سازمانی را جستجو کن و با مدل تنظیم‌شده پاسخ را به کلاینت فلاتر استریم کن.»" }}
+                        </div>
+                    </div>
 
-                    <!-- جلوگیری از خطای ValueError با چک کردن وجود تصویر آیفون قبل از فراخوانی .url -->
-                    {% if banner.iphone_image %}
-                        <div class="atra-phone atra-phone-iphone">
-                            <div class="atra-phone-screen">
-                                <img class="atra-app-image"
-                                     src="{{ banner.iphone_image.url }}"
-                                     alt="نمای اپلیکیشن آترا در آیفون">
-                            </div>
+                    <div class="studio-pipelines-status">
+                        <div class="pipeline-status-card active-emerald">
+                            <span class="status-key">Vector Store</span>
+                            <span class="status-value val-emerald">{{ hero.vector_store_value|default:"Qdrant // 12.4k Chunks" }}</span>
+                        </div>
+                        <div class="pipeline-status-card">
+                            <span class="status-key">Fine-Tuned LLM</span>
+                            <span class="status-value val-sky">{{ hero.llm_model_value|default:"LoRA PEFT v2.1" }}</span>
+                        </div>
+                    </div>
+
+                    <div class="studio-stream-terminal">
+                        <span style="color: #64748b;">[Django REST Engine]</span><br>
+                        <span style="color: #10b981;">✔ Context fetched:</span> Zero Hallucination Mode<br>
+                        <span style="color: #cbd5e1;">&gt; Tokens streaming to Flutter Client via WebSocket...</span>
+                        <span class="terminal-cursor"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="floating-flutter-card">
+                <div class="flutter-card-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+                        <line x1="12" y1="18" x2="12.01" y2="18"></line>
+                    </svg>
+                </div>
+                <div class="flutter-card-info">
+                    <span class="flutter-card-title">Flutter iOS & Android</span>
+                    <span class="flutter-card-sub">● Synced & 60 FPS Ready</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ========================================== -->
+<!-- بخش ۲: ۴ ستون مهندسی (Core Pillars)       -->
+<!-- ========================================== -->
+<section class="pillar-cards-section" id="ai-architecture">
+    <div class="pillar-ambient-glows">
+        <div class="ambient-orb-emerald"></div>
+        <div class="ambient-orb-cyan"></div>
+        <div class="ambient-orb-indigo"></div>
+        <div class="ambient-orb-rose"></div>
+    </div>
+
+    <div class="pillar-cards-grid">
+        {% for card in pillars %}
+            <div class="pillar-glass-card">
+                <div class="pillar-icon-box">
+                    {% if card.svg_icon %}
+                        {{ card.svg_icon|safe }}
+                    {% else %}
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                            <polyline points="2 17 12 22 22 17"></polyline>
+                            <polyline points="2 12 12 17 22 12"></polyline>
+                        </svg>
+                    {% endif %}
+                </div>
+                <h3 class="pillar-card-title">{{ card.title }}</h3>
+                <p class="pillar-card-desc">
+                    {{ card.description|safe }}
+                </p>
+            </div>
+        {% empty %}
+            <!-- حالت پیش‌فرض در صورت خالی بودن دیتابیس -->
+            <div class="pillar-glass-card">
+                <div class="pillar-icon-box">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                        <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                        <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                    </svg>
+                </div>
+                <h3 class="pillar-card-title">سیستم‌های RAG و دانش سازمانی</h3>
+                <p class="pillar-card-desc">
+                    خطوط بازیابی اطلاعات از اسناد، پیاده‌سازی <span class="tech-tag">Semantic Search</span> با <span class="tech-tag">Vector DB</span>ها و پاسخ‌دهی دقیق بدون توهم مدل.
+                </p>
+            </div>
+
+            <div class="pillar-glass-card">
+                <div class="pillar-icon-box">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                    </svg>
+                </div>
+                <h3 class="pillar-card-title">Fine-Tuning و بهینه‌سازی</h3>
+                <p class="pillar-card-desc">
+                    آموزش وزن‌ها با متدهای مدرن <span class="tech-tag">LoRA / QLoRA</span>، بومی‌سازی لحن و ساخت دیتاست‌های اختصاصی مطابق استانداردهای شما.
+                </p>
+            </div>
+
+            <div class="pillar-glass-card">
+                <div class="pillar-icon-box">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
+                        <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
+                        <line x1="6" y1="6" x2="6.01" y2="6"></line>
+                        <line x1="6" y1="18" x2="6.01" y2="18"></line>
+                    </svg>
+                </div>
+                <h3 class="pillar-card-title">بک‌اند با Django & DRF</h3>
+                <p class="pillar-card-desc">
+                    طراحی معماری ماژولار، سیستم‌های احراز هویت پیامکی <span class="tech-tag">(OTP)</span>، صف‌های سنگین با <span class="tech-tag">Celery/Redis</span> و امنیت سطح بالا.
+                </p>
+            </div>
+
+            <div class="pillar-glass-card">
+                <div class="pillar-icon-box">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+                        <line x1="12" y1="18" x2="12.01" y2="18"></line>
+                    </svg>
+                </div>
+                <h3 class="pillar-card-title">اپلیکیشن Flutter کراس‌پلتفرم</h3>
+                <p class="pillar-card-desc">
+                    رابط کاربری مدرن، استریم آنی توکن‌ها و کارایی بی‌وقفه در شرایط قطعی اینترنت بر پایه معماری اختصاصی <span class="tech-tag">Offline-First</span>.
+                </p>
+            </div>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- ========================================== -->
+<!-- بخش ۳: استک هوش مصنوعی (Bento Grid)        -->
+<!-- ========================================== -->
+<section class="premium-bento-analytics">
+    <div class="bento-header">
+        <span class="badge">پایپ‌لاین هوش مصنوعی در محیط پروداکشن</span>
+        <h2 class="bento-title">استقرار هوش مصنوعی؛ <span class="text-gradient">از نظریه تا زیرساخت عملیاتی</span></h2>
+        <p>حل چالش‌های کلیدی سیستم‌های هوش مصنوعی: کاهش هزینه توکن، کمینه‌سازی تاخیر (Latency)، حذف خطای توهم و حفظ امنیت داده‌های شرکتی</p>
+    </div>
+
+    <div class="bento-grid">
+        <div class="bento-col-left">
+            <div class="bento-card-styled" style="position: relative; overflow: hidden; padding: 26px;">
+                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; opacity: 0.12; pointer-events: none;">
+                    <img src="{{ rag_card_image|default:'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=700&q=80' }}"
+                         alt="معماری دیتابیس و RAG"
+                         style="width: 100%; height: 100%; object-fit: cover; filter: grayscale(30%);">
+                </div>
+                <div style="position: relative; z-index: 1;">
+                    <span class="bento-badge">بازیابی هوشمند و پایگاه دانش</span>
+                    <h3 style="font-size: 1.25rem;">معماری داده‌محور RAG</h3>
+                    <p>
+                        تبدیل اسناد، پایگاه‌های داده و مکاتبات سازمانی به بردارهای معنایی، ذخیره در پایگاه‌های برداری (<span class="tech-tag-accent">ChromaDB / Qdrant / pgvector</span>) و پیاده‌سازی متدهای <span class="tech-tag-accent">Hybrid Search</span> و <span class="tech-tag-accent">Re-ranking</span> برای پاسخ‌دهی کاملاً منطبق بر اسناد سازمانی.
+                    </p>
+                </div>
+            </div>
+
+            <div class="bento-card-styled" style="position: relative; overflow: hidden; padding: 26px;">
+                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; opacity: 0.12; pointer-events: none;">
+                    <img src="{{ finetune_card_image|default:'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=700&q=80' }}"
+                         alt="یادگیری ماشین و فاین‌تیونینگ"
+                         style="width: 100%; height: 100%; object-fit: cover; filter: grayscale(30%);">
+                </div>
+                <div style="position: relative; z-index: 1;">
+                    <span class="bento-badge">بومی‌سازی و سفارشی‌سازی وزن‌ها</span>
+                    <h3 style="font-size: 1.25rem;">Fine-Tuning با LoRA و QLoRA</h3>
+                    <p>
+                        بازآموزی مدل‌های زبانی متن‌باز (<span class="tech-tag-accent">Llama, Mistral, Qwen</span>) جهت تطبیق لحن، یادگیری ساختارهای دستوری اختصاصی و کاهش مصرف منابع سرور با تکنیک‌های مدرن کوانتیزه‌سازی (<span class="tech-tag-accent">4-bit / 8-bit Quantization</span>).
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bento-col-right">
+            <div class="bento-card-styled" style="position: relative; overflow: hidden; height: 100%; display: flex; flex-direction: column; justify-content: center; padding: 34px;">
+                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; opacity: 0.10; pointer-events: none;">
+                    <img src="{{ fullstack_card_image|default:'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1000&q=80' }}"
+                         alt="توسعه بک‌اند و اپلیکیشن فلاتر"
+                         style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <div style="position: relative; z-index: 1;">
+                    <span class="bento-badge" style="width: fit-content;">یکپارچه‌سازی سرتاسری (End-to-End)</span>
+                    <h3 style="font-size: 1.55rem;">بک‌اند جنگو، استریم داده و رابط کاربری فلاتر</h3>
+                    <p style="font-size: 0.92rem; line-height: 1.9; margin-bottom: 14px;">
+                        تبدیل خروجی مدل‌های هوش مصنوعی به محصولی پایدار و آماده پروداکشن؛ طراحی وب‌سرویس‌های ناهمگام با جنگو، پیاده‌سازی مکانیزم استریم آنی توکن‌ها (<span class="tech-tag-accent">Token Streaming</span> با <span class="tech-tag-accent">SSE</span> و <span class="tech-tag-accent">WebSockets</span>) و ساخت کلاینت‌های نیتیو در فلاتر همراه با کنترل سهمیه مصرف، احراز هویت پیامکی و مدیریت بهینه حافظه.
+                    </p>
+
+                    <ul class="bento-features-list">
+                        <li>
+                            <span class="check-icon">✓</span>
+                            <span>سیستم‌های تولید تصویر، عکاسی مجازی و فیس‌استودیو (<span class="tech-tag-accent">Generative Pipelines</span>)</span>
+                        </li>
+                        <li>
+                            <span class="check-icon">✓</span>
+                            <span>پیکربندی سرورهای لینوکس، <span class="tech-tag-accent">Nginx, Gunicorn, Docker</span> و مدیریت امن کلیدهای API</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ========================================== -->
+<!-- بخش ۴: معماری Offline-First و کلاینت       -->
+<!-- ========================================== -->
+<section class="real-finance">
+    <div class="real-grid">
+        <div class="real-content">
+            <h2>
+                {{ offline_section.title_regular|default:"معماری Offline-First،" }}
+                <span class="highlight-text">{{ offline_section.title_highlight|default:"تداوم عملکرد بدون اینترنت" }}</span>
+            </h2>
+
+            <p class="real-desc">
+                {{ offline_section.description|default:"یکی از بزرگ‌ترین چالش‌های اپلیکیشن‌ها در دنیای واقعی، ناپایداری شبکه است. راهکارهای نرم‌افزاری پیاده‌سازی‌شده با پایگاه داده‌های محلی (Local Cache/SQLite) تضمین می‌کنند که کاربر بدون کوچک‌ترین اختلال اسناد و داده‌ها را ثبت کند و سیستم به صورت هوشمند و بدون تعارض، در اولین اتصال دیتا را با سرور ابری همگام (Sync) کند." }}
+            </p>
+
+            <div class="real-features">
+                <div class="feature-card">
+                    <span class="icon">{{ offline_section.feature_1_icon|default:"⚡" }}</span>
+                    <span class="text">{{ offline_section.feature_1_text|default:"کش و پایگاه داده محلی" }}</span>
+                </div>
+                <div class="feature-card">
+                    <span class="icon">{{ offline_section.feature_2_icon|default:"🔄" }}</span>
+                    <span class="text">{{ offline_section.feature_2_text|default:"سینک دوطرفه بدون تعارض" }}</span>
+                </div>
+                <div class="feature-card">
+                    <span class="icon">{{ offline_section.feature_3_icon|default:"🛡️" }}</span>
+                    <span class="text">{{ offline_section.feature_3_text|default:"رمزنگاری داده در لایه کلاینت" }}</span>
+                </div>
+                <div class="feature-card">
+                    <span class="icon">{{ offline_section.feature_4_icon|default:"🚀" }}</span>
+                    <span class="text">{{ offline_section.feature_4_text|default:"صفر شدن خطای لودینگ شبکه" }}</span>
+                </div>
+            </div>
+
+            <p class="real-footer">
+                {{ offline_section.footer_note|default:"ترکیب قدرت پردازش ابری جنگو با استقلال کامل دستگاه کاربر در فلاتر." }}
+            </p>
+        </div>
+
+        <div class="real-image-wrapper">
+            <div class="glow-halo"></div>
+            <div class="large-dashboard-mockup">
+                <img src="{{ offline_section.image_url|default:'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=85' }}"
+                     alt="معماری مهندسی Offline-First و پردازش ابری">
+            </div>
+        </div>
+    </div>
+</section>
+    <!-- ========================================== -->
+    <!-- نمونه دستاوردها و حوزه‌های عملیاتی         -->
+    <!-- ========================================== -->
+<section class="atra-knowledge-section">
+    <div class="knowledge-container">
+
+        <div class="knowledge-header">
+            <h2 class="knowledge-title">محصولات و پروژه‌های <span>پیاده‌سازی‌شده</span></h2>
+            <p class="knowledge-subtitle">نمونه‌هایی از چالش‌های فنی در زمینه سیستم‌های مقیاس‌پذیر و هوش مصنوعی</p>
+        </div>
+
+        <div class="knowledge-grid">
+            {% for project in showcase_projects %}
+                <article class="glass-article-card">
+                    <div class="card-image-wrapper">
+                        <span class="article-badge">{{ project.badge }}</span>
+                        <img src="{{ project.image_url }}" alt="{{ project.title }}">
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">{{ project.title }}</h3>
+                        <p class="card-excerpt">{{ project.excerpt }}</p>
+                        <span class="card-link" style="color: #38bdf8;">{{ project.tech_stack }}</span>
+                    </div>
+                </article>
+            {% empty %}
+                <!-- پروژه ۱: استودیو و ورودی‌های هوش مصنوعی -->
+                <article class="glass-article-card">
+                    <div class="card-image-wrapper">
+                        <span class="article-badge">GenAI Workspace</span>
+                        <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80"
+                             alt="پروژه پلتفرم هوش مصنوعی">
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">استودیو چهره‌پردازی و هوش چندوجهی</h3>
+                        <p class="card-excerpt">توسعه خطوط تولید عکس و تبدیل پرتره با استفاده از هوش مصنوعی مولد، صف‌های پردازشی سنگین، مدیریت صف کاربری و تسک‌های ناهمگام.</p>
+                        <span class="card-link" style="color: #38bdf8;">Django Tasks + Flutter App + Image Models</span>
+                    </div>
+                </article>
+
+                <!-- پروژه ۲: موتور جستجوی اسناد RAG سازمانی -->
+                <article class="glass-article-card">
+                    <div class="card-image-wrapper">
+                        <span class="article-badge">RAG & Vector DB</span>
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=600&q=80"
+                             alt="سیستم جستجوی معنایی و پایگاه دانش">
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">سیستم پایگاه دانش و چت‌بات شرکتی</h3>
+                        <p class="card-excerpt">بازیابی اسناد، قراردادها و مستندات فنی با بردارسازی و جستجوی معنایی؛ ارائه پاسخ دقیق و استناد مستقیم به فایل منبع بدون خطای توهم.</p>
+                        <span class="card-link" style="color: #38bdf8;">Embedding + ChromaDB + LLM Pipelines</span>
+                    </div>
+                </article>
+
+                <!-- پروژه ۳: سیستم یکپارچه آفلاین-فرست -->
+                <article class="glass-article-card">
+                    <div class="card-image-wrapper">
+                        <span class="article-badge">FinTech & Offline Sync</span>
+                        <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=600&q=80"
+                             alt="زیرساخت ابری و همگام‌سازی">
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">نرم‌افزار مدیریت مالی بدون وقفه</h3>
+                        <p class="card-excerpt">سیستم ثبت تراکنش‌ها و فاکتورها به صورت کاملاً آفلاین روی دستگاه کاربر همراه با پروتکل همگام‌سازی لحظه‌ای با سرور لینوکس پس از اتصال اینترنت.</p>
+                        <span class="card-link" style="color: #38bdf8;">Local SQLite + REST API + Auto Sync</span>
+                    </div>
+                </article>
+            {% endfor %}
+        </div>
+
+    </div>
+</section>
+
+    <!-- ========================================== -->
+    <!-- پلن‌های همکاری فنی (خدمات جامع مهندسی)    -->
+    <!-- ========================================== -->
+<section class="ai-models-showcase" id="engineering-plans">
+    <div class="ai-models-container">
+
+        <!-- هدر مدرن و مینیمال -->
+        <div class="ai-showcase-header">
+            <div class="ai-header-badge">
+                <span class="badge-dot"></span>
+                <span>استقرار و مهندسی مدل‌های هوش مصنوعی</span>
+            </div>
+            <h2 class="ai-showcase-title">
+                توسعه مدل‌های هوش مصنوعی <span class="text-emerald-glow">عملیاتی و آماده پروداکشن</span>
+            </h2>
+            <p class="ai-showcase-desc">
+                شخصی‌سازی، تنظیم دقیق وزن‌ها و توسعه خطوط پردازش داده با کمترین تاخیر (Latency) و حداکثر دقت برای پاسخ‌گویی به نیازهای اختصاصی شما
+            </p>
+        </div>
+
+        <!-- گرید سه‌گانه مدرن -->
+        <div class="ai-models-grid">
+
+            {% for item in ai_models %}
+                <div class="ai-model-card {% if item.is_featured %}featured-glow{% endif %}">
+                    {% if item.is_featured %}
+                        <div class="featured-ribbon">
+                            <span>{{ item.featured_ribbon_text|default:"پرتقاضاترین راهکار" }}</span>
                         </div>
                     {% endif %}
 
-                    <!-- جلوگیری از خطای ValueError با چک کردن وجود تصویر اندروید قبل از فراخوانی .url -->
-                    {% if banner.android_image %}
-                        <div class="atra-phone atra-phone-android">
-                            <div class="atra-phone-screen">
-                                <img class="atra-app-image"
-                                     src="{{ banner.android_image.url }}"
-                                     alt="نمای اپلیکیشن آترا در اندروید">
-                            </div>
-                        </div>
-                    {% endif %}
-
-                </div>
-
-            </div>
-        </section>
-    {% endif %}
-
-
-    <!-- ========================================== -->
-    <!-- Video Navigation Section -->
-    <!-- ========================================== -->
-    <!-- Video Navigation Section -->
-    <section class="video-premium-section">
-        <!-- هاله‌های نوری پس‌زمینه برای جذابیت بصری -->
-        <div class="glow-orb orb-1"></div>
-        <div class="glow-orb orb-2"></div>
-
-        <div class="video-glass-container">
-
-            <!-- آیتم اول: مشتریان -->
-            <div class="video-item-lux">
-                <div class="video-icon-wrapper">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M17 21V19C17 16.7909 15.2091 15 13 15H5C2.79086 15 1 16.7909 1 19V21"
-                              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M9 11C11.2091 11 13 9.20914 13 7C13 4.79086 11.2091 3 9 3C6.79086 3 5 4.79086 5 7C5 9.20914 6.79086 11 9 11Z"
-                              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M23 21V19C22.9993 17.1137 21.7044 15.5106 19.87 15.13" stroke="currentColor"
-                              stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M16 3.13C17.8404 3.50853 19.1415 5.11663 19.1415 7.005C19.1415 8.89337 17.8404 10.5015 16 10.88"
-                              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </div>
-                <h3 class="video-title-lux">تجربه مشتریان</h3>
-                <!-- استفاده از button و data-src برای باز کردن پاپ‌آپ -->
-                <button class="play-btn-lux open-video-popup"
-                        data-src="{% if videos and videos.customers_video %}{{ videos.customers_video.url }}{% endif %}"
-                        style="text-decoration: none; display: flex; align-items: center; justify-content: center; border: none; cursor: pointer;">
-                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                         style="width: 20px; height: 20px;">
-                        <path d="M8 5V19L19 12L8 5Z" fill="currentColor"/>
-                    </svg>
-                    <span>پخش ویدیو</span>
-                </button>
-            </div>
-
-            <!-- آیتم دوم: سخنی از سازنده -->
-            <div class="video-item-lux">
-                <div class="video-icon-wrapper">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
-                              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M12 16V12" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                              stroke-linejoin="round"/>
-                        <path d="M12 8H12.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                              stroke-linejoin="round"/>
-                    </svg>
-                </div>
-                <h3 class="video-title-lux">سخنی از سازنده</h3>
-                <button class="play-btn-lux open-video-popup"
-                        data-src="{% if videos and videos.founder_video %}{{ videos.founder_video.url }}{% endif %}"
-                        style="text-decoration: none; display: flex; align-items: center; justify-content: center; border: none; cursor: pointer;">
-                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                         style="width: 20px; height: 20px;">
-                        <path d="M8 5V19L19 12L8 5Z" fill="currentColor"/>
-                    </svg>
-                    <span>پخش ویدیو</span>
-                </button>
-            </div>
-
-            <!-- آیتم سوم: درباره اپ آترا -->
-            <div class="video-item-lux">
-                <div class="video-icon-wrapper">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M21 16V8C20.9996 7.64927 20.9071 7.30682 20.7315 7.006C20.556 6.70518 20.3033 6.45615 20 6.28L13 2.28C12.6958 2.09919 12.352 2.00354 12 2.00354C11.648 2.00354 11.3042 2.09919 11 2.28L4 6.28C3.69674 6.45615 3.44404 6.70518 3.26846 7.006C3.09289 7.30682 3.00036 7.64927 3 8V16C3.00036 16.3507 3.09289 16.6932 3.26846 16.994C3.44404 17.2948 3.69674 17.5438 4 17.72L11 21.72C11.3042 21.9008 11.648 21.9965 12 21.9965C12.352 21.9965 12.6958 21.9008 13 21.72L20 17.72C20.3033 17.5438 20.556 17.2948 20.7315 16.994C20.9071 16.6932 20.9996 16.3507 21 16Z"
-                              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M3.27 6.96002L12 12.01L20.73 6.96002" stroke="currentColor" stroke-width="2"
-                              stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M12 22.08V12" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                              stroke-linejoin="round"/>
-                    </svg>
-                </div>
-                <h3 class="video-title-lux">درباره اپ آترا</h3>
-                <button class="play-btn-lux open-video-popup"
-                        data-src="{% if videos and videos.about_video %}{{ videos.about_video.url }}{% endif %}"
-                        style="text-decoration: none; display: flex; align-items: center; justify-content: center; border: none; cursor: pointer;">
-                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                         style="width: 20px; height: 20px;">
-                        <path d="M8 5V19L19 12L8 5Z" fill="currentColor"/>
-                    </svg>
-                    <span>پخش ویدیو</span>
-                </button>
-            </div>
-
-            <!-- آیتم چهارم: آموزش اپ -->
-            <div class="video-item-lux">
-                <div class="video-icon-wrapper">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M2 3H8C9.06087 3 10.0783 3.42143 10.8284 4.17157C11.5786 4.92172 12 5.93913 12 7V21C12 20.2044 11.6839 19.4413 11.1213 18.8787C10.5587 18.3161 9.79565 18 9 18H2V3Z"
-                              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M22 3H16C14.9391 3 13.9217 3.42143 13.1716 4.17157C12.4214 4.92172 12 5.93913 12 7V21C12 20.2044 12.3161 19.4413 12.8787 18.8787C13.4413 18.3161 14.2044 18 15 18H22V3Z"
-                              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </div>
-                <h3 class="video-title-lux">آموزش اپلیکیشن</h3>
-                <button class="play-btn-lux open-video-popup"
-                        data-src="{% if videos and videos.tutorial_video %}{{ videos.tutorial_video.url }}{% endif %}"
-                        style="text-decoration: none; display: flex; align-items: center; justify-content: center; border: none; cursor: pointer;">
-                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                         style="width: 20px; height: 20px;">
-                        <path d="M8 5V19L19 12L8 5Z" fill="currentColor"/>
-                    </svg>
-                    <span>پخش ویدیو</span>
-                </button>
-            </div>
-
-        </div>
-
-        <!-- پاپ‌آپ ویدیوی اختصاصی (پنهان در حالت پیش‌فرض) -->
-        <div id="customVideoPopup" class="video-popup-overlay">
-            <div class="video-popup-content">
-                <button class="close-popup-btn">&times;</button>
-                <video id="popupVideoPlayer" controls controlsList="nodownload">
-                    <source src="" type="video/mp4">
-                    مرورگر شما از پخش ویدیو پشتیبانی نمی‌کند.
-                </video>
-            </div>
-        </div>
-    </section>
-
-
-    <!-- ==========================================
-         Analytics Glassmorphism Section
-    =========================================== -->
-    <section class="premium-bento-analytics">
-        <div class="bento-glow-bg"></div>
-
-        <div class="bento-header">
-            <span class="badge">تحلیل پیشرفته</span>
-            <h2 class="bento-title">داده‌ها در <span class="text-gradient">تسخیر</span> شماست</h2>
-            <p>رصد لحظه‌ای، تحلیل عمیق و تصمیم‌گیری مبتنی بر دیتا با داشبورد هوشمند</p>
-        </div>
-
-        <div class="bento-grid">
-            <!-- ستون چپ: دو کارت تصویر کوچک -->
-            <div class="bento-col-left">
-
-                <!-- کارت 1: لینک به دموی تعاملی -->
-                <div class="bento-card bento-image-card-small">
-                    <a href="/live-demo/" class="bento-interactive-link">
-                        <div class="bento-hover-overlay">
-                            <span class="overlay-text">اجرای دموی زنده</span>
-                        </div>
-                        <img src="{% static 'img/bento_1.avif' %}" alt="نمودار تصویری تراکنش های موفق"
-                             class="bento-dynamic-img">
-                    </a>
-                </div>
-
-                <!-- کارت 2: لینک به داستان موفقیت مشتریان -->
-                <div class="bento-card bento-image-card-small">
-                    <a href="/success-stories/" class="bento-interactive-link">
-                        <div class="bento-hover-overlay">
-                            <span class="overlay-text">بررسی کیس‌استادی</span>
-                        </div>
-                        <img src="{% static 'img/bento_2.jpg' %}" alt="نمودار تصویری بازدیدکنندگان"
-                             class="bento-dynamic-img">
-                    </a>
-                </div>
-
-            </div>
-
-            <!-- ستون راست: یک کارت تصویر بزرگ (نمودار اصلی) -->
-            <div class="bento-col-right">
-
-                <!-- کارت 3: لینک به صفحه اتصال‌پذیری و API -->
-                <div class="bento-card bento-image-card-large" style="height: 100%;">
-                    <a href="/integrations/" class="bento-interactive-link" style="height: 100%; display: block;">
-                        <div class="bento-hover-overlay">
-                            <span class="overlay-text">اتصال به سیستم‌</span>
-                        </div>
-                        <img src="{% static 'img/bento_3.avif' %}" alt="نمودار اصلی تحلیل داده‌ها"
-                             class="bento-dynamic-img" style="height: 100%; object-fit: cover;">
-                    </a>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- ==========================================
-     بخش مقالات و آموزش‌های آترا
-    =========================================== -->
-    <!-- بخش مقالات و آموزش‌های آترا -->
-    <section class="atra-knowledge-section">
-        <div class="knowledge-container">
-
-            <!-- هدر بخش -->
-            <div class="knowledge-header">
-                <h2 class="knowledge-title">دانش مالی کسب‌وکار خود را <span>ارتقا</span> دهید</h2>
-                <p class="knowledge-subtitle">با جدیدترین مقالات آموزشی آترا، کنترل کامل جریان نقدی و حسابداری خود را به
-                    دست بگیرید.</p>
-            </div>
-
-            <!-- گرید مقالات -->
-            <div class="knowledge-grid">
-
-                <!-- کارت مقاله ۱ -->
-                <article class="glass-article-card">
-                    <div class="card-image-wrapper">
-                        <span class="article-badge">مقاله آموزشی</span>
-                        <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
-                             alt="هوش مصنوعی در حسابداری">
-                    </div>
-                    <div class="card-content">
-                        <h3 class="card-title">هوش مصنوعی در مقابل حسابداری سنتی</h3>
-                        <p class="card-excerpt">چگونه به عنوان یک صاحب کسب‌وکار، از اتوماسیون برای مدیریت سریع‌تر
-                            فاکتورها و کاهش خطاهای انسانی استفاده کنیم؟</p>
-                        <a href="{% url 'core:article_ai' %}" class="card-link">
-                            مطالعه مقاله
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M19 12H5M12 19l-7-7 7-7"/>
+                    <div class="model-card-top">
+                        <div class="model-icon-box {% if item.is_featured %}accent-emerald{% endif %}">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                                <polyline points="2 17 12 22 22 17"></polyline>
+                                <polyline points="2 12 12 17 22 12"></polyline>
                             </svg>
-                        </a>
-                    </div>
-                </article>
-
-                <!-- کارت مقاله ۲ -->
-                <article class="glass-article-card">
-                    <div class="card-image-wrapper">
-                        <span class="article-badge">گزارش‌گیری</span>
-                        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
-                             alt="گزارشات مالی">
-                    </div>
-                    <div class="card-content">
-                        <h3 class="card-title">آنچه باید درباره گزارش‌های مالی بدانید</h3>
-                        <p class="card-excerpt">یاد بگیرید چگونه با تحلیل درآمد، هزینه‌ها و جریان نقدی، سلامت مالی
-                            کسب‌وکار آفلاین خود را به درستی ارزیابی کنید.</p>
-                        <a href="{% url 'core:article_reporting' %}" class="card-link">
-                            مطالعه مقاله
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M19 12H5M12 19l-7-7 7-7"/>
-                            </svg>
-                        </a>
-                    </div>
-                </article>
-
-                <!-- کارت مقاله ۳ -->
-                <article class="glass-article-card">
-                    <div class="card-image-wrapper">
-                        <span class="article-badge">وصول مطالبات</span>
-                        <img src="https://images.unsplash.com/photo-1573164713988-8665fc963095?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
-                             alt="وصول فاکتورها">
-                    </div>
-                    <div class="card-content">
-                        <h3 class="card-title">بهترین روش‌ها برای وصول سریع فاکتورها</h3>
-                        <p class="card-excerpt">وقتی پرداخت یک فاکتور به تاخیر می‌افتد، با این ۵ قدم اصولی و حرفه‌ای،
-                            مطالبات خود را سریع‌تر و بدون تنش دریافت کنید.</p>
-<a href="{% url 'core:article_debt_collection' %}" class="card-link">
-    مطالعه مقاله
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M19 12H5M12 19l-7-7 7-7"/>
-                            </svg>
-                        </a>
-                    </div>
-                </article>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- دکمه شناور مشاوره فروش (مشابه نمونه خارجی) -->
-    <!-- دکمه شناور مشاوره فروش -->
-    <a href="tel:09144279062" class="atra-floating-sales-btn" id="sales-btn">
-        <div class="floating-btn-content">
-            <svg class="phone-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-            </svg>
-            <span class="btn-text">مشاوره فروش</span>
-        </div>
-    </a>
-
-
-    <!-- ========================================== -->
-    <!-- Plans Section ( پلن خای اقتصادی پیشرفته حرفه ای) -->
-    <!-- ========================================== -->
-    <!-- سکشن پلن‌ها / شکستن ریتم بصری -->
-
-    <section class="pricing-section-wrapper">
-        <div class="container">
-            <div class="text-center section-header">
-                <h2 class="pricing-header-title">انعطاف‌پذیر، برای هر ابعاد از کسب‌وکار</h2>
-                <p class="text-muted">پلن مناسب خود را انتخاب کنید و مدیریت مالی را به سطح جدیدی ببرید</p>
-            </div>
-
-            <div class="pricing-grid-container">
-                {% for plan in pricing_plans %}
-                    <div class="pricing-card-box {% if plan.is_featured %}pricing-card-featured{% endif %}">
-
-                        {% if plan.is_featured %}
-                            <div class="pricing-badge-special">{{ plan.badge_text }}</div>
-                        {% endif %}
-
-                        <div class="pricing-icon-circle">
-                            <!-- SVG ها کاملا دست‌نخورده و بر اساس ترتیب کارت‌ها نمایش داده می‌شوند -->
-                            {% if forloop.counter == 1 %}
-                                <!-- SVG آیکون اقتصادی (برگ) -->
-                                <svg viewBox="0 0 512 512" fill="currentColor" width="40" height="40">
-                                    <path d="M272 96c-78.6 0-145.1 51.5-167.7 122.5c33.6-17 71.5-26.5 111.7-26.5h88c8.8 0 16 7.2 16 16s-7.2 16-16 16H216c-39.2 0-76.2 11.2-108.3 31.1c-40.1 24.8-71.1 63.2-86.8 108.6C7.3 423.8 0 467.1 0 512h48c0-44.2 8.7-86.5 24.9-125.7c15-36.4 39.1-68.5 69.4-93.5C171.1 268 210.4 256 252 256h68c35.3 0 64-28.7 64-64V96h-112zM432 96v96c0 53-43 96-96 96H272c-53 0-96-43-96-96V96c0-53 43-96 96-96h64c53 0 96 43 96 96z"/>
-                                </svg>
-
-                            {% elif forloop.counter == 2 %}
-                                <!-- SVG آیکون موشک -->
-                                <svg viewBox="0 0 512 512" fill="currentColor" width="40" height="40">
-                                    <path d="M156.6 384.9L125.7 354c-8.5-8.5-11.5-20.8-7.7-32.2c3-8.9 7-20.5 11.8-33.8L24 288c-8.6 0-16.6-4.6-20.9-12.1s-4.2-16.7 .2-24.1l52.5-88.5c13-21.9 36.5-35.3 61.9-35.3l82.3 0c2.4-4 4.8-7.7 7.2-11.3C289.1-4.1 411.1-8.1 483.9 5.3c11.6 2.1 20.6 11.2 22.8 22.8c13.4 72.9 9.3 194.8-111.4 276.7c-3.5 2.4-7.3 4.8-11.3 7.2v82.3c0 25.4-13.4 49-35.3 61.9l-88.5 52.5c-7.4 4.4-16.6 4.5-24.1 .2s-12.1-12.2-12.1-20.9l0-105.8c-13.3 4.8-24.9 8.8-33.8 11.8c-11.4 3.8-23.7 .8-32.2-7.7zM384 176a48 48 0 1 0 -96 0 48 48 0 1 0 96 0z"/>
-                                </svg>
-
-                            {% elif forloop.counter == 3 %}
-                                <!-- SVG آیکون حرفه‌ای (تاج) -->
-                                <svg viewBox="0 0 512 512" fill="currentColor" width="40" height="40">
-                                    <path d="M116.7 33.3C108.4 21.6 94.6 16 80 16S51.6 21.6 43.3 33.3l-32 45.7c-6.1 8.7-7.4 19.8-3.4 29.5S20.5 124 32 124h64v64c0 17.7 14.3 32 32 32h64c17.7 0 32-14.3 32-32v-64h64v64c0 17.7 14.3 32 32 32h64c17.7 0 32-14.3 32-32v-64h64c11.5 0 22.1-6 26.1-15.5s2.7-20.8-3.4-29.5l-32-45.7C460.4 21.6 446.6 16 432 16s-28.4 5.6-36.7 17.3L352 95.1 306.7 33.3C298.4 21.6 284.6 16 270 16s-28.4 5.6-36.7 17.3L192 95.1l-43.3-61.8zM32 188v260c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V188H32z"/>
-                                </svg>
-                            {% endif %}
                         </div>
+                        <span class="model-stack-tag {% if item.is_featured %}tag-emerald{% endif %}">{{ item.stack_tag }}</span>
+                    </div>
 
-                        <h3>{{ plan.name }}</h3>
-                        <p class="pricing-desc-text">{{ plan.description }}</p>
+                    <div class="model-card-content">
+                        <h3 class="model-title">
+                            {{ item.title }}
+                            <span class="model-subtitle-en">{{ item.subtitle_en }}</span>
+                        </h3>
+                        <p class="model-desc">{{ item.description }}</p>
 
-                        <!-- فقط و فقط بخش امکانات داینامیک شد -->
-                        <ul class="pricing-features-list">
-                            {% for feature in plan.get_features_list %}
-                                <li>
-                                    <!-- SVG تیک دقیقا همونی که خودت دادی -->
-                                    <svg viewBox="0 0 448 512" fill="currentColor">
-                                        <path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/>
-                                    </svg>
-                                    {{ feature }}
-                                </li>
+                        <div class="model-chips-group">
+                            {% for chip in item.get_chips_list %}
+                                <span class="model-chip {% if item.is_featured and forloop.counter <= 2 %}chip-highlight{% endif %}">{{ chip }}</span>
                             {% endfor %}
-                        </ul>
+                        </div>
+                    </div>
 
-                        <a href="{{ plan.button_url }}"
-                           class="pricing-action-btn {% if plan.is_featured %}pricing-btn-solid{% else %}pricing-btn-outline{% endif %}">
-                            {{ plan.button_text }}
+                    <div class="model-card-bottom">
+                        <a href="{% url 'core:submit_ticket' %}" class="btn-model-action {% if item.is_featured %}solid{% else %}outline{% endif %}">
+                            <span>{{ item.action_text }}</span>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
                         </a>
                     </div>
-                {% endfor %}
-            </div>
-        </div>
-    </section>
-
-
-    <!-- ========================================== -->
-    <!-- بخش دوم: ویژگی‌ها (Real Finance)           -->
-    <!-- معرفی امکانات کلیدی حسابداری آفلاین و آنلاین-->
-    <!-- ========================================== -->
-    <section class="real-finance">
-        <div class="container real-grid">
-
-            <!-- 1. بخش محتوای متنی و کارت‌های امکانات (سمت راست) -->
-            <div class="real-content">
-                <h2>مدیریت مالی واقعی، <span class="highlight-text">برای کسب‌وکارهای واقعی</span></h2>
-
-                <!-- توضیحات اصلی بخش ویژگی‌ها -->
-                <p class="real-desc">
-                    دنیای واقعی با اینترنت کند، زمان کم و کارهای روزانه ساخته شده.
-                    AtraApp طوری طراحی شده که حتی وقتی آفلاینید، باز هم کنترل کامل
-                    روی حسابداری کسب‌وکار خود داشته باشید.
-                </p>
-
-                <!-- کارت‌های مدرن برای نمایش لیست ویژگی‌های اپلیکیشن -->
-                <div class="real-features">
-                    <!-- کارت ویژگی: ثبت فاکتور -->
-                    <div class="feature-card">
-                        <span class="icon">📄</span>
-                        <span class="text">فاکتور بزنید</span>
-                    </div>
-                    <!-- کارت ویژگی: ثبت تراکنش -->
-                    <div class="feature-card">
-                        <span class="icon">💳</span>
-                        <span class="text">تراکنش ثبت کنید</span>
-                    </div>
-                    <!-- کارت ویژگی: مدیریت مشتریان -->
-                    <div class="feature-card">
-                        <span class="icon">👥</span>
-                        <span class="text">مشتریان را مدیریت کنید</span>
-                    </div>
-                    <!-- کارت ویژگی: گزارش‌گیری -->
-                    <div class="feature-card">
-                        <span class="icon">📊</span>
-                        <span class="text">گزارش فوری بگیرید</span>
-                    </div>
                 </div>
+            {% empty %}
+                <!-- حالت پیش‌فرض در صورت خالی بودن دیتابیس -->
 
-                <!-- پیام پایانی بخش ویژگی‌ها -->
-                <p class="real-footer">
-                    حسابداری همیشه همراه شماست،
-                    حتی وقتی اینترنت همراه شما نیست.
-                </p>
-            </div>
-
-            <!-- 2. بخش تصویر و جلوه‌های بصری (سمت چپ) - موکاپ ایزومتریک -->
-            <div class="real-image-wrapper">
-                <!-- افکت هاله نوری در پس‌زمینه گوشی برای جذابیت بصری -->
-                <div class="glow-halo"></div>
-
-                <!-- کانتینر ایجاد افکت پرسپکتیو و سه‌بعدی (ایزومتریک) -->
-                <div class="isometric-mockup">
-                    <!-- قاب فیزیکی گوشی حاوی تصویر داشبورد اپلیکیشن -->
-                    <div class="phone-frame">
-                        <img src="{% static 'img/finance.jpg' %}" alt="AtraApp dashboard">
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </section>
-
-    <!-- ========================================== -->
-    <!-- FAQ ( سوالات متداول) -->
-    <!-- ========================================== -->
-    <section class="premium-faq-section">
-        <div class="faq-container">
-            <div class="faq-header">
-                <span class="faq-badge">پشتیبانی و راهنمایی هوشمند</span>
-                <h2 class="faq-title">پاسخ به <span class="text-neon-green">سوالات</span> شما</h2>
-                <p class="faq-subtitle">شفافیت مطلق؛ هر آنچه که برای اعتماد به "آترا" نیاز دارید بدانید.</p>
-            </div>
-
-            <!-- ساختار گرید دو ستونه -->
-            <div class="faq-grid">
-
-                <!-- سوال ۱ (تمرکز شدید روی آفلاین بودن) -->
-                <div class="faq-item highlight-offline">
-                    <button class="faq-question">
-                        <span class="q-text">آیا نرم‌افزار بدون اینترنت (کاملاً آفلاین) هم کار می‌کند؟</span>
-                        <div class="q-icon-box">
-                            <svg class="q-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                <polyline points="6 9 12 15 18 9"></polyline>
+                <!-- کارت ۱: مدل‌های زبانی و RAG -->
+                <div class="ai-model-card">
+                    <div class="model-card-top">
+                        <div class="model-icon-box">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                                <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                                <line x1="12" y1="22.08" x2="12" y2="12"></line>
                             </svg>
+                        </div>
+                        <span class="model-stack-tag">Llama / Qwen / Qdrant</span>
+                    </div>
+
+                    <div class="model-card-content">
+                        <h3 class="model-title">
+                            مدل‌های زبانی و دانش سازمانی
+                            <span class="model-subtitle-en">LLM & Enterprise RAG</span>
+                        </h3>
+                        <p class="model-desc">
+                            آموزش وزن‌ها و پایگاه دانش اختصاصی جهت درک اسناد، تحلیل گزارش‌ها و چت‌بات‌های کاملاً فکت‌محور بدون خطای توهم.
+                        </p>
+
+                        <div class="model-chips-group">
+                            <span class="model-chip">Hybrid Search</span>
+                            <span class="model-chip">Fine-Tuning با LoRA</span>
+                            <span class="model-chip">کوانتیزه‌سازی AWQ/GGUF</span>
+                            <span class="model-chip">پایگاه داده برداری pgvector</span>
+                        </div>
+                    </div>
+
+                    <div class="model-card-bottom">
+                        <a href="{% url 'core:submit_ticket' %}" class="btn-model-action outline">
+                            <span>سفارش راه‌اندازی RAG</span>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- کارت ۲: چندوجهی و تصویر (کارت برجسته ویژه) -->
+                <div class="ai-model-card featured-glow">
+                    <div class="featured-ribbon">
+                        <span>پرتقاضاترین راهکار</span>
+                    </div>
+
+                    <div class="model-card-top">
+                        <div class="model-icon-box accent-emerald">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                                <polyline points="21 15 16 10 5 21"></polyline>
+                            </svg>
+                        </div>
+                        <span class="model-stack-tag tag-emerald">Diffusion / Vision / ComfyUI</span>
+                    </div>
+
+                    <div class="model-card-content">
+                        <h3 class="model-title">
+                            هوش مصنوعی چندوجهی و تصویر
+                            <span class="model-subtitle-en">Vision & Generative Studio</span>
+                        </h3>
+                        <p class="model-desc">
+                            پایپ‌لاین‌های تولید تصویر استودیویی، عکاسی مجازی تجاری، فیس‌استودیو و بینایی ماشین متصل به وب‌سرویس و موبایل.
+                        </p>
+
+                        <div class="model-chips-group">
+                            <span class="model-chip chip-highlight">Flux & Stable Diffusion</span>
+                            <span class="model-chip chip-highlight">Face Studio / Swap نیتیو</span>
+                            <span class="model-chip">استخراج داده با Vision OCR</span>
+                            <span class="model-chip">صف‌های موازی با Celery</span>
+                        </div>
+                    </div>
+
+                    <div class="model-card-bottom">
+                        <a href="{% url 'core:submit_ticket' %}" class="btn-model-action solid">
+                            <span>سفارش مدل تصویر و ویژن</span>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- کارت ۳: ایجنت‌های تصمیم‌گیر خودکار -->
+                <div class="ai-model-card">
+                    <div class="model-card-top">
+                        <div class="model-icon-box">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                                <line x1="8" y1="21" x2="16" y2="21"></line>
+                                <line x1="12" y1="17" x2="12" y2="21"></line>
+                            </svg>
+                        </div>
+                        <span class="model-stack-tag">LangGraph / Function Calling</span>
+                    </div>
+
+                    <div class="model-card-content">
+                        <h3 class="model-title">
+                            ایجنت‌های مستقل و تصمیم‌گیر
+                            <span class="model-subtitle-en">Autonomous AI Agents</span>
+                        </h3>
+                        <p class="model-desc">
+                            مدل‌های هوشمند با قابلیت تصمیم‌گیری زنجیره‌ای، اتصال به پایگاه‌های داده، اجرای خودکار API و نظارت بر وظایف سازمانی.
+                        </p>
+
+                        <div class="model-chips-group">
+                            <span class="model-chip">Function Calling مستقیم</span>
+                            <span class="model-chip">معماری Multi-Agent</span>
+                            <span class="model-chip">گاردریل امنیتی (Guardrails)</span>
+                            <span class="model-chip">همگام‌سازی با پایگاه داده</span>
+                        </div>
+                    </div>
+
+                    <div class="model-card-bottom">
+                        <a href="{% url 'core:submit_ticket' %}" class="btn-model-action outline">
+                            <span>مشاوره ایجنت‌های هوشمند</span>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+    </div>
+</section>
+    <!-- ========================================== -->
+    <!-- سوالات متداول جامع مهندسی نرم‌افزار و AI  -->
+    <!-- ========================================== -->
+<section class="premium-faq-section">
+    <div class="faq-container">
+        <div class="faq-header">
+            <span class="faq-badge">راهنمای فنی و شفافیت فرآیند</span>
+            <h2 class="faq-title">پاسخ به سوالات <span class="text-neon-green">فنی و معماری</span></h2>
+            <p class="faq-subtitle">همه چیز درباره پیاده‌سازی هوش مصنوعی، امنیت داده‌ها، و استانداردهای توسعه نرم‌افزار</p>
+        </div>
+
+        <div class="faq-grid">
+            {% for item in faqs %}
+                <div class="faq-item {% if item.is_highlight %}highlight-offline{% endif %}">
+                    <button class="faq-question">
+                        <span class="q-text">{{ item.question }}</span>
+                        <div class="q-icon-box">
+                            <svg class="q-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="6 9 12 15 18 9"></polyline></svg>
                         </div>
                     </button>
                     <div class="faq-answer">
                         <div class="answer-inner">
-                            <p><strong>بله، با قدرت تمام!</strong> "آترا" بر پایه تکنولوژی Offline-First توسعه یافته
-                                است. در صورت قطعی اینترنت، شما بدون حتی یک ثانیه وقفه می‌توانید فاکتور صادر کنید، تراکنش
-                                بزنید و گزارش بگیرید. سیستم به صورت خودکار تمام تغییرات را در حافظه محلی (Local) امن
-                                سیستم شما رمزنگاری می‌کند و به محض اتصال مجدد به اینترنت، در کسری از ثانیه با سرور
-                                همگام‌سازی (Sync) می‌شود.</p>
+                            <p>{{ item.answer|safe }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <!-- سوال ۱ -->
+                <div class="faq-item highlight-offline">
+                    <button class="faq-question">
+                        <span class="q-text">سیستم RAG چه تفاوتی با Fine-Tuning دارد و کدام برای پروژه من مناسب‌تر است؟</span>
+                        <div class="q-icon-box">
+                            <svg class="q-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </div>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="answer-inner">
+                            <p><strong>RAG (بازیابی افزوده):</strong> مانند دادن یک کتابچه باز به مدل در جلسه امتحان است؛ برای اسنادی که دائماً آپدیت می‌شوند یا نباید در آن‌ها توهم (Hallucination) وجود داشته باشد ایده‌آل است. <strong>Fine-Tuning:</strong> مانند آموزش دادن یک رفتار، لحن و فرمت فکری جدید به مدل است. اگر دیتای تخصصی سازمانی دارید RAG انتخاب اول است، اما اگر ساختار خروجی خاص یا لحن متفاوتی می‌خواهید، Fine-Tuning یا ترکیب هر دو پیاده‌سازی می‌شود.</p>
                         </div>
                     </div>
                 </div>
@@ -530,37 +639,29 @@
                 <!-- سوال ۲ -->
                 <div class="faq-item">
                     <button class="faq-question">
-                        <span class="q-text">آیا اطلاعات مالی و دیتای حساس من در امنیت کامل است؟</span>
+                        <span class="q-text">چرا ترکیب پایتون/جنگو و فلاتر برای محصولات هوش مصنوعی بهترین انتخاب است؟</span>
                         <div class="q-icon-box">
-                            <svg class="q-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                <polyline points="6 9 12 15 18 9"></polyline>
-                            </svg>
+                            <svg class="q-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="6 9 12 15 18 9"></polyline></svg>
                         </div>
                     </button>
                     <div class="faq-answer">
                         <div class="answer-inner">
-                            <p>امنیت خط قرمز ماست. تمامی داده‌های شما با الگوریتم‌های پیشرفته (AES-256) رمزنگاری
-                                می‌شوند. دیتابیس‌ها در سرورهای ابری ایزوله با فایروال‌های چندلایه نگهداری شده و حتی تیم
-                                برنامه‌نویسی ما نیز امکان مشاهده داده‌های خام مالی شما را ندارد.</p>
+                            <p>پایتون زبان بومی هوش مصنوعی است؛ در نتیجه پیاده‌سازی بک‌اند با جنگو اجازه می‌دهد تمام پایپ‌لاین‌های AI، صف‌ها و دیتابیس‌های برداری بدون لایه واسط و مستقیم در سرور پردازش شوند. از طرف دیگر، کلاینت فلاتر با معماری نیتیو خود خروجی استریم پاسخ‌ها را بدون کوچک‌ترین تاخیر یا پرش فریم در iOS و Android به کاربر نمایش می‌دهد.</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- سوال ۳ (تمرکز مجدد روی حفظ دیتا در حالت آفلاین) -->
+                <!-- سوال ۳ -->
                 <div class="faq-item highlight-offline">
                     <button class="faq-question">
-                        <span class="q-text">اگر در حین ثبت سند برق برود یا سیستم خاموش شود، اطلاعات می‌پرد؟</span>
+                        <span class="q-text">آیا اطلاعات محرمانه سازمانی در سیستم RAG یا فاین‌تیون لو می‌رود؟</span>
                         <div class="q-icon-box">
-                            <svg class="q-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                <polyline points="6 9 12 15 18 9"></polyline>
-                            </svg>
+                            <svg class="q-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="6 9 12 15 18 9"></polyline></svg>
                         </div>
                     </button>
                     <div class="faq-answer">
                         <div class="answer-inner">
-                            <p>به هیچ وجه! سیستم Auto-Save آفلاین ما هر کلیدواژه‌ای که تایپ می‌کنید را در لحظه ذخیره
-                                می‌کند. حتی اگر در وسط ثبت یک فاکتور طولانی سیستم شما به طور ناگهانی خاموش شود، با روشن
-                                کردن مجدد، دقیقاً از همان کاراکتر آخری که تایپ کرده‌اید به کار خود ادامه خواهید داد.</p>
+                            <p>خیر. ما سیستم‌ها را به گونه‌ای طراحی می‌کنیم که کل دیتابیس برداری روی سرور اختصاصی و ایزوله شما مستقر شود. همچنین در صورت نیاز به امنیت صد درصدی، مدل‌های پرقدرت متن‌باز به صورت سلف‌هاست (Self-Hosted) روی سرور اختصاصی اجرا می‌شوند تا حتی یک کلمه به سرورهای خارجی ارسال نگردد.</p>
                         </div>
                     </div>
                 </div>
@@ -568,18 +669,14 @@
                 <!-- سوال ۴ -->
                 <div class="faq-item">
                     <button class="faq-question">
-                        <span class="q-text">تعرفه‌ها چگونه محاسبه می‌شود؟ آیا هزینه پنهانی وجود دارد؟</span>
+                        <span class="q-text">سیستم‌های آفلاین-فرست (Offline-First) چگونه کار می‌کنند؟</span>
                         <div class="q-icon-box">
-                            <svg class="q-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                <polyline points="6 9 12 15 18 9"></polyline>
-                            </svg>
+                            <svg class="q-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="6 9 12 15 18 9"></polyline></svg>
                         </div>
                     </button>
                     <div class="faq-answer">
                         <div class="answer-inner">
-                            <p>هیچ هزینه پنهانی در کار نیست. پلن‌های ما کاملاً شفاف و بر اساس پکیج‌های ماهانه یا سالانه
-                                ثابت است. تمامی آپدیت‌های امنیتی و امکانات جدید نرم‌افزار به صورت رایگان در اختیار
-                                مشترکین قرار می‌گیرد.</p>
+                            <p>در شرایطی که شبکه قطع شود، اپلیکیشن فلاتر متوقف نمی‌شود؛ بلکه تمام داده‌ها با ساختار رمزنگاری‌شده در دیتابیس محلی دستگاه ذخیره می‌شوند. به محض دسترسی به اینترنت، الگوریتم هماهنگ‌سازی تداخل‌ها را برطرف کرده و به شکل بی‌صدا دیتا را با پایگاه داده بک‌اند جنگو سینک می‌کند.</p>
                         </div>
                     </div>
                 </div>
@@ -587,18 +684,14 @@
                 <!-- سوال ۵ -->
                 <div class="faq-item">
                     <button class="faq-question">
-                        <span class="q-text">آیا می‌توانم از گزارش‌ها و نمودارها خروجی قانونی بگیرم؟</span>
+                        <span class="q-text">فرآیند تحویل سورس‌کد، مستندات و پشتیبانی به چه صورت است؟</span>
                         <div class="q-icon-box">
-                            <svg class="q-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                <polyline points="6 9 12 15 18 9"></polyline>
-                            </svg>
+                            <svg class="q-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="6 9 12 15 18 9"></polyline></svg>
                         </div>
                     </button>
                     <div class="faq-answer">
                         <div class="answer-inner">
-                            <p>قطعا. شما می‌توانید از تمامی داشبوردها، ترازنامه‌ها و گزارشات مالی با یک کلیک خروجی‌های
-                                استاندارد اکسل (Excel)، PDF با مهر سازمانی و حتی فرمت‌های تایید شده برای اداره مالیات
-                                دریافت کنید.</p>
+                            <p>تمام پروژه‌ها از طریق مخازن گیت (Git) با رعایت Clean Architecture، کامنت‌های ساختاریافته، فایل نیازمندی‌های کامل (requirements.txt و pubspec.yaml)، متغیرهای امنیتی محیطی (.env) و راهنمای استقرار سرور تحویل داده می‌شوند.</p>
                         </div>
                     </div>
                 </div>
@@ -606,119 +699,36 @@
                 <!-- سوال ۶ -->
                 <div class="faq-item">
                     <button class="faq-question">
-                        <span class="q-text">آیا امکان تعریف چند صندوق‌دار یا حسابدار با دسترسی محدود وجود دارد؟</span>
+                        <span class="q-text">آیا هزینه‌های پردازش مدل‌های سنگین هوش مصنوعی سرسام‌آور نیست؟</span>
                         <div class="q-icon-box">
-                            <svg class="q-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                <polyline points="6 9 12 15 18 9"></polyline>
-                            </svg>
+                            <svg class="q-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="6 9 12 15 18 9"></polyline></svg>
                         </div>
                     </button>
                     <div class="faq-answer">
                         <div class="answer-inner">
-                            <p>بله، سیستم مدیریت نقش‌ها (Role-Based Access) به شما اجازه می‌دهد تا بی‌نهایت کاربر تعریف
-                                کنید. می‌توانید مشخص کنید یک حسابدار فقط فاکتور ثبت کند اما به گزارشات سود و زیان یا
-                                داشبورد اصلی دسترسی نداشته باشد.</p>
+                            <p>با پیاده‌سازی متدهای بهینه‌سازی توکن، کش کردن امبدینگ‌ها با Redis، انتخاب چانک‌های دقیق و بهره‌گیری از مدل‌های کوانتیزه و سبک، هزینه‌های سرور و مصرف منابع سخت‌افزاری تا بیش از ۷۰ درصد کاهش پیدا می‌کند.</p>
                         </div>
                     </div>
                 </div>
-
-                <!-- سوال ۷ -->
-                <div class="faq-item">
-                    <button class="faq-question">
-                        <span class="q-text">بروزرسانی اطلاعات بین چند سیستم عامل چگونه است؟</span>
-                        <div class="q-icon-box">
-                            <svg class="q-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                <polyline points="6 9 12 15 18 9"></polyline>
-                            </svg>
-                        </div>
-                    </button>
-                    <div class="faq-answer">
-                        <div class="answer-inner">
-                            <p>پلتفرم ما کاملاً یکپارچه است. تراکنشی که حسابدار شما روی کامپیوتر شرکت ثبت می‌کند، در
-                                کمتر از میلی‌ثانیه از طریق تکنولوژی Web-Socket روی موبایل شما در هر کجای دنیا که باشید
-                                قابل مشاهده است.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- سوال ۸ -->
-                <div class="faq-item">
-                    <button class="faq-question">
-                        <span class="q-text">آیا برای استفاده از "آترا" نیاز به سیستم سخت‌افزاری قدرتمندی دارم؟</span>
-                        <div class="q-icon-box">
-                            <svg class="q-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                <polyline points="6 9 12 15 18 9"></polyline>
-                            </svg>
-                        </div>
-                    </button>
-                    <div class="faq-answer">
-                        <div class="answer-inner">
-                            <p>خیر! "آترا" بهینه‌ترین مصرف منابع (RAM و CPU) را دارد. از آنجا که پردازش‌های سنگین روی
-                                سرورهای قدرتمند ما انجام می‌شود، شما با یک لپ‌تاپ معمولی یا حتی گوشی هوشمند خود
-                                می‌توانید بدون افت سرعت کارهای حسابداری را مدیریت کنید.</p>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
+            {% endfor %}
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- =========================================================
-         بخش همکاران ما (Infinite Scroll Marquee)
-         ========================================================= -->
-    <section class="atra-partners-section">
-        <div class="atra-partners-header">
-            <h2 class="atra-partners-title">همکاران ما</h2>
-            <p class="atra-partners-subtitle">برندهایی که به ما اعتماد کرده‌اند و در کنارشان رشد کردیم</p>
+    <!-- ========================================== -->
+    <!-- دکمه شناور ارتباط مستقیم                   -->
+    <!-- ========================================== -->
+    <a href="tel:09387351533" class="atra-floating-sales-btn" id="sales-btn">
+        <div class="floating-btn-content">
+            <svg class="phone-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+            </svg>
+            <span class="btn-text">تماس و سفارش پروژه</span>
         </div>
+    </a>
 
-        <!-- کانتینر اصلی اسلایدر که لبه‌های محو داره -->
-        <div class="atra-partners-slider">
-
-            <!-- Track اول (مجموعه اول از همکاران) -->
-            <div class="atra-partners-track">
-                {% for partner in partners %}
-                    <div class="atra-partner-item">
-                        <div class="atra-partner-circle">
-                            {% if partner.logo %}
-                                <img src="{{ partner.logo.url }}" alt="لوگوی {{ partner.name }}">
-                            {% else %}
-                                <img src="https://via.placeholder.com/60" alt="لوگو">
-                            {% endif %}
-                        </div>
-                        <span class="atra-partner-name">{{ partner.name }}</span>
-                    </div>
-                {% empty %}
-                    <p>در حال حاضر همکاری ثبت نشده است.</p>
-                {% endfor %}
-            </div>
-
-            <!-- Track دوم (کپی دقیق از Track اول برای لوپ بی‌نهایت و بدون پرش) -->
-            <!-- این بخش دقیقا مانند بالاست تا انیمیشن CSS به درستی لوپ شود -->
-            <div class="atra-partners-track">
-                {% for partner in partners %}
-                    <div class="atra-partner-item">
-                        <div class="atra-partner-circle">
-                            {% if partner.logo %}
-                                <img src="{{ partner.logo.url }}" alt="لوگوی {{ partner.name }}">
-                            {% else %}
-                                <img src="https://via.placeholder.com/60" alt="لوگو">
-                            {% endif %}
-                        </div>
-                        <span class="atra-partner-name">{{ partner.name }}</span>
-                    </div>
-                {% endfor %}
-            </div>
-
-        </div>
-    </section>
-
-    <!-- =========================================================
-         پایان بخش همکاران ما
-         ========================================================= -->
-
-    <!-- Glassmorphism Scroll to Top Button -->
+    <!-- دکمه بازگشت به بالا -->
     <button id="glass-scroll-top" class="glass-scroll-btn" title="بازگشت به بالا">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
              stroke-linejoin="round">
@@ -727,7 +737,4 @@
         </svg>
     </button>
 
-
-    </body>
-    </html>
 {% endblock %}

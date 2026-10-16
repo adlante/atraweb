@@ -1,0 +1,97 @@
+{% extends 'parent/base.html' %}
+{% load static %}
+
+{% block title %}پیکربندی سرور لینوکس اوبونتو و امنیت کرنل | آترا{% endblock %}
+{% block meta_description %}امن‌سازی و بهینه‌سازی سرورهای لینوکس، مدیریت کاربران SSH، فایروال UFW، نصب پایتون و سیستم‌های نظارت بر سلامت سرور با تضمین آپتایم.{% endblock %}
+
+{% block extra_schema %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "پیکربندی و امن‌سازی سرورهای لینوکس اوبونتو",
+  "author": {"@type": "Organization", "name": "آترا"}
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<section class="linux-page-root">
+    <div class="container text-center">
+        <span class="linux-shield-badge">🛡️ زیرساخت لینوکس مقاوم در برابر نفوذ</span>
+        <h1 class="hero-main-title" style="color: #0f172a;">
+            پیکربندی و امن‌سازی <span class="text-emerald-glow">سرورهای لینوکس (Ubuntu)</span>
+        </h1>
+        <p class="hero-lead-text" style="margin: 0 auto 30px auto; color: #475569;">
+            پیکربندی کرنل، قطع دسترسی پورت‌های آسیب‌پذیر، رمزنگاری کلیدهای SSH و پایدارسازی رم سرور جهت اجرای بدون توقف پردازش‌های جنگو و هوش مصنوعی.
+        </p>
+    </div>
+
+    <!-- گرید مقایسه و چک‌لیست امنیتی -->
+    <div class="linux-audit-grid">
+        <div class="linux-spec-box">
+            <h3 style="font-size: 1.3rem; margin-bottom: 24px; color: #0f172a;">چک‌لیست امنیتی و مسدودسازی حملات</h3>
+
+            <div class="linux-step-item">
+                <span class="linux-step-num">۱</span>
+                <div>
+                    <h4 style="margin: 0 0 6px; font-size: 1rem; color: #0f172a;">غیرفعال‌سازی ورود روت و کلمه عبور</h4>
+                    <p style="margin: 0; font-size: 0.88rem; color: #64748b;">مسدود کردن کامل Password Authentication و احراز هویت صرفاً از طریق کلیدهای اختصاصی SSH.</p>
+                </div>
+            </div>
+
+            <div class="linux-step-item">
+                <span class="linux-step-num">۲</span>
+                <div>
+                    <h4 style="margin: 0 0 6px; font-size: 1rem; color: #0f172a;">راه‌اندازی فایروال UFW و Fail2ban</h4>
+                    <p style="margin: 0; font-size: 0.88rem; color: #64748b;">بستن پورت‌های مخفی دیتابیس و بن کردن اتوماتیک آی‌پی‌های مشکوک در اولین تلاش نفوذ.</p>
+                </div>
+            </div>
+
+            <div class="linux-step-item">
+                <span class="linux-step-num">۳</span>
+                <div>
+                    <h4 style="margin: 0 0 6px; font-size: 1rem; color: #0f172a;">آپدیت‌های امنیتی خودکار (Auto Patching)</h4>
+                    <p style="margin: 0; font-size: 0.88rem; color: #64748b;">نصب بسته‌های امنیتی اوبونتو بدون نیاز به ریستارت سرور با ابزار unattended-upgrades.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="linux-spec-box highlight">
+            <h3 style="font-size: 1.3rem; margin-bottom: 24px; color: #047857;">تنظیم منابع سخت‌افزاری و پایداری رم</h3>
+
+            <div class="linux-step-item">
+                <span class="linux-step-num" style="background: #047857; color: #fff;">⚡</span>
+                <div>
+                    <h4 style="margin: 0 0 6px; font-size: 1rem; color: #0f172a;">تنظیم حافظه مجازی ZRAM و Swap اختصاصی</h4>
+                    <p style="margin: 0; font-size: 0.88rem; color: #64748b;">جلوگیری قطعی از کرش سرور در زمان ترافیک سنگین یا پردازش داده‌های بزرگ مدل‌های زبانی.</p>
+                </div>
+            </div>
+
+            <div class="linux-step-item">
+                <span class="linux-step-num" style="background: #047857; color: #fff;">📊</span>
+                <div>
+                    <h4 style="margin: 0 0 6px; font-size: 1rem; color: #0f172a;">مانیتورینگ فرآیندها و سیستم‌عامل (Systemd)</h4>
+                    <p style="margin: 0; font-size: 0.88rem; color: #64748b;">تعریف سرویس‌های خودترمیم‌شونده که در صورت بروز خطای نرم‌افزاری در میلی‌ثانیه ریستارت می‌شوند.</p>
+                </div>
+            </div>
+
+            <div class="linux-step-item">
+                <span class="linux-step-num" style="background: #047857; color: #fff;">🔒</span>
+                <div>
+                    <h4 style="margin: 0 0 6px; font-size: 1rem; color: #0f172a;">ایزوله‌سازی کاربر سرویس و دسترسی دیسک</h4>
+                    <p style="margin: 0; font-size: 0.88rem; color: #64748b;">اجرای اپلیکیشن پایتون تحت کاربر بی‌اختیار (Non-root user) جهت مهار هرگونه آسیب‌پذیری احتمالی.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="custom-plan-card" style="max-width: 1200px; margin: 40px auto 0;">
+        <div class="custom-plan-info">
+            <h3 class="custom-plan-title">سرور اوبونتو جدید خریداری کرده‌اید یا سرور شما نیاز به ممیزی امنیتی دارد؟</h3>
+            <p class="custom-plan-desc">پیکربندی کامل سرور، انتقال داده‌ها و ایمن‌سازی پورت‌ها توسط تیم مهندسی آترا انجام می‌گیرد.</p>
+        </div>
+        <a href="{% url 'core:submit_ticket' %}" class="btn-custom">ثبت درخواست کانفیگ سرور لینوکس</a>
+    </div>
+</section>
+{% endblock %}

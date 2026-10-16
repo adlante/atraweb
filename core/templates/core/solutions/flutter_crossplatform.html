@@ -1,0 +1,94 @@
+{% extends 'parent/base.html' %}
+{% load static %}
+
+{% block title %}توسعه اپلیکیشن کراس‌پلتفرم Flutter برای iOS و Android | آترا{% endblock %}
+{% block meta_description %}توسعه نرم‌افزارهای چندسکویی با فلاتر؛ عملکرد نیتیو ۶۰ فریم بر ثانیه، یکپارچگی کدبیس و انتشار در اپ‌استور، گوگل‌پلی و کافه‌بازار.{% endblock %}
+
+{% block extra_css %}
+    <link href="{% static 'css/navbar.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<section class="offline-feature-page">
+    <div class="offline-container">
+
+        <div class="offline-hero">
+            <div class="offline-badge">
+                <span>توسعه کلاینت با فلاتر و دارت</span>
+            </div>
+            <h1 class="offline-main-title">
+                کراس‌پلتفرم پایدار با <span class="title-highlight">Flutter iOS & Android</span>
+            </h1>
+            <p class="offline-subtitle">
+                یک پایگاه کد مشترک، دو خروجی کامپایل‌شده نیتیو با موتور رندرینگ Impeller، رابط کاربری تطبیق‌پذیر و کارایی روان ۶۰ و ۱۲۰ فریم بر ثانیه.
+            </p>
+        </div>
+
+        <div class="offline-bento-grid">
+            <div class="offline-card bento-main">
+                <div class="offline-icon-wrapper">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+                        <line x1="12" y1="18" x2="12.01" y2="18"></line>
+                    </svg>
+                </div>
+                <h2 class="offline-card-title">معماری مقیاس‌پذیر BLoC و Clean Architecture</h2>
+                <p class="offline-card-text">
+                    جداسازی کامل لایه‌های Data ،Domain و Presentation با الگوی BLoC. مدیریت حالت‌های پیچیده نرم‌افزار، تست‌پذیری بدون وابستگی به فریم‌ورک و کنترل کامل تغییرات استیت در مقیاس‌های پروداکشن شرکتی.
+                </p>
+                <div class="offline-image-container">
+                    <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=900&q=80" alt="توسعه اپلیکیشن فلاتر موبایل">
+                </div>
+            </div>
+
+            <div class="offline-card bento-square-1">
+                <div class="offline-icon-wrapper">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                        <path d="M2 17l10 5 10-5"></path>
+                        <path d="M2 12l10 5 10-5"></path>
+                    </svg>
+                </div>
+                <h3 class="offline-card-title">طراحی UI تطبیق‌پذیر (Adaptive)</h3>
+                <p class="offline-card-text">
+                    رعایت دقیق گایدلاین‌های Material 3 برای اندروید و Cupertino برای iOS؛ المان‌ها و انیمیشن‌ها مطابق با تجربه کاربری سیستم‌عامل کاربر رندر می‌شوند.
+                </p>
+            </div>
+
+            <div class="offline-card bento-square-2">
+                <div class="offline-icon-wrapper">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 14 14"></polyline>
+                    </svg>
+                </div>
+                <h3 class="offline-card-title">کاهش ۵۰ درصدی هزینه توسعه</h3>
+                <p class="offline-card-text">
+                    به جای نگهداری دو تیم مجزای Swift و Kotlin، توسعه ویژگی‌ها، رفع باگ و اعمال تغییرات روی یک کدبیس انجام و به طور همزمان برای هر دو مارکت کامپایل می‌شود.
+                </p>
+            </div>
+
+            <div class="offline-card bento-wide">
+                <div class="wide-content">
+                    <h3 class="offline-card-title">انتشار رسمی در مارکت‌های داخلی و بین‌المللی</h3>
+                    <p class="offline-card-text">
+                        تنظیم گواهی‌های امضای دیجیتال (Keystore/Provisioning Profile)، اتصال به کانال‌های تست Firebase App Distribution و انتشار بدون رد شدن در Google Play، App Store، کافه‌بازار و مایکت.
+                    </p>
+                </div>
+                <div class="wide-image">
+                    <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&w=700&q=80" alt="انتشار اپلیکیشن در مارکت ها">
+                </div>
+            </div>
+        </div>
+
+        <div class="custom-plan-card" style="margin-top: 50px;">
+            <div class="custom-plan-info">
+                <h3 class="custom-plan-title">ایده اپلیکیشن خود را می‌خواهید پیاده‌سازی کنید؟</h3>
+                <p class="custom-plan-desc">از اسکچ‌های اولیه تا خروجی نهایی استورها همراه شما هستیم.</p>
+            </div>
+            <a href="{% url 'core:submit_ticket' %}" class="btn-custom">مشاوره ساخت اپلیکیشن Flutter</a>
+        </div>
+
+    </div>
+</section>
+{% endblock %}

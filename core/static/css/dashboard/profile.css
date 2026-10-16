@@ -1207,36 +1207,3 @@ body {
     color: #1f2937;
     transform: scale(1.05);
 }
-/* استایل پایه برای تمام پیام‌ها */
-.alert {
-    padding: 15px;
-    margin-bottom: 20px;
-    border: 1px solid transparent;
-    border-radius: 8px;
-    font-size: 14px;
-    line-height: 1.5;
-}
-
-/* استایل موفقیت (سبز) */
-.alert-success {
-    color: #155724;
-    background-color: #d4edda;
-    border-color: #c3e6cb;
-}
-
-/* استایل خطا (قرمز) */
-.alert-danger {
-    color: #721c24;
-    background-color: #f8d7da;
-    border-color: #f5c6cb;
-}
-
-/* استایل لیست خطاها */
-.alert-danger ul {
-    margin: 5px 0 0 0;
-    padding-right: 20px;
-}
-
-.alert-danger li {
-    margin-bottom: 5px;
-}

@@ -1638,3 +1638,88 @@
         font-size: 15px;
     }
 }
+/* =========================================================
+   اصلاح دقیق اینپوت‌ها، سلکت دپارتمان و فرم تیکت
+   ========================================================= */
+
+/* استایل دهی یکپارچه به انواع اینپوت‌ها، تکست‌اریا و سلکت */
+.atra-ticket-form-section input,
+.atra-ticket-form-section textarea,
+.atra-ticket-form-section select,
+.atra-ticket-input,
+.atra-ticket-textarea {
+    width: 100% !important;
+    padding: 13px 18px !important;
+    background: #ffffff !important;
+    border: 1.5px solid #e2e8f0 !important;
+    border-radius: 14px !important;
+    font-family: inherit !important;
+    font-size: 0.92rem !important;
+    color: #1e293b !important;
+    transition: all 0.25s ease !important;
+    box-sizing: border-box !important;
+    outline: none !important;
+}
+
+/* رفع باگ استایل پیش‌فرض و نازیبای مرورگر برای تگ select */
+.atra-ticket-form-section select {
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23047857' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e") !important;
+    background-repeat: no-repeat !important;
+    background-position: left 16px center !important;
+    background-size: 16px !important;
+    padding-left: 42px !important;
+    cursor: pointer !important;
+    height: 50px !important;
+}
+
+/* حالت فوکوس با هاله سبز زمردی برند */
+.atra-ticket-form-section input:focus,
+.atra-ticket-form-section textarea:focus,
+.atra-ticket-form-section select:focus {
+    border-color: #047857 !important;
+    box-shadow: 0 0 0 4px rgba(4, 120, 87, 0.12) !important;
+    background-color: #ffffff !important;
+}
+
+/* زیباتر کردن ارتفاع تکست‌اریا */
+.atra-ticket-form-section textarea {
+    min-height: 130px !important;
+    resize: vertical !important;
+    line-height: 1.8 !important;
+}
+
+/* دکمه ارسال با گرادیانت سبز اختصاصی */
+.atra-ticket-submit-btn {
+    margin-top: 28px !important;
+    background: linear-gradient(135deg, #047857 0%, #059669 100%) !important;
+    color: #ffffff !important;
+    border: none !important;
+    padding: 15px 30px !important;
+    border-radius: 14px !important;
+    font-size: 1rem !important;
+    font-weight: 800 !important;
+    cursor: pointer !important;
+    transition: all 0.25s ease !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    width: 100% !important;
+    box-shadow: 0 10px 24px rgba(4, 120, 87, 0.3) !important;
+}
+
+.atra-ticket-submit-btn:hover {
+    background: linear-gradient(135deg, #059669 0%, #10b981 100%) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 14px 30px rgba(4, 120, 87, 0.45) !important;
+}
+
+/* استایل آیکون‌های کادر اطلاعات تماس سمت راست */
+.atra-ticket-item-icon {
+    background: rgba(16, 185, 129, 0.18) !important;
+    color: #34d399 !important;
+    border: 1px solid rgba(52, 211, 153, 0.3) !important;
+}

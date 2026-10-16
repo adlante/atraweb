@@ -1,84 +1,114 @@
 {% extends 'parent/base.html' %}
 {% load static %}
+
+{% block title %}سفارش پروژه نرم‌افزاری و مشاوره هوش مصنوعی | آترا{% endblock %}
+{% block meta_description %}ثبت سفارش توسعه وب‌سرویس Django، ساخت اپلیکیشن Flutter، پیاده‌سازی سیستم‌های RAG و مدل‌های هوش مصنوعی اختصاصی.{% endblock %}
+
 {% block extra_css %}
     <link href="{% static 'css/navbar.css' %}" rel="stylesheet">
 {% endblock %}
+
 {% block content %}
 <div class="atra-ticket-wrapper">
     <div class="atra-ticket-container">
 
-        <!-- بخش اطلاعات و مزایا (راست) -->
+        <!-- بخش اطلاعات و مزایای استودیو مهندسی (راست) -->
         <div class="atra-ticket-info">
             <div class="atra-ticket-info-content">
-                <h2>ما اینجا هستیم تا کمک کنیم!</h2>
-                <p>تیم پشتیبانی متخصص آترا به صورت ۲۴ ساعته در ۷ روز هفته آماده پاسخگویی به سوالات و رفع مشکلات شماست. رضایت شما اولویت اول ماست.</p>
+                <h2>استارت و مهندسی پروژه شما</h2>
+                <p>تیم مهندسی آترا پروپوزال فنی، معماری داده‌ها، تخمین زمان و زیرساخت مناسب پلتفرم شما را در کمترین زمان ممکن آماده و ارائه می‌کند.</p>
 
                 <div class="atra-ticket-contact-items">
                     <div class="atra-ticket-item">
                         <div class="atra-ticket-item-icon">⚡</div>
                         <div>
-                            <strong style="display:block; margin-bottom:5px;">پاسخگویی سریع</strong>
-                            <span style="color:#cbd5e1; font-size:0.85rem;">میانگین زمان پاسخگویی کمتر از ۳۰ دقیقه</span>
+                            <strong style="display:block; margin-bottom:5px;">معماری مدرن و تمیز</strong>
+                            <span style="color:#cbd5e1; font-size:0.85rem;">کدبیس ماژولار در Django و Clean Architecture در Flutter</span>
+                        </div>
+                    </div>
+                    <div class="atra-ticket-item">
+                        <div class="atra-ticket-item-icon">🧠</div>
+                        <div>
+                            <strong style="display:block; margin-bottom:5px;">یکپارچه‌سازی هوش مصنوعی</strong>
+                            <span style="color:#cbd5e1; font-size:0.85rem;">استقرار RAG بدون توهم و مدل‌های Fine-Tune شده روی سرور شخصی</span>
+                        </div>
+                    </div>
+                    <div class="atra-ticket-item">
+                        <div class="atra-ticket-item-icon">🛡️</div>
+                        <div>
+                            <strong style="display:block; margin-bottom:5px;">قرارداد محرمانگی و امنیت (NDA)</strong>
+                            <span style="color:#cbd5e1; font-size:0.85rem;">تضمین حفظ مالکیت معنوی، سورس‌کد و دیتابیس اختصاصی</span>
                         </div>
                     </div>
                     <div class="atra-ticket-item">
                         <div class="atra-ticket-item-icon">📞</div>
                         <div>
-                            <strong style="display:block; margin-bottom:5px;">پشتیبانی تلفنی</strong>
-                            <span style="color:#cbd5e1; font-size:0.85rem;">۰۲۱-۱۲۳۴۵۶۷۸ (ساعات اداری)</span>
+                            <strong style="display:block; margin-bottom:5px;">مشاوره فنی مستقیم</strong>
+                            <span style="color:#cbd5e1; font-size:0.85rem; direction: ltr; display: inline-block;">۰۹۳۸۷۳۵۱۵۳۳</span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- بخش فرم تیکت (چپ) -->
+        <!-- بخش فرم ثبت پروژه (چپ) -->
         <div class="atra-ticket-form-section">
-            <h3>ثبت تیکت جدید</h3>
+            <h3>ثبت بریف پروژه / درخواست مشاوره فنی</h3>
 
-            <!-- نمایش پیام‌های جنگو (Success/Error) -->
-            {% if messages %}
-            <div class="atra-ticket-messages">
-                {% for message in messages %}
-                <div class="atra-ticket-alert">{{ message }}</div>
-                {% endfor %}
-            </div>
+            <!-- پیام‌های موفقیت یا خطا -->
+            <!-- پیام‌های موفقیت یا خطا -->
+{% if messages %}
+<div class="atra-ticket-messages">
+    {% for message in messages %}
+        <div class="atra-ticket-alert alert-{{ message.tags }}">
+            {% if message.tags == 'error' %}
+                <span class="alert-icon">⚠️</span>
+            {% else %}
+                <span class="alert-icon">✅</span>
             {% endif %}
+            <span>{{ message }}</span>
+        </div>
+    {% endfor %}
+</div>
+{% endif %}
 
-            <!-- فرم -->
+            <!-- فرم ثبت درخواست -->
             <form method="POST" action="{% url 'core:submit_ticket' %}">
                 {% csrf_token %}
                 <div class="atra-ticket-form-grid">
 
                     <div class="atra-ticket-form-group">
-                        <label for="{{ form.name.id_for_label }}">نام و نام خانوادگی</label>
+                        <label for="{{ form.name.id_for_label }}">نام و نام خانوادگی / نام سازمان</label>
                         {{ form.name }}
                     </div>
 
                     <div class="atra-ticket-form-group">
-                        <label for="{{ form.phone.id_for_label }}">شماره موبایل</label>
+                        <label for="{{ form.phone.id_for_label }}">شماره تماس (جهت هماهنگی فنی)</label>
                         {{ form.phone }}
                     </div>
 
                     <div class="atra-ticket-form-group full-width">
-                        <label for="{{ form.department.id_for_label }}">دپارتمان مربوطه</label>
-                        {{ form.department }}
+                        <label for="{{ form.department.id_for_label }}">حوزه فنی و دسته‌بندی پروژه</label>
+                        <div class="select-field-wrapper">
+                            {{ form.department }}
+                        </div>
                     </div>
 
                     <div class="atra-ticket-form-group full-width">
-                        <label for="{{ form.subject.id_for_label }}">موضوع تیکت</label>
+                        <label for="{{ form.subject.id_for_label }}">عنوان کلی پروژه یا نیازمندی</label>
                         {{ form.subject }}
                     </div>
 
                     <div class="atra-ticket-form-group full-width">
-                        <label for="{{ form.message.id_for_label }}">شرح کامل درخواست</label>
+                        <label for="{{ form.message.id_for_label }}">شرح جزئیات فنی، اهداف، امکانات مورد نیاز و ددلاین تقریبی</label>
                         {{ form.message }}
                     </div>
 
                 </div>
 
                 <button type="submit" class="atra-ticket-submit-btn">
-                    ارسال تیکت به کارشناسان
+                    <span>ارسال بریف و دریافت مشاوره فنی</span>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-right: 6px;"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
                 </button>
             </form>
         </div>

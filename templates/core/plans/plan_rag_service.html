@@ -1,0 +1,303 @@
+{% extends 'parent/base.html' %}
+{% load static %}
+
+{% block title %}پلن پیاده‌سازی پایگاه دانش سازمانی RAG | استقرار چت‌بات اسناد | آترا{% endblock %}
+{% block meta_description %}پکیج کامل پیاده‌سازی سیستم RAG سازمانی؛ چانک‌بندی دقیق اسناد، اتصال به دیتابیس برداری Qdrant و استقرار لوکال بدون نشت اطلاعات اسناد.{% endblock %}
+{% block meta_keywords %}قیمت پیاده سازی RAG, هزینه راه اندازی پایگاه دانش, ساخت چت بات هوش مصنوعی اسناد, چت بات شرکتی RAG, هوش مصنوعی سازمانی{% endblock %}
+
+{% block extra_schema %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "headline": "پلن پیاده‌سازی پایگاه دانش سازمانی RAG | استقرار چت‌بات اسناد | آترا",
+      "description": "پکیج کامل پیاده‌سازی سیستم RAG سازمانی؛ چانک‌بندی دقیق اسناد، اتصال به دیتابیس برداری Qdrant و استقرار لوکال بدون نشت اطلاعات اسناد.",
+      "author": {"@type": "Organization", "name": "استودیو مهندسی آترا"},
+      "publisher": {"@type": "Organization", "name": "استودیو مهندسی آترا"}
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+              "@type": "Question",
+              "name": "آیا برای استفاده از RAG نیاز به آموزش مدل (Fine-Tuning) داریم؟",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "خیر؛ معماری RAG نیازی به تغییر وزن مدل ندارد و در زمان پاسخ‌دهی اسناد را به مدل الصاق می‌کند، به همین دلیل بسیار سریع‌تر و ارزان‌تر مستقر می‌شود."
+              }
+            },
+{
+              "@type": "Question",
+              "name": "اگر اسناد جدید اضافه شوند، سیستم چگونه به‌روز می‌شود؟",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "پنل ادمین اختصاصی به شما اجازه می‌دهد هر زمان فایل جدیدی آپلود کنید؛ سیستم خودکار آن را چانک‌بندی و به وکتور دیتابیس اضافه می‌کند."
+              }
+            }
+      ]
+    }
+  ]
+}
+</script>
+{% endblock %}
+
+{% block extra_css %}
+    <link href="{% static 'css/navbar.css' %}" rel="stylesheet">
+    <style>
+        .rich-page-root {
+            background: #ffffff;
+            padding: 80px 24px 120px;
+            direction: rtl;
+            color: #0f172a;
+            font-family: inherit;
+        }
+        .rich-content-container {
+            max-width: 1180px;
+            margin: 0 auto;
+        }
+        .rich-section-block {
+            margin-bottom: 70px;
+        }
+        .rich-section-title {
+            font-size: 1.85rem;
+            font-weight: 900;
+            color: #0f172a;
+            margin-bottom: 20px;
+            position: relative;
+            padding-right: 18px;
+        }
+        .rich-section-title::before {
+            content: "";
+            position: absolute;
+            right: 0;
+            top: 6px;
+            bottom: 6px;
+            width: 5px;
+            background: #047857;
+            border-radius: 4px;
+        }
+        .rich-text {
+            font-size: 1.02rem;
+            line-height: 2;
+            color: #334155;
+            text-align: justify;
+            margin-bottom: 24px;
+        }
+        .rich-pillars-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 28px;
+            margin: 36px 0;
+        }
+        .rich-pillar-card {
+            background: #f8fafc;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 20px;
+            padding: 32px 28px;
+            transition: all 0.3s ease;
+        }
+        .rich-pillar-card:hover {
+            border-color: #047857;
+            box-shadow: 0 16px 35px -8px rgba(4, 120, 87, 0.12);
+            transform: translateY(-4px);
+        }
+        .rich-pillar-title {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #0f172a;
+            margin: 0 0 12px 0;
+        }
+        .rich-pillar-text {
+            font-size: 0.92rem;
+            line-height: 1.85;
+            color: #64748b;
+            margin: 0 0 18px 0;
+        }
+        .rich-feature-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .rich-feature-tag {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.76rem;
+            color: #1e293b;
+            font-weight: 600;
+        }
+        .rich-table-wrap {
+            overflow-x: auto;
+            margin: 30px 0;
+            border-radius: 16px;
+            border: 1.5px solid #e2e8f0;
+            box-shadow: 0 8px 24px -6px rgba(15, 23, 42, 0.04);
+        }
+        .rich-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: right;
+            font-size: 0.95rem;
+        }
+        .rich-table th {
+            background: #0f172a;
+            color: #ffffff;
+            padding: 16px 20px;
+            font-weight: 800;
+        }
+        .rich-table td {
+            padding: 16px 20px;
+            border-bottom: 1px solid #f1f5f9;
+            color: #334155;
+            vertical-align: middle;
+        }
+        .rich-table tr:nth-child(even) td {
+            background: #f8fafc;
+        }
+        .rich-table tr:last-child td {
+            border-bottom: none;
+        }
+        .faq-accordion-group {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-top: 30px;
+        }
+        .faq-item-box {
+            background: #f8fafc;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 24px 28px;
+            transition: border-color 0.25s ease;
+        }
+        .faq-item-box:hover {
+            border-color: #047857;
+        }
+        .faq-question-title {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: #0f172a;
+            margin: 0 0 10px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .faq-question-title span {
+            color: #047857;
+        }
+        .faq-answer-text {
+            font-size: 0.95rem;
+            line-height: 1.9;
+            color: #475569;
+            margin: 0;
+        }
+        @media (max-width: 860px) {
+            .rich-pillars-grid {
+                grid-template-columns: 1fr;
+            }
+            .rich-section-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+<div class="rich-page-root">
+    <div class="rich-content-container">
+
+        <!-- هدر اصلی -->
+        <div class="text-center" style="margin-bottom: 60px;">
+            <div class="linux-shield-badge">
+                <span>Turnkey Enterprise RAG</span>
+            </div>
+            <h1 class="hero-main-title" style="color: #0f172a; max-width: 900px; margin: 0 auto 18px auto;">
+                پلن جامع پیاده‌سازی <span class="text-emerald-glow">پایگاه دانش هوشمند RAG</span>
+            </h1>
+            <p class="hero-lead-text" style="color: #475569; max-width: 820px; margin: 0 auto;">
+                کل اسناد، فایل‌های PDF، اکسل‌ها و آیین‌نامه‌های سازمان خود را در کمتر از ۱۰ روز کاری به دستیار هوشمند سازمانی مجهز کنید.
+            </p>
+        </div>
+
+        <!-- کارت‌های چهارگانه ستون‌های فنی -->
+        <section class="rich-section-block">
+            <h2 class="rich-section-title">آنچه در این پکیج تحویل می‌گیرید</h2>
+            <div class="rich-pillars-grid">
+                
+                <div class="rich-pillar-card">
+                    <h3 class="rich-pillar-title">خط لوله کامل استخراج داده‌ها (Data Ingestion)</h3>
+                    <p class="rich-pillar-text">نرم‌افزار اختصاصی برای آپلود، خواندن اسناد اسکن‌شده با OCR، تمیزکاری و تزریق به پایگاه داده برداری.</p>
+                    <div class="rich-feature-tags"><span class="rich-feature-tag">Automated Ingestion</span><span class="rich-feature-tag">OCR Vision</span><span class="rich-feature-tag">Vector Pipeline</span></div>
+                </div>
+            
+                <div class="rich-pillar-card">
+                    <h3 class="rich-pillar-title">موتور جستجوی ترکیبی هیبریدی و Re-ranking</h3>
+                    <p class="rich-pillar-text">تضمین بالاترین دقت پاسخ‌دهی به سوالات اداری با تلفیق جستجوی کلیدواژه و شباهت معنایی بدون توهم.</p>
+                    <div class="rich-feature-tags"><span class="rich-feature-tag">Hybrid Search</span><span class="rich-feature-tag">Cross-Encoder</span><span class="rich-feature-tag">Zero Hallucination</span></div>
+                </div>
+            
+                <div class="rich-pillar-card">
+                    <h3 class="rich-pillar-title">رابط کاربری تحت وب و موبایل چت سازمانی</h3>
+                    <p class="rich-pillar-text">داشبورد چت زنده با استریم بلادرنگ، رندر فرمول و جدول، و نمایش مستقیم شماره صفحه سند مرجع.</p>
+                    <div class="rich-feature-tags"><span class="rich-feature-tag">Chat Interface</span><span class="rich-feature-tag">Source Citations</span><span class="rich-feature-tag">SSE Stream</span></div>
+                </div>
+            
+                <div class="rich-pillar-card">
+                    <h3 class="rich-pillar-title">استقرار روی سرورهای داخلی سازمان (On-Premise)</h3>
+                    <p class="rich-pillar-text">نصب و کانفیگ کامل روی سخت‌افزار اختصاصی شما بدون وابستگی به سرویس‌ها و اینترنت خارجی.</p>
+                    <div class="rich-feature-tags"><span class="rich-feature-tag">Air-Gapped Node</span><span class="rich-feature-tag">Data Security</span><span class="rich-feature-tag">Self-Hosted LLMs</span></div>
+                </div>
+            
+            </div>
+        </section>
+
+        <!-- جدول مقایسه فنی تخصصی -->
+        <section class="rich-section-block">
+            <h2 class="rich-section-title">جدول مقایسه استانداردهای پیاده‌سازی</h2>
+            <div class="rich-table-wrap">
+                <table class="rich-table">
+                    <thead>
+                        <tr>
+                            <th>مرحله پروژه</th><th>دستاوردهای فاز</th><th>مدت زمان تقریبی</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>نیازسنجی و بررسی اسناد</td><td>ارزیابی ساختار اسناد و نمونه‌برداری از چانک‌ها.</td><td>۳ روز کاری</td></tr><tr><td>پیکربندی خط لوله و وکتور دیتابیس</td><td>استقرار Qdrant/pgvector و متصل‌سازی مدل زبانی.</td><td>۵ روز کاری</td></tr><tr><td>دمو، ارزیابی دقت و تحویل نهایی</td><td>تست سناریوهای سخت و تحویل پنل وب به پرسنل.</td><td>۳ روز کاری</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- سوالات متداول سئو FAQ -->
+        <section class="rich-section-block">
+            <h2 class="rich-section-title">پرسش‌های پرتکرار فنی (FAQ)</h2>
+            <div class="faq-accordion-group">
+                
+                <div class="faq-item-box">
+                    <h3 class="faq-question-title"><span>✦</span> آیا برای استفاده از RAG نیاز به آموزش مدل (Fine-Tuning) داریم؟</h3>
+                    <p class="faq-answer-text">خیر؛ معماری RAG نیازی به تغییر وزن مدل ندارد و در زمان پاسخ‌دهی اسناد را به مدل الصاق می‌کند، به همین دلیل بسیار سریع‌تر و ارزان‌تر مستقر می‌شود.</p>
+                </div>
+            
+                <div class="faq-item-box">
+                    <h3 class="faq-question-title"><span>✦</span> اگر اسناد جدید اضافه شوند، سیستم چگونه به‌روز می‌شود؟</h3>
+                    <p class="faq-answer-text">پنل ادمین اختصاصی به شما اجازه می‌دهد هر زمان فایل جدیدی آپلود کنید؛ سیستم خودکار آن را چانک‌بندی و به وکتور دیتابیس اضافه می‌کند.</p>
+                </div>
+            
+            </div>
+        </section>
+
+        <!-- بنر کال تو اکشن ثبت پروژه -->
+        <div class="custom-plan-card">
+            <div class="custom-plan-info">
+                <h3 class="custom-plan-title">اسناد و دانش سازمان خود را هوشمند و استعلام‌پذیر کنید</h3>
+                <p class="custom-plan-desc">جلسه دمو و نیازسنجی را با متخصصین هوش مصنوعی آترا هماهنگ کنید.</p>
+            </div>
+            <a href="{% url 'core:submit_ticket' %}" class="btn-custom">سفارش پیاده‌سازی RAG سازمانی</a>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

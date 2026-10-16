@@ -1,0 +1,80 @@
+{% extends 'parent/base.html' %}
+{% load static %}
+
+{% block title %}انتشار رسمی اپلیکیشن در گوگل‌پلی، اپ‌استور و کافه‌بازار | آترا{% endblock %}
+{% block meta_description %}انتشار حرفه‌ای اپلیکیشن Flutter در مارکت‌های داخلی و بین‌المللی؛ ساخت باندل AAB، رعایت پالیسی‌های Google Play و App Store و دریافت تاییدیه.{% endblock %}
+
+{% block extra_schema %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "انتشار اپلیکیشن در مارکت‌ها و استورها",
+  "author": {"@type": "Organization", "name": "آترا"}
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<section class="store-page-root">
+    <div class="container text-center">
+        <!-- برچسب‌های مارکت‌ها -->
+        <div class="store-brands-strip">
+            <div class="store-brand-pill"><span>🟢</span> کافه‌بازار (Cafe Bazaar)</div>
+            <div class="store-brand-pill"><span>🤖</span> گوگل‌پلی (Google Play)</div>
+            <div class="store-brand-pill"><span>🍎</span> اپ‌استور (App Store)</div>
+            <div class="store-brand-pill"><span>🔵</span> مایکت (Myket)</div>
+        </div>
+
+        <h1 class="hero-main-title" style="color: #0f172a;">
+            انتشار رسمی و <span class="text-emerald-glow">پاس کردن تاییدیه‌های مارکت‌ها</span>
+        </h1>
+        <p class="hero-lead-text" style="margin: 0 auto 30px auto; color: #475569;">
+            دیگر نگران ریجکت شدن به خاطر تحریم، نقض قوانین حریم خصوصی یا خطاهای سایز بیلد نباشید.
+        </p>
+    </div>
+
+    <!-- مراحل گام‌به‌گام انتشار -->
+    <div class="store-steps-row">
+        <div class="store-step-card">
+            <div class="store-badge-icon">🔑</div>
+            <h3 style="font-size: 1.15rem; margin: 0 0 10px;">۱. ساخت کلیدهای امضا (Keystore)</h3>
+            <p style="font-size: 0.88rem; color: #64748b; margin: 0; line-height: 1.7;">
+                تولید کلیدهای رسمی با الگوریتم SHA-256 و نگهداری امن برای تداوم آپدیت‌های آینده بدون تداخل پکیج.
+            </p>
+        </div>
+
+        <div class="store-step-card">
+            <div class="store-badge-icon">📦</div>
+            <h3 style="font-size: 1.15rem; margin: 0 0 10px;">۲. خروجی بهینه فرمت AAB</h3>
+            <p style="font-size: 0.88rem; color: #64748b; margin: 0; line-height: 1.7;">
+                کاهش حجم دانلود کاربر با فشرده‌سازی R8 و ProGuard و حذف کدهای آزمایشی و تست از بیلد نهایی.
+            </p>
+        </div>
+
+        <div class="store-step-card">
+            <div class="store-badge-icon">📜</div>
+            <h3 style="font-size: 1.15rem; margin: 0 0 10px;">۳. تطبیق قوانین حریم خصوصی (Privacy)</h3>
+            <p style="font-size: 0.88rem; color: #64748b; margin: 0; line-height: 1.7;">
+                تدوین استاندارد صفحه شرایط استفاده و تعیین صحیح دسترسی‌ها جهت عبور از بررسی خودکار استورها.
+            </p>
+        </div>
+
+        <div class="store-step-card">
+            <div class="store-badge-icon">🚀</div>
+            <h3 style="font-size: 1.15rem; margin: 0 0 10px;">۴. تاییدیه نهایی و انتشار عمومی</h3>
+            <p style="font-size: 0.88rem; color: #64748b; margin: 0; line-height: 1.7;">
+                تنظیم دسته‌بندی، متون ASO و تصاویر استاندارد مارکت و دریافت تایید رسمی برای شروع دانلود کاربران.
+            </p>
+        </div>
+    </div>
+
+    <div class="custom-plan-card" style="max-width: 1240px; margin: 40px auto 0;">
+        <div class="custom-plan-info">
+            <h3 class="custom-plan-title">اپلیکیشن فلاتر شما آماده انتشار و بارگذاری در استورهاست؟</h3>
+            <p class="custom-plan-desc">فرایند ساخت بیلد رسمی، دریافت تاییدیه و انتشار نهایی را به متخصصین آترا بسپارید.</p>
+        </div>
+        <a href="{% url 'core:submit_ticket' %}" class="btn-custom">سفارش انتشار اپلیکیشن در مارکت‌ها</a>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,303 @@
+{% extends 'parent/base.html' %}
+{% load static %}
+
+{% block title %}پیاده‌سازی پایگاه دانش سازمانی RAG | چت با اسناد بدون خطای توهم مدل‌های زبانی{% endblock %}
+{% block meta_description %}طراحی و پیاده‌سازی خط لوله‌های RAG سازمانی؛ چانک‌بندی هوشمند اسناد PDF و جداول، دیتابیس برداری Qdrant و استخراج پاسخ‌های فکت‌محور بدون توهم هوش مصنوعی.{% endblock %}
+{% block meta_keywords %}پیاده سازی RAG, پایگاه دانش هوش مصنوعی, چت با اسناد پی دی اف, کاهش توهم هوش مصنوعی, دیتابیس برداری Qdrant, سیستم RAG سازمانی{% endblock %}
+
+{% block extra_schema %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "headline": "پیاده‌سازی پایگاه دانش سازمانی RAG | چت با اسناد بدون خطای توهم مدل‌های زبانی",
+      "description": "طراحی و پیاده‌سازی خط لوله‌های RAG سازمانی؛ چانک‌بندی هوشمند اسناد PDF و جداول، دیتابیس برداری Qdrant و استخراج پاسخ‌های فکت‌محور بدون توهم هوش مصنوعی.",
+      "author": {"@type": "Organization", "name": "استودیو مهندسی آترا"},
+      "publisher": {"@type": "Organization", "name": "استودیو مهندسی آترا"}
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+              "@type": "Question",
+              "name": "سیستم RAG برای چه اسنادی مناسب است؟",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "کاتالوگ‌های فنی، قوانین و آیین‌نامه‌ها، پرونده‌های پزشکی، گزارش‌های مالی و فاکتورها، و اسناد محرمانه شرکت‌ها."
+              }
+            },
+{
+              "@type": "Question",
+              "name": "چگونه سرعت پاسخ‌دهی را تضمین می‌کنید؟",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "با کش کردن کوئری‌های تکراری در Redis و کوانتیزه‌سازی بردارها در Qdrant، زمان بازیابی اطلاعات به کمتر از ۳۰ میلی‌ثانیه می‌رسد."
+              }
+            }
+      ]
+    }
+  ]
+}
+</script>
+{% endblock %}
+
+{% block extra_css %}
+    <link href="{% static 'css/navbar.css' %}" rel="stylesheet">
+    <style>
+        .rich-page-root {
+            background: #ffffff;
+            padding: 80px 24px 120px;
+            direction: rtl;
+            color: #0f172a;
+            font-family: inherit;
+        }
+        .rich-content-container {
+            max-width: 1180px;
+            margin: 0 auto;
+        }
+        .rich-section-block {
+            margin-bottom: 70px;
+        }
+        .rich-section-title {
+            font-size: 1.85rem;
+            font-weight: 900;
+            color: #0f172a;
+            margin-bottom: 20px;
+            position: relative;
+            padding-right: 18px;
+        }
+        .rich-section-title::before {
+            content: "";
+            position: absolute;
+            right: 0;
+            top: 6px;
+            bottom: 6px;
+            width: 5px;
+            background: #047857;
+            border-radius: 4px;
+        }
+        .rich-text {
+            font-size: 1.02rem;
+            line-height: 2;
+            color: #334155;
+            text-align: justify;
+            margin-bottom: 24px;
+        }
+        .rich-pillars-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 28px;
+            margin: 36px 0;
+        }
+        .rich-pillar-card {
+            background: #f8fafc;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 20px;
+            padding: 32px 28px;
+            transition: all 0.3s ease;
+        }
+        .rich-pillar-card:hover {
+            border-color: #047857;
+            box-shadow: 0 16px 35px -8px rgba(4, 120, 87, 0.12);
+            transform: translateY(-4px);
+        }
+        .rich-pillar-title {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #0f172a;
+            margin: 0 0 12px 0;
+        }
+        .rich-pillar-text {
+            font-size: 0.92rem;
+            line-height: 1.85;
+            color: #64748b;
+            margin: 0 0 18px 0;
+        }
+        .rich-feature-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .rich-feature-tag {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.76rem;
+            color: #1e293b;
+            font-weight: 600;
+        }
+        .rich-table-wrap {
+            overflow-x: auto;
+            margin: 30px 0;
+            border-radius: 16px;
+            border: 1.5px solid #e2e8f0;
+            box-shadow: 0 8px 24px -6px rgba(15, 23, 42, 0.04);
+        }
+        .rich-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: right;
+            font-size: 0.95rem;
+        }
+        .rich-table th {
+            background: #0f172a;
+            color: #ffffff;
+            padding: 16px 20px;
+            font-weight: 800;
+        }
+        .rich-table td {
+            padding: 16px 20px;
+            border-bottom: 1px solid #f1f5f9;
+            color: #334155;
+            vertical-align: middle;
+        }
+        .rich-table tr:nth-child(even) td {
+            background: #f8fafc;
+        }
+        .rich-table tr:last-child td {
+            border-bottom: none;
+        }
+        .faq-accordion-group {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-top: 30px;
+        }
+        .faq-item-box {
+            background: #f8fafc;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 24px 28px;
+            transition: border-color 0.25s ease;
+        }
+        .faq-item-box:hover {
+            border-color: #047857;
+        }
+        .faq-question-title {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: #0f172a;
+            margin: 0 0 10px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .faq-question-title span {
+            color: #047857;
+        }
+        .faq-answer-text {
+            font-size: 0.95rem;
+            line-height: 1.9;
+            color: #475569;
+            margin: 0;
+        }
+        @media (max-width: 860px) {
+            .rich-pillars-grid {
+                grid-template-columns: 1fr;
+            }
+            .rich-section-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+<div class="rich-page-root">
+    <div class="rich-content-container">
+
+        <!-- هدر اصلی -->
+        <div class="text-center" style="margin-bottom: 60px;">
+            <div class="linux-shield-badge">
+                <span>Fact-Based Enterprise AI</span>
+            </div>
+            <h1 class="hero-main-title" style="color: #0f172a; max-width: 900px; margin: 0 auto 18px auto;">
+                پایگاه دانش هوشمند سازمانی و <span class="text-emerald-glow">سیستم‌های پیشرفته RAG</span>
+            </h1>
+            <p class="hero-lead-text" style="color: #475569; max-width: 820px; margin: 0 auto;">
+                اسناد و دیتابیس‌های سازمانی خود را بدون نشت اطلاعات به چت‌بات‌های تحلیلی، دقیق و فکت‌محور تبدیل کنید که برای هر پاسخ، منبع و شماره صفحه دقیق ارائه می‌دهند.
+            </p>
+        </div>
+
+        <!-- کارت‌های چهارگانه ستون‌های فنی -->
+        <section class="rich-section-block">
+            <h2 class="rich-section-title">معماری ۴ مرحله‌ای بازیابی دانش در آترا</h2>
+            <div class="rich-pillars-grid">
+                
+                <div class="rich-pillar-card">
+                    <h3 class="rich-pillar-title">چانک‌بندی سلسله‌مراتبی و حفظ جداول (Semantic Chunking)</h3>
+                    <p class="rich-pillar-text">برش متن بر پایه سرفصل‌ها و پاراگراف‌ها با حفظ کانتکست والد و فرزند؛ استخراج دقیق داده‌های جداول مالی و مناقصات.</p>
+                    <div class="rich-feature-tags"><span class="rich-feature-tag">Smart Chunking</span><span class="rich-feature-tag">Table Parsing</span><span class="rich-feature-tag">Hierarchical Index</span></div>
+                </div>
+            
+                <div class="rich-pillar-card">
+                    <h3 class="rich-pillar-title">جستجوی هیبریدی و Re-ranking برداری</h3>
+                    <p class="rich-pillar-text">ترکیب جستجوی کلمات کلیدی (BM25) با جستجوی معنایی مبتنی بر بردار، همراه با رتبه‌بندی مجدد با Cross-Encoder برای رساندن دقت به بالای ۹۵٪.</p>
+                    <div class="rich-feature-tags"><span class="rich-feature-tag">BM25 + Dense</span><span class="rich-feature-tag">Cross-Encoder</span><span class="rich-feature-tag">Top-K Retrieval</span></div>
+                </div>
+            
+                <div class="rich-pillar-card">
+                    <h3 class="rich-pillar-title">دیتابیس برداری ایزوله با Qdrant و pgvector</h3>
+                    <p class="rich-pillar-text">ذخیره‌سازی سریع امبدینگ‌ها با کمترین مصرف حافظه رم سرور و پاسخ‌دهی به کوئری‌های معنایی در کمتر از ۱۰ میلی‌ثانیه.</p>
+                    <div class="rich-feature-tags"><span class="rich-feature-tag">HNSW Indexing</span><span class="rich-feature-tag">Scalar Quantization</span><span class="rich-feature-tag">Vector Store</span></div>
+                </div>
+            
+                <div class="rich-pillar-card">
+                    <h3 class="rich-pillar-title">استقرار لوکال و بدون خروج داده (On-Premise Ready)</h3>
+                    <p class="rich-pillar-text">امکان اجرای کامل پایگاه دانش روی سرورهای داخلی سازمان با مدل‌های قدرتمند متن‌باز بدون نیاز به ارسال داده به خارج از کشور.</p>
+                    <div class="rich-feature-tags"><span class="rich-feature-tag">Data Privacy</span><span class="rich-feature-tag">Air-Gapped Ops</span><span class="rich-feature-tag">Open-Source LLMs</span></div>
+                </div>
+            
+            </div>
+        </section>
+
+        <!-- جدول مقایسه فنی تخصصی -->
+        <section class="rich-section-block">
+            <h2 class="rich-section-title">جدول مقایسه استانداردهای پیاده‌سازی</h2>
+            <div class="rich-table-wrap">
+                <table class="rich-table">
+                    <thead>
+                        <tr>
+                            <th>ویژگی</th><th>سامانه RAG آترا</th><th>چت‌بات‌های عمومی (مانند چت‌جی‌پی‌تی)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>خطای توهم (Hallucination)</td><td>نزدیک به صفر؛ پاسخ‌ها فقط از اسناد سازمان استخراج می‌شوند.</td><td>بالا؛ مدل در پاسخ به سوالات ناشناخته حدس می‌زند.</td></tr><tr><td>ارجاع به منبع</td><td>ارائه دقیق نام فایل، شماره صفحه و پاراگراف مرجع.</td><td>نامشخص یا منابع ساختگی.</td></tr><tr><td>امنیت و محرمانگی</td><td>داده‌ها هرگز سرور اختصاصی شما را ترک نمی‌کنند.</td><td>داده‌ها به سرورهای خارجی ارسال می‌شوند.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- سوالات متداول سئو FAQ -->
+        <section class="rich-section-block">
+            <h2 class="rich-section-title">پرسش‌های پرتکرار فنی (FAQ)</h2>
+            <div class="faq-accordion-group">
+                
+                <div class="faq-item-box">
+                    <h3 class="faq-question-title"><span>✦</span> سیستم RAG برای چه اسنادی مناسب است؟</h3>
+                    <p class="faq-answer-text">کاتالوگ‌های فنی، قوانین و آیین‌نامه‌ها، پرونده‌های پزشکی، گزارش‌های مالی و فاکتورها، و اسناد محرمانه شرکت‌ها.</p>
+                </div>
+            
+                <div class="faq-item-box">
+                    <h3 class="faq-question-title"><span>✦</span> چگونه سرعت پاسخ‌دهی را تضمین می‌کنید؟</h3>
+                    <p class="faq-answer-text">با کش کردن کوئری‌های تکراری در Redis و کوانتیزه‌سازی بردارها در Qdrant، زمان بازیابی اطلاعات به کمتر از ۳۰ میلی‌ثانیه می‌رسد.</p>
+                </div>
+            
+            </div>
+        </section>
+
+        <!-- بنر کال تو اکشن ثبت پروژه -->
+        <div class="custom-plan-card">
+            <div class="custom-plan-info">
+                <h3 class="custom-plan-title">اسناد و دیتابیس سازمان خود را هوشمند کنید</h3>
+                <p class="custom-plan-desc">جلسه تست و دمو روی بخشی از اسناد شما توسط متخصصین آترا برنامه‌ریزی می‌شود.</p>
+            </div>
+            <a href="{% url 'core:submit_ticket' %}" class="btn-custom">درخواست پیاده‌سازی سیستم RAG</a>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

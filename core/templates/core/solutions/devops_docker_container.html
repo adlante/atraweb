@@ -1,0 +1,119 @@
+{% extends 'parent/base.html' %}
+{% load static %}
+
+{% block title %}کانتینرسازی و استقرار با Docker و Docker Compose | آترا{% endblock %}
+{% block meta_description %}کانتینرسازی پروژه‌های جنگو، دیتابیس PostgreSQL، ورکر‌های Celery و مدل‌های هوش مصنوعی با Docker؛ ایزولاسیون کامل و استقرار یک‌کلیکه.{% endblock %}
+
+{% block extra_schema %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "کانتینرسازی با Docker و Docker Compose",
+  "author": {"@type": "Organization", "name": "آترا"}
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<section class="docker-page-root">
+    <div class="container text-center">
+        <span class="linux-shield-badge">🐳 Microservices & Container Orchestration</span>
+        <h1 class="hero-main-title" style="color: #0f172a;">
+            کانتینرسازی استاندارد با <span class="text-emerald-glow">Docker & Compose</span>
+        </h1>
+        <p class="hero-lead-text" style="margin: 0 auto 30px auto; color: #475569;">
+            ایزوله‌سازی سرویس‌ها، مهاجرت بدون دردسر بین سرورهای مختلف و استقرار یکپارچه بدون تداخل نسخه‌ها.
+        </p>
+    </div>
+
+    <!-- گرید کارت‌های سرویس‌های داکر -->
+    <div class="container-tiles-grid">
+        <div class="container-tile">
+            <div>
+                <div class="tile-status-bar">
+                    <span class="tile-status-pill"><span class="dot"></span> Web Container</span>
+                    <span class="tile-port">:8000</span>
+                </div>
+                <h3 style="font-size: 1.2rem; margin: 0 0 10px;">Django REST Service</h3>
+                <p style="font-size: 0.88rem; color: #64748b; line-height: 1.7; margin: 0;">
+                    بسته‌بندی اختصاصی کدهای پایتون در ایمیج چندمرحله‌ای (Multi-Stage) با حداقل حجم ممکن و بدون کتابخانه‌های اضافی کامپایلر.
+                </p>
+            </div>
+        </div>
+
+        <div class="container-tile">
+            <div>
+                <div class="tile-status-bar">
+                    <span class="tile-status-pill"><span class="dot"></span> DB Container</span>
+                    <span class="tile-port">:5432</span>
+                </div>
+                <h3 style="font-size: 1.2rem; margin: 0 0 10px;">PostgreSQL Database</h3>
+                <p style="font-size: 0.88rem; color: #64748b; line-height: 1.7; margin: 0;">
+                    اتصال به حجم‌های پایدار (Named Volumes) بر روی دیسک سرور برای تضمین حفظ اطلاعات حتی پس از حذف یا آپدیت کانتینر.
+                </p>
+            </div>
+        </div>
+
+        <div class="container-tile">
+            <div>
+                <div class="tile-status-bar">
+                    <span class="tile-status-pill"><span class="dot"></span> Queue Container</span>
+                    <span class="tile-port">:6379</span>
+                </div>
+                <h3 style="font-size: 1.2rem; margin: 0 0 10px;">Redis & Celery Workers</h3>
+                <p style="font-size: 0.88rem; color: #64748b; line-height: 1.7; margin: 0;">
+                    تفکیک کامل پردازش‌های صف ناهمگام و کش رم از اپلیکیشن اصلی با شبکه داخلی اختصاصی داکر (Bridge Network).
+                </p>
+            </div>
+        </div>
+
+        <div class="container-tile">
+            <div>
+                <div class="tile-status-bar">
+                    <span class="tile-status-pill"><span class="dot"></span> Vector Container</span>
+                    <span class="tile-port">:6333</span>
+                </div>
+                <h3 style="font-size: 1.2rem; margin: 0 0 10px;">Qdrant Vector DB</h3>
+                <p style="font-size: 0.88rem; color: #64748b; line-height: 1.7; margin: 0;">
+                    موتور جستجوی برداری اسناد سازمانی ایزوله، آماده دریافت کوئری‌های معنایی بدون دسترسی مستقیم از بیرون شبکه سرور.
+                </p>
+            </div>
+        </div>
+
+        <div class="container-tile">
+            <div>
+                <div class="tile-status-bar">
+                    <span class="tile-status-pill"><span class="dot"></span> Proxy Container</span>
+                    <span class="tile-port">:80 / :443</span>
+                </div>
+                <h3 style="font-size: 1.2rem; margin: 0 0 10px;">Nginx Gateway</h3>
+                <p style="font-size: 0.88rem; color: #64748b; line-height: 1.7; margin: 0;">
+                    هدایت خودکار ترافیک ورودی به کانتینرهای مربوطه بر اساس دامنه و ساب‌دامین با کشف خودکار سرویس‌ها (Service Discovery).
+                </p>
+            </div>
+        </div>
+
+        <div class="container-tile">
+            <div>
+                <div class="tile-status-bar">
+                    <span class="tile-status-pill"><span class="dot"></span> Backup Service</span>
+                    <span class="tile-port">Daily Cron</span>
+                </div>
+                <h3 style="font-size: 1.2rem; margin: 0 0 10px;">Automated Backup Container</h3>
+                <p style="font-size: 0.88rem; color: #64748b; line-height: 1.7; margin: 0;">
+                    تهیه خودکار بکاپ فشرده دیتابیس در هر شب، رمزنگاری و ارسال امن به فضای ابری با کمترین مصرف منابع پردازنده.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="custom-plan-card" style="max-width: 1200px; margin: 40px auto 0;">
+        <div class="custom-plan-info">
+            <h3 class="custom-plan-title">می‌خواهید کل استک فنی خود را با یک دستور روی هر سروری بالا بیاورید؟</h3>
+            <p class="custom-plan-desc">داکرایز اصولی و تنظیم فایل‌های داکر کامپوز پروداکشن پروژه شما را انجام می‌دهیم.</p>
+        </div>
+        <a href="{% url 'core:submit_ticket' %}" class="btn-custom">سفارش کانتینرسازی با Docker</a>
+    </div>
+</section>
+{% endblock %}

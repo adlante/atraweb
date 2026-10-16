@@ -3,7 +3,7 @@ from django.contrib.auth import get_user_model
 import re
 from django.core.validators import RegexValidator, MinLengthValidator
 from .models import Profile
-from django.contrib.auth.forms import PasswordChangeForm
+
 User = get_user_model()
 
 
@@ -174,82 +174,52 @@ class LoginForm(forms.Form):
 
 
 class CheckoutProfileForm(forms.ModelForm):
-    # این دو فیلد در مدل نیستند و به صورت موقت برای دریافت اطلاعات استفاده می‌شوند
+    # دقت کن: چون شهر و استان تو مدل Profile نبود، من اونا رو به عنوان فیلد موقت در فرم آوردم
+    # تا تو View بتونی اونا رو به فیلد address بچسبونی یا جدا ذخیره کنی.
     province = forms.CharField(
         min_length=3, max_length=50,
         validators=[RegexValidator(r'^[\u0600-\u06FF\s]+$', message="استان باید فقط شامل حروف فارسی باشد.")],
-        label="استان",
-        # ویجت برای اضافه کردن کلاس‌های CSS و placeholder
-        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'فقط حروف فارسی'})
+        label="استان"
     )
     city = forms.CharField(
         min_length=3, max_length=50,
         validators=[RegexValidator(r'^[\u0600-\u06FF\s]+$', message="شهر باید فقط شامل حروف فارسی باشد.")],
-        label="شهر",
-        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'فقط حروف فارسی'})
+        label="شهر"
     )
 
     class Meta:
         model = Profile
         fields = ['first_name', 'last_name', 'national_code', 'address', 'postal_code']
-        # اضافه کردن کلاس‌ها و placeholder ها به فیلدهای مدل
-        widgets = {
-            'first_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'فقط حروف فارسی (مثال: علی)'}),
-            'last_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'فقط حروف فارسی (مثال: محمدی)'}),
-            'national_code': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'دقیقاً ۱۰ رقم', 'oninput': "this.value = this.value.replace(/[^0-9]/g, '');"}),
-            'address': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'مثال: خیابان آزادی، کوچه شهید بهشتی، پلاک ۱۰', 'rows': 3}),
-            'postal_code': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'دقیقاً ۱۰ رقم', 'oninput': "this.value = this.value.replace(/[^0-9]/g, '');"}),
-        }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # اعمال ولیدیتورهای حرفه‌ای و دقیق
+        # اعمال طول و پترن برای نام
         self.fields['first_name'].validators.extend([
             MinLengthValidator(3, message="نام باید حداقل ۳ حرف باشد."),
             RegexValidator(r'^[\u0600-\u06FF\s]+$', message="نام باید فقط شامل حروف فارسی باشد.")
         ])
+
+        # اعمال طول و پترن برای نام خانوادگی
         self.fields['last_name'].validators.extend([
             MinLengthValidator(3, message="نام خانوادگی باید حداقل ۳ حرف باشد."),
             RegexValidator(r'^[\u0600-\u06FF\s]+$', message="نام خانوادگی باید فقط شامل حروف فارسی باشد.")
         ])
+
+        # آدرس (اگر خواستی فقط و فقط فارسی باشه بدون هیچ عدد یا پلاکی، رِجِکس زیر رو استفاده کن)
         self.fields['address'].validators.extend([
             MinLengthValidator(10, message="آدرس باید حداقل ۱۰ حرف باشد."),
-            # <<< تغییر کلیدی اینجاست: اجازه به حروف فارسی، اعداد، فاصله و کاراکترهای رایج آدرس
-            RegexValidator(r'^[\u0600-\u06FF\s0-9۰-۹،.-]+$', message="آدرس فقط می‌تواند شامل حروف فارسی، اعداد، ویرگول و خط تیره باشد.")
+            # اگر میخوای اعداد (مثل پلاک) مجاز باشن این رجکس: r'^[\u0600-\u06FF\s0-9۰-۹،.-]+$'
+            RegexValidator(r'^[\u0600-\u06FF\s]+$', message="آدرس باید فقط شامل حروف فارسی باشد.")
         ])
 
     def clean_national_code(self):
-        national_code = self.cleaned_data.get('national_code', '')
+        national_code = self.cleaned_data.get('national_code')
         if not national_code.isdigit() or len(national_code) != 10:
             raise forms.ValidationError("کد ملی باید دقیقاً ۱۰ رقم عدد باشد.")
         return national_code
 
     def clean_postal_code(self):
-        postal_code = self.cleaned_data.get('postal_code', '')
+        postal_code = self.cleaned_data.get('postal_code')
         if not postal_code.isdigit() or len(postal_code) != 10:
             raise forms.ValidationError("کد پستی باید دقیقاً ۱۰ رقم عدد باشد.")
         return postal_code
-
-
-class CustomPasswordChangeForm(PasswordChangeForm):
-    # فیلدهای old_password, new_password1, new_password2 توسط PasswordChangeForm مدیریت می‌شوند
-
-    def clean_new_password1(self):
-        password = self.cleaned_data.get("new_password1")
-
-        if not password:
-            raise forms.ValidationError("رمز عبور جدید الزامی است.")
-
-        if len(password) < 8 or len(password) > 14:
-            raise forms.ValidationError("رمز عبور باید بین ۸ تا ۱۴ کاراکتر باشد.")
-
-        if not re.search(r'[A-Z]', password):
-            raise forms.ValidationError("رمز عبور باید شامل حداقل یک حرف بزرگ انگلیسی باشد.")
-
-        if not re.search(r'\d', password):
-            raise forms.ValidationError("رمز عبور باید شامل حداقل یک عدد باشد.")
-
-        if not re.search(r'[!@#$%^&*()_+={}\[\]:;"\'<>,.?/\\|-]', password):
-            raise forms.ValidationError("رمز عبور باید شامل حداقل یک کاراکتر خاص باشد.")
-
-        return password

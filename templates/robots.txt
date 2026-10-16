@@ -1,0 +1,9 @@
+User-agent: *
+Disallow: /admin/
+Disallow: /atra-studio-vault/
+Disallow: /accounts/
+Disallow: /static/
+Disallow: /media/
+
+# آدرس نقشه سایت برای ربات‌های جستجوگر
+Sitemap: https://atradev.ir/sitemap.xml

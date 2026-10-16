@@ -1,0 +1,527 @@
+{% extends 'parent/base.html' %}
+{% load static %}
+
+{% block title %}نمونه پروژه‌ها و کارنامه مهندسی نرم‌افزار و هوش مصنوعی | آترا{% endblock %}
+{% block meta_description %}مجموعه ۵۰+ پروژه پیاده‌سازی‌شده با Django ،Flutter، هوش مصنوعی RAG و پلتفرم پرچمدار شیمکس (Shimax AI). مشاهده بنچ‌مارک‌ها و معماری‌های توسعه.{% endblock %}
+{% block meta_keywords %}پروژه های هوش مصنوعی, نمونه کار برنامه نویسی جنگو, نمونه کارهای فلاتر, پروژه شیمکس, شیمکس ai, توسعه نرم افزار آترا{% endblock %}
+
+{% block extra_schema %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "کارنامه پروژه‌های مهندسی آترا و اکوسیستم هوش مصنوعی شیمکس",
+  "publisher": {"@type": "Organization", "name": "آترا"}
+}
+</script>
+{% endblock %}
+
+{% block extra_css %}
+    <link href="{% static 'css/navbar.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="portfolio-page-root">
+    
+    <!-- هدر صفحه -->
+    <div class="portfolio-hero-section">
+        <span class="linux-shield-badge">💎 کارنامه مهندسی و تجارب عملیاتی پروداکشن</span>
+        <h1 class="hero-main-title" style="color: #0f172a;">
+            پروژه‌ها، سامانه‌ها و <span class="text-emerald-glow">راهکارهای نرم‌افزاری پیاده‌سازی‌شده</span>
+        </h1>
+        <p class="hero-lead-text" style="color: #475569; margin: 0 auto;">
+            از پرچمدار چندوجهی هوش مصنوعی شیمکس (Shimax AI) تا سیستم‌های پردازش ابری، بک‌اند‌های پرسرعت جنگو و کلاینت‌های آفلاین‌محور فلاتر.
+        </p>
+    </div>
+
+    <!-- پروژه پرچمدار: شیمکس (Shimax AI Flagship Showcase) -->
+    <section class="flagship-project-card">
+        <div class="flagship-badge">⭐ پروژه پرچمدار هوش مصنوعی (Featured Flagship)</div>
+        <div class="flagship-grid">
+            <div>
+                <h2 class="flagship-title">شیمکس AI (Shimax AI Platform)</h2>
+                <p class="flagship-desc">
+                    پلتفرم جامع هوش مصنوعی چندوجهی (Multimodal AI Workspace) با معماری توزیع‌شده بک‌اند جنگو و کلاینت نیتیو فلاتر. این سیستم مجهز به استودیوهای تولید تصویر پرتره تبلیغاتی، فیس‌استودیو (Face Studio) با حفظ جزئیات کامل چهره، پایگاه دانش اختصاصی برای پردازش زبان فارسی، و چت هوشمند با مدل‌های پیشرفته جهانی است. بهینه‌سازی دقیق مصرف حافظه رم و اجرای بی‌نقص بر روی سرورهای ابری شخصی.
+                </p>
+                <div class="flagship-tags-wrap">
+                    <span class="flagship-tag">Python & Django REST</span>
+                    <span class="flagship-tag">Flutter Cross-Platform</span>
+                    <span class="flagship-tag">ComfyUI & Flux Pipelines</span>
+                    <span class="flagship-tag">Face Studio / InsightFace</span>
+                    <span class="flagship-tag">Celery & Redis Cluster</span>
+                    <span class="flagship-tag">Ubuntu Cloud Infrastructure</span>
+                </div>
+            </div>
+
+            <div class="flagship-metrics-box">
+                <div>
+                    <span class="metric-item-val">> 60 FPS</span>
+                    <span class="metric-item-lbl">روانی رندرینگ در اپلیکیشن</span>
+                </div>
+                <div>
+                    <span class="metric-item-val">< 6s</span>
+                    <span class="metric-item-lbl">تولید و رندر تصاویر استودیویی</span>
+                </div>
+                <div>
+                    <span class="metric-item-val">Zero Leak</span>
+                    <span class="metric-item-lbl">مهار کامل نشت حافظه VRAM</span>
+                </div>
+                <div>
+                    <span class="metric-item-val">99.9%</span>
+                    <span class="metric-item-lbl">آپتایم سرور و سرویس‌های API</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================================
+         دسته ۱: سیستم‌های هوش مصنوعی، مدل‌های زبانی، RAG و تصویر (پروژه‌های ۱ تا ۱۲)
+         ======================================================== -->
+    <div class="projects-category-header">
+        <span class="projects-cat-badge">بخش ۱</span>
+        <h3>راهکارهای هوش مصنوعی، پایگاه‌های دانش RAG و بینایی ماشین</h3>
+    </div>
+
+    <div class="projects-showcase-grid">
+        <!-- پروژه ۱ -->
+        <div class="project-display-card">
+            <span class="card-num-watermark">#AI-01</span>
+            <h4 class="project-card-name">سامانه تحلیل و چت با اسناد مناقصات (DocuRAG Enterprise)</h4>
+            <p class="project-card-brief">تبدیل فایل‌های حجیم PDF مناقصات به پایگاه داده برداری Qdrant با جستجوی هیبریدی و پاسخ‌دهی به مفاد بدون توهم.</p>
+            <div class="project-tech-pills"><span class="project-tech-pill">Django</span><span class="project-tech-pill">Qdrant</span><span class="project-tech-pill">Llama 3</span></div>
+        </div>
+
+        <!-- پروژه ۲ -->
+        <div class="project-display-card">
+            <span class="card-num-watermark">#AI-02</span>
+            <h4 class="project-card-name">استودیو تولید پرتره و عکاسی مجازی مدلینگ (Virtual Studio AI)</h4>
+            <p class="project-card-brief">پایپ‌لاین اختصاصی عکاسی تجاری از محصولات و مدل‌ها با استایل‌های خیابانی و ادغام درگاه پرداخت و صف Celery.</p>
+            <div class="project-tech-pills"><span class="project-tech-pill">ComfyUI</span><span class="project-tech-pill">Flux.1</span><span class="project-tech-pill">DRF</span></div>
+        </div>
+
+        <!-- پروژه ۳ -->
+        <div class="project-display-card">
+            <span class="card-num-watermark">#AI-03</span>
+            <h4 class="project-card-name">سامانه بومی‌سازی و Fine-Tuning مدل زبانی برای حقوق تجاری</h4>
+            <p class="project-card-brief">تنظیم دقیق وزن‌های مدل زبانی Qwen با متد LoRA روی ۱۰۰ هزار بند حقوقی جهت نگارش پیش‌نویس قراردادها با فرمت JSON.</p>
+            <div class="project-tech-pills"><span class="project-tech-pill">QLoRA</span><span class="project-tech-pill">PEFT</span><span class="project-tech-pill">vLLM</span></div>
+        </div>
+
+        <!-- پروژه ۴ -->
+        <div class="project-display-card">
+            <span class="card-num-watermark">#AI-04</span>
+            <h4 class="project-card-name">موتور تبدیل صورت و ادغام چهره بلادرنگ (FaceSwap 4K Pipeline)</h4>
+            <p class="project-card-brief">سیستم تطبیق فرم صورت و اصلاح نورپردازی با الگوریتم‌های بازیابی کیفیت GFPGAN بدون خطای کشیدگی لبه‌ها.</p>
+            <div class="project-tech-pills"><span class="project-tech-pill">InsightFace</span><span class="project-tech-pill">OpenCV</span><span class="project-tech-pill">Python</span></div>
+        </div>
+
+        <!-- پروژه ۵ -->
+        <div class="project-display-card">
+            <span class="card-num-watermark">#AI-05</span>
+            <h4 class="project-card-name">پایگاه استعلام قوانین و آیین‌نامه‌های گمرکی (Customs Knowledge Base)</h4>
+            <p class="project-card-brief">سامانه RAG متصل به pgvector جهت استخراج لحظه‌ای تعرفه‌های گمرکی و قوانین صادرات از میان ۴۰ جلد آیین‌نامه.</p>
+            <div class="project-tech-pills"><span class="project-tech-pill">PostgreSQL</span><span class="project-tech-pill">pgvector</span><span class="project-tech-pill">Django</span></div>
+        </div>
+
+        <!-- پروژه ۶ -->
+        <div class="project-display-card">
+            <span class="card-num-watermark">#AI-06</span>
+            <h4 class="project-card-name">ایجنت هوشمند تحلیل صورت‌های مالی و ترازنامه (FinAgent)</h4>
+            <p class="project-card-brief">ایجنت مستقل با قابلیت Function Calling جهت استخراج اقلام سود و زیان از اکسل و صدور گزارش ریسک اعتباری.</p>
+            <div class="project-tech-pills"><span class="project-tech-pill">LangGraph</span><span class="project-tech-pill">Pandas</span><span class="project-tech-pill">FastAPI</span></div>
+        </div>
+
+        <!-- پروژه ۷ -->
+        <div class="project-display-card">
+            <span class="card-num-watermark">#AI-07</span>
+            <h4 class="project-card-name">سیستم OCR هوشمند و استخراج فاکتورهای رسمی (Invoice Vision AI)</h4>
+            <p class="project-card-brief">مدل بینایی ماشین برای اسکن خودکار فاکتورهای مخدوش و دست‌نویس و تبدیل آن به رکوردهای ساختاریافته در دیتابیس.</p>
+            <div class="project-tech-pills"><span class="project-tech-pill">Vision LLM</span><span class="project-tech-pill">Tesseract</span><span class="project-tech-pill">DRF</span></div>
+        </div>
+
+        <!-- پروژه ۸ -->
+        <div class="project-display-card">
+            <span class="card-num-watermark">#AI-08</span>
+            <h4 class="project-card-name">پرو مجازی پوشاک و تعویض پس‌زمینه محصولات (Virtual Fitting Room)</h4>
+            <p class="project-card-brief">پایپ‌لاین تولید تصویر لباس بر تن مانکن‌های مجازی با شبیه‌سازی بافت پارچه و زوایای مختلف عکاسی استودیویی.</p>
+            <div class="project-tech-pills"><span class="project-tech-pill">ControlNet</span><span class="project-tech-pill">Inpainting</span><span class="project-tech-pill">PyTorch</span></div>
+        </div>
+
+        <!-- پروژه ۹ -->
+        <div class="project-display-card">
+            <span class="card-num-watermark">#AI-09</span>
+            <h4 class="project-card-name">چت‌بات هوشمند پشتیبانی ۲۴/۷ مشتریان (SmartDesk Copilot)</h4>
+            <p class="project-card-brief">پاسخ‌گویی آنی به سوالات متداول مشتریان بر اساس تاریخچه تیکت‌ها با قابلیت تشخیص لحن و هدایت به اپراتور در موارد بحرانی.</p>
+            <div class="project-tech-pills"><span class="project-tech-pill">SSE Stream</span><span class="project-tech-pill">ChromaDB</span><span class="project-tech-pill">Python</span></div>
+        </div>
+
+        <!-- پروژه ۱۰ -->
+        <div class="project-display-card">
+            <span class="card-num-watermark">#AI-10</span>
+            <h4 class="project-card-name">موتور ترجمه و تلخیص تخصصی مقالات پزشکی (BioMed Summarizer)</h4>
+            <p class="project-card-brief">مدل بهینه‌سازی‌شده برای مطالعه مقالات PubMed و تلخیص متون انگلیسی به زبان فارسی بدون تحریف اصطلاحات بالینی.</p>
+            <div class="project-tech-pills"><span class="project-tech-pill">Mistral 7B</span><span class="project-tech-pill">LoRA</span><span class="project-tech-pill">HuggingFace</span></div>
+        </div>
+
+        <!-- پروژه ۱۱ -->
+        <div class="project-display-card">
+            <span class="card-num-watermark">#AI-11</span>
+            <h4 class="project-card-name">سامانه طبقه‌بندی و پالایش محتوای نامناسب (SafeGuard Moderation)</h4>
+            <p class="project-card-brief">مدل بینایی و متن چندوجهی برای اسکن آنی تصاویر و کامنت‌های کاربران در کمتر از ۱۰۰ میلی‌ثانیه قبل از انتشار عمومی.</p>
+            <div class="project-tech-pills"><span class="project-tech-pill">CLIP</span><span class="project-tech-pill">Transformers</span><span class="project-tech-pill">FastAPI</span></div>
+        </div>
+
+        <!-- پروژه ۱۲ -->
+        <div class="project-display-card">
+            <span class="card-num-watermark">#AI-12</span>
+            <h4 class="project-card-name">موتور جستجوی شباهت محصولات با تصویر (Visual Reverse Search)</h4>
+            <p class="project-card-brief">یافتن کالاهای مشابه در یک فروشگاه اینترنتی با بارگذاری عکس توسط کاربر با استفاده از امبدینگ‌های تصویری در Qdrant.</p>
+            <div class="project-tech-pills"><span class="project-tech-pill">Qdrant</span><span class="project-tech-pill">ResNet</span><span class="project-tech-pill">Django</span></div>
+        </div>
+    </div>
+
+    <!-- ========================================================
+         دسته ۲: توسعه اپلیکیشن‌های موبایل فلاتر و دارت (پروژه‌های ۱۳ تا ۲۵)
+         ======================================================== -->
+    <div class="projects-category-header">
+        <span class="projects-cat-badge">بخش ۲</span>
+        <h3>اپلیکیشن‌های چندسکویی Flutter، آفلاین‌محور و رندرینگ ۶۰ FPS</h3>
+    </div>
+
+    <div class="projects-showcase-grid">
+        <!-- پروژه ۱۳ -->
+        <div class="project-display-card">
+            <span class="card-num-watermark">#FL-01</span>
+            <h4 class="project-card-name">اپلیکیشن دستیار هوش مصنوعی و چت زنده (Atra AI Mobile Client)</h4>
+            <p class="project-card-brief">کلاینت فلاتر با قابلیت استریم کلمه به کلمه پاسخ‌ها با SSE، رندر کدهای برنامه‌نویسی و فرمول‌های ریاضی و کش آفلاین.</p>
+            <div class="project-tech-pills"><span class="project-tech-pill">Flutter</span><span class="project-tech-pill">Dart</span><span class="project-tech-pill">BLoC</span></div>
+        </div>
+
+        <!-- پروژه ۱۴ -->
+        <div class="project-display-card">
+            <span class="card-num-watermark">#FL-02</span>
+            <h4 class="project-card-name">نرم‌افزار انبارداری و ثبت سفارش ویزیتورها (Offline-First POS)</h4>
+            <p class="project-card-brief">اپلیکیشن فروشگاهی با دیتابیس محلی Isar برای ثبت فاکتور در مناطق بدون آنتن و همگام‌سازی دوطرفه بدون تعارض با سرور مرکزی.</p>
+            <div class="project-tech-pills"><span class="project-tech-pill">Isar DB</span><span class="project-tech-pill">Offline-1st</span><span class="project-tech-pill">Flutter</span></div>
+        </div>
+
+        <!-- پروژه ۱۵ -->
+        <div class="project-display-card">
+            <span class="card-num-watermark">#FL-03</span>
+            <h4 class="project-card-name">پلتفرم مدیریت سلامت و نوبت‌دهی آنلاین (HealthConnect Mobile)</h4>
+            <p class="project-card-brief">اپلیکیشن پزشک و بیمار با احراز هویت پیامکی، پرونده سلامت رمزنگاری‌شده با SQLCipher و نوتیفیکیشن‌های یادآوری دارو.</p>
+            <div class="project-tech-pills"><span class="project-tech-pill">Clean Arch</span><span class="project-tech-pill">Firebase</span><span class="project-tech-pill">Flutter</span></div>
+        </div>
+
+        <!-- پروژه ۱۶ -->
+        <div class="project-display-card">
+            <span class="card-num-watermark">#FL-04</span>
+            <h4 class="project-card-name">سوپراپلیکیشن ردیابی ناوگان و پیک لجستیک (Delivery Track Pro)</h4>
+            <p class="project-card-brief">رندرینگ نقشه آفلاین برداری، محاسبه بهینه مسیر توزیع بسته‌ها و استریم مختصات GPS در پس‌زمینه با حداقل مصرف باتری.</p>
+            <div class="project-tech-pills"><span class="project-tech-pill">Mapbox</span><span class="project-tech-pill">Background GPS</span><span class="project-tech-pill">Dart</span></div>
+        </div>
+
+        <!-- پروژه ۱۷ -->
+        <div class="project-display-card">
+            <span class="card-num-watermark">#FL-05</span>
+            <h4 class="project-card-name">اپلیکیشن ادیتور اسناد و یادداشت‌های رمزگذاری‌شده (Vault Notes)</h4>
+            <p class="project-card-brief">ویرایشگر یادداشت Markdown با همگام‌سازی ابری و بیومتریک فینگرپرینت برای محافظت از اسناد حساس کاربر.</p>
+            <div class="project-tech-pills"><span class="project-tech-pill">Biometrics</span><span class="project-tech-pill">AES-256</span><span class="project-tech-pill">Flutter</span></div>
+        </div>
+
+        <!-- پروژه ۱۸ -->
+        <div class="project-display-card">
+            <span class="card-num-watermark">#FL-06</span>
+            <h4 class="project-card-name">پلتفرم آموزش تعاملی زبان با صوت و هوش مصنوعی (LinguaFlow)</h4>
+            <p class="project-card-brief">نرم‌افزار مکالمه زبان با ارزیابی لهجه، پخش استریم فایل‌های صوتی و سیستم آزمون‌ساز آفلاین درون اپلیکیشن.</p>
+            <div class="project-tech-pills"><span class="project-tech-pill">Audio Streaming</span><span class="project-tech-pill">Flutter</span><span class="project-tech-pill">SQLite</span></div>
+        </div>
+
+        <!-- پروژه ۱۹ -->
+        <div class="project-display-card">
+            <span class="card-num-watermark">#FL-07</span>
+            <h4 class="project-card-name">اپلیکیشن صرافی و مدیریت سبد رمزارز (CryptoPulse Portfolio)</h4>
+            <p class="project-card-brief">رندرینگ چارت‌های قیمتی تکنیکال با رفرش‌ریت ۱۲۰ هرتز، اتصال به وب‌سوکت قیمت‌ها و محاسبه سود و زیان لحظه‌ای.</p>
+            <div class="project-tech-pills"><span class="project-tech-pill">WebSockets</span><span class="project-tech-pill">Custom Painter</span><span class="project-tech-pill">Dart</span></div>
+        </div>
+
+        <!-- پروژه ۲۰ -->
+        <div class="project-display-card">
+            <span class="card-num-watermark">#FL-08</span>
+            <h4 class="project-card-name">نرم‌افزار مدیریت ساختمان و شارژ مجتمع‌ها (HomeDesk App)</h4>
+            <p class="project-card-brief">سامانه ساکنین با درگاه پرداخت مستقیم، محاسبه سرانه قبوض، تابلو اعلانات و ثبت تیکت تعمیرات برای مدیر ساختمان.</p>
+            <div class="project-tech-pills"><span class="project-tech-pill">Flutter</span><span class="project-tech-pill">Dio</span><span class="project-tech-pill">Zarinpal</span></div>
+        </div>
+
+        <!-- پروژه ۲۱ -->
+        <div class="project-display-card">
+            <span class="card-num-watermark">#AI-21</span>
+            <h4 class="project-card-name">اپلیکیشن اختصاصی استودیو عکاسی شیمکس (Shimax Mobile)</h4>
+            <p class="project-card-brief">کلاینت نیتیو فلاتر با بهینه‌سازی دقیق رم برای آپلود و دانلود تصاویر 4K و رندر بدون لگ هزاران استایل چهره.</p>
+            <div class="project-tech-pills"><span class="project-tech-pill">Memory Guard</span><span class="project-tech-pill">Flutter</span><span class="project-tech-pill">REST</span></div>
+        </div>
+
+        <!-- پروژه ۲۲ -->
+        <div class="project-display-card">
+            <span class="card-num-watermark">#FL-10</span>
+            <h4 class="project-card-name">سامانه نظرسنجی و ارزیابی کیفیت در شعب (Field Survey Pad)</h4>
+            <p class="project-card-brief">اپلیکیشن تبلت با حالت کیوسک (Kiosk Mode) جهت جمع‌آوری نظرات مشتریان در شرایط قطعی شبکه و ثبت داده‌های آفلاین.</p>
+            <div class="project-tech-pills"><span class="project-tech-pill">Kiosk Lock</span><span class="project-tech-pill">Hive DB</span><span class="project-tech-pill">Flutter</span></div>
+        </div>
+
+        <!-- پروژه ۲۳ -->
+        <div class="project-display-card">
+            <span class="card-num-watermark">#FL-11</span>
+            <h4 class="project-card-name">پلتفرم رزرو خدمات زیبایی و نوبت‌دهی آنلاین (SalonBooker)</h4>
+            <p class="project-card-brief">تقویم شمسی سفارشی، انتخاب صندلی و متخصص، یادآوری پیامکی خودکار و فیلترینگ لوکیشن سالن‌های نزدیک کاربر.</p>
+            <div class="project-tech-pills"><span class="project-tech-pill">Shamsi Date</span><span class="project-tech-pill">Flutter</span><span class="project-tech-pill">GeoLocation</span></div>
+        </div>
+
+        <!-- پروژه ۲۴ -->
+        <div class="project-display-card">
+            <span class="card-num-watermark">#FL-12</span>
+            <h4 class="project-card-name">اپلیکیشن آزمون آنلاین و فلش‌کارت لایتنر (FlashMaster Pro)</h4>
+            <p class="project-card-brief">سیستم تکرار با فواصل زمانی هوشمند (Spaced Repetition) با کش کامل بانک سوالات و کارایی کامل بدون اتصال اینترنت.</p>
+            <div class="project-tech-pills"><span class="project-tech-pill">Offline Cache</span><span class="project-tech-pill">State Mgmt</span><span class="project-tech-pill">Dart</span></div>
+        </div>
+
+        <!-- پروژه ۲۵ -->
+        <div class="project-display-card">
+            <span class="card-num-watermark">#FL-13</span>
+            <h4 class="project-card-name">نرم‌افزار کنترل تردد و ثبت تایم‌شیت سازمانی (TimeTrack Mobile)</h4>
+            <p class="project-card-brief">ثبت ساعت ورود و خروج کارکنان با اعتبارسنجی شعاع مکانی GPS، جلوگیری از ثبت لوکیشن جعلی (Mock Location).</p>
+            <div class="project-tech-pills"><span class="project-tech-pill">Anti-Mocking</span><span class="project-tech-pill">Flutter</span><span class="project-tech-pill">JWT</span></div>
+        </div>
+    </div>
+
+    <!-- ========================================================
+         دسته ۳: توسعه بک‌اند مقیاس‌پذیر Django & DRF (پروژه‌های ۲۶ تا ۳۸)
+         ======================================================== -->
+    <div class="projects-category-header">
+        <span class="projects-cat-badge">بخش ۳</span>
+        <h3>معماری بک‌اند ماژولار با Django REST Framework و دیتابیس PostgreSQL</h3>
+    </div>
+
+    <div class="projects-showcase-grid">
+        <!-- پروژه ۲۶ -->
+        <div class="project-display-card">
+            <span class="card-num-watermark">#DJ-01</span>
+            <h4 class="project-card-name">موتور مرکزی احراز هویت پیامکی و مدیریت سشن‌ها (AuthEngine Core)</h4>
+            <p class="project-card-brief">میکروسرویس ورود بدون رمز با اعتبارسنجی OTP در رم Redis، محدودکننده نرخ حمله (Throttling) و مدیریت چرخش توکن JWT.</p>
+            <div class="project-tech-pills"><span class="project-tech-pill">Django</span><span class="project-tech-pill">Redis</span><span class="project-tech-pill">JWT</span></div>
+        </div>
+
+        <!-- پروژه ۲۷ -->
+        <div class="project-display-card">
+            <span class="card-num-watermark">#DJ-02</span>
+            <h4 class="project-card-name">سامانه صدور فاکتور و تراز مالی خودکار (Atra Invoice Engine)</h4>
+            <p class="project-card-brief">هسته حسابداری دوطرفه با تراکنش‌های اتمیک ACID برای جلوگیری از اختلال ثبتی و گزارش‌گیری تجمعی سریع در PostgreSQL.</p>
+            <div class="project-tech-pills"><span class="project-tech-pill">PostgreSQL</span><span class="project-tech-pill">Transactions</span><span class="project-tech-pill">DRF</span></div>
+        </div>
+
+        <!-- پروژه ۲۸ -->
+        <div class="project-display-card">
+            <span class="card-num-watermark">#DJ-03</span>
+            <h4 class="project-card-name">زیرساخت صف‌های پردازش موازی تصاویر (Celery Image Cluster)</h4>
+            <p class="project-card-brief">مدیریت هزاران تسک تبدیل فرمت و فشرده‌سازی عکس با ورکر‌های Celery و داشبورد مانیتورینگ Flower در محیط ابری.</p>
+            <div class="project-tech-pills"><span class="project-tech-pill">Celery</span><span class="project-tech-pill">Redis</span><span class="project-tech-pill">Flower</span></div>
+        </div>
+
+        <!-- پروژه ۲۹ -->
+        <div class="project-display-card">
+            <span class="card-num-watermark">#DJ-04</span>
+            <h4 class="project-card-name">پلتفرم مدیریت اشتراک و پلن‌های دوره‌ای (SaaS Billing Engine)</h4>
+            <p class="project-card-brief">سامانه هوشمند تمدید خودکار اشتراک، اعمال کدهای تخفیف چندلایه، و کنترل سهمیه مصرف توکن هوش مصنوعی بر اساس رول کاربر.</p>
+            <div class="project-tech-pills"><span class="project-tech-pill">Django Beat</span><span class="project-tech-pill">SaaS</span><span class="project-tech-pill">Payment</span></div>
+        </div>
+
+        <!-- پروژه ۳۰ -->
+        <div class="project-display-card">
+            <span class="card-num-watermark">#DJ-05</span>
+            <h4 class="project-card-name">وب‌سرویس جامع مارکت‌پلیس B2B با تایید چندمرحله‌ای (Vendor Hub)</h4>
+            <p class="project-card-brief">معماری ماژولار فروشندگان با سیستم تایید مدارک، تسویه حساب دسته‌ای و وب‌هوک‌های لحظه‌ای برای استعلام وضعیت بارنامه.</p>
+            <div class="project-tech-pills"><span class="project-tech-pill">Webhooks</span><span class="project-tech-pill">DDD</span><span class="project-tech-pill">PostgreSQL</span></div>
+        </div>
+
+        <!-- پروژه ۳۱ -->
+        <div class="project-display-card">
+            <span class="card-num-watermark">#DJ-06</span>
+            <h4 class="project-card-name">سیستم ثبت و پایش لاگ‌های دسترسی سازمانی (Audit Trail Service)</h4>
+            <p class="project-card-brief">میدل‌ور اختصاصی جنگو برای ذخیره تمام تغییرات داده‌ها با شناسنامه کاربر و IP بدون ایجاد تأخیر در رندر ریکوئست‌ها.</p>
+            <div class="project-tech-pills"><span class="project-tech-pill">Middleware</span><span class="project-tech-pill">PostgreSQL</span><span class="project-tech-pill">Python</span></div>
+        </div>
+
+        <!-- پروژه ۳۲ -->
+        <div class="project-display-card">
+            <span class="card-num-watermark">#DJ-07</span>
+            <h4 class="project-card-name">موتور نوتیفیکیشن و ارسال اعلان‌های گروهی (Push Hub Engine)</h4>
+            <p class="project-card-brief">سیستم یکپارچه ارسال پیامک، ایمیل و پوش نوتیفیکیشن با صف‌بندی هوشمند بر اساس اپراتورهای پیامکی خدماتی.</p>
+            <div class="project-tech-pills"><span class="project-tech-pill">Celery Queue</span><span class="project-tech-pill">SMS Gate</span><span class="project-tech-pill">FCM</span></div>
+        </div>
+
+        <!-- پروژه ۳۳ -->
+        <div class="project-display-card">
+            <span class="card-num-watermark">#DJ-08</span>
+            <h4 class="project-card-name">پلتفرم مدیریت دارایی‌های دیجیتال و فایل‌های حجیم (Media Vault)</h4>
+            <p class="project-card-brief">آپلود مستقیم با لینک‌های موقت امضاشده (Presigned URLs) به آبجکت‌استوریج ابری جهت کاهش بار ترافیکی سرور اصلی.</p>
+            <div class="project-tech-pills"><span class="project-tech-pill">S3 Compatible</span><span class="project-tech-pill">Django</span><span class="project-tech-pill">MinIO</span></div>
+        </div>
+
+        <!-- پروژه ۳۴ -->
+        <div class="project-display-card">
+            <span class="card-num-watermark">#DJ-09</span>
+            <h4 class="project-card-name">سامانه برگزاری نظرسنجی و قرعه‌کشی بلادرنگ (Live Lottery Service)</h4>
+            <p class="project-card-brief">مدیریت هجوم ترافیک همزمان با قفل‌های اتمیک در ردیس (Redis Locks) برای انتخاب تصادفی برندگان بدون شانس تکراری.</p>
+            <div class="project-tech-pills"><span class="project-tech-pill">Redis Distributed</span><span class="project-tech-pill">High Concurrency</span></div>
+        </div>
+
+        <!-- پروژه ۳۵ -->
+        <div class="project-display-card">
+            <span class="card-num-watermark">#DJ-10</span>
+            <h4 class="project-card-name">هسته وب‌سرویس پلتفرم شیمکس (Shimax Backend Gateway)</h4>
+            <p class="project-card-brief">هدایت پایپ‌لاین‌های هوش مصنوعی، کنترل کوتای کاربران و تخصیص منابع محاسباتی GPU روی سرور لینوکس ابری.</p>
+            <div class="project-tech-pills"><span class="project-tech-pill">DRF</span><span class="project-tech-pill">GPU Routing</span><span class="project-tech-pill">Docker</span></div>
+        </div>
+
+        <!-- پروژه ۳۶ -->
+        <div class="project-display-card">
+            <span class="card-num-watermark">#DJ-11</span>
+            <h4 class="project-card-name">سامانه تیکتینگ و ارجاع خودکار وظایف (Smart Support Dispatcher)</h4>
+            <p class="project-card-brief">پلتفرم پشتیبانی با تخصیص اتوماتیک تیکت به کارشناس مربوطه بر اساس تخصص، سنجش SLA و هشدارهای تاخیر پاسخ.</p>
+            <div class="project-tech-pills"><span class="project-tech-pill">SLA Engine</span><span class="project-tech-pill">Django</span><span class="project-tech-pill">PostgreSQL</span></div>
+        </div>
+
+        <!-- پروژه ۳۷ -->
+        <div class="project-display-card">
+            <span class="card-num-watermark">#DJ-12</span>
+            <h4 class="project-card-name">موتور تطبیق و پالایش اسناد اکسل و CSV (Data Sanitizer API)</h4>
+            <p class="project-card-brief">ورود دسته‌ای صدها هزار ردیف داده، اعتبارسنجی فرمت کد ملی و شماره موبایل و ذخیره بدون قطعی در دیتابیس پستگرس.</p>
+            <div class="project-tech-pills"><span class="project-tech-pill">Bulk Create</span><span class="project-tech-pill">Pandas</span><span class="project-tech-pill">DRF</span></div>
+        </div>
+
+        <!-- پروژه ۳۸ -->
+        <div class="project-display-card">
+            <span class="card-num-watermark">#DJ-13</span>
+            <h4 class="project-card-name">درگاه وب‌سرویس استعلام امتیاز اعتباری (Credit Scoring Gateway)</h4>
+            <p class="project-card-brief">محاسبه ریسک مالی کاربران بر اساس رفتار خریدهای گذشته و میانگین زمان تسویه بدهی‌ها با خروجی ریتینگ لحظه‌ای.</p>
+            <div class="project-tech-pills"><span class="project-tech-pill">Scoring Algo</span><span class="project-tech-pill">Django</span><span class="project-tech-pill">Caching</span></div>
+        </div>
+    </div>
+
+    <!-- ========================================================
+         دسته ۴: دوآپس، سرور لینوکس، کانتینرسازی و استورها (پروژه‌های ۳۹ تا ۵۰)
+         ======================================================== -->
+    <div class="projects-category-header">
+        <span class="projects-cat-badge">بخش ۴</span>
+        <h3>مهندسی دوآپس (DevOps)، داکر، بهینه‌سازی سرور و انتشار در مارکت‌ها</h3>
+    </div>
+
+    <div class="projects-showcase-grid">
+        <!-- پروژه ۳۹ -->
+        <div class="project-display-card">
+            <span class="card-num-watermark">#OPS-01</span>
+            <h4 class="project-card-name">کلاستر داکرایز شده پروژه شیمکس (Shimax Production Cluster)</h4>
+            <p class="project-card-brief">کانتینرسازی چندمرحله‌ای برای سرویس وب، پایگاه داده، صف‌های ورکر، مدل‌های ComfyUI و پروکسی Nginx با یک فرمان داکر کامپوز.</p>
+            <div class="project-tech-pills"><span class="project-tech-pill">Docker Compose</span><span class="project-tech-pill">Ubuntu</span><span class="project-tech-pill">Nginx</span></div>
+        </div>
+
+        <!-- پروژه ۴۰ -->
+        <div class="project-display-card">
+            <span class="card-num-watermark">#OPS-02</span>
+            <h4 class="project-card-name">استقرار سرور اختصاصی لینوکس روی پارس‌پک (ParsPack Cloud Node)</h4>
+            <p class="project-card-brief">پیکربندی کرنل، فایروال UFW سخت‌گیرانه، تنظیم خودکار Swap برای پایداری حافظه و نصب محیط پروداکشن پایتون.</p>
+            <div class="project-tech-pills"><span class="project-tech-pill">Ubuntu Server</span><span class="project-tech-pill">Hardening</span><span class="project-tech-pill">UFW</span></div>
+        </div>
+
+        <!-- پروژه ۴۱ -->
+        <div class="project-display-card">
+            <span class="card-num-watermark">#OPS-03</span>
+            <h4 class="project-card-name">کانفیگ وب‌سرور Nginx با نمره امنیت A+ و فعال‌سازی HTTP/2</h4>
+            <p class="project-card-brief">پیکربندی گواهی‌های معتبر SSL با قابلیت تمدید خودکار، کش هدرهای استاتیک و باز نگه داشتن بافر استریم برای کلاینت‌ها.</p>
+            <div class="project-tech-pills"><span class="project-tech-pill">Nginx</span><span class="project-tech-pill">Let's Encrypt</span><span class="project-tech-pill">TLS 1.3</span></div>
+        </div>
+
+        <!-- پروژه ۴۲ -->
+        <div class="project-display-card">
+            <span class="card-num-watermark">#OPS-04</span>
+            <h4 class="project-card-name">انتشار و پاس کردن قوانین اپلیکیشن در کافه‌بازار (Cafe Bazaar Deploy)</h4>
+            <p class="project-card-brief">ساخت بیلد ریلیز با ساین اختصاصی Keystore، تدوین سند حریم خصوصی و دریافت تاییدیه رسمی بدون خطای نقض قوانین مارکت.</p>
+            <div class="project-tech-pills"><span class="project-tech-pill">App Bundle</span><span class="project-tech-pill">Release Sign</span><span class="project-tech-pill">Bazaar</span></div>
+        </div>
+
+        <!-- پروژه ۴۳ -->
+        <div class="project-display-card">
+            <span class="card-num-watermark">#OPS-05</span>
+            <h4 class="project-card-name">سامانه پشتیبان‌گیری خودکار دیتابیس به آبجکت‌استوریج ابری</h4>
+            <p class="project-card-brief">اسکریپت شبانه دامپ فشرده PostgreSQL، رمزنگاری با GPG و آپلود به استوریج مجزا با گزارش‌دهی پیامکی در صورت بروز خطا.</p>
+            <div class="project-tech-pills"><span class="project-tech-pill">Bash Script</span><span class="project-tech-pill">S3 Cloud</span><span class="project-tech-pill">Cron</span></div>
+        </div>
+
+        <!-- پروژه ۴۴ -->
+        <div class="project-display-card">
+            <span class="card-num-watermark">#OPS-06</span>
+            <h4 class="project-card-name">انتشار اپلیکیشن در گوگل‌پلی و تطبیق الزامات جدید ۲۰۲۶</h4>
+            <p class="project-card-brief">رفع الزامات جدید اکانت‌های توسعه‌دهنده گوگل، تست ۲۰ کاربره، امضای کلید گوگل‌پلی و انتشار رسمی پکیج اندروید.</p>
+            <div class="project-tech-pills"><span class="project-tech-pill">Google Play</span><span class="project-tech-pill">AAB Pro</span><span class="project-tech-pill">Privacy Spec</span></div>
+        </div>
+
+        <!-- پروژه ۴۵ -->
+        <div class="project-display-card">
+            <span class="card-num-watermark">#OPS-07</span>
+            <h4 class="project-card-name">خط لوله مانیتورینگ سلامت سرور با Prometheus و Grafana</h4>
+            <p class="project-card-brief">داشبورد زنده برای رصد لود پردازنده، میزان پر بودن دیسک، تعداد درخواست‌های Nginx و ارسال آلرت به تلگرام در شرایط بحرانی.</p>
+            <div class="project-tech-pills"><span class="project-tech-pill">Grafana</span><span class="project-tech-pill">Prometheus</span><span class="project-tech-pill">Alerting</span></div>
+        </div>
+
+        <!-- پروژه ۴۶ -->
+        <div class="project-display-card">
+            <span class="card-num-watermark">#OPS-08</span>
+            <h4 class="project-card-name">سامانه ایزولاسیون پردازش‌های GPU در سرورهای هوش مصنوعی</h4>
+            <p class="project-card-brief">نصب درایورهای انویدیا و پیکربندی NVIDIA Container Toolkit جهت اتصال امن و اختصاصی سخت‌افزار گرافیک به کانتینرهای داکر.</p>
+            <div class="project-tech-pills"><span class="project-tech-pill">NVIDIA Docker</span><span class="project-tech-pill">CUDA</span><span class="project-tech-pill">GPU Cloud</span></div>
+        </div>
+
+        <!-- پروژه ۴۷ -->
+        <div class="project-display-card">
+            <span class="card-num-watermark">#OPS-09</span>
+            <h4 class="project-card-name">انتشار و ثبت اپلیکیشن در مایکت و استورهای موازی</h4>
+            <p class="project-card-brief">بهینه‌سازی تصاویر اسکرین‌شات و تایتل‌های ASO برای کسب رتبه در جستجوی مارکت و فعال‌سازی درگاه پرداخت درون‌برنامه‌ای.</p>
+            <div class="project-tech-pills"><span class="project-tech-pill">Myket API</span><span class="project-tech-pill">ASO Optimize</span><span class="project-tech-pill">IAP</span></div>
+        </div>
+
+        <!-- پروژه ۴۸ -->
+        <div class="project-display-card">
+            <span class="card-num-watermark">#OPS-10</span>
+            <h4 class="project-card-name">راه‌اندازی سرور گیت داخلی و خط پایپ‌لاین CI/CD با GitLab</h4>
+            <p class="project-card-brief">اجرای تست‌های خودکار کدها، اعتبارسنجی سینتکس و دیپلوی خودکار بر روی سرور استیج پس از هر کامیت روی شاخه main.</p>
+            <div class="project-tech-pills"><span class="project-tech-pill">GitLab CI</span><span class="project-tech-pill">Deploy Runner</span><span class="project-tech-pill">DevOps</span></div>
+        </div>
+
+        <!-- پروژه ۴۹ -->
+        <div class="project-display-card">
+            <span class="card-num-watermark">#OPS-11</span>
+            <h4 class="project-card-name">سامانه دفاع در برابر حملات لایه کاربرد (WAF & DDoS Mitigation)</h4>
+            <p class="project-card-brief">قوانین سفارشی Nginx برای قطع اتوماتیک آی‌پی‌های مشکوک به اسکن مسیرهای ادمین و محافظت از پورت‌های دیتابیس.</p>
+            <div class="project-tech-pills"><span class="project-tech-pill">WAF</span><span class="project-tech-pill">Fail2ban</span><span class="project-tech-pill">IP Geoblock</span></div>
+        </div>
+
+        <!-- پروژه ۵۰ -->
+        <div class="project-display-card">
+            <span class="card-num-watermark">#OPS-12</span>
+            <h4 class="project-card-name">توزیع بسته‌های تستی اپلیکیشن با Firebase App Distribution</h4>
+            <p class="project-card-brief">ارسال خودکار نسخه‌های آزمایشی به تسترها و تیم فنی قبل از انتشار در استورها، همراه با رهگیری کرش‌ها در Crashlytics.</p>
+            <div class="project-tech-pills"><span class="project-tech-pill">Firebase</span><span class="project-tech-pill">Crashlytics</span><span class="project-tech-pill">Fastlane</span></div>
+        </div>
+    </div>
+
+    <!-- بنر کال تو اکشن ثبت پروژه -->
+    <div class="custom-plan-card" style="max-width: 1240px; margin: 40px auto 0;">
+        <div class="custom-plan-info">
+            <h3 class="custom-plan-title">پروژه یا ایده نرم‌افزاری شما، افتخار بعدی این کارنامه خواهد بود</h3>
+            <p class="custom-plan-desc">مشخصات اولیه نیازمندی‌های خود را ارسال کنید تا استراتژی معماری و برآورد زمان‌بندی توسط مهندسین آترا آماده شود.</p>
+        </div>
+        <a href="{% url 'core:submit_ticket' %}" class="btn-custom">ثبت مشخصات و شروع همکاری</a>
+    </div>
+
+</div>
+{% endblock %}

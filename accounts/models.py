@@ -292,7 +292,7 @@ def create_user_profile(sender, instance, created, **kwargs):
 
 class PricingPlan(models.Model):
     title = models.CharField(max_length=100, verbose_name="نام پلن")
-    slug = models.SlugField(max_length=100, unique=True, null=True, blank=True, verbose_name="نام انگلیسی/اسلاگ (مثل advanced)")
+
     # فیلد قیمت رو CharField گذاشتیم تا هم عدد مثل "1,499,000" بگیره هم متن مثل "توافقی"
     price = models.CharField(max_length=100, verbose_name="قیمت", help_text="مثال: 1,499,000 یا توافقی")
     price_suffix = models.CharField(max_length=100, verbose_name="پسوند قیمت",

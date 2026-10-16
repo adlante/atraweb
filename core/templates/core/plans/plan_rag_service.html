@@ -1,0 +1,106 @@
+{% extends 'parent/base.html' %}
+{% load static %}
+
+{% block title %}پلن پیاده‌سازی سیستم RAG و چت‌بات اسناد سازمانی | آترا{% endblock %}
+{% block meta_description %}پکیج استقرار پایگاه دانش هوش مصنوعی RAG؛ چانک‌بندی دقیق اسناد، دیتابیس برداری Qdrant و pgvector و اتصال به مدل‌های زبانی بدون توهم.{% endblock %}
+{% block meta_keywords %}هزینه پیاده سازی RAG, خرید پایگاه دانش هوش مصنوعی, راه اندازی چت بات اسناد, هوش مصنوعی سازمانی RAG, چت با اسناد پی دی اف{% endblock %}
+
+{% block extra_schema %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "پیاده‌سازی پایگاه دانش RAG سازمانی",
+  "provider": {"@type": "Organization", "name": "آترا"},
+  "description": "خطوط بازیابی اطلاعات از اسناد سازمانی با مدل‌های زبانی فکت‌محور",
+  "areaServed": "IR"
+}
+</script>
+{% endblock %}
+
+{% block extra_css %}
+    <link href="{% static 'css/navbar.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<section class="decentralized-light-wrapper">
+    <div class="decentralized-container">
+
+        <div class="tech-hero">
+            <div class="enterprise-badge">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                <span>پایگاه دانش هوشمند سازمانی</span>
+            </div>
+            <h1 class="tech-main-title">
+                استقرار و پیاده‌سازی سیستم‌های <span class="tech-highlight">RAG Enterprise</span>
+            </h1>
+            <p class="tech-subtitle">
+                حل چالش پاسخ‌های نادرست هوش مصنوعی؛ تبدیل اسناد PDF، اکسل، قراردادها و مستندات داخلی سازمان به پایگاه دانش زنده و استعلام‌پذیر.
+            </p>
+        </div>
+
+        <div class="nodes-layout">
+            <div class="node-card">
+                <div class="node-content">
+                    <div class="icon-wrapper">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+                    </div>
+                    <h2 class="node-title">خط لوله اختصاصی پردازش اسناد (Data Ingestion Pipeline)</h2>
+                    <p class="node-text">
+                        سامانه خودکار برای خواندن و استخراج متون از انواع فایل‌های متنی و اسناد اسکن‌شده تصویری (با مدل‌های Vision OCR)، تمیزکاری متون و تولید بردارهای امبدینگ باکیفیت و بارگذاری در دیتابیس برداری.
+                    </p>
+                </div>
+                <div class="node-image">
+                    <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=700&q=80" alt="پایگاه دانش سازمانی RAG">
+                </div>
+            </div>
+
+            <div class="node-grid-2">
+                <div class="node-card-small">
+                    <div class="icon-wrapper">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    </div>
+                    <h3 class="node-title">معماری جستجوی ترکیبی (Hybrid Search)</h3>
+                    <p class="node-text">
+                        تلفیق جستجوی کلیدواژه‌ای دقیق با جستجوی معنایی مبتنی بر بردار، همراه با مرحله Re-ranking برای استخراج دقیق‌ترین پاراگراف‌ها قبل از ارسال به مدل زبانی.
+                    </p>
+                </div>
+
+                <div class="node-card-small">
+                    <div class="icon-wrapper">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                    </div>
+                    <h3 class="node-title">عدم خروج داده و امنیت اسناد</h3>
+                    <p class="node-text">
+                        امکان راه‌اندازی کامل به صورت محلی و لوکال بر روی سرورهای داخلی سازمان با مدل‌های متن‌باز (Llama / Mistral / Qwen) بدون ارسال داده به سرورهای خارجی.
+                    </p>
+                </div>
+            </div>
+
+            <div class="node-card reverse">
+                <div class="node-content">
+                    <div class="icon-wrapper">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                    </div>
+                    <h2 class="node-title">رابط کاربری تعاملی وب و موبایل</h2>
+                    <p class="node-text">
+                        ارائه پنل مدیریت برای بارگذاری اسناد جدید، داشبورد چت زنده با استریم کاراکتر به کاراکتر پاسخ‌ها، و قابلیت ارجاع مستقیم به شماره صفحه و منبع سند مورد استناد.
+                    </p>
+                </div>
+                <div class="node-image">
+                    <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=700&q=80" alt="چت بات هوشمند اسناد با RAG">
+                </div>
+            </div>
+        </div>
+
+        <div class="custom-plan-card">
+            <div class="custom-plan-info">
+                <h3 class="custom-plan-title">اسناد سازمان خود را در کمتر از ۱۰ روز هوشمند کنید</h3>
+                <p class="custom-plan-desc">جلسه مشاوره و نیازسنجی اولیه را با کارشناسان هوش مصنوعی آترا هماهنگ کنید.</p>
+            </div>
+            <a href="{% url 'core:submit_ticket' %}" class="btn-custom">سفارش راه‌اندازی RAG سازمانی</a>
+        </div>
+
+    </div>
+</section>
+{% endblock %}

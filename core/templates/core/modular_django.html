@@ -1,0 +1,107 @@
+{% extends 'parent/base.html' %}
+{% load static %}
+
+{% block title %}معماری ماژولار Django و ساخت REST API | آترا{% endblock %}
+{% block meta_description %}توسعه وب‌سرویس‌های مقیاس‌پذیر و ماژولار با فریم‌ورک جنگو و Django REST Framework با جداسازی لایه‌های سرویس و پایگاه داده.{% endblock %}
+
+{% block extra_css %}
+    <link href="{% static 'css/navbar.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<section class="offline-feature-page">
+    <div class="offline-container">
+
+        <!-- هدر صفحه -->
+        <div class="offline-hero">
+            <div class="offline-badge">
+                <span>توسعه مهندسی بک‌اند و وب‌سرویس</span>
+            </div>
+            <h1 class="offline-main-title">
+                معماری ماژولار با <span class="title-highlight">Django & DRF</span>
+            </h1>
+            <p class="offline-subtitle">
+                جداسازی کامل لایه منطق بیزینس (Service Layer) از مدل‌ها، پیاده‌سازی سریالایزرهای با کارایی بالا و ارائه وب‌سرویس‌های امن برای تغذیه کلاینت‌های فلاتر و وب.
+            </p>
+        </div>
+
+        <!-- گرید بنتو نامتقارن -->
+        <div class="offline-bento-grid">
+
+            <!-- کارت اصلی بزرگ (اسپن ۸) -->
+            <div class="offline-card bento-main">
+                <div class="offline-icon-wrapper">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                        <polyline points="2 17 12 22 22 17"></polyline>
+                        <polyline points="2 12 12 17 22 12"></polyline>
+                    </svg>
+                </div>
+                <h2 class="offline-card-title">طراحی ماژولار مبتنی بر Domain-Driven Design</h2>
+                <p class="offline-card-text">
+                    در معماری‌های استاندارد بزرگ‌مقیاس، مدل‌های قطور (Fat Models) و ویوهای پیچیده به سرعت نگهداری پروژه را مختل می‌کنند. ساختار ماژولار ما با ایجاد بسته‌های ایزوله (Decoupled Apps)، تعریف لایه‌های Selector برای کوئری‌ها و Services برای تغییرات داده، تضمین می‌کند که پروژه با افزایش کاربران دچار افت کیفیت کد و تست‌پذیری نشود.
+                </p>
+                <div class="offline-image-container">
+                    <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=900&q=80" alt="معماری کدنویسی بک‌اند جنگو">
+                </div>
+            </div>
+
+            <!-- کارت مربع ۱ (اسپن ۴) -->
+            <div class="offline-card bento-square-1">
+                <div class="offline-icon-wrapper">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M16 18l6-6-6-6"></path>
+                        <path d="M8 6l-6 6 6 6"></path>
+                    </svg>
+                </div>
+                <h3 class="offline-card-title">وب‌سرویس‌های RESTful</h3>
+                <p class="offline-card-text">
+                    پیاده‌سازی کامل استانداردهای HTTP، فیلترینگ و صفحه‌بندی بهینه داده‌ها، همراه با مستندات خودکار OpenAPI و Swagger برای اتصال بی‌دردسر کلاینت‌های فرانت و فلاتر.
+                </p>
+            </div>
+
+            <!-- کارت مربع ۲ (تیره / اسپن ۴) -->
+            <div class="offline-card bento-square-2">
+                <div class="offline-icon-wrapper">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
+                        <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
+                        <line x1="6" y1="6" x2="6.01" y2="6"></line>
+                        <line x1="6" y1="18" x2="6.01" y2="18"></line>
+                    </svg>
+                </div>
+                <h3 class="offline-card-title">تست‌های یکپارچه و امنیت</h3>
+                <p class="offline-card-text">
+                    تست‌های واحد (Unit Tests) با پوشش بالا، ایمن‌سازی مسیرها در برابر حملات متداول وب (CSRF/CORS)، و مدیریت دسترسی‌های چندسطحی مبتنی بر Role-Based Permissions.
+                </p>
+            </div>
+
+            <!-- کارت عریض افقی (اسپن ۱۲) -->
+            <div class="offline-card bento-wide">
+                <div class="wide-content">
+                    <h3 class="offline-card-title">آماده برای استقرار در مقیاس بالا (Production-Ready)</h3>
+                    <p class="offline-card-text">
+                        کدنویسی همگام با محیط‌های داکرایز شده، تنظیم کانفیگ‌های مجزای توسعه، استیج و پروداکشن با متغیرهای محیطی امن و آماده‌سازی برای صف‌های پردازش ناهمگام.
+                    </p>
+                </div>
+                <div class="wide-image">
+                    <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=700&q=80" alt="مهندسی نرم افزار و توسعه پایتون">
+                </div>
+            </div>
+
+        </div>
+
+        <!-- کارت انتهای صفحه تماس -->
+        <div class="custom-plan-card" style="margin-top: 50px;">
+            <div class="custom-plan-info">
+                <h3 class="custom-plan-title">
+                    نیاز به پیاده‌سازی یا بازطراحی بک‌اند محصول خود دارید؟
+                </h3>
+                <p class="custom-plan-desc">معماری سیستم شما را متناسب با جریان تراکنش‌ها، تعداد کاربران و مقیاس‌پذیری آینده از صفر تا پروداکشن پیاده‌سازی می‌کنیم.</p>
+            </div>
+          <a href="{% url 'core:submit_ticket' %}" class="btn-custom">درخواست مشاوره معماری</a>
+        </div>
+
+    </div>
+</section>
+{% endblock %}

@@ -1,153 +1,588 @@
 {% load static %}
+
+<style>
+    /* =========================================================
+       تنظیم فونت دانا و ریست پایه
+       ========================================================= */
+    .top-bar, .bottom-bar, .mobile-menu-drawer {
+        font-family: 'Dana', 'Dana-FaNum', Tahoma, sans-serif !important;
+    }
+
+    /* هدر بالا */
+    .top-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 8px 32px;
+        background: #ffffff;
+        border-bottom: 1px solid #f1f5f9;
+        direction: rtl;
+        box-sizing: border-box;
+        position: relative;
+        z-index: 100;
+    }
+
+    .top-right-actions {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-shrink: 0;
+    }
+
+    .top-center-section {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex: 1;
+        max-width: 760px;
+        margin: 0 16px;
+    }
+
+    .atra-services-badge-wrap {
+        display: flex;
+        align-items: center;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 999px;
+        padding: 4px 6px 4px 16px;
+        width: 100%;
+        overflow: hidden;
+    }
+
+    .services-fixed-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: #064e3b; /* سبز سلطنتی تیره */
+        color: #ecfdf5;
+        font-size: 0.76rem;
+        font-weight: 700;
+        padding: 4px 12px;
+        border-radius: 999px;
+        white-space: nowrap;
+        flex-shrink: 0;
+        z-index: 2;
+    }
+
+    .live-indicator-dot {
+        width: 6px;
+        height: 6px;
+        background: #10b981;
+        border-radius: 50%;
+        box-shadow: 0 0 6px #10b981;
+    }
+
+    .services-marquee-window {
+        overflow: hidden;
+        white-space: nowrap;
+        position: relative;
+        flex: 1;
+        margin-right: 12px;
+        mask-image: linear-gradient(to left, transparent 0%, black 6%, black 94%, transparent 100%);
+        -webkit-mask-image: linear-gradient(to left, transparent 0%, black 6%, black 94%, transparent 100%);
+    }
+
+    .services-scroll-track {
+        display: inline-flex;
+        align-items: center;
+        gap: 24px;
+        animation: smoothTicker 26s linear infinite;
+    }
+
+    .services-scroll-track:hover {
+        animation-play-state: paused;
+    }
+
+    .service-tag-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 0.82rem;
+        color: #334155;
+        white-space: nowrap;
+    }
+
+    .service-tag-item strong {
+        color: #047857; /* سبز زمردی سلطنتی */
+        font-weight: 700;
+    }
+
+    .service-dot-divider {
+        color: #cbd5e1;
+        font-size: 0.75rem;
+    }
+
+    @keyframes smoothTicker {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(50%); }
+    }
+
+    /* بخش تنظیم ابعاد و موقعیت لوگو (بزرگ‌تر و متمایل به راست) */
+    .top-left-logo {
+        display: flex;
+        align-items: center;
+        flex-shrink: 0;
+        margin-right: 28px; /* انتقال به سمت راست و فاصله گرفتن از لبه چپ */
+        padding-left: 10px;
+    }
+
+    .zoho-text a {
+        display: flex;
+        align-items: center;
+    }
+
+    .zoho-text img {
+        height: 58px; /* افزایش سایز لوگو */
+        width: auto;
+        object-fit: contain;
+        transition: transform 0.2s ease;
+    }
+
+    .zoho-text img:hover {
+        transform: scale(1.03);
+    }
+
+    .atra-inline-hamburger {
+        display: none;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 24px;
+        height: 18px;
+        cursor: pointer;
+        background: transparent;
+        border: none;
+        padding: 0;
+        z-index: 101;
+    }
+
+    .atra-inline-hamburger span {
+        display: block;
+        height: 2px;
+        width: 100%;
+        background-color: #0f172a;
+        border-radius: 2px;
+        transition: all 0.3s ease;
+        transform-origin: right center;
+    }
+
+    .atra-inline-hamburger.is-active span:nth-child(1) { transform: rotate(-45deg); }
+    .atra-inline-hamburger.is-active span:nth-child(2) { opacity: 0; }
+    .atra-inline-hamburger.is-active span:nth-child(3) { transform: rotate(45deg); }
+
+    /* =========================================================
+       منوی دوم (Bottom Bar) - تک خطی، تراز و با هاور سبز سلطنتی
+       ========================================================= */
+    .bottom-bar {
+        background: #ffffff;
+        border-bottom: 1px solid #eef2f6;
+        direction: rtl;
+        box-sizing: border-box;
+        position: relative;
+        z-index: 90;
+    }
+
+    .bottom-nav {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 8px;
+        padding: 6px 32px;
+        max-width: 1280px;
+        margin: 0 auto;
+        box-sizing: border-box;
+    }
+
+    .bottom-nav > a,
+    .bottom-nav .dropdown > a {
+        text-decoration: none;
+        color: #1e293b;
+        font-size: 0.88rem;
+        font-weight: 600;
+        padding: 8px 12px;
+        border-radius: 8px;
+        transition: all 0.2s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        white-space: nowrap;
+    }
+
+    /* هاور سبز سلطنتی */
+    .bottom-nav > a:hover,
+    .bottom-nav .dropdown:hover > a {
+        color: #047857 !important;
+        background: #ecfdf5;
+    }
+
+    .bottom-nav .dropdown {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+    }
+
+    .arrow-icon {
+        font-size: 0.65rem;
+        color: #64748b;
+        transition: transform 0.2s ease, color 0.2s ease;
+    }
+
+    .bottom-nav .dropdown:hover .arrow-icon {
+        color: #047857;
+        transform: rotate(180deg);
+    }
+
+    /* زیرمنو */
+    .bottom-nav .dropdown-content {
+        display: none;
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background: #ffffff;
+        min-width: 240px;
+        box-shadow: 0 12px 28px -4px rgba(4, 120, 87, 0.12), 0 4px 12px -2px rgba(0, 0, 0, 0.05);
+        border: 1px solid #d1fae5;
+        border-radius: 10px;
+        padding: 6px 0;
+        list-style: none;
+        margin: 0;
+        z-index: 1000;
+    }
+
+    /* پل ضد پرش موس */
+    .bottom-nav .dropdown-content::before {
+        content: "";
+        position: absolute;
+        top: -10px;
+        right: 0;
+        left: 0;
+        height: 10px;
+        background: transparent;
+    }
+
+    .bottom-nav .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    .bottom-nav .dropdown-content li {
+        width: 100%;
+    }
+
+    .bottom-nav .dropdown-content li a {
+        display: block;
+        padding: 9px 16px;
+        color: #334155;
+        font-size: 0.84rem;
+        font-weight: 500;
+        text-decoration: none;
+        transition: all 0.15s ease;
+        text-align: right;
+        white-space: nowrap;
+    }
+
+    .bottom-nav .dropdown-content li a:hover {
+        background: #ecfdf5;
+        color: #047857;
+        padding-right: 20px;
+    }
+
+    /* =========================================================
+       منوی موبایل
+       ========================================================= */
+    .mobile-menu-overlay {
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(15, 23, 42, 0.45);
+        backdrop-filter: blur(4px);
+        z-index: 1000;
+        opacity: 0; visibility: hidden;
+        transition: all 0.3s ease;
+    }
+
+    .mobile-menu-drawer {
+        position: fixed;
+        top: 0; right: -300px; width: 280px; height: 100%;
+        background: #ffffff;
+        box-shadow: -5px 0 25px rgba(0,0,0,0.15);
+        z-index: 1001;
+        transition: right 0.3s ease;
+        display: flex; flex-direction: column;
+        direction: rtl;
+        box-sizing: border-box;
+    }
+
+    .mobile-menu-overlay.is-open { opacity: 1; visibility: visible; }
+    .mobile-menu-drawer.is-open { right: 0; }
+
+    .drawer-header {
+        display: flex; align-items: center; justify-content: space-between;
+        padding: 16px; border-bottom: 1px solid #f1f5f9;
+    }
+
+    .drawer-header img { height: 42px; }
+
+    .drawer-close-btn {
+        background: transparent; border: none; font-size: 1.4rem;
+        color: #64748b; cursor: pointer;
+    }
+
+    .drawer-body { padding: 12px 0; overflow-y: auto; flex: 1; }
+
+    .mobile-nav-link {
+        display: block; padding: 10px 20px; color: #1e293b;
+        text-decoration: none; font-weight: 600; font-size: 0.9rem;
+        border-bottom: 1px solid #f8fafc;
+    }
+
+    .mobile-accordion-toggle {
+        width: 100%; display: flex; align-items: center; justify-content: space-between;
+        padding: 10px 20px; background: transparent; border: none;
+        color: #1e293b; font-size: 0.9rem; font-weight: 600;
+        cursor: pointer; border-bottom: 1px solid #f8fafc; text-align: right;
+    }
+
+    .mobile-accordion-content { display: none; background: #f8fafc; padding: 4px 0; }
+    .mobile-accordion-content a {
+        display: block; padding: 8px 30px; color: #64748b;
+        text-decoration: none; font-size: 0.84rem;
+    }
+
+    @media (max-width: 992px) {
+        .top-center-section { display: none; }
+        .bottom-bar { display: none; }
+        .atra-inline-hamburger { display: flex; }
+        .top-bar { padding: 8px 16px; }
+        .top-left-logo { margin-right: 0; padding-left: 0; }
+        .zoho-text img { height: 46px; }
+    }
+</style>
+
+<!-- هدر بالا -->
 <header class="top-bar">
-    <!-- بخش جستجو و دکمه‌ها به سمت راست منتقل شد -->
-    <div class="top-right-section">
-        <!-- Hollow minimal SVG Search Icon -->
-        <div class="search-icon-svg" title="جستجو">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
-                 stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="11" cy="11" r="8"></circle>
-                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-            </svg>
-        </div>
-        <div class="atra-inline-hamburger" id="atraMenuToggle">
+    <div class="top-right-actions">
+        <button class="atra-inline-hamburger" id="atraMenuToggle" type="button" aria-label="منو">
             <span></span><span></span><span></span>
-        </div>
-        {% if user.is_authenticated %}
-            <!-- ================= حالت کاربر لاگین‌شده ================= -->
+        </button>
 
-            <!-- نمایش نام کاربری (فقط برای نمایش، بدون لینک) -->
-            <span class="minimal-btn user-badge">
-            <i class=""></i> خوش اومدی، {{ user.username }}
-        </span>
-
-            <!-- دکمه پروفایل -->
-            <a href="{% url 'accounts:profile_dashboard' %}" class="minimal-btn animated-border">
-                پروفایل کاربری
-            </a>
-
-            <!-- دکمه خروج -->
-            <a href="{% url 'accounts:logout' %}" class="minimal-btn logout-btn">
-                خروج
-            </a>
-
-        {% else %}
-            <!-- ================= حالت کاربر مهمان (لاگین نشده) ================= -->
-
-            <!-- دکمه ورود (لینک ورود رو هم بهش اضافه کردم) -->
-            <a href="{% url 'accounts:login' %}" class="minimal-btn animated-border">
-                ورود
-            </a>
-
-            <!-- دکمه ثبت‌نام -->
-            <a href="{% url 'accounts:register' %}" class="minimal-btn signup-btn">
-                ثبت‌نام
-            </a>
-        {% endif %}
+{#        {% if user.is_authenticated %}#}
+{#            <span style="font-size:0.82rem; color:#475569; font-weight: 600;">#}
+{#                {{ user.username }}#}
+{#            </span>#}
+{#            <a href="{% url 'accounts:profile_dashboard' %}" style="text-decoration:none; font-size:0.82rem; color:#047857; font-weight: 700;">#}
+{#                پروفایل#}
+{#            </a>#}
+{#            <a href="{% url 'accounts:logout' %}" style="text-decoration:none; font-size:0.82rem; color:#ef4444; font-weight: 600;">#}
+{#                خروج#}
+{#            </a>#}
+{#        {% endif %}#}
     </div>
 
-    <!-- بخش لوگو و منو به سمت چپ منتقل شد -->
-    <div class="top-left-section">
-        {#        <nav class="top-nav">#}
-        {#            <a href="">هزینه‌ها</a>#}
-        {#            <a href="">سازنده</a>#}
-        {##}
-        {#        </nav>#}
+    <div class="top-center-section">
+        <div class="atra-services-badge-wrap">
+            <div class="services-fixed-pill">
+                <span class="live-indicator-dot"></span>
+                حوزه‌های تخصصی
+            </div>
+            <div class="services-marquee-window">
+                <div class="services-scroll-track">
+                    <span class="service-tag-item"><strong>بک‌اند جنگو & DRF</strong> (وب‌سرویس و معماری مقیاس‌پذیر)</span>
+                    <span class="service-dot-divider">✦</span>
+                    <span class="service-tag-item"><strong>کلاینت‌های فلاتر</strong> (کراس‌پلتفرم و رندرینگ نیتیو)</span>
+                    <span class="service-dot-divider">✦</span>
+                    <span class="service-tag-item"><strong>سیستم‌های RAG</strong> (پایگاه دانش سازمانی بدون توهم)</span>
+                    <span class="service-dot-divider">✦</span>
+                    <span class="service-tag-item"><strong>فاین‌تیونینگ LLM</strong> (شخصی‌سازی وزن‌ها با LoRA)</span>
+                    <span class="service-dot-divider">✦</span>
+                    <span class="service-tag-item"><strong>معماری Offline-First</strong> (کش و سینک پایگاه‌داده محلی)</span>
+                    <span class="service-dot-divider">✦</span>
 
+                    <!-- تکرار برای ایجاد لوپ پیوسته -->
+                    <span class="service-tag-item"><strong>بک‌اند جنگو & DRF</strong> (وب‌سرویس و معماری مقیاس‌پذیر)</span>
+                    <span class="service-dot-divider">✦</span>
+                    <span class="service-tag-item"><strong>کلاینت‌های فلاتر</strong> (کراس‌پلتفرم و رندرینگ نیتیو)</span>
+                    <span class="service-dot-divider">✦</span>
+                    <span class="service-tag-item"><strong>سیستم‌های RAG</strong> (پایگاه دانش سازمانی بدون توهم)</span>
+                    <span class="service-dot-divider">✦</span>
+                    <span class="service-tag-item"><strong>فاین‌تیونینگ LLM</strong> (شخصی‌سازی وزن‌ها با LoRA)</span>
+                    <span class="service-dot-divider">✦</span>
+                    <span class="service-tag-item"><strong>معماری Offline-First</strong> (کش و سینک پایگاه‌داده محلی)</span>
+                    <span class="service-dot-divider">✦</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- بخش لوگو (بزرگ‌تر و متمایل به سمت راست) -->
+    <div class="top-left-logo">
         <div class="zoho-text">
-            <a href="{% url 'core:home' %}"
-               style="text-decoration:none; color:inherit; display:flex; align-items:center; gap:8px;">
-                <img src="{% static 'img/logo.png' %}" alt="اترا اپ" style="height:80px;">
-
+            <a href="{% url 'core:home' %}">
+                <img src="{% static 'img/logo.png' %}" alt="اترا">
             </a>
         </div>
-
     </div>
 </header>
 
-<!-- Bottom Bar Section -->
+<!-- منوی ناوبری دوم -->
 <nav class="bottom-bar">
-    <!-- منوهای پایین به سمت راست منتقل شد -->
     <div class="bottom-nav">
-        <a href="{% url 'core:home' %}">خانه</a>
-        <!-- دراپ‌داون ویژگی‌ها: تمرکز روی قابلیت‌های کلیدی سیستم -->
+        <a href="{% url 'core:home' %}">صفحه اصلی</a>
+
        <div class="dropdown">
-    <a href="#">ویژگی‌ها <span class="arrow">▼</span></a>
-    <ul class="dropdown-content">
-        <li><a href="{% url 'core:feature_offline_first' %}">تکنولوژی Offline-First</a></li>
-        <li><a href="{% url 'core:feature_decentralized' %}">معماری غیرمتمرکز داده‌ها</a></li>
-        <li><a href="{% url 'core:feature_smart_backup' %}">بک‌آپ‌گیری هوشمند لوکال</a></li>
-        <li><a href="{% url 'core:feature_stability' %}">پایداری تضمین‌شده (۹۹.۹٪)</a></li>
-    </ul>
-</div>
+            <a href="{% url 'core:backend_modular' %}">بک‌اند و API <span class="arrow-icon">▼</span></a>
+            <ul class="dropdown-content">
+                <li><a href="{% url 'core:backend_modular' %}">معماری ماژولار Django & DRF</a></li>
+                <li><a href="{% url 'core:backend_postgresql' %}">طراحی دیتابیس و PostgreSQL</a></li>
+                <li><a href="{% url 'core:backend_otp' %}">سیستم احراز هویت پیامکی (OTP)</a></li>
+                <li><a href="{% url 'core:backend_celery_redis' %}">مدیریت صف‌های سنگین Celery/Redis</a></li>
+            </ul>
+        </div>
+
+       <div class="dropdown">
+            <a href="{% url 'core:flutter_crossplatform' %}">اپلیکیشن فلاتر <span class="arrow-icon">▼</span></a>
+            <ul class="dropdown-content">
+                <li><a href="{% url 'core:flutter_crossplatform' %}">کراس‌پلتفرم iOS و Android</a></li>
+                <li><a href="{% url 'core:flutter_offline_first' %}">معماری آفلاین‌محور (Offline-First)</a></li>
+                <li><a href="{% url 'core:flutter_ai_streaming' %}">استریم پاسخ‌های هوش مصنوعی</a></li>
+                <li><a href="{% url 'core:flutter_memory_optimization' %}">بهینه‌سازی مصرف حافظه و رندرینگ</a></li>
+            </ul>
+        </div>
+
+       <div class="dropdown">
+            <a href="{% url 'core:ai_rag_system' %}">هوش مصنوعی و LLM <span class="arrow-icon">▼</span></a>
+            <ul class="dropdown-content">
+                <li><a href="{% url 'core:ai_rag_system' %}">پایگاه دانش سازمانی RAG</a></li>
+                <li><a href="{% url 'core:ai_vector_databases' %}">پایگاه‌های برداری (Vector DBs)</a></li>
+                <li><a href="{% url 'core:ai_finetuning_lora' %}">Fine-Tuning و تنظیم مدل با LoRA</a></li>
+                <li><a href="{% url 'core:ai_generative_studio' %}">استودیوهای تولید تصویر Generative</a></li>
+            </ul>
+        </div>
+
+      <div class="dropdown">
+            <a href="{% url 'core:plan_fullstack_ai' %}">پلن‌های توسعه <span class="arrow-icon">▼</span></a>
+            <ul class="dropdown-content">
+                <li><a href="{% url 'core:plan_backend_api' %}">توسعه اختصاصی بک‌اند و API</a></li>
+                <li><a href="{% url 'core:plan_rag_service' %}">پیاده‌سازی پایگاه دانش RAG</a></li>
+                <li><a href="{% url 'core:plan_fullstack_ai' %}">توسعه محصول کامل (End-to-End)</a></li>
+                <li><a href="{% url 'core:plan_finetune_consulting' %}">سفارشی‌سازی و مشاوره Fine-Tuning</a></li>
+            </ul>
+        </div>
 
         <div class="dropdown">
-    <!-- لینک اصلی می‌تونه بره به صفحه کلی مقایسه قیمت‌ها -->
-    <a href="">پلن ها <span class="arrow">▼</span></a>
-    <ul class="dropdown-content">
-        <li><a href="{% url 'core:plan_economic' %}"> پلن اقتصادی </a></li>
-        <li><a href="{% url 'core:plan_advanced' %}"> پلن پیشرفته </a></li>
-        <li><a href="{% url 'core:plan_professional' %}"> پلن حرفه‌ای </a></li>
-        <li><a href="{% url 'core:plan_custom' %}"> پلن سفارشی </a></li>
-    </ul>
-</div>
+            <a href="{% url 'core:devops_linux_ubuntu' %}">استقرار و سرور <span class="arrow-icon">▼</span></a>
+            <ul class="dropdown-content">
+                <li><a href="{% url 'core:devops_linux_ubuntu' %}">پیکربندی سرورهای لینوکس (Ubuntu)</a></li>
+                <li><a href="{% url 'core:devops_nginx_ssl' %}">کانفیگ وب‌سرور Nginx و SSL</a></li>
+                <li><a href="{% url 'core:devops_docker_container' %}">کانتینرسازی با Docker</a></li>
+                <li><a href="{% url 'core:devops_store_publishing' %}">انتشار در مارکت‌ها و استورها</a></li>
+            </ul>
+        </div>
 
-        <a href="{% url 'core:pricing' %}">قیمت‌گذاری</a>
-
-        <!-- دراپ‌داون راهکارها: شخصی‌سازی برای صنایع مختلف (جذب هدفمند مشتری) -->
-       <div class="dropdown">
-    <a href="#">راهکارها <span class="arrow">▼</span></a>
-    <ul class="dropdown-content">
-        <li><a href="{% url 'core:solution_smb' %}">کسب‌وکارهای کوچک و متوسط</a></li>
-        <li><a href="{% url 'core:solution_ecommerce' %}">فروشگاه‌های اینترنتی</a></li>
-        <li><a href="{% url 'core:solution_b2b' %}">شرکت‌های خدماتی و B2B</a></li>
-        <li><a href="{% url 'core:solution_freelancer' %}">مشاغل آزاد و فریلنسرها</a></li>
-    </ul>
-</div>
-
-
-        <a href="#">مشتریان</a>
-        <a href="#">همکاری با ما</a>
-
-        <!-- دراپ‌داون منابع: ارزش‌آفرینی و پشتیبانی کاربر -->
-       <div class="dropdown">
-    <a href="#">منابع <span class="arrow">▼</span></a>
-
-    <ul class="dropdown-content">
-        <!-- اتصال به view وبلاگ -->
-        <li><a href="{% url 'core:blog' %}">وبلاگ و مقالات آموزشی</a></li>
-
-        <!-- اتصال به view پشتیبانی -->
-        <li><a href="{% url 'core:help_center' %}">مرکز راهنمایی و پشتیبانی</a></li>
-
-        <!-- اتصال به view توسعه‌دهندگان -->
-        <li><a href="{% url 'core:developers' %}">مستندات توسعه‌دهندگان (API)</a></li>
-
-
-    </ul>
-</div>
-
+        <a href="{% url 'core:help_center' %}" >تماس و پشتیبانی</a>
     </div>
+</nav>
+
+<!-- منوی کشویی موبایل -->
+<div class="mobile-menu-overlay" id="mobileOverlay"></div>
+
+<aside class="mobile-menu-drawer" id="mobileDrawer">
+    <div class="drawer-header">
+        <img src="{% static 'img/logo.png' %}" alt="اترا">
+        <button class="drawer-close-btn" id="drawerCloseBtn">&times;</button>
     </div>
 
-    <!-- دکمه نسخه آزمایشی و لوگو به سمت چپ منتقل شد -->
-    <div class="bottom-left-section">
-        <div class="books-logo-mock">
+    <div class="drawer-body">
+        <a href="{% url 'core:home' %}" class="mobile-nav-link">صفحه اصلی</a>
 
-            <!-- لوگو (جایگزین آیکون قبلی) -->
-            <div class="books-icon">
-                <img src="{% static 'img/logo_book.webp' %}"
-                     alt="logo"
-                     style="width:32px; height:32px; object-fit:contain;">
-            </div>
-
-            <!-- متن دریافت نسخه آزمایشی -->
-            <div class="books-text">
-                <a href="https://your-link.com" style="text-decoration:none; color:inherit;">
-                    <span>دریافت نسخه آزمایشی</span>
-                </a>
+      <div>
+            <button class="mobile-accordion-toggle" onclick="toggleAccordion('mSubBackend')">
+                بک‌اند و API <span>+</span>
+            </button>
+            <div class="mobile-accordion-content" id="mSubBackend">
+                <a href="{% url 'core:backend_modular' %}">معماری Django & DRF</a>
+                <a href="{% url 'core:backend_postgresql' %}">طراحی دیتابیس PostgreSQL</a>
+                <a href="{% url 'core:backend_otp' %}">احراز هویت پیامکی OTP</a>
+                <a href="{% url 'core:backend_celery_redis' %}">مدیریت صف‌های Celery/Redis</a>
             </div>
         </div>
-    </div>
 
-</nav>
+     <div>
+            <button class="mobile-accordion-toggle" onclick="toggleAccordion('mSubFlutter')">
+                اپلیکیشن فلاتر <span>+</span>
+            </button>
+            <div class="mobile-accordion-content" id="mSubFlutter">
+                <a href="{% url 'core:flutter_crossplatform' %}">کراس‌پلتفرم iOS و Android</a>
+                <a href="{% url 'core:flutter_offline_first' %}">معماری آفلاین‌محور</a>
+                <a href="{% url 'core:flutter_ai_streaming' %}">استریم هوش مصنوعی</a>
+                <a href="{% url 'core:flutter_memory_optimization' %}">بهینه‌سازی حافظه و رندر</a>
+            </div>
+        </div>
+
+       <div>
+            <button class="mobile-accordion-toggle" onclick="toggleAccordion('mSubAI')">
+                هوش مصنوعی و LLM <span>+</span>
+            </button>
+            <div class="mobile-accordion-content" id="mSubAI">
+                <a href="{% url 'core:ai_rag_system' %}">پایگاه دانش سازمانی RAG</a>
+                <a href="{% url 'core:ai_vector_databases' %}">پایگاه‌های برداری Vector DB</a>
+                <a href="{% url 'core:ai_finetuning_lora' %}">فاین‌تیونینگ مدل‌ها با LoRA</a>
+                <a href="{% url 'core:ai_generative_studio' %}">استودیوهای تولید تصویر Generative</a>
+            </div>
+        </div>
+
+     <div>
+            <button class="mobile-accordion-toggle" onclick="toggleAccordion('mSubPlans')">
+                پلن‌های توسعه <span>+</span>
+            </button>
+            <div class="mobile-accordion-content" id="mSubPlans">
+                <a href="{% url 'core:plan_backend_api' %}">توسعه اختصاصی بک‌اند و API</a>
+                <a href="{% url 'core:plan_rag_service' %}">پیاده‌سازی پایگاه دانش RAG</a>
+                <a href="{% url 'core:plan_fullstack_ai' %}">توسعه محصول کامل (End-to-End)</a>
+                <a href="{% url 'core:plan_finetune_consulting' %}">سفارشی‌سازی و Fine-Tuning</a>
+            </div>
+        </div>
+<div>
+            <button class="mobile-accordion-toggle" onclick="toggleAccordion('mSubDevops')">
+                استقرار و سرور <span>+</span>
+            </button>
+            <div class="mobile-accordion-content" id="mSubDevops">
+                <a href="{% url 'core:devops_linux_ubuntu' %}">سرورهای لینوکس Ubuntu</a>
+                <a href="{% url 'core:devops_nginx_ssl' %}">وب‌سرور Nginx و SSL</a>
+                <a href="{% url 'core:devops_docker_container' %}">داکر و کانتینرسازی</a>
+                <a href="{% url 'core:devops_store_publishing' %}">انتشار در مارکت‌ها</a>
+            </div>
+        </div>
+        <a href="{% url 'core:submit_ticket' %}"  class="mobile-nav-link" style="color: #047857;">تماس و ثبت سفارش</a>
+    </div>
+</aside>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const toggleBtn = document.getElementById('atraMenuToggle');
+        const drawer = document.getElementById('mobileDrawer');
+        const overlay = document.getElementById('mobileOverlay');
+        const closeBtn = document.getElementById('drawerCloseBtn');
+
+        function openDrawer() {
+            drawer.classList.add('is-open');
+            overlay.classList.add('is-open');
+            toggleBtn.classList.add('is-active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeDrawer() {
+            drawer.classList.remove('is-open');
+            overlay.classList.remove('is-open');
+            toggleBtn.classList.remove('is-active');
+            document.body.style.overflow = '';
+        }
+
+        if (toggleBtn) toggleBtn.addEventListener('click', openDrawer);
+        if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
+        if (overlay) overlay.addEventListener('click', closeDrawer);
+    });
+
+    function toggleAccordion(id) {
+        const item = document.getElementById(id);
+        if (!item) return;
+        item.style.display = (item.style.display === 'block') ? 'none' : 'block';
+    }
+</script>

@@ -1,0 +1,100 @@
+{% extends 'parent/base.html' %}
+{% load static %}
+
+{% block title %}طراحی دیتابیس PostgreSQL و بهینه‌سازی کوئری‌ها | آترا{% endblock %}
+{% block meta_description %}طراحی اصولی پایگاه داده رابطه‌ای، نرمال‌سازی اسکیما، ایندکس‌گذاری پیشرفته B-Tree و GIN و ادغام قابلیت‌های برداری pgvector در PostgreSQL.{% endblock %}
+
+{% block extra_css %}
+    <link href="{% static 'css/navbar.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<section class="decentralized-light-wrapper">
+    <div class="decentralized-container">
+
+        <!-- هدر تکنیکال -->
+        <div class="tech-hero">
+            <div class="enterprise-badge">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>
+                <span>یکپارچگی و سلامت داده‌ها</span>
+            </div>
+            <h1 class="tech-main-title">
+                طراحی دیتابیس تخصصی و مدیریت <span class="tech-highlight">PostgreSQL</span>
+            </h1>
+            <p class="tech-subtitle">
+                نرمال‌سازی دقیق جداول، حذف گلوگاه‌های کوئری (N+1 Query Elimination)، تراکنش‌های اتمیک ACID و پشتیبانی بومی از ذخیره‌سازی برداری هوش مصنوعی با pgvector.
+            </p>
+        </div>
+
+        <!-- ساختار کارت‌های شبکه‌ای -->
+        <div class="nodes-layout">
+
+            <!-- نود ۱: اسکیما و ایندکس‌گذاری -->
+            <div class="node-card">
+                <div class="node-content">
+                    <div class="icon-wrapper">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>
+                    </div>
+                    <h2 class="node-title">معماری اسکیما و ایندکس‌های پیشرفته</h2>
+                    <p class="node-text">
+                        طراحی جداول با رعایت دقیق وابستگی‌های کلید خارجی، استفاده از کانستریت‌های اعتبارسنجی در سطح دیتابیس (Check Constraints)، و پیاده‌سازی ایندکس‌های ترکیبی، B-Tree و ایندکس‌های وارونه (GIN) برای جستجوی فوق‌سریع در فیلدهای JSONB و متون بدون سربار پردازشی روی سرور.
+                    </p>
+                </div>
+                <div class="node-image">
+                    <img src="https://images.unsplash.com/photo-1544383835-bda2bc66a55d?auto=format&fit=crop&w=700&q=80" alt="طراحی پایگاه داده دیتابیس پستگرس">
+                </div>
+            </div>
+
+            <!-- گرید دو ستونه: بهینه‌سازی ORM و هوش مصنوعی -->
+            <div class="node-grid-2">
+                <div class="node-card-small">
+                    <div class="icon-wrapper">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                    </div>
+                    <h3 class="node-title">حذف کوئری‌های سنگین Django ORM</h3>
+                    <p class="node-text">
+                        کاهش زمان پاسخ‌دهی تا ۹۰ درصد با شناسایی کوئری‌های تکراری، بهره‌گیری از select_related و prefetch_related و واگذاری محاسبات پیچیده تجمعی به خود انجین دیتابیس از طریق Aggregate و Annotate.
+                    </p>
+                </div>
+
+                <div class="node-card-small">
+                    <div class="icon-wrapper">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
+                    </div>
+                    <h3 class="node-title">دیتابیس برداری با pgvector</h3>
+                    <p class="node-text">
+                        نگهداری امبدینگ‌های متنی مدل‌های هوش مصنوعی در همان پایگاه داده اصلی تجاری با اکستنشن قدرتمند pgvector و اجرای جستجوهای شباهت کسینوسی (Cosine Similarity) بدون نیاز به دیتابیس برداری جداگانه.
+                    </p>
+                </div>
+            </div>
+
+            <!-- نود ۲: تراکنش و امنیت داده -->
+            <div class="node-card reverse">
+                <div class="node-content">
+                    <div class="icon-wrapper">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                    </div>
+                    <h2 class="node-title">ایزولاسیون تراکنش‌ها و بکاپ اتوماتیک</h2>
+                    <p class="node-text">
+                        جلوگیری قطعی از خطای تداخل ثبت همزمان فاکتورها یا موجودی با تراکنش‌های اتمیک (`atomic()`)، مدیریت صحیح قفل رکوردهای حساس (`select_for_update`) و زمان‌بندی پشتیبان‌گیری دوره‌ای فشرده با انتقال امن به آبجکت‌استوریج ابری.
+                    </p>
+                </div>
+                <div class="node-image">
+                    <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=700&q=80" alt="امنیت سرور و پایگاه داده">
+                </div>
+            </div>
+
+        </div>
+
+        <!-- کارت کال تو اکشن -->
+        <div class="custom-plan-card" style="margin-top: 60px;">
+            <div class="custom-plan-info">
+                <h3 class="custom-plan-title">کندی سرعت کوئری‌ها دیتابیس شما را متوقف کرده است؟</h3>
+                <p class="custom-plan-desc">پایگاه داده و ساختار کوئری‌های پروژه شما را ارزیابی، بازآرایی و برای پذیرش میلیون‌ها رکورد آماده می‌کنیم.</p>
+            </div>
+           <a href="{% url 'core:submit_ticket' %}" class="btn-custom">بررسی و بهینه‌سازی دیتابیس</a>
+        </div>
+
+    </div>
+</section>
+{% endblock %}

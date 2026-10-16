@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>قوانین و مقررات | آترا</title>
+    <title>شرایط و ضوابط همکاری مهندسی | استودیو مهندسی آترا</title>
     <!-- فراخوانی فونت وزیرمتن -->
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.0.0/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
     <style>
@@ -13,116 +13,200 @@
             padding: 0;
         }
         body {
-            font-family: 'Vazirmatn', sans-serif;
-            background-color: #f8fafc; /* رنگ پس‌زمینه ملایم */
-            color: #334155;
-            line-height: 1.8;
-            padding: 40px 20px;
+            font-family: 'Vazirmatn', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #0b0f19;
+            color: #cbd5e1;
+            line-height: 1.9;
+            padding: 60px 20px;
+            min-height: 100vh;
         }
-        /* دکمه بازگشت */
+
         .back-btn {
             position: fixed;
-            top: 20px;
-            right: 20px;
-            background-color: #2563eb;
-            color: white;
+            top: 24px;
+            right: 24px;
+            background: rgba(56, 189, 248, 0.1);
+            color: #38bdf8;
+            border: 1px solid rgba(56, 189, 248, 0.3);
             text-decoration: none;
-            padding: 10px 20px;
-            border-radius: 8px;
+            padding: 10px 22px;
+            border-radius: 10px;
             font-size: 14px;
-            font-weight: 500;
-            box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2);
-            transition: all 0.3s ease;
+            font-weight: 600;
+            backdrop-filter: blur(8px);
+            transition: all 0.25s ease;
             z-index: 100;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
         .back-btn:hover {
-            background-color: #1d4ed8;
+            background-color: #38bdf8;
+            color: #041014;
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
             transform: translateY(-2px);
         }
-        /* ظرف اصلی سند */
+
         .document-wrapper {
-            max-width: 800px;
+            max-width: 860px;
             margin: 0 auto;
-            background: #ffffff;
-            padding: 50px 60px;
-            border-radius: 16px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-            border: 1px solid #e2e8f0;
+            background: #111827;
+            padding: 55px 65px;
+            border-radius: 20px;
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            position: relative;
         }
+
+        .document-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 15%;
+            width: 70%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #38bdf8, transparent);
+        }
+
+        .doc-badge {
+            display: inline-block;
+            background: rgba(56, 189, 248, 0.1);
+            color: #38bdf8;
+            border: 1px solid rgba(56, 189, 248, 0.25);
+            padding: 4px 14px;
+            border-radius: 9999px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
         h1 {
-            color: #0f172a;
+            color: #f8fafc;
             font-size: 28px;
-            margin-bottom: 10px;
-            text-align: center;
+            font-weight: 800;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
         }
         .last-update {
-            text-align: center;
             color: #64748b;
             font-size: 13px;
-            margin-bottom: 40px;
+            margin-bottom: 35px;
             display: block;
         }
+
         h2 {
-            color: #1e293b;
-            font-size: 20px;
-            margin-top: 30px;
-            margin-bottom: 15px;
-            border-bottom: 2px solid #eff6ff;
-            padding-bottom: 5px;
+            color: #f1f5f9;
+            font-size: 19px;
+            font-weight: 700;
+            margin-top: 36px;
+            margin-bottom: 14px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
+        h2::before {
+            content: '';
+            display: inline-block;
+            width: 4px;
+            height: 18px;
+            background: #38bdf8;
+            border-radius: 2px;
+        }
+
         p {
-            margin-bottom: 15px;
+            margin-bottom: 16px;
             text-align: justify;
-            font-size: 15px;
+            font-size: 14.5px;
+            color: #94a3b8;
         }
         ul {
-            margin-bottom: 15px;
-            padding-right: 20px;
+            margin-bottom: 20px;
+            padding-right: 22px;
         }
         li {
-            margin-bottom: 8px;
-            font-size: 15px;
+            margin-bottom: 10px;
+            font-size: 14.5px;
+            color: #cbd5e1;
         }
-        @media (max-width: 600px) {
-            .document-wrapper {
-                padding: 30px 20px;
-            }
-            .back-btn {
-                position: static;
-                display: table;
-                margin: 0 auto 20px auto;
-            }
+        li strong {
+            color: #f8fafc;
+        }
+
+        .strict-clause {
+            background: rgba(239, 68, 68, 0.06);
+            border-right: 3px solid #ef4444;
+            padding: 18px 22px;
+            border-radius: 0 10px 10px 0;
+            margin: 22px 0;
+            font-size: 14.2px;
+            color: #fecaca;
+            line-height: 2;
+        }
+
+        .highlight-box {
+            background: rgba(56, 189, 248, 0.04);
+            border-right: 3px solid #38bdf8;
+            padding: 16px 20px;
+            border-radius: 0 10px 10px 0;
+            margin: 22px 0;
+            font-size: 14px;
+            color: #e2e8f0;
+        }
+
+        @media (max-width: 640px) {
+            body { padding: 30px 16px; }
+            .document-wrapper { padding: 35px 22px; }
+            .back-btn { position: static; margin-bottom: 24px; display: inline-flex; }
+            h1 { font-size: 22px; }
+            h2 { font-size: 17px; }
         }
     </style>
 </head>
 <body>
 
-    <a href="/" class="back-btn">بازگشت به سایت</a>
+    <a href="/" class="back-btn">
+        <span>← بازگشت به سایت</span>
+    </a>
 
     <div class="document-wrapper">
-        <h1>قوانین و مقررات استفاده از آترا</h1>
-        <span class="last-update">آخرین به‌روزرسانی: ۱۱ اردیبهشت ۱۴۰۵</span>
+        <span class="doc-badge">چارچوب حقوقی و توافق‌نامه فنی</span>
+        <h1>شرایط و ضوابط همکاری مهندسی</h1>
+        <span class="last-update">آخرین نسخه مصوب: مهر ۱۴۰۵ — استودیو مهندسی نرم‌افزار و هوش مصنوعی آترا</span>
 
-        <p>به سیستم مدیریت مالی و حسابداری آترا خوش آمدید. استفاده شما از وب‌سایت و نرم‌افزار آترا به منزله پذیرش کامل شرایط و قوانین زیر است. لطفاً پیش از ثبت‌نام و استفاده از خدمات، این موارد را با دقت مطالعه فرمایید.</p>
+        <p>به استودیو مهندسی آترا خوش آمدید. تعامل کاری، ثبت بریف‌های مهندسی، مشاوره فنی و سفارش پیاده‌سازی سیستم‌های نرم‌افزاری و هوش مصنوعی، بر اساس اصول حقوقی و ضوابط قراردادی زیر منعقد می‌گردد و ثبت هرگونه درخواست به منزله آگاهی و پذیرش این شروط است.</p>
 
-        <h2>۱. شرایط عضویت و حساب کاربری</h2>
-        <p>کاربران متعهد می‌شوند که اطلاعات خواسته‌شده در زمان ثبت‌نام را به صورت کاملاً دقیق و واقعی وارد نمایند. حفظ امنیت رمز عبور و اطلاعات ورود بر عهده شخص کاربر است و آترا مسئولیتی در قبال سوءاستفاده‌های ناشی از سهل‌انگاری کاربر در حفظ اطلاعات ورود ندارد.</p>
-
-        <h2>۲. مالکیت معنوی</h2>
-        <p>تمامی حقوق مادی و معنوی، کدهای نرم‌افزاری، طراحی‌ها، لوگو و محتوای وب‌سایت متعلق به پلتفرم آترا می‌باشد. هرگونه کپی‌برداری، مهندسی معکوس یا استفاده تجاری از نام و نشان آترا بدون کسب مجوز کتبی، پیگرد قانونی خواهد داشت.</p>
-
-        <h2>۳. تعهدات آترا</h2>
+        <h2>۱. دامنه خدمات و تعهدات مهندسی</h2>
+        <p>استودیو آترا مجری توسعه و استقرار راهکارهای نرم‌افزاری به شرح زیر است:</p>
         <ul>
-            <li>آترا متعهد می‌شود که حداکثر تلاش خود را برای حفظ پایداری و در دسترس بودن سیستم (آپتایم ۹۹.۹٪) به کار گیرد.</li>
-            <li>ما از پیشرفته‌ترین پروتکل‌های رمزنگاری برای حفظ امنیت داده‌های مالی شما استفاده می‌کنیم.</li>
-            <li>پشتیبانی فنی در روزهای کاری برای پاسخگویی به مشکلات کاربران در دسترس خواهد بود.</li>
+            <li><strong>توسعه بک‌اند و وب‌سرویس:</strong> طراحی سیستم‌های پردازشی با پایتون و جنگو، پیکربندی پایگاه‌های داده رابطه‌ای و غیررابطه‌ای، کشینگ، صفوف تسک ناهمگام و پروتکل‌های احراز هویت امن.</li>
+            <li><strong>کلاینت‌های نیتیو و فلاتر:</strong> ساخت اپلیکیشن‌های چندسکویی با معماری پایدار، کارکرد بدون قطعی و قابلیت سینک آفلاین با پایگاه‌های محلی.</li>
+            <li><strong>پایپ‌لاین‌های هوش مصنوعی سازمانی:</strong> پیاده‌سازی موتورهای RAG، اتصال به پایگاه‌های برداری، بهینه‌سازی و تنظیم دقیق وزن‌ها (Fine-Tuning) و سیستم‌های چندوجهی تصویری.</li>
+            <li><strong>مدیریت زیرساخت:</strong> راه‌اندازی و مدیریت محیط‌های عملیاتی سرور لینوکس، کانتینرهای داکر و لایه‌های شبکه و پراکسی معکوس.</li>
         </ul>
 
-        <h2>۴. محدودیت مسئولیت</h2>
-        <p>آترا صرفاً یک ابزار مدیریت مالی است. مسئولیت صحت داده‌های وارد شده، صدور فاکتورها، محاسبات مالیاتی و رعایت قوانین تجارت جمهوری اسلامی ایران مستقیماً بر عهده خود کسب‌وکار (کاربر) می‌باشد.</p>
+        <h2>۲. مبنای توافق، برآورد و اسکوپ پروژه</h2>
+        <p>برآورد زمان تحویل و تعهدات اجرایی پروژه منحصراً بر پایه نیازمندی‌های مکتوب در مستند بریف و پروپوزال تاییدشده صورت می‌گیرد. هرگونه تغییر در جریان منطق نرم‌افزار، افزوده شدن ماژول جدید یا بازتعریف امکانات پس از شروع فرآیند، مستلزم ارزیابی مجدد زمان، هزینه و تنظیم متمم قرارداد خواهد بود.</p>
 
-        <h2>۵. تغییرات در قوانین</h2>
-        <p>آترا این حق را برای خود محفوظ می‌دارد که در صورت نیاز، قوانین و مقررات را تغییر دهد. هرگونه تغییر از طریق ایمیل یا پیام در پنل کاربری به اطلاع شما خواهد رسید و ادامه استفاده شما به معنای پذیرش قوانین جدید است.</p>
+        <h2>۳. مالکیت انحصاری سورس‌کد و عدم واگذاری مخازن فنی (Source Code Exclusivity)</h2>
+        <div class="strict-clause">
+            <strong>ماده قانونی صریح — عدم واگذاری کدهای منبع:</strong>
+            کلیه کدهای منبع (Source Code)، اسکریپت‌های زیرساخت، ساختار پیاده‌سازی الگوریتم‌ها، کدهای بک‌اند و فرانت‌اند، خطوط پردازش داده و مخازن گیت (Git Repositories) دارایی معنوی و تجاری غیرقابل‌انتقال استودیو مهندسی آترا بوده و نزد استودیو محفوظ و امانت دائمی باقی می‌ماند.
+            <br>
+            موضوع توافق با کارفرما، بهره‌برداری از <strong>محصول عملیاتی، خروجی کامپایل‌شده اپلیکیشن، دسترسی به پنل مدیریت، وب‌سرویس مستقر روی سرور و تضمین پایداری کارکرد سیستم</strong> است. تحت هیچ عنوان و شرایطی، سورس‌کد خام، فایل‌های پروژه بدون کامپایل یا دسترسی به سورس مخازن فنی به شخص یا سازمانی تحویل داده نخواهد شد.
+        </div>
+
+        <h2>۴. نحوه تحویل کار و گارانتی کارکرد محصول</h2>
+        <div class="highlight-box">
+            تحویل تعهدات استودیو آترا شامل استقرار کامل نسخه عملیاتی نرم‌افزار روی زیرساخت سرور، تحویل فایل‌های نصبی نهایی کلاینت (مانند بسته‌های APK/Bundle یا وب‌اپلیکیشن مستقر) و تحویل دسترسی‌های مدیریتی به همراه آموزش کاربری است. کلیه پروژه‌ها شامل دوره معین رفع ایرادات عملکردی (Bug Fixing) مطابق با نیازمندی‌های مندرج در پروپوزال رسمی می‌باشند.
+        </div>
+
+        <h2>۵. مرزبندی هزینه‌های ارائه‌دهندگان شخص ثالث</h2>
+        <p>تامین و تمدید هزینه‌های سرور، هاست ابری، ثبت و تمدید دامنه، پنل‌های پیامکی و اعتبارات مصرفی APIهای خارجی بر عهده کارفرما است. استودیو آترا صرفاً اتصال بهینه، نظارت فنی بر استقرار و کاهش هزینه‌های مصرف منابع را متعهد می‌گردد.</p>
+
+        <h2>۶. حفاظت از داده‌ها و تعهد عدم نشت اطلاعات</h2>
+        <p>استودیو مهندسی آترا متعهد است پایگاه داده، اطلاعات کاربران و اسناد بارگذاری‌شده توسط کارفرما را با پروتکل‌های امنیتی محافظت نموده و از هرگونه استفاده متفرقه یا افشای آن‌ها به اشخاص ثالث اجتناب ورزد. در صورت نیاز کارفرما، قرارداد عدم افشای اطلاعات (NDA) پیش از دریافت داده‌ها منعقد می‌گردد.</p>
     </div>
 
 </body>

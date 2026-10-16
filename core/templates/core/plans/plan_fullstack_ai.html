@@ -1,0 +1,110 @@
+{% extends 'parent/base.html' %}
+{% load static %}
+
+{% block title %}پلن توسعه محصول جامع نرم‌افزار و هوش مصنوعی (End-to-End) | آترا{% endblock %}
+{% block meta_description %}پکیج کامل ساخت محصول دیجیتال؛ بک‌اند Django، اپلیکیشن Flutter، ادغام پایپ‌لاین‌های هوش مصنوعی، استقرار سرور و انتشار در استورها.{% endblock %}
+{% block meta_keywords %}ساخت محصول کامل نرم افزاری, توسعه End-to-End, سفارش اپلیکیشن و بک اند, شرکت ساخت نرم افزار هوش مصنوعی, توسعه فول استک پایتون فلاتر{% endblock %}
+
+{% block extra_schema %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "توسعه محصول جامع نرم‌افزار و هوش مصنوعی End-to-End",
+  "provider": {"@type": "Organization", "name": "آترا"},
+  "description": "توسعه کامل کلاینت، سرور، هوش مصنوعی و استقرار پروداکشن",
+  "areaServed": "IR"
+}
+</script>
+{% endblock %}
+
+{% block extra_css %}
+    <link href="{% static 'css/navbar.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<section class="smart-backup-wrapper">
+    <div class="backup-container">
+
+        <div class="backup-hero">
+            <div class="brand-badge">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+                <span>جامع‌ترین ساختار همکاری فنی</span>
+            </div>
+            <h1 class="backup-main-title">
+                توسعه محصول جامع <span class="backup-highlight">End-to-End Product</span>
+            </h1>
+            <p class="backup-subtitle">
+                از ایده تا تحویل نهایی محصول در مارکت‌ها؛ صفر تا صد طراحی معماری بک‌اند، ساخت اپلیکیشن چندسکویی، اتصال هوش مصنوعی و کانفیگ سرورهای عملیاتی.
+            </p>
+        </div>
+
+        <div class="timeline-layout">
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="icon-wrapper">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>
+                    </div>
+                    <h3 class="item-title">۱. بک‌اند ماژولار و زیرساخت داده (Django REST & PostgreSQL)</h3>
+                    <p class="item-text">
+                        طراحی اسکیما، سیستم احراز هویت پیامکی، اتصال به درگاه‌های بانکی، پنل مدیریت پیشرفته و کنترل دسترسی‌های نقشی (RBAC).
+                    </p>
+                </div>
+                <div class="timeline-spacer"></div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-spacer"></div>
+                <div class="timeline-content">
+                    <div class="icon-wrapper">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>
+                    </div>
+                    <h3 class="item-title">۲. اپلیکیشن موبایل کراس‌پلتفرم (Flutter iOS & Android)</h3>
+                    <p class="item-text">
+                        کدبیس تمیز با الگوی BLoC، طراحی UI واکنش‌گرا، کارایی روان ۶۰fps، پشتیبانی کامل از وضعیت آفلاین (Offline-First) و استریم زنده داده‌ها.
+                    </p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="icon-wrapper">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                    </div>
+                    <h3 class="item-title">۳. ادغام مدل‌های هوش مصنوعی (AI & LLM Integration)</h3>
+                    <p class="item-text">
+                        تجهیز محصول به قابلیت‌های هوشمند شامل چت‌بات RAG، بینایی ماشین، تولید تصویر و صوت، یا مدل‌های سفارشی‌سازی‌شده با صف‌های مدیریت منابع GPU.
+                    </p>
+                </div>
+                <div class="timeline-spacer"></div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-spacer"></div>
+                <div class="timeline-content">
+                    <div class="icon-wrapper">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"></path></svg>
+                    </div>
+                    <h3 class="item-title">۴. داکرایز، کانفیگ سرور لینوکس و انتشار نهایی</h3>
+                    <p class="item-text">
+                        راه‌اندازی سرور اوبونتو با Nginx، SSL، گواهی‌های امنیتی، استقرار ورکرها و پابلیش کامل اپلیکیشن در کافه‌بازار، گوگل‌پلی و اپ‌استور.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="custom-plan-card">
+            <div class="custom-plan-info">
+                <h3 class="custom-plan-title">ایده استارتاپ یا محصول سازمانی خود را به واقعیت تبدیل کنید</h3>
+                <p class="custom-plan-desc">تیم آترا به عنوان بازوی فنی تمام عیار در کنار شماست؛ از معماری اولیه تا نگهداری در پروداکشن.</p>
+            </div>
+            <a href="{% url 'core:submit_ticket' %}" class="btn-custom">درخواست توسعه محصول کامل</a>
+        </div>
+
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,126 @@
+{% extends 'parent/base.html' %}
+{% load static %}
+
+{% block title %}مدیریت صف‌های پردازش ناهمگام با Celery و Redis | آترا{% endblock %}
+{% block meta_description %}آزاد کردن چرخه ریکوئست جنگو، اجرای تسک‌های سنگین هوش مصنوعی و ارسال پیامک در پس‌زمینه با ورکر‌های Celery و بروکر Redis.{% endblock %}
+
+{% block extra_css %}
+    <link href="{% static 'css/navbar.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<section class="stability-wrapper">
+    <div class="stability-container">
+
+        <!-- هدر داشبورد پایداری -->
+        <div class="stability-hero">
+            <div class="brand-badge">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                <span>پردازش ناهمگام در مقیاس بالا</span>
+            </div>
+            <h1 class="stability-main-title">
+                مدیریت صف‌های سنگین با <span class="uptime-highlight">Celery & Redis</span>
+            </h1>
+            <p class="stability-subtitle">
+                تسک‌های طولانی و سنگین (تولید تصویر، پردازش‌های مدل‌های زبانی، خروجی‌های PDF و ایمیل‌های گروهی) را به ورکرها بسپارید تا وب‌سرویس همیشه زیر ۵۰ میلی‌ثانیه پاسخ دهد.
+            </p>
+        </div>
+
+        <!-- گرید داشبورد وضعیت سیستم -->
+        <div class="dashboard-grid">
+
+            <!-- کارت ۱: تسک‌های پس‌زمینه -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <div class="icon-wrapper">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                    </div>
+                    <div class="status-indicator">
+                        <span class="status-dot"></span>
+                        <span>Non-Blocking I/O</span>
+                    </div>
+                </div>
+                <h2 class="item-title">آزادسازی چرخه ریکوئست جنگو</h2>
+                <p class="item-text">
+                    هیچ کاربری نباید برای محاسبات ریاضی سنگین، پردازش تصویر، یا استعلام‌های خارجی منتظر بماند. با ایجاد تسک‌های `@shared_task`، وظایف فورا به صف Redis فرستاده شده و به کلاینت Task ID بازگردانده می‌شود.
+                </p>
+            </div>
+
+            <!-- کارت ۲: زمان‌بندی دقیق با Celery Beat -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <div class="icon-wrapper">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                    </div>
+                    <div class="status-indicator">
+                        <span class="status-dot"></span>
+                        <span>Cron-Less Scheduler</span>
+                    </div>
+                </div>
+                <h2 class="item-title">جاب‌های زمان‌بندی‌شده (Celery Beat)</h2>
+                <p class="item-text">
+                    اجرای بدون خطای فرایندهای دوره‌ای شامل تسویه حساب‌های مالی، اعتبارسنجی انقضای اشتراک‌ها، ارسال گزارش‌های روزانه به مدیران و تمیزکاری کش‌های تاریخ‌گذشته بدون وابستگی به CronJob سیستم‌عامل.
+                </p>
+            </div>
+
+            <!-- کارت ۳: استراتژی تلاش مجدد و صلبیت -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <div class="icon-wrapper">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+                    </div>
+                    <div class="status-indicator">
+                        <span class="status-dot"></span>
+                        <span>Auto Retry</span>
+                    </div>
+                </div>
+                <h2 class="item-title">مقاومت در برابر قطعی (Exponential Backoff)</h2>
+                <p class="item-text">
+                    اگر در زمان ارسال پیامک یا فراخوانی وب‌سرویس هوش مصنوعی، سرویس خارجی قطع باشد، تسک به طور هوشمند و با فواصل زمانی فزاینده مجدداً تلاش کرده و از خطاهای مرگبار سرور جلوگیری می‌کند.
+                </p>
+            </div>
+
+            <!-- کارت ۴: مانیتورینگ زنده ورکرها -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <div class="icon-wrapper">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+                    </div>
+                    <div class="status-indicator">
+                        <span class="status-dot"></span>
+                        <span>Flower Live Dashboard</span>
+                    </div>
+                </div>
+                <h2 class="item-title">پایش بلادرنگ با Flower</h2>
+                <p class="item-text">
+                    راه‌اندازی داشبورد Flower برای مشاهده لحظه‌ای مصرف منابع، تعداد تسک‌های موفق و ناموفق، زمان اجرای تسک‌ها و کنترل تعداد ورکرها بر روی سرور پروداکشن.
+                </p>
+            </div>
+
+            <!-- کارت تمام‌عرض پایانی -->
+            <div class="dashboard-card full-width-card">
+                <div class="icon-wrapper" style="width: 75px; height: 75px;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg>
+                </div>
+                <div class="card-content">
+                    <h3 class="item-title">پایداری تضمینی اپلیکیشن‌های موبایل و کلاینت وب</h3>
+                    <p class="item-text">
+                        کاربر اپلیکیشن فلاتر شما بدون معطلی و با انیمیشن روان به صفحه بعدی می‌رود، در حالی که تسک‌های سنگین در پس‌زمینه توسط ورکرها پردازش شده و نتیجه از طریق وب‌سوکت یا پیام پوش به کاربر گزارش می‌شود.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- کارت سفارشی انتهای صفحه -->
+        <div class="custom-plan-card" style="margin-top: 60px;">
+            <div class="custom-plan-info">
+                <h3 class="custom-plan-title">آیا ریکوئست‌های طولانی سرور شما را با ارور تایم‌اوت مواجه کرده‌اند؟</h3>
+                <p class="custom-plan-desc">معماری پردازش موازی و ناهمگام را با بهترین کانفیگ ورکرها در محیط عملیاتی شما مستقر می‌کنیم.</p>
+            </div>
+           <a href="{% url 'core:submit_ticket' %}" class="btn-custom">پیاده‌سازی زیرساخت Celery/Redis</a>
+        </div>
+
+    </div>
+</section>
+{% endblock %}

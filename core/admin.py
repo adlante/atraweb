@@ -1,142 +1,141 @@
 from django.contrib import admin
-from .models import Banner, PricingPlan, AppVideoSection, Partner, Newsletter, Ticket, PlanSingle
+from .models import HeroSection, PillarCard, BentoProductionSection, OfflineFirstSection, ShowcaseProject, \
+    AIModelShowcase, FAQItem, Newsletter, Ticket, SecurityTrapLog
 
 
-@admin.register(Banner)
-class BannerAdmin(admin.ModelAdmin):
-    # فیلدهایی که در لیست اصلی ادمین نمایش داده میشن
-    list_display = (
-        'title',
-        'iphone_image_preview',
-        'android_image_preview',
-        'is_active',
-        'updated_at'
-    )
-
-    # فیلترهای کناری پنل
-    list_filter = ('is_active', 'created_at')
-
-    # قابلیت جستجو
-    search_fields = ('title', 'highlight_text', 'subtitle')
-
-    # دسته‌بندی فیلدها در صفحه ویرایش/افزودن
+@admin.register(HeroSection)
+class HeroSectionAdmin(admin.ModelAdmin):
+    list_display = ('title_p1', 'highlight_text', 'is_active', 'updated_at')
     fieldsets = (
-        ('محتوای متنی', {
-            'fields': ('title', 'highlight_text', 'subtitle')
+        ('بخش معرفی و تیترها', {
+            'fields': ('badge_text', 'title_p1', 'highlight_text', 'description')
         }),
-        ('دکمه‌ها و لینک‌های دانلود', {
+        ('آمارهای سه‌گانه', {
             'fields': (
-                ('app_store_url', 'apple_store_image', 'apple_store_preview'),
-                ('google_play_url', 'google_play_image', 'google_play_preview')
-            ),
-            'classes': ('collapse',),  # این بخش به صورت کشویی درمیاد که شلوغ نشه
-        }),
-        ('تصاویر موکاپ', {
-            'fields': (
-                'iphone_image', 'iphone_image_preview',
-                'android_image', 'android_image_preview'
+                ('stat_1_number', 'stat_1_label'),
+                ('stat_2_number', 'stat_2_label'),
+                ('stat_3_number', 'stat_3_label'),
             )
         }),
-        ('تنظیمات', {
+        ('کنسول هوش مصنوعی و پایپ‌لاین', {
+            'fields': (
+                'console_filename',
+                'console_prompt_label',
+                'console_prompt_text',
+                ('vector_store_value', 'llm_model_value'),
+            )
+        }),
+        ('وضعیت انتشار', {
             'fields': ('is_active',)
         }),
     )
 
-    # فقط خواندنی کردن پیش‌نمایش تصاویر در صفحه ویرایش
-    readonly_fields = (
-        'iphone_image_preview',
-        'android_image_preview',
-        'apple_store_preview',
-        'google_play_preview'
+    def has_add_permission(self, request):
+        # اجازه ساخت بیشتر از ۱ رکورد داده نمی‌شود تا پنل مرتب بماند
+        return not HeroSection.objects.exists()
+
+
+@admin.register(PillarCard)
+class PillarCardAdmin(admin.ModelAdmin):
+    list_display = ('title', 'order', 'is_active')
+    list_editable = ('order', 'is_active')
+    search_fields = ('title', 'description')
+
+
+@admin.register(BentoProductionSection)
+class BentoProductionSectionAdmin(admin.ModelAdmin):
+    list_display = ('title_regular', 'title_gradient', 'is_active', 'updated_at')
+    fieldsets = (
+        ('هدر و تیتر اصلی', {
+            'fields': ('badge_text', 'title_regular', 'title_gradient', 'subtitle')
+        }),
+        ('کارت ۱: معماری RAG', {
+            'fields': ('rag_badge', 'rag_title', 'rag_desc', 'rag_image_url')
+        }),
+        ('کارت ۲: فاین‌تیونینگ و LoRA', {
+            'fields': ('finetune_badge', 'finetune_title', 'finetune_desc', 'finetune_image_url')
+        }),
+        ('کارت ۳: کارت جامع Full-Stack & Flutter', {
+            'fields': (
+                'fullstack_badge', 'fullstack_title', 'fullstack_desc',
+                'fullstack_image_url', 'fullstack_feature_1', 'fullstack_feature_2'
+            )
+        }),
+        ('وضعیت انتشار', {
+            'fields': ('is_active',)
+        }),
     )
 
-    # اکشن اختصاصی برای فعال/غیرفعال کردن سریع گروهی
-    actions = ['make_active', 'make_inactive']
-
-    @admin.action(description='فعال کردن بنرهای انتخاب شده')
-    def make_active(self, request, queryset):
-        queryset.update(is_active=True)
-
-    @admin.action(description='غیرفعال کردن بنرهای انتخاب شده')
-    def make_inactive(self, request, queryset):
-        queryset.update(is_active=False)
+    def has_add_permission(self, request):
+        return not BentoProductionSection.objects.exists()
 
 
-@admin.register(PricingPlan)
-class PricingPlanAdmin(admin.ModelAdmin):
-    list_display = ('name', 'is_featured', 'order')
-    list_editable = ('is_featured', 'order')
-    search_fields = ('name', 'description')
+@admin.register(OfflineFirstSection)
+class OfflineFirstSectionAdmin(admin.ModelAdmin):
+    list_display = ('title_regular', 'title_highlight', 'is_active', 'updated_at')
+    fieldsets = (
+        ('عناوین و متن توضیحات', {
+            'fields': ('title_regular', 'title_highlight', 'description', 'footer_note')
+        }),
+        ('ویژگی‌های چهارگانه', {
+            'fields': (
+                ('feature_1_icon', 'feature_1_text'),
+                ('feature_2_icon', 'feature_2_text'),
+                ('feature_3_icon', 'feature_3_text'),
+                ('feature_4_icon', 'feature_4_text'),
+            )
+        }),
+        ('تصویر ماک‌آپ و وضعیت', {
+            'fields': ('image_url', 'is_active')
+        }),
+    )
+
+    def has_add_permission(self, request):
+        return not OfflineFirstSection.objects.exists()
 
 
-@admin.register(AppVideoSection)
-class AppVideoSectionAdmin(admin.ModelAdmin):
-    list_display = ('__str__', 'is_active')
-    list_editable = ('is_active',)
+@admin.register(ShowcaseProject)
+class ShowcaseProjectAdmin(admin.ModelAdmin):
+    list_display = ('title', 'badge', 'tech_stack', 'order', 'is_active')
+    list_editable = ('order', 'is_active')
+    search_fields = ('title', 'excerpt', 'tech_stack')
 
 
-@admin.register(Partner)
-class PartnerAdmin(admin.ModelAdmin):
-    list_display = ('name', 'is_active', 'order')
-    list_editable = ('is_active', 'order')
-    search_fields = ('name',)
-    list_filter = ('is_active',)
+@admin.register(AIModelShowcase)
+class AIModelShowcaseAdmin(admin.ModelAdmin):
+    list_display = ('title', 'subtitle_en', 'is_featured', 'order', 'is_active')
+    list_editable = ('order', 'is_active', 'is_featured')
+    search_fields = ('title', 'subtitle_en', 'stack_tag', 'description')
+
+
+@admin.register(FAQItem)
+class FAQItemAdmin(admin.ModelAdmin):
+    list_display = ('question', 'is_highlight', 'order', 'is_active')
+    list_editable = ('order', 'is_highlight', 'is_active')
+    search_fields = ('question', 'answer')
 
 
 @admin.register(Newsletter)
 class NewsletterAdmin(admin.ModelAdmin):
-    list_display = ('email', 'joined_at')
+    list_display = ('email', 'created_at')
     search_fields = ('email',)
-    list_filter = ('joined_at',)
-    readonly_fields = ('joined_at',)
-    ordering = ('-joined_at',)
 
 
 @admin.register(Ticket)
 class TicketAdmin(admin.ModelAdmin):
-    list_display = ('subject', 'name', 'department', 'status', 'created_at')
-    list_filter = ('status', 'department', 'created_at')
-    search_fields = ('subject', 'name', 'phone', 'message')
-    readonly_fields = ('created_at', 'updated_at')
-    list_editable = ('status',)
-
-    # گروه‌بندی فیلدها در صفحه جزئیات
-    fieldsets = (
-        ('اطلاعات کاربر', {
-            'fields': ('user', 'name', 'phone')
-        }),
-        ('جزئیات تیکت', {
-            'fields': ('department', 'subject', 'message')
-        }),
-        ('وضعیت و زمان', {
-            'fields': ('status', 'created_at', 'updated_at')
-        }),
-    )
+    list_display = ('name', 'phone', 'is_checked', 'created_at')
+    list_filter = ('is_checked', 'created_at')
+    search_fields = ('name', 'phone', 'message')
+    list_editable = ('is_checked',)
 
 
-@admin.register(PlanSingle)
-class PlanSingleAdmin(admin.ModelAdmin):
-    # ستون‌هایی که تو لیست ادمین نمایش داده میشن
-    list_display = ('title', 'slug', 'price', 'period', 'is_active')
+@admin.register(SecurityTrapLog)
+class SecurityTrapLogAdmin(admin.ModelAdmin):
+    list_display = ('ip_address', 'path_attempted', 'timestamp')
+    readonly_fields = ('ip_address', 'user_agent', 'path_attempted', 'timestamp')
+    search_fields = ('ip_address', 'user_agent')
+    list_filter = ('timestamp',)
 
-    # امکان فیلتر کردن بر اساس وضعیت فعال بودن
-    list_filter = ('is_active', 'period')
-
-    # امکان جستجو در عنوان و شناسه
-    search_fields = ('title', 'slug')
-
-    # پر شدن خودکار slug از روی عنوان (اختیاری، ولی کار رو راحت می‌کنه)
-    prepopulated_fields = {'slug': ('title',)}
-
-    # دسته‌بندی فیلدها در صفحه ویرایش برای زیبایی بیشتر
-    fieldsets = (
-        ('اطلاعات اصلی', {
-            'fields': ('title', 'slug', 'subtitle', 'is_active')
-        }),
-        ('اطلاعات مالی', {
-            'fields': ('price', 'period')
-        }),
-        ('ظاهر و استایل', {
-            'fields': ('badge_text', 'theme_color')
-        }),
-    )
+    # جلوگیری از ویرایش یا افزودن دستی رکورد توسط ادمین تا لاگ‌ها تمیز بمانند
+    def has_add_permission(self, request):
+        return False

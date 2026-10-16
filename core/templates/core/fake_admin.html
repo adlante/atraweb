@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRITICAL BREACH DETECTED // 0xDEADBEEF</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #030305;
+            color: #ef4444;
+            font-family: 'Courier New', Courier, monospace;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .crt-scanlines {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.45) 50%);
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 99;
+        }
+
+        .glitch-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            box-shadow: inset 0 0 100px rgba(220, 38, 38, 0.4);
+            pointer-events: none;
+            z-index: 98;
+        }
+
+        .trap-card {
+            width: 92%;
+            max-width: 860px;
+            background: rgba(8, 8, 12, 0.98);
+            border: 2px solid #dc2626;
+            border-radius: 12px;
+            padding: 36px;
+            box-shadow: 0 0 70px rgba(220, 38, 38, 0.35);
+            position: relative;
+            z-index: 100;
+        }
+
+        .header-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #7f1d1d;
+            padding-bottom: 16px;
+            margin-bottom: 24px;
+        }
+
+        .threat-level {
+            background: #dc2626;
+            color: #ffffff;
+            font-weight: 900;
+            font-size: 0.85rem;
+            padding: 4px 12px;
+            border-radius: 4px;
+            letter-spacing: 2px;
+            animation: blink 0.9s infinite;
+        }
+
+        .title {
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: #fca5a5;
+            margin-bottom: 12px;
+        }
+
+        .desc-text {
+            color: #d1d5db;
+            font-size: 1rem;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .console-feed {
+            background: #000000;
+            border: 1px solid #374151;
+            border-radius: 8px;
+            padding: 20px;
+            direction: ltr;
+            text-align: left;
+            font-size: 0.92rem;
+            line-height: 1.9;
+            color: #10b981;
+            margin-bottom: 26px;
+        }
+
+        .console-feed .key {
+            color: #9ca3af;
+        }
+
+        .console-feed .val-red {
+            color: #ef4444;
+            font-weight: bold;
+        }
+
+        .console-feed .val-cyan {
+            color: #38bdf8;
+        }
+
+        .countdown-box {
+            background: rgba(220, 38, 38, 0.1);
+            border: 1px dashed #dc2626;
+            padding: 14px;
+            border-radius: 8px;
+            text-align: center;
+            color: #fca5a5;
+            font-size: 0.95rem;
+            margin-bottom: 24px;
+        }
+
+        .btn-panic {
+            display: inline-block;
+            background: #b91c1c;
+            color: #ffffff;
+            text-decoration: none;
+            padding: 12px 30px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 0.95rem;
+            transition: all 0.25s;
+            border: 1px solid #ef4444;
+        }
+
+        .btn-panic:hover {
+            background: #ef4444;
+            box-shadow: 0 0 25px rgba(239, 68, 68, 0.8);
+            transform: scale(1.02);
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+    </style>
+</head>
+<body>
+    <div class="crt-scanlines"></div>
+    <div class="glitch-overlay"></div>
+
+    <div class="trap-card">
+        <div class="header-top">
+            <span class="threat-level">⚠️ ALERT: UNAUTHORIZED INTRUSION</span>
+            <span style="color: #6b7280; font-size: 0.85rem;">ATRA_HONEYPOT_ENGINE v4.2</span>
+        </div>
+
+        <h1 class="title">دسترسی مسدود شد // هویت شما ثبت و ایزوله گردید</h1>
+        <p class="desc-text">
+            تلاش برای دور زدن لایه امنیتی استودیو مهندسی آترا در آدرس <code style="color: #f87171;">/admin/</code> ثبت شد.
+            تمام مشخصات سخت‌افزاری و اثرانگشت مرورگر دستگاه شما استخراج گردید.
+        </p>
+
+        <div class="console-feed">
+            <div><span class="key">[TARGET HOST]:</span> <span class="val-cyan">{{ host }}</span></div>
+            <div><span class="key">[CLIENT IP]:</span> <span class="val-red">{{ client_ip }}</span> (PORT: {{ remote_port }})</div>
+            <div><span class="key">[TIMESTAMP]:</span> {{ timestamp }}</div>
+            <div><span class="key">[USER-AGENT]:</span> <span style="word-break: break-all; color: #cbd5e1;">{{ user_agent }}</span></div>
+            <div><span class="key">[SCREEN RES]:</span> <span id="client-screen" class="val-cyan">Detecting...</span></div>
+            <div><span class="key">[DEVICE CORES]:</span> <span id="client-cores" class="val-cyan">Detecting...</span></div>
+            <div><span class="key">[LANGUAGE & OS]:</span> <span id="client-os" class="val-cyan">Detecting...</span></div>
+            <div><span class="key">[INCIDENT HASH]:</span> <span class="val-red">SHA256: 7f83b1657ff1fc53b92dc18148a1d65dfc2d4b1fa3d677284addd200126d9069</span></div>
+            <div><span class="key">[STATUS]:</span> <span class="val-red">REMOTE CONNECTION TRACED & LOCKED</span></div>
+        </div>
+
+        <div class="countdown-box">
+            اطلاعات این نشست همراه با هدرهای شبکه برای بررسی مراجع امنیتی در سیستم ثبت شد.
+        </div>
+
+        <div style="text-align: center;">
+            <a href="/" class="btn-panic">&gt;&gt; بستن نشست و خروج فوری &lt;&lt;</a>
+        </div>
+    </div>
+
+    <script>
+        // استخراج مشخصات فیزیکی دستگاه خود کاربر
+        document.getElementById('client-screen').textContent = window.screen.width + 'x' + window.screen.height + ' (' + window.screen.colorDepth + '-bit)';
+        document.getElementById('client-cores').textContent = (navigator.hardwareConcurrency || 'Unknown') + ' Logical CPU Threads';
+        document.getElementById('client-os').textContent = navigator.platform + ' | Lang: ' + navigator.language;
+    </script>
+</body>
+</html>

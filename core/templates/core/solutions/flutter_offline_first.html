@@ -1,0 +1,92 @@
+{% extends 'parent/base.html' %}
+{% load static %}
+
+{% block title %}معماری آفلاین‌محور در فلاتر (Offline-First) | آترا{% endblock %}
+{% block meta_description %}راهکار قطعی پایداری اپلیکیشن در ناپایداری اینترنت؛ دیتابیس محلی Isar و SQLite، صف سینک دوطرفه و همگام‌سازی داده با بک‌اند جنگو.{% endblock %}
+
+{% block extra_css %}
+    <link href="{% static 'css/navbar.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<section class="decentralized-light-wrapper">
+    <div class="decentralized-container">
+
+        <div class="tech-hero">
+            <div class="enterprise-badge">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 1l22 22M16.72 11.06A10.94 10.94 0 0 1 19 12.55M5 12.55a10.94 10.94 0 0 1 5.17-2.39M10.71 5.05A16 16 0 0 1 22.58 9M1.42 9a15.91 15.91 0 0 1 4.7-2.88M8.53 16.11a6 6 0 0 1 6.95 0M12 20h.01"/></svg>
+                <span>تداوم عملکرد بدون اینترنت</span>
+            </div>
+            <h1 class="tech-main-title">
+                معماری پایدار <span class="tech-highlight">Offline-First</span>
+            </h1>
+            <p class="tech-subtitle">
+                کاربران حتی بدون اتصال اینترنت فاکتور ثبت می‌کنند، اسناد را می‌خوانند و در اولین لحظه بازگشت شبکه، سیستم داده‌ها را بدون تعارض با سرور سینک می‌کند.
+            </p>
+        </div>
+
+        <div class="nodes-layout">
+            <div class="node-card">
+                <div class="node-content">
+                    <div class="icon-wrapper">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>
+                    </div>
+                    <h2 class="node-title">پایگاه داده محلی با Isar / SQLite</h2>
+                    <p class="node-text">
+                        ذخیره‌سازی سریع ده‌ها هزار رکورد در دیتابیس لوکال دستگاه با ایندکس‌های پیشرفته و بدون لودینگ شبکه. اطلاعات کلاینت از دیتابیس محلی تغذیه می‌شود و سرور ابری صرفاً نقش پشتیبان و همگام‌ساز را بازی می‌کند.
+                    </p>
+                </div>
+                <div class="node-image">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=700&q=80" alt="دیتابیس آفلاین محلی موبایل">
+                </div>
+            </div>
+
+            <div class="node-grid-2">
+                <div class="node-card-small">
+                    <div class="icon-wrapper">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+                    </div>
+                    <h3 class="node-title">حل هوشمند تعارضات (Conflict Resolution)</h3>
+                    <p class="node-text">
+                        اگر یک داده توسط کاربر در وضعیت آفلاین و همزمان توسط پنل وب تغییر کند، سیستم با استفاده از برچسب‌های زمانی دقیق و متد CRDT نسخه نهایی را تعیین می‌کند تا هیچ دیتایی مخدوش نشود.
+                    </p>
+                </div>
+
+                <div class="node-card-small">
+                    <div class="icon-wrapper">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                    </div>
+                    <h3 class="node-title">رمزنگاری دیتابیس کلاینت (SQLCipher)</h3>
+                    <p class="node-text">
+                        امنیت کامل اطلاعات ذخیره‌شده بر روی دستگاه کاربر با الگوریتم‌های رمزنگاری پیشرفته (AES-256) برای جلوگیری از استخراج مستقیم دیتا حتی در گوشی‌های روت‌شده.
+                    </p>
+                </div>
+            </div>
+
+            <div class="node-card reverse">
+                <div class="node-content">
+                    <div class="icon-wrapper">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                    </div>
+                    <h2 class="node-title">صف سینک پس‌زمینه (Background Sync Queue)</h2>
+                    <p class="node-text">
+                        عملیات ثبت‌شده در وضعیت آفلاین در یک صف پایدار محلی قرار می‌گیرند و به محض برقراری کوچک‌ترین تبادل اینترنت، ورکر پس‌زمینه به شکل قطعه‌قطعه داده‌ها را به بک‌اند جنگو مخابره می‌کند.
+                    </p>
+                </div>
+                <div class="node-image">
+                    <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=700&q=80" alt="سینک دیتابیس آفلاین با سرور ابری">
+                </div>
+            </div>
+        </div>
+
+        <div class="custom-plan-card" style="margin-top: 60px;">
+            <div class="custom-plan-info">
+                <h3 class="custom-plan-title">کسب‌وکار شما وابسته به اینترنت ناپایدار و شرایط قطعی است؟</h3>
+                <p class="custom-plan-desc">سیستم شما را با معماری Offline-First طراحی می‌کنیم تا هیچ مشتری یا فرآیندی معطل شبکه نماند.</p>
+            </div>
+            <a href="{% url 'core:submit_ticket' %}" class="btn-custom">پیاده‌سازی معماری آفلاین‌محور</a>
+        </div>
+
+    </div>
+</section>
+{% endblock %}

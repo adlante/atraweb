@@ -1,44 +1,473 @@
 {% extends 'parent/base.html' %}
 {% load static %}
+
+{% block title %}مرجع مقالات و مستندات تخصصی هوش مصنوعی، RAG و مهندسی نرم‌افزار | استودیو آترا{% endblock %}
+{% block meta_description %}جامع‌ترین راهنمای فنی استقرار پایگاه دانش سازمانی RAG، مقایسه دیتابیس‌های برداری Qdrant و ChromaDB، فاین‌تیونینگ مدل‌های زبانی (LoRA)، توسعه بک‌اند مقیاس‌پذیر با Django و اپلیکیشن‌های چندسکویی Flutter.{% endblock %}
+
 {% block extra_css %}
     <link href="{% static 'css/navbar.css' %}" rel="stylesheet">
+    <style>
+        .atra-resource-wrapper {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 40px 20px 100px;
+            direction: rtl;
+            color: #cbd5e1;
+            font-family: inherit;
+        }
 
+        /* بخش هیرو غنی از نظر سئو */
+        .atra-resource-hero {
+            background: radial-gradient(circle at top right, rgba(56, 189, 248, 0.12), transparent 50%),
+                        radial-gradient(circle at bottom left, rgba(16, 185, 129, 0.08), transparent 50%),
+                        #0b0f19;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: 60px 48px;
+            margin-bottom: 55px;
+            display: grid;
+            grid-template-columns: 1.3fr 0.7fr;
+            gap: 40px;
+            align-items: center;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.45);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .atra-resource-hero::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 1px;
+            background: linear-gradient(90deg, transparent, #38bdf8, #10b981, transparent);
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(56, 189, 248, 0.1);
+            color: #38bdf8;
+            border: 1px solid rgba(56, 189, 248, 0.25);
+            padding: 6px 16px;
+            border-radius: 9999px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .atra-resource-hero h1 {
+            color: #f8fafc;
+            font-size: 2.3rem;
+            font-weight: 900;
+            line-height: 1.45;
+            margin-bottom: 18px;
+            letter-spacing: -0.5px;
+        }
+
+        .atra-resource-hero p {
+            color: #94a3b8;
+            font-size: 1.05rem;
+            line-height: 1.85;
+            margin-bottom: 24px;
+        }
+
+        .seo-keywords-strip {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .seo-tag {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #cbd5e1;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+        }
+
+        .hero-stats-box {
+            background: rgba(17, 24, 39, 0.75);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 18px;
+            padding: 26px;
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 12px;
+        }
+        .stat-item:last-child { border-bottom: none; padding-bottom: 0; }
+        .stat-label { color: #94a3b8; font-size: 0.88rem; }
+        .stat-val { color: #10b981; font-weight: bold; font-family: monospace; font-size: 1rem; }
+
+        /* سرفصل دسته‌بندی مقالات */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 35px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 15px;
+        }
+        .section-header h2 {
+            font-size: 1.55rem;
+            font-weight: 800;
+            color: #f1f5f9;
+        }
+
+        /* گرید مقالات */
+        .atra-resource-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(370px, 1fr));
+            gap: 28px;
+        }
+
+        .atra-resource-card {
+            background: #111827;
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-radius: 18px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+            position: relative;
+        }
+
+        .atra-resource-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(56, 189, 248, 0.4);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 25px rgba(56, 189, 248, 0.15);
+        }
+
+        .card-featured-badge {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            background: #0284c7;
+            color: #ffffff;
+            font-size: 0.75rem;
+            font-weight: bold;
+            padding: 4px 10px;
+            border-radius: 6px;
+            z-index: 10;
+        }
+
+        .atra-resource-card-img-wrapper {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            background: #030712;
+            overflow: hidden;
+        }
+
+        .atra-resource-card-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .atra-resource-card:hover .atra-resource-card-img {
+            transform: scale(1.05);
+        }
+
+        .atra-resource-card-content {
+            padding: 26px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            justify-content: space-between;
+        }
+
+        .card-meta-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .atra-resource-card-tag {
+            font-size: 0.8rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 6px;
+        }
+
+        .tag-ai {
+            background: rgba(16, 185, 129, 0.12);
+            color: #34d399;
+            border: 1px solid rgba(16, 185, 129, 0.25);
+        }
+        .tag-flutter {
+            background: rgba(56, 189, 248, 0.12);
+            color: #38bdf8;
+            border: 1px solid rgba(56, 189, 248, 0.25);
+        }
+        .tag-backend {
+            background: rgba(168, 85, 247, 0.12);
+            color: #c084fc;
+            border: 1px solid rgba(168, 85, 247, 0.25);
+        }
+
+        .read-time {
+            font-size: 0.8rem;
+            color: #64748b;
+        }
+
+        .atra-resource-card h3 {
+            color: #f8fafc;
+            font-size: 1.22rem;
+            font-weight: 700;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+
+        .atra-resource-card p {
+            color: #94a3b8;
+            font-size: 0.92rem;
+            line-height: 1.75;
+            margin-bottom: 22px;
+            text-align: justify;
+        }
+
+        .atra-resource-card-link {
+            color: #38bdf8;
+            font-size: 0.92rem;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: gap 0.2s ease, color 0.2s ease;
+        }
+
+        .atra-resource-card-link:hover {
+            color: #7dd3fc;
+            gap: 10px;
+        }
+
+        @media (max-width: 900px) {
+            .atra-resource-hero { grid-template-columns: 1fr; padding: 40px 24px; }
+            .atra-resource-grid { grid-template-columns: 1fr; }
+            .atra-resource-hero h1 { font-size: 1.85rem; }
+        }
+    </style>
+
+    <!-- اسکیمای فوق‌پیشرفته گوگل برای وبلاگ (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Blog",
+      "name": "وبلاگ و مستندات مهندسی هوش مصنوعی و نرم‌افزار آترا",
+      "description": "مرجع تخصصی استقرار سیستم‌های RAG، فاین‌تیونینگ مدل‌های زبانی، توسعه جنگو و فلاتر",
+      "publisher": {
+        "@type": "Organization",
+        "name": "استودیو مهندسی آترا",
+        "url": "https://atradev.ir"
+      }
+    }
+    </script>
 {% endblock %}
 
 {% block content %}
 <div class="atra-resource-wrapper">
-    <!-- بخش هیرو وبلاگ -->
-    <div class="atra-resource-hero">
+
+    <!-- بخش هیرو سئومحور و معرفی تخصص‌ها -->
+    <header class="atra-resource-hero">
         <div class="atra-resource-hero-text">
-            <h1>وبلاگ و مقالات آموزشی آترا</h1>
-            <p>جدیدترین استراتژی‌های مدیریت کسب‌وکار، ترفندهای فروش و اخبار تکنولوژی را در وبلاگ تخصصی آترا بخوانید و همیشه یک قدم از رقبا جلوتر باشید.</p>
+            <span class="hero-badge">⚡ آزمایشگاه فنی و مستندات پروداکشن</span>
+            <h1>مرجع مهندسی هوش مصنوعی سازمانی، سیستم‌های RAG و توسعه نرم‌افزار</h1>
+            <p>
+                تحلیل‌های تخصصی، بنچمارک‌های سخت‌افزاری و الگوهای استقرار سیستم‌های هوش مصنوعی زاینده (Generative AI)، معماری پایگاه دانش سازمانی بدون توهم و مهندسی کلاینت‌های نیتیو. در این وبلاگ تجربیات مستقیم از خطوط پروداکشن به اشتراک گذاشته می‌شود.
+            </p>
+            <div class="seo-keywords-strip">
+                <span class="seo-tag"># سیستم RAG بدون توهم</span>
+                <span class="seo-tag"># فاین‌تیونینگ LoRA</span>
+                <span class="seo-tag"># پایگاه داده برداری Vector DB</span>
+                <span class="seo-tag"># معماری بک‌اند Django</span>
+                <span class="seo-tag"># اپلیکیشن فلاتر آفلاین فرست</span>
+            </div>
         </div>
-        <div class="atra-resource-hero-image">
-            <img src="{% static 'img/blog.jpg' %}" alt="وبلاگ آترا">
+
+        <div class="hero-stats-box">
+            <div class="stat-item">
+                <span class="stat-label">تخصص هسته:</span>
+                <span class="stat-val">Enterprise AI & RAG</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">استراتژی داده:</span>
+                <span class="stat-val">On-Premise / Zero Data Leak</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">معماری کلاینت:</span>
+                <span class="stat-val">Flutter Offline-First</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">پروتکل تضمین دقت:</span>
+                <span class="stat-val">&gt; 98.4% Hallucination Proof</span>
+            </div>
         </div>
+    </header>
+
+    <!-- سرفصل بخش مقالات -->
+    <div class="section-header">
+        <div>
+            <h2>مستندات و راهنماهای معماری پروداکشن</h2>
+            <p style="color: #64748b; font-size: 0.9rem; margin-top: 5px;">مقالات عملیاتی جهت مدیران فنی، تک‌لیدها و معماران نرم‌افزار</p>
+        </div>
+        <span style="color: #10b981; font-weight: bold; font-size: 0.9rem;">به‌روزرسانی هفتگی</span>
     </div>
 
-    <!-- گرید مقالات -->
+    <!-- گرید مقالات با چگالی کلمات کلیدی هدف -->
     <div class="atra-resource-grid">
-        <div class="atra-resource-card">
-            <img src="{% static 'img/costs.jpg' %}" alt="مقاله ۱" class="atra-resource-card-img">
-            <div class="atra-resource-card-content">
-                <span class="atra-resource-card-tag">مدیریت مالی</span>
-                <h3>۵ راهکار طلایی برای کاهش هزینه‌های پنهان</h3>
-                <p>در این مقاله به بررسی روش‌هایی می‌پردازیم که چگونه با استفاده از اتوماسیون، هزینه‌های سربار سازمان را تا ۳۰ درصد کاهش دهید.</p>
-                <a href="#" class="atra-resource-card-link">مطالعه مقاله ←</a>
-            </div>
-        </div>
 
-        <div class="atra-resource-card">
-            <img src="{% static 'img/banner_1.jpg' %}" alt="مقاله ۲" class="atra-resource-card-img">
-            <div class="atra-resource-card-content">
-                <span class="atra-resource-card-tag">به‌روزرسانی</span>
-                <h3>معرفی قابلیت‌های جدید نسخه ۴.۲ آترا</h3>
-                <p>داشبورد جدید، یکپارچگی با سرویس‌های پیامکی بیشتر و ابزارهای تحلیلی قدرتمندتر. با ویژگی‌های جدید پنل آشنا شوید.</p>
-                <a href="#" class="atra-resource-card-link">مطالعه مقاله ←</a>
+        <!-- مقاله ۱: هوش مصنوعی و RAG (شاه‌کلید سئو) -->
+        <article class="atra-resource-card">
+            <span class="card-featured-badge">مقاله برگزیده AI</span>
+            <div class="atra-resource-card-img-wrapper">
+                <img src="{% static 'img/costs.jpg' %}" alt="معماری هوش مصنوعی RAG و پایگاه دانش سازمانی" class="atra-resource-card-img" loading="lazy">
             </div>
-        </div>
+            <div class="atra-resource-card-content">
+                <div>
+                    <div class="card-meta-top">
+                        <span class="atra-resource-card-tag tag-ai">هوش مصنوعی سازمانی</span>
+                        <span class="read-time">⏱️ ۹ دقیقه مطالعه</span>
+                    </div>
+                    <h3>معماری سیستم‌های RAG بدون توهم: اتصال امن هوش مصنوعی به پایگاه دانش شرکتی</h3>
+                    <p>
+                        بررسی عملی فرآیند Chunking، ساخت Embeddings برداری و استقرار پایگاه‌های دانش محلی جهت پاسخ‌دهی به اسناد محرمانه سازمان، بدون نیاز به ارسال دیتای حساس به سرورهای عمومی OpenAI.
+                    </p>
+                </div>
+                <a href="{% url 'core:ai_rag_system' %}" class="atra-resource-card-link">
+                    <span>بررسی معماری و پروپوزال راهکار RAG</span>
+                    <span>←</span>
+                </a>
+            </div>
+        </article>
+
+        <!-- مقاله ۲: پایگاه‌های برداری Vector DB -->
+        <article class="atra-resource-card">
+            <div class="atra-resource-card-img-wrapper">
+                <img src="{% static 'img/banner_1.jpg' %}" alt="مقایسه دیتابیس‌های برداری ChromaDB و Qdrant" class="atra-resource-card-img" loading="lazy">
+            </div>
+            <div class="atra-resource-card-content">
+                <div>
+                    <div class="card-meta-top">
+                        <span class="atra-resource-card-tag tag-ai">پایگاه‌های داده برداری</span>
+                        <span class="read-time">⏱️ ۷ دقیقه مطالعه</span>
+                    </div>
+                    <h3>مقایسه بنچمارک دیتابیس‌های برداری: Qdrant در برابر ChromaDB و pgvector</h3>
+                    <p>
+                        کدام پایگاه داده برداری برای جستجوی معنایی اسناد فارسی، مصرف رم سرورهای لینوکس و مقیاس‌پذیری در مقیاس میلیون‌ها امبدینگ مناسب‌تر است؟ تحلیل عملکرد سرعت و Recall در پروداکشن.
+                    </p>
+                </div>
+                <a href="{% url 'core:ai_vector_databases' %}" class="atra-resource-card-link">
+                    <span>مشاهده جزئیات فنی Vector DBs</span>
+                    <span>←</span>
+                </a>
+            </div>
+        </article>
+
+        <!-- مقاله ۳: فاین‌تیونینگ مدل‌های زبانی -->
+        <article class="atra-resource-card">
+            <div class="atra-resource-card-img-wrapper">
+                <img src="{% static 'img/blog.jpg' %}" alt="فاین تیونینگ مدل زبانی لاما با روش لورا LoRA" class="atra-resource-card-img" loading="lazy">
+            </div>
+            <div class="atra-resource-card-content">
+                <div>
+                    <div class="card-meta-top">
+                        <span class="atra-resource-card-tag tag-ai">یادگیری ماشین و LLM</span>
+                        <span class="read-time">⏱️ ۱۱ دقیقه مطالعه</span>
+                    </div>
+                    <h3>فاین‌تیونینگ مدل‌های زبانی متن‌باز با متد LoRA و QLoRA روی سرور شخصی</h3>
+                    <p>
+                        چگونه مدل‌های زبانی پیشرفته Llama و DeepSeek را روی اصطلاحات و لحن سازمانی با کمترین مصرف VRAM کارت‌های گرافیک آموزش دهیم؟ راهنمای کامل استقرار وزن‌های سفارشی.
+                    </p>
+                </div>
+                <a href="{% url 'core:ai_finetuning_lora' %}" class="atra-resource-card-link">
+                    <span>مستندات استقرار و فاین‌تیونینگ LoRA</span>
+                    <span>←</span>
+                </a>
+            </div>
+        </article>
+
+        <!-- مقاله ۴: فلاتر آفلاین فرست -->
+        <article class="atra-resource-card">
+            <div class="atra-resource-card-img-wrapper">
+                <img src="{% static 'img/banner_1.jpg' %}" alt="معماری اپلیکیشن فلاتر آفلاین فرست با سینک پس زمینه" class="atra-resource-card-img" loading="lazy">
+            </div>
+            <div class="atra-resource-card-content">
+                <div>
+                    <div class="card-meta-top">
+                        <span class="atra-resource-card-tag tag-flutter">معماری Flutter</span>
+                        <span class="read-time">⏱️ ۸ دقیقه مطالعه</span>
+                    </div>
+                    <h3>معماری اپلیکیشن‌های آفلاین‌محور (Offline-First) با فلاتر و دیتابیس محلی</h3>
+                    <p>
+                        حل چالش‌های همگام‌سازی (Synchronization)، مدیریت تعارض داده‌ها (Conflict Resolution) و صف‌بندی استریم‌های هوش مصنوعی در اپلیکیشن‌های موبایل هنگام قطعی اینترنت.
+                    </p>
+                </div>
+                <a href="{% url 'core:flutter_offline_first' %}" class="atra-resource-card-link">
+                    <span>مطالعه معماری آفلاین‌محور فلاتر</span>
+                    <span>←</span>
+                </a>
+            </div>
+        </article>
+
+        <!-- مقاله ۵: توسعه بک‌اند جنگو و صف‌های سلری -->
+        <article class="atra-resource-card">
+            <div class="atra-resource-card-img-wrapper">
+                <img src="{% static 'img/costs.jpg' %}" alt="مدیریت صف کارهای سنگین هوش مصنوعی با جنگو سلری و ردیس" class="atra-resource-card-img" loading="lazy">
+            </div>
+            <div class="atra-resource-card-content">
+                <div>
+                    <div class="card-meta-top">
+                        <span class="atra-resource-card-tag tag-backend">بک‌اند و زیرساخت</span>
+                        <span class="read-time">⏱️ ۶ دقیقه مطالعه</span>
+                    </div>
+                    <h3>توزیع بارهای پردازشی مدل‌های AI در جنگو با Celery و Redis</h3>
+                    <p>
+                        جلوگیری از قفل شدن ریکوئست‌های وب‌سرویس هنگام تولید تصویر یا اجرای استنتاج‌های طولانی متن با ایجاد ورکرهای ناهمگام و سوکت‌های وب در Django REST Framework.
+                    </p>
+                </div>
+               <a href="{% url 'core:backend_celery_redis' %}" class="atra-resource-card-link">
+    <span>بررسی معماری Celery & Redis</span>
+    <span>←</span>
+</a>
+            </div>
+        </article>
+
+        <!-- مقاله ۶: استودیو و تولید تصویر مولد -->
+        <article class="atra-resource-card">
+            <div class="atra-resource-card-img-wrapper">
+                <img src="{% static 'img/blog.jpg' %}" alt="استودیو اختصاصی هوش مصنوعی مولد تصویر و چهره" class="atra-resource-card-img" loading="lazy">
+            </div>
+            <div class="atra-resource-card-content">
+                <div>
+                    <div class="card-meta-top">
+                        <span class="atra-resource-card-tag tag-ai">هوش مصنوعی مولد</span>
+                        <span class="read-time">⏱️ ۱۰ دقیقه مطالعه</span>
+                    </div>
+                    <h3>راهنمای فنی راه‌اندازی استودیو تولید تصویر و تغییر چهره اختصاصی</h3>
+                    <p>
+                        تحلیل خطوط پردازش تصویر، استقرار ComfyUI / Diffusers و یکپارچه‌سازی وب‌سرویس‌های تبدیل متن به عکس با کیفیت پروداکشن برای محصولات تجاری.
+                    </p>
+                </div>
+                <a href="{% url 'core:ai_generative_studio' %}" class="atra-resource-card-link">
+                    <span>مشاهده راهکار هوش مصنوعی مولد</span>
+                    <span>←</span>
+                </a>
+            </div>
+        </article>
+
     </div>
 </div>
 {% endblock %}

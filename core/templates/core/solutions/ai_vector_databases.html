@@ -1,0 +1,106 @@
+{% extends 'parent/base.html' %}
+{% load static %}
+
+{% block title %}پایگاه‌های داده برداری (Vector DB)؛ Qdrant، ChromaDB و pgvector | آترا{% endblock %}
+{% block meta_description %}پیکربندی پایگاه‌های داده برداری در مقیاس بالا؛ جستجوی شباهت معنایی زیر ۱۰ میلی‌ثانیه با Qdrant، Milvus، ChromaDB و اکستنشن pgvector در لینوکس.{% endblock %}
+{% block meta_keywords %}دیتابیس برداری, پایگاه داده برداری, Qdrant چیست, آموزش pgvector, ایندکس گذاری HNSW, ذخیره امبدینگ هوش مصنوعی{% endblock %}
+
+{% block extra_schema %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "پایگاه‌های داده برداری Vector DB",
+  "description": "ذخیره‌سازی و بازیابی امبدینگ‌های عددی با روش‌های ایندکس‌گذاری HNSW",
+  "author": {"@type": "Organization", "name": "آترا"},
+  "publisher": {"@type": "Organization", "name": "آترا"}
+}
+</script>
+{% endblock %}
+
+{% block extra_css %}
+    <link href="{% static 'css/navbar.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<section class="decentralized-light-wrapper">
+    <div class="decentralized-container">
+
+        <div class="tech-hero">
+            <div class="enterprise-badge">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>
+                <span>زیرساخت دیتابیس برداری در پروداکشن</span>
+            </div>
+            <h1 class="tech-main-title">
+                مهندسی پایگاه‌های داده برداری <span class="tech-highlight">Vector Databases</span>
+            </h1>
+            <p class="tech-subtitle">
+                ذخیره‌سازی، ایندکس‌گذاری HNSW و جستجوی شباهت برداری با کمترین تأخیر در میان میلیون‌ها امبدینگ متنی و تصویری.
+            </p>
+        </div>
+
+        <div class="nodes-layout">
+            <div class="node-card">
+                <div class="node-content">
+                    <div class="icon-wrapper">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+                    </div>
+                    <h2 class="node-title">استقرار و کلاسترینگ Qdrant</h2>
+                    <p class="node-text">
+                        انجین برداری نوشته‌شده با زبان Rust با کارایی بی‌نظیر رم و سرعت پاسخ‌دهی زیر ۱۰ میلی‌ثانیه. فیلترینگ ترکیبی پیلودها (Payload Filtering) جهت جداسازی دسترسی کاربران مختلف در پایگاه دانش چندمستأجره (Multi-tenant).
+                    </p>
+                </div>
+                <div class="node-image">
+                    <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=700&q=80" alt="دیتابیس های برداری کیودرنت و پستگرس">
+                </div>
+            </div>
+
+            <div class="node-grid-2">
+                <div class="node-card-small">
+                    <div class="icon-wrapper">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                    </div>
+                    <h3 class="node-title">دیتابیس برداری یکپارچه با pgvector</h3>
+                    <p class="node-text">
+                        کاهش هزینه زیرساخت و حفظ معماری تک‌دیتابیسی؛ نگهداری بردارهای امبدینگ در کنار جداول کاربران PostgreSQL با ایندکس‌های HNSW و IVFFlat بدون نیاز به سرور مجزا.
+                    </p>
+                </div>
+
+                <div class="node-card-small">
+                    <div class="icon-wrapper">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                    </div>
+                    <h3 class="node-title">کوانتیزه‌سازی بردارها (Scalar Quantization)</h3>
+                    <p class="node-text">
+                        کاهش ۴ برابری مصرف حافظه رم سرور با فشرده‌سازی بردارها بدون افت کیفیت نتایج شباهت معنایی، برای پردازش حجم‌های بالا با کمترین هزینه سخت‌افزاری.
+                    </p>
+                </div>
+            </div>
+
+            <div class="node-card reverse">
+                <div class="node-content">
+                    <div class="icon-wrapper">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                    </div>
+                    <h2 class="node-title">پیکربندی بکاپ، رپلیکیشن و مانیتورینگ</h2>
+                    <p class="node-text">
+                        راه‌اندازی اسنپ‌شات‌های دوره‌ای خودکار، سینک نودهای پشتیبان و اتصال متریک‌های دیتابیس برداری به Prometheus جهت حفظ آپتایم ۹۹.۹ درصدی سرویس‌های هوش مصنوعی.
+                    </p>
+                </div>
+                <div class="node-image">
+                    <img src="https://images.unsplash.com/photo-1544383835-bda2bc66a55d?auto=format&fit=crop&w=700&q=80" alt="مانیتورینگ سرور دیتابیس برداری">
+                </div>
+            </div>
+        </div>
+
+        <div class="custom-plan-card">
+            <div class="custom-plan-info">
+                <h3 class="custom-plan-title">نیاز به انتخاب و استقرار دیتابیس برداری متناسب با بار پردازشی دارید؟</h3>
+                <p class="custom-plan-desc">مشاورین فنی آترا بهترین معماری را بر اساس سخت‌افزار و حجم داده‌های شما طراحی و پیاده‌سازی می‌کنند.</p>
+            </div>
+            <a href="{% url 'core:submit_ticket' %}" class="btn-custom">مشاوره فنی دیتابیس‌های برداری</a>
+        </div>
+
+    </div>
+</section>
+{% endblock %}

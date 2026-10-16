@@ -1,178 +1,152 @@
+/* فایل: static/css/checkout.css */
 
+:root {
+    --primary-color: #4f46e5; /* رنگ آبی/بنفش مدرن */
+    --primary-hover: #4338ca;
+    --bg-color: #f3f4f6;
+    --card-bg: #ffffff;
+    --text-main: #1f2937;
+    --text-muted: #6b7280;
+    --border-color: #e5e7eb;
+    --alert-bg: #eff6ff;
+    --alert-text: #1d4ed8;
+    --alert-border: #bfdbfe;
+}
 
-/* تعریف و اعمال فونت‌ها در بدنه اصلی */
 body {
-    font-family: 'dana', 'Yekan', 'B Yekan', Tahoma, Arial, sans-serif;
-    background-color: #f4f7f6; /* رنگ پس‌زمینه ملایم و جذاب */
-    color: #333;
-    line-height: 1.6;
+    /* اولویت اصلی با فونت دانا، سپس یکان */
+    font-family: 'Dana', 'Yekan', 'B Yekan', Tahoma, system-ui, sans-serif;
+    background-color: var(--bg-color);
+    margin: 0;
+    padding: 40px 20px;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    margin: 0;
-    padding: 20px;
-    direction: rtl;
 }
 
-/* باکس اصلی فرم (Container) */
 .checkout-container {
-    background: #ffffff;
-    width: 100%;
-    max-width: 650px;
-    padding: 40px;
+    background-color: var(--card-bg);
     border-radius: 16px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); /* سایه نرم و مدرن */
-    transition: all 0.3s ease-in-out;
-}
-
-/* عنوان صفحه */
-.checkout-title {
-    text-align: center;
-    color: #2c3e50;
-    font-size: 1.6rem;
-    font-weight: 800;
-    margin-bottom: 25px;
-    padding-bottom: 15px;
-    border-bottom: 2px dashed #e2e8f0;
-}
-
-/* باکس پیام امنیتی 🛡️ */
-.security-notice {
-    display: flex;
-    align-items: flex-start;
-    background-color: #eef2ff;
-    border: 1px solid #c7d2fe;
-    color: #3730a3;
-    padding: 15px 20px;
-    border-radius: 12px;
-    margin-bottom: 30px;
-    gap: 15px;
-    font-size: 0.95rem;
-    line-height: 1.8;
-}
-
-.security-notice span {
-    font-size: 1.8rem;
-    line-height: 1;
-}
-
-.security-notice strong {
-    color: #312e81;
-    font-size: 1.05rem;
-}
-
-/* ساختار گروه‌های فرم */
-.form-group {
-    margin-bottom: 22px;
-}
-
-.form-group label {
-    display: block;
-    font-weight: 700;
-    margin-bottom: 8px;
-    color: #4a5568;
-    font-size: 0.95rem;
-}
-
-/* استایل اینپوت‌ها و تکست‌اریا */
-.form-control {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
     width: 100%;
-    padding: 14px 16px;
-    border: 1.5px solid #cbd5e0;
-    border-radius: 10px;
-    font-family: inherit; /* ارث‌بری فونت دانا/یکان */
-    font-size: 1rem;
-    color: #2d3748;
-    background-color: #fafafa;
-    transition: all 0.3s ease;
+    max-width: 800px;
+    padding: 40px;
     box-sizing: border-box;
 }
 
-/* افکت هنگام فوکوس روی اینپوت (کلیک کردن) */
-.form-control:focus {
-    outline: none;
-    border-color: #4299e1;
-    background-color: #ffffff;
-    box-shadow: 0 0 0 4px rgba(66, 153, 225, 0.15);
+.checkout-title {
+    font-size: 24px;
+    color: var(--text-main);
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-weight: 800; /* وزن بولد برای فونت دانا */
+    text-align: center;
 }
 
-/* استایل اینپوت‌های غیرقابل ویرایش (شماره موبایل) */
-.form-control[readonly] {
-    background-color: #edf2f7;
-    cursor: not-allowed;
-    color: #718096;
-    border-color: #e2e8f0;
-}
-
-textarea.form-control {
-    resize: vertical;
-    min-height: 120px;
-}
-
-/* متن‌های راهنمای زیر اینپوت‌ها */
-.text-muted {
-    font-size: 0.8rem;
-    color: #a0aec0;
-    display: block;
-    margin-top: 6px;
-}
-
-/* استایل دکمه ثبت و ادامه خرید */
-.btn-success {
-    width: 100%;
-    background: linear-gradient(135deg, #38a169 0%, #2f855a 100%);
-    color: #fff;
-    border: none;
-    padding: 16px;
-    font-size: 1.2rem;
-    font-weight: 800;
+/* باکس پیام امنیتی */
+.security-notice {
+    background-color: var(--alert-bg);
+    border: 1px solid var(--alert-border);
+    color: var(--alert-text);
+    padding: 16px 20px;
     border-radius: 12px;
-    cursor: pointer;
+    margin-bottom: 30px;
+    font-size: 14.5px;
+    line-height: 1.8;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.security-notice i {
+    font-size: 20px;
+    margin-top: 2px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group.full-width {
+    grid-column: span 2;
+}
+
+label {
+    font-size: 14px;
+    color: var(--text-main);
+    font-weight: 600; /* نیمه‌بولد برای خوانایی بهتر در دانا */
+}
+
+input[type="text"],
+input[type="tel"],
+textarea {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 14.5px;
+    color: var(--text-main);
+    box-sizing: border-box;
     transition: all 0.3s ease;
+    font-family: inherit; /* ارث‌بری فونت دانا از بادی */
+}
+
+input:focus,
+textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+/* استایل برای فیلد قفل شده (شماره تلفن) */
+input[readonly] {
+    background-color: #f9fafb;
+    color: var(--text-muted);
+    cursor: not-allowed;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.submit-btn {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 14px 24px;
+    font-size: 16px;
+    font-weight: 700;
     font-family: inherit;
-    margin-top: 15px;
-    box-shadow: 0 4px 12px rgba(56, 161, 105, 0.3);
+    cursor: pointer;
+    width: 100%;
+    margin-top: 30px;
+    transition: background-color 0.3s ease;
 }
 
-.btn-success:hover {
-    background: linear-gradient(135deg, #2f855a 0%, #276749 100%);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(56, 161, 105, 0.4);
+.submit-btn:hover {
+    background-color: var(--primary-hover);
 }
 
-.btn-success:active {
-    transform: translateY(1px);
-    box-shadow: 0 2px 8px rgba(56, 161, 105, 0.2);
-}
-
-/* استایل پیام‌های سیستم (آلرت‌های جنگو) */
-.alert {
-    padding: 15px;
-    border-radius: 10px;
-    margin-bottom: 25px;
-    font-size: 0.95rem;
-    border: 1px solid transparent;
-    font-weight: 600;
-}
-
-.alert-success { background-color: #c6f6d5; color: #22543d; border-color: #9ae6b4; }
-.alert-error, .alert-danger { background-color: #fed7d7; color: #742a2a; border-color: #feb2b2; }
-.alert-warning { background-color: #feebc8; color: #7b341e; border-color: #fbd38d; }
-.alert-info { background-color: #e2e8f0; color: #2c5282; border-color: #bee3f8; }
-
-/* واکنش‌گرایی برای موبایل */
-@media (max-width: 480px) {
+/* ریسپانسیو برای موبایل */
+@media (max-width: 600px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+    .form-group.full-width {
+        grid-column: span 1;
+    }
     .checkout-container {
-        padding: 25px 15px;
-        border-radius: 12px;
-    }
-    .checkout-title {
-        font-size: 1.3rem;
-    }
-    .security-notice {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
+        padding: 24px;
     }
 }

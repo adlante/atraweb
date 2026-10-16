@@ -1,0 +1,130 @@
+{% extends 'parent/base.html' %}
+{% load static %}
+
+{% block title %}استودیوهای تولید تصویر و هوش مصنوعی مولد Generative | آترا{% endblock %}
+{% block meta_description %}راه‌اندازی سامانه‌های تولید تصویر، عکاسی مجازی تجاری، فیس‌استودیو و تلفیق چهره با Stable Diffusion، Flux و ComfyUI متصل به API جنگو.{% endblock %}
+{% block meta_keywords %}تولید تصویر با هوش مصنوعی, استودیو هوش مصنوعی, Stable Diffusion ایران, فیس استودیو AI, Face Swap هوش مصنوعی, عکاسی مجازی مدلینگ{% endblock %}
+
+{% block extra_schema %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "استودیوهای هوش مصنوعی مولد و تولید تصویر",
+  "description": "پایپ‌لاین‌های تولید تصویر تجاری با مدل‌های دیفیوژن و ComfyUI",
+  "author": {"@type": "Organization", "name": "آترا"},
+  "publisher": {"@type": "Organization", "name": "آترا"}
+}
+</script>
+{% endblock %}
+
+{% block extra_css %}
+    <link href="{% static 'css/navbar.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<section class="stability-wrapper">
+    <div class="stability-container">
+
+        <div class="stability-hero">
+            <div class="brand-badge">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                <span>خط لوله‌های بینایی ماشین و هوش مصنوعی مولد</span>
+            </div>
+            <h1 class="stability-main-title">
+                استودیوهای تولید تصویر و <span class="uptime-highlight">Generative AI</span>
+            </h1>
+            <p class="stability-subtitle">
+                سیستم‌های تولید عکس تبلیغاتی، فیس‌استودیو (Face Studio)، تعویض لباس و استایل مجازی با حفظ کیفیت عکاسی واقعی و اتصال پایدار به کلاینت‌های کاربر.
+            </p>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <div class="icon-wrapper">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+                    </div>
+                    <div class="status-indicator">
+                        <span class="status-dot"></span>
+                        <span>Photorealistic</span>
+                    </div>
+                </div>
+                <h2 class="item-title">پایپ‌لاین‌های پیشرفته Flux و Stable Diffusion</h2>
+                <p class="item-text">
+                    معماری ورک‌فلوهای ComfyUI در پس‌زمینه سرور لینوکس، استفاده از مدل‌های ControlNet برای هدایت دقیق ژست مدل و حفظ جزئیات بافت پارچه، محصولات تجاری و نورپردازی استودیویی.
+                </p>
+            </div>
+
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <div class="icon-wrapper">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    </div>
+                    <div class="status-indicator">
+                        <span class="status-dot"></span>
+                        <span>Face Swap 4K</span>
+                    </div>
+                </div>
+                <h2 class="item-title">سیستم‌های فیس‌استودیو و تطبیق چهره</h2>
+                <p class="item-text">
+                    تکنولوژی ترکیب چهره بدون افت کیفیت با الگوریتم‌های InsightFace و Face Restoration (GFPGAN/CodeFormer)، تضمین انطباق دقیق زاویه نور و فرم فک و صورت کاربر.
+                </p>
+            </div>
+
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <div class="icon-wrapper">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                    </div>
+                    <div class="status-indicator">
+                        <span class="status-dot"></span>
+                        <span>Asynchronous GPU</span>
+                    </div>
+                </div>
+                <h2 class="item-title">وب‌سرویس و مدیریت صف پردازش کارت گرافیک</h2>
+                <p class="item-text">
+                    مدیریت ترافیک همزمان با Celery و صف‌های موازی Redis، بازگردانی Task ID فوری به کاربر فلاتر و ارسال وب‌سوکت تصویر نهایی پس از رندر در کمتر از ۶ ثانیه.
+                </p>
+            </div>
+
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <div class="icon-wrapper">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line></svg>
+                    </div>
+                    <div class="status-indicator">
+                        <span class="status-dot"></span>
+                        <span>Virtual Fitting</span>
+                    </div>
+                </div>
+                <h2 class="item-title">پرو مجازی و تولید تصویر محصول برای فروشگاه‌ها</h2>
+                <p class="item-text">
+                    سیستم تعویض پس‌زمینه محصولات فروشگاهی با هوش مصنوعی و مدلینگ لباس بدون نیاز به هزینه‌های سنگین عکاس، آتلیه و مدل زنده.
+                </p>
+            </div>
+
+            <div class="dashboard-card full-width-card">
+                <div class="icon-wrapper" style="width: 75px; height: 75px;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>
+                </div>
+                <div class="card-content">
+                    <h3 class="item-title">استقرار امن و محافظت از کلیدهای API و منابع سرور</h3>
+                    <p class="item-text">
+                        سیستم سهمیه‌بندی مصرف توکن، درگاه پرداخت متصل، احراز هویت پیامکی و کنترل میزان لود حافظه گرافیکی کارت‌های VRAM.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="custom-plan-card">
+            <div class="custom-plan-info">
+                <h3 class="custom-plan-title">می‌خواهید اپلیکیشن یا وب‌سرویس تولید تصویر با هوش مصنوعی راه‌اندازی کنید؟</h3>
+                <p class="custom-plan-desc">تمام خط لوله از انتخاب سرور GPU تا تحویل اپلیکیشن کلاینت را برایتان آماده می‌کنیم.</p>
+            </div>
+            <a href="{% url 'core:submit_ticket' %}" class="btn-custom">سفارش استودیو تولید تصویر AI</a>
+        </div>
+
+    </div>
+</section>
+{% endblock %}

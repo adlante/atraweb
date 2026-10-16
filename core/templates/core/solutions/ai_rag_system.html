@@ -1,0 +1,108 @@
+{% extends 'parent/base.html' %}
+{% load static %}
+
+{% block title %}پیاده‌سازی سیستم RAG و پایگاه دانش سازمانی بدون توهم | آترا{% endblock %}
+{% block meta_description %}طراحی اختصاصی خطوط بازیابی دانش (RAG) برای اسناد PDF و دیتابیس‌های سازمانی با معماری Hybrid Search و ادغام مدل‌های زبانی محلی و ابری.{% endblock %}
+{% block meta_keywords %}پیاده سازی RAG, پایگاه دانش هوش مصنوعی, چت بات اسناد سازمانی, کاهش توهم مدل زبانی, چانک بندی اسناد, سیستم RAG چیست{% endblock %}
+
+{% block extra_schema %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "پیاده‌سازی پایگاه دانش سازمانی و سیستم RAG",
+  "description": "معماری بازیابی اطلاعات از اسناد بدون خطای توهم مدل‌های زبانی",
+  "author": {"@type": "Organization", "name": "آترا"},
+  "publisher": {"@type": "Organization", "name": "آترا"}
+}
+</script>
+{% endblock %}
+
+{% block extra_css %}
+    <link href="{% static 'css/navbar.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<section class="offline-feature-page">
+    <div class="offline-container">
+
+        <div class="offline-hero">
+            <div class="offline-badge">
+                <span>معماری هوش مصنوعی RAG در محیط پروداکشن</span>
+            </div>
+            <h1 class="offline-main-title">
+                پایگاه دانش سازمانی و <span class="title-highlight">سیستم‌های پیشرفته RAG</span>
+            </h1>
+            <p class="offline-subtitle">
+                تبدیل صدها هزار صفحه سند سازمانی، کاتالوگ و دستورالعمل به پاسخ‌های تحلیلی و مستند بدون کوچک‌ترین خطای توهم (Hallucination) مدل‌های زبانی.
+            </p>
+        </div>
+
+        <div class="offline-bento-grid">
+            <div class="offline-card bento-main">
+                <div class="offline-icon-wrapper">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        <polyline points="14 2 14 8 20 8"></polyline>
+                        <line x1="16" y1="13" x2="8" y2="13"></line>
+                        <line x1="16" y1="17" x2="8" y2="17"></line>
+                    </svg>
+                </div>
+                <h2 class="offline-card-title">چانک‌بندی هوشمند و خط لوله داده‌محور (Document Ingestion)</h2>
+                <p class="offline-card-text">
+                    در سامانه‌های سنتی، قطعه‌قطعه کردن غیراصولی اسناد باعث قطع زنجیره معنایی می‌شود. متد اختصاصی ما با دسته‌بندی سلسله‌مراتبی، حفظ ساختار جداول اکسل و شناسایی عنوان‌ها، چانک‌های باکیفیت تولید می‌کند تا جستجوی معنایی مستقیماً دقیق‌ترین بخش سند را استخراج کند.
+                </p>
+                <div class="offline-image-container">
+                    <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=900&q=80" alt="معماری سیستم پایگاه دانش RAG">
+                </div>
+            </div>
+
+            <div class="offline-card bento-square-1">
+                <div class="offline-icon-wrapper">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                </div>
+                <h3 class="offline-card-title">جستجوی هیبریدی و Re-ranking</h3>
+                <p class="offline-card-text">
+                    ترکیب جستجوی کلمات کلیدی (BM25) با جستجوی شباهت برداری و رتبه‌بندی مجدد نتایج با مدل‌های Cross-Encoder، دقیق‌ترین داده‌ها را به پرامپت ارسال می‌کند.
+                </p>
+            </div>
+
+            <div class="offline-card bento-square-2">
+                <div class="offline-icon-wrapper">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                    </svg>
+                </div>
+                <h3 class="offline-card-title">استقرار بدون خروج داده (On-Premise)</h3>
+                <p class="offline-card-text">
+                    امکان نصب سیستم RAG روی سرورهای داخلی سازمان با مدل‌های متن‌باز برای حفظ کامل حریم خصوصی اسناد طبقه‌بندی‌شده و محرمانه.
+                </p>
+            </div>
+
+            <div class="offline-card bento-wide">
+                <div class="wide-content">
+                    <h3 class="offline-card-title">اتصال مستقیم به وب‌سرویس و اپلیکیشن فلاتر</h3>
+                    <p class="offline-card-text">
+                        یکپارچه‌سازی خروجی RAG با وب‌سرویس‌های ناهمگام جنگو و استریم آنی پاسخ‌ها روی نرم‌افزار موبایل با نمایش دقیق صفحه و پاراگراف مرجع در متن سند.
+                    </p>
+                </div>
+                <div class="wide-image">
+                    <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=700&q=80" alt="چت بات سازمانی با هوش مصنوعی RAG">
+                </div>
+            </div>
+        </div>
+
+        <div class="custom-plan-card">
+            <div class="custom-plan-info">
+                <h3 class="custom-plan-title">اسناد سازمان خود را تبدیل به پایگاه دانش هوشمند کنید</h3>
+                <p class="custom-plan-desc">معماری RAG متناسب با ساختار داده و حجم اسناد شما توسط تیم مهندسی آترا طراحی و مستقر می‌شود.</p>
+            </div>
+            <a href="{% url 'core:submit_ticket' %}" class="btn-custom">ثبت سفارش پایگاه دانش RAG</a>
+        </div>
+
+    </div>
+</section>
+{% endblock %}

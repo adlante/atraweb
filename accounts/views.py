@@ -1,10 +1,10 @@
 from django.contrib import messages
-from django.shortcuts import redirect, render, get_object_or_404
+from django.shortcuts import redirect, render
 from django.urls import reverse_lazy, reverse
 from django.views.generic import FormView
 from django.views import View
 from django.contrib.auth import logout, authenticate
-from .forms import RegisterForm, LoginForm, CheckoutProfileForm, CustomPasswordChangeForm
+from .forms import RegisterForm, LoginForm
 from .utils import generate_otp_code, send_otp_sms
 from django.contrib.auth import get_user_model
 from django.contrib.auth import login
@@ -12,13 +12,8 @@ from django.http import JsonResponse
 import random
 from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
-from .models import PricingPlan, Profile
+from .models import PricingPlan
 from django.utils.http import url_has_allowed_host_and_scheme
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.views import PasswordChangeView
-from django.contrib.auth import update_session_auth_hash
-from django.urls import reverse_lazy
-from django.db.models import Q
 
 User = get_user_model()
 
@@ -249,198 +244,12 @@ def profile_dashboard_view(request):
     return render(request, 'accounts/dashboard/profile.html', context)
 
 
-@login_required(login_url='accounts:login')
+@login_required
 def checkout_view(request, plan_id):
-    # قدم اول: پیدا کردن پلن انتخابی کاربر
-    # چون plan_id از سمت جاوااسکریپت به صورت متن میاد (مثل 'advanced')
-    # باید بر اساس فیلدی مثل slug یا name توی دیتابیس بگردیم، نه id.
-    plan = get_object_or_404(PricingPlan, slug=plan_id)
-
-    # قدم دوم: پیدا کردن یا ساختن پروفایل کاربر (ضدگلوله و دقیق)
-    profile, created = Profile.objects.get_or_create(user=request.user)
-
-    # قدم سوم: دریافت شماره تلفن کاربر (فرض بر این است که در مدل User ذخیره شده)
-    user_phone = getattr(request.user, 'phone_number', '')
-
-    # قدم چهارم: پردازش فرم تکمیل اطلاعات کاربر
-    if request.method == 'POST':
-        form = CheckoutProfileForm(request.POST, instance=profile)
-
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'اطلاعات شما با موفقیت ثبت شد و پروفایل تکمیل گردید.')
-
-            # بعد از ذخیره اطلاعات، کاربر را به درگاه پرداخت یا صفحه تایید هدایت کن
-            return redirect('accounts:profile_dashboard')
-        else:
-            messages.error(request, 'لطفاً خطاهای فرم را برطرف کنید.')
-
-    else:
-        # اگر درخواست GET بود، فرم را با اطلاعات فعلی پروفایل پر می‌کنیم
-        form = CheckoutProfileForm(instance=profile)
-
-    # قدم پنجم: ارسال تمام دیتاهای مورد نیاز به سمت فرانت‌اند
+    # فرض می‌کنیم شماره تلفن در مدل یوزر شما ذخیره شده است
+    # اگر شماره تلفن وجود داشته باشد، آن را به تمپلیت می‌فرستیم
     context = {
-        'form': form,
-        'plan': plan,
         'plan_id': plan_id,
-        'user_phone': user_phone,
+        'user_phone': getattr(request.user, 'phone_number', '')  # جایگزین با فیلد دقیق مدل خودت
     }
-
     return render(request, 'accounts/dashboard/checkout.html', context)
-
-
-class AjaxPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
-    """
-    این ویو برای تغییر رمز عبور از طریق AJAX طراحی شده.
-    از فرم سفارشی CustomPasswordChangeForm برای اعتبارسنجی‌های پیشرفته استفاده می‌کنه.
-    """
-    # اتصال ویو به فرم سفارشی
-    form_class = CustomPasswordChangeForm
-
-    # این دو مورد برای حالت غیر-AJAX لازم هستند، اما ما آن‌ها را override می‌کنیم.
-    template_name = 'accounts/partials/password_change_form.html'  # یک تمپلیت که فقط شامل فرم باشه
-    success_url = reverse_lazy('accounts:dashboard')  # آدرس بازگشتی در صورت موفقیت (غیر-AJAX)
-
-    def dispatch(self, request, *args, **kwargs):
-        # این متد قبل از بقیه اجرا می‌شه. اطمینان حاصل می‌کنیم که فقط درخواست‌های AJAX پذیرفته بشن.
-        if not request.headers.get('x-requested-with') == 'XMLHttpRequest':
-            # اگر درخواست AJAX نبود، می‌تونی یک خطای 400 برگردونی یا به یک صفحه دیگه هدایتش کنی
-            return JsonResponse({'error': 'فقط درخواست‌های AJAX مجاز هستند.'}, status=400)
-        return super().dispatch(request, *args, **kwargs)
-
-    def form_valid(self, form):
-        """
-        وقتی فرم کاملاً معتبر باشه، این متد اجرا می‌شه.
-        رمز عبور رو ذخیره می‌کنه و پاسخ موفقیت JSON برمی‌گردونه.
-        """
-        form.save()
-        # این خط حیاتیه! برای اینکه کاربر بعد از تغییر رمز از حسابش خارج نشه.
-        update_session_auth_hash(self.request, form.user)
-
-        return JsonResponse({
-            'success': True,
-            'message': 'رمز عبور شما با موفقیت به‌روزرسانی شد.'
-        })
-
-    def form_invalid(self, form):
-        """
-        وقتی فرم دارای خطا باشه (رمز فعلی اشتباه، عدم تطابق رمزهای جدید و ...)،
-        این متد اجرا می‌شه و خطاها رو در یک فرمت JSON تمیز برمی‌گردونه.
-        """
-        return JsonResponse({
-            'success': False,
-            'errors': form.errors
-        }, status=400)
-
-
-def password_reset_request_view(request):
-    """
-    مرحله ۱: دریافت نام کاربری/ایمیل، تولید کد و ارسال پیامک
-    """
-    if request.user.is_authenticated:
-        return redirect('core:home')
-
-    if request.method == 'POST':
-        # نام فیلد در HTML که ساختی username_or_email بود
-        identifier = request.POST.get('username_or_email', '').strip()
-
-        if identifier:
-            try:
-                # کاربر رو با نام کاربری یا ایمیل پیدا می‌کنیم
-                user = User.objects.get(Q(username=identifier) | Q(email=identifier))
-
-                # تولید کد ۵ رقمی و استخراج شماره تلفن
-                otp_code = generate_otp_code()
-                user_phone = user.phone  # فرض بر این است که شماره در user.phone ذخیره شده
-
-                # ارسال پیامک
-                sms_sent = send_otp_sms(user_phone, otp_code)
-
-                if sms_sent:
-                    # ذخیره در سشن برای مراحل بعدی
-                    request.session['reset_user_id'] = str(user.id)
-                    request.session['reset_otp_code'] = str(otp_code)
-
-                    messages.success(request, "کد تایید با موفقیت ارسال شد.")
-                    return redirect('accounts:password_reset_verify')
-                else:
-                    messages.error(request, "ارسال پیامک با خطا مواجه شد. لطفاً دوباره تلاش کنید.")
-
-            except User.DoesNotExist:
-                # برای امنیت بیشتر، بهتره پیام کلی بدیم تا هکرها نتونن نام‌های کاربری رو حدس بزنن
-                messages.error(request, "حساب کاربری با این مشخصات یافت نشد.")
-        else:
-            messages.error(request, "لطفاً نام کاربری یا ایمیل خود را وارد کنید.")
-
-    return render(request, 'accounts/password_reset_request.html')
-
-
-def password_reset_verify_view(request):
-    """
-    مرحله ۲: بررسی کد تایید وارد شده توسط کاربر
-    """
-    user_id = request.session.get('reset_user_id')
-    saved_otp = request.session.get('reset_otp_code')
-
-    # اگر دیتای سشن وجود نداشت، کاربر رو برمی‌گردونیم به مرحله اول
-    if not user_id or not saved_otp:
-        messages.warning(request, "نشست شما نامعتبر یا منقضی شده است. لطفاً دوباره تلاش کنید.")
-        return redirect('accounts:password_reset_request')
-
-    if request.method == 'POST':
-        # نام فیلد در HTML شما code بود
-        entered_otp = request.POST.get('code', '').strip()
-
-        if entered_otp == saved_otp:
-            # کد درسته! یک پرچم (flag) تو سشن می‌ذاریم که کاربر مجازه رمز رو عوض کنه
-            request.session['reset_is_verified'] = True
-            return redirect('accounts:password_reset_confirm')
-        else:
-            messages.error(request, "کد وارد شده اشتباه است.")
-
-    return render(request, 'accounts/password_reset_verify.html')
-
-
-def password_reset_confirm_view(request):
-    """
-    مرحله ۳: دریافت رمز عبور جدید، هش کردن و ذخیره در دیتابیس
-    """
-    user_id = request.session.get('reset_user_id')
-    is_verified = request.session.get('reset_is_verified')
-
-    # بررسی امنیتی: آیا کاربر مرحله تایید کد رو با موفقیت گذرونده؟
-    if not user_id or not is_verified:
-        messages.error(request, "دسترسی غیرمجاز! لطفاً مراحل فراموشی رمز را از ابتدا طی کنید.")
-        return redirect('accounts:password_reset_request')
-
-    if request.method == 'POST':
-        new_password = request.POST.get('new_password')
-        confirm_password = request.POST.get('confirm_password')
-
-        if not new_password or not confirm_password:
-            messages.error(request, "لطفاً هر دو فیلد رمز عبور را پر کنید.")
-        elif new_password != confirm_password:
-            messages.error(request, "رمز عبور جدید و تکرار آن با هم مطابقت ندارند.")
-        elif len(new_password) < 8:
-            messages.error(request, "رمز عبور باید حداقل ۸ کاراکتر باشد.")
-        else:
-            try:
-                # پیدا کردن کاربر و تغییر رمز
-                user = User.objects.get(id=user_id)
-                user.set_password(new_password)  # این متد به صورت خودکار رمز رو هش (Hash) می‌کنه
-                user.save()
-
-                # پاکسازی سشن‌ها (بسیار مهم برای امنیت)
-                request.session.pop('reset_user_id', None)
-                request.session.pop('reset_otp_code', None)
-                request.session.pop('reset_is_verified', None)
-
-                messages.success(request, "رمز عبور شما با موفقیت تغییر کرد! حالا می‌توانید وارد شوید.")
-                return redirect('accounts:login')
-
-            except User.DoesNotExist:
-                messages.error(request, "خطایی رخ داده است. کاربر یافت نشد.")
-                return redirect('accounts:password_reset_request')
-
-    return render(request, 'accounts/password_reset_confirm.html')

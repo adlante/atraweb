@@ -1,5 +1,3 @@
-
-
 /* ==========================================================================
    🌟 ATRA APP - MASTER STYLESHEET 🌟
    ========================================================================== */
@@ -8,9 +6,7 @@
    1. FONTS (تنظیمات فونت‌های اصلی و ایرانی)
    ========================================= */
 
-/* --- اضافه کردن فونت‌های دانا (Dana) --- */
-
-/* دانا معمولی (برای متن‌های اصلی و توضیحات سایت) */
+/* دانا معمولی */
 @font-face {
     font-family: "Dana";
     src: url("/static/fonts/DanaPro(10Wt)/Farsi%20numerals/Dana-Regular.ttf") format("truetype");
@@ -18,7 +14,7 @@
     font-style: normal;
 }
 
-/* دانا مدیوم (متوسط - عالی برای منوها و نوبار) */
+/* دانا مدیوم */
 @font-face {
     font-family: "Dana";
     src: url("/static/fonts/DanaPro(10Wt)/Farsi%20numerals/Dana-Medium.ttf") format("truetype");
@@ -26,7 +22,7 @@
     font-style: normal;
 }
 
-/* دانا بولد (برای تیترها و عناوین مهم) */
+/* دانا بولد */
 @font-face {
     font-family: "Dana";
     src: url("/static/fonts/DanaPro(10Wt)/Farsi%20numerals/Dana-Bold.ttf") format("truetype");
@@ -34,7 +30,6 @@
     font-style: normal;
 }
 
-/* --- فونت‌های قبلی (به عنوان بک‌آپ نگه داشته شدند) --- */
 @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;700&display=swap');
 
 @font-face {
@@ -60,27 +55,22 @@
    2. ROOT VARIABLES (متغیرهای سراسری سیستم)
    ========================================= */
 :root {
-    /* فونت اصلی سایت (بادی، توضیحات و همه جا) حالا دانا است */
     --font-main: "Dana", "Vazirmatn", "Vazir", Tahoma, sans-serif;
-
-    /* فونت نوبار هم دانا ست شده، اما با وزن مدیوم (توسط font-weight کنترل میشه) */
     --font-navbar: "Dana", "Yekan", sans-serif;
-
-    /* فونت جایگزین در صورت نیاز */
     --font-alt: "Shabnam", sans-serif;
 
-    --color-primary: #2563eb;
-    --color-secondary: #1e293b;
-    --color-success: #009b4c; /* رنگ سبز برند آترا */
+    --color-primary: #047857; /* سبز سلطنتی هماهنگ با هویت جدید آترا */
+    --color-secondary: #0f172a;
+    --color-success: #10b981;
 
-    --color-text: #1f2937;
-    --color-muted: #6b7280;
+    --color-text: #1e293b;
+    --color-muted: #64748b;
 
     --bg-main: #ffffff;
-    --bg-soft: #f5f7fa;
-    --bg-page: #f9f9f9;
+    --bg-soft: #f8fafc;
+    --bg-page: #ffffff;
 
-    --radius: 10px;
+    --radius: 12px;
     --transition: 0.25s ease;
 }
 
@@ -93,7 +83,6 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    /* این خط باعث میشه فونت دانا روی همه عناصر اعمال بشه */
     font-family: var(--font-main);
 }
 
@@ -103,7 +92,6 @@ body {
     direction: rtl;
     line-height: 1.7;
     -webkit-font-smoothing: antialiased;
-    /* به صورت پیش‌فرض وزن معمولی روی کل بادی اعمال می‌شود */
     font-weight: normal;
 }
 
@@ -141,7 +129,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .container {
     width: 90%;
-    max-width: 1200px;
+    max-width: 1240px;
     margin: auto;
 }
 
@@ -153,8 +141,6 @@ h1, h2, h3, h4, h5, h6 {
     background: var(--bg-main);
     border-bottom: 1px solid #eee;
     font-weight: 500;
-    border-bottom: 1px solid #eee;
-
 }
 
 .navbar a {
@@ -182,43 +168,6 @@ h1, h2, h3, h4, h5, h6 {
     gap: 25px;
 }
 
-/* --- Zoho Logo Mock --- */
-.zoho-logo-mock {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2px;
-}
-
-.squares {
-    display: flex;
-    gap: 2px;
-}
-
-.sq {
-    width: 18px;
-    height: 18px;
-    border: 3px solid;
-    border-radius: 4px;
-    transform: rotate(-10deg);
-}
-
-.sq-red {
-    border-color: #e32228;
-}
-
-.sq-green {
-    border-color: var(--color-success);
-}
-
-.sq-blue {
-    border-color: #006ebc;
-}
-
-.sq-yellow {
-    border-color: #f6b21b;
-}
-
 .zoho-text {
     font-size: 11px;
     font-weight: bold;
@@ -232,12 +181,10 @@ h1, h2, h3, h4, h5, h6 {
     gap: 20px;
 }
 
-/* --- Top Right Section (منطقه حیاتی هدر) --- */
 .top-right-section {
     display: flex;
     align-items: center;
     gap: 15px;
-    /* ✨ راهکار اصلی برای جلوگیری از بریدگی دکمه‌ها ✨ */
     flex-wrap: wrap !important;
     justify-content: flex-end;
 }
@@ -258,8 +205,6 @@ h1, h2, h3, h4, h5, h6 {
 /* =========================================
    5. BUTTONS & AUTH SYSTEM (دکمه‌های ورود و ثبت‌نام)
    ========================================= */
-
-/* --- دکمه‌های دارای بوردر انیمیشنی (ورود، پروفایل و...) --- */
 .minimal-btn.animated-border {
     position: relative;
     overflow: hidden;
@@ -277,7 +222,7 @@ h1, h2, h3, h4, h5, h6 {
     left: -50%;
     width: 200%;
     height: 200%;
-    background: conic-gradient(from 0deg, transparent 40%, var(--color-success) 100%);
+    background: conic-gradient(from 0deg, transparent 40%, var(--color-primary) 100%);
     animation: spin-border 2.5s linear infinite;
     z-index: -2;
 }
@@ -293,24 +238,18 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 @keyframes spin-border {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
 .minimal-btn.animated-border:hover::after {
-    background: rgba(0, 155, 76, 0.15);
+    background: rgba(4, 120, 87, 0.12);
 }
 
 .minimal-btn.animated-border:hover {
-    color: #008a43 !important;
+    color: var(--color-primary) !important;
 }
 
-
-/* --- دکمه پایه --- */
 .minimal-btn {
     display: inline-flex;
     align-items: center;
@@ -326,119 +265,55 @@ h1, h2, h3, h4, h5, h6 {
     cursor: pointer;
     letter-spacing: 0.5px;
     text-decoration: none;
-    /* ✨ جادوی ضد بریدگی: متن نمی‌شکند و عرض دکمه کم نمی‌شود ✨ */
     white-space: nowrap !important;
     flex-shrink: 0 !important;
     transition: all 0.3s ease !important;
 }
 
 .minimal-btn:hover {
-    background-color: var(--color-success);
+    background-color: var(--color-primary);
     color: #ffffff !important;
-    border-color: var(--color-success);
+    border-color: var(--color-primary);
 }
 
-/* --- دکمه ورود (بوردر انیمیشنی) --- */
-.minimal-btn.login-btn.animated-border {
-    position: relative;
-    overflow: hidden;
-    border: none !important;
-    z-index: 1;
-    background-color: transparent !important;
-    min-width: 110px;
-    color: #333;
-}
-
-.minimal-btn.login-btn.animated-border::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: conic-gradient(from 0deg, transparent 40%, var(--color-success) 100%);
-    animation: spin-border 2.5s linear infinite;
-    z-index: -2;
-}
-
-.minimal-btn.login-btn.animated-border::after {
-    content: '';
-    position: absolute;
-    inset: 3px;
-    background: #ffffff;
-    z-index: -1;
-    border-radius: 2px;
-    transition: background 0.3s ease;
-}
-
-@keyframes spin-border {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
-}
-
-.minimal-btn.login-btn.animated-border:hover::after {
-    background: rgba(0, 155, 76, 0.15);
-}
-
-.minimal-btn.login-btn.animated-border:hover {
-    color: #008a43 !important;
-}
-
-/* --- دکمه ثبت نام --- */
 .minimal-btn.signup-btn {
-    border: 1px solid var(--color-success) !important;
-    background-color: var(--color-success) !important;
+    border: 1px solid var(--color-primary) !important;
+    background-color: var(--color-primary) !important;
     color: #ffffff !important;
-    box-shadow: 0 4px 15px rgba(0, 155, 76, 0.25) !important;
+    box-shadow: 0 4px 15px rgba(4, 120, 87, 0.25) !important;
     font-weight: 800 !important;
 }
 
 .minimal-btn.signup-btn:hover {
-    background-color: #007a3c !important;
-    border-color: #007a3c !important;
-    box-shadow: 0 8px 25px rgba(0, 155, 76, 0.45) !important;
+    background-color: #065f46 !important;
+    border-color: #065f46 !important;
+    box-shadow: 0 8px 25px rgba(4, 120, 87, 0.45) !important;
     transform: translateY(-3px) !important;
 }
 
-/* --- دکمه خوش‌آمدگویی (پروفایل کاربر) --- */
 .minimal-btn.user-badge {
     gap: 8px;
 }
 
-/* نقطه وضعیت (Status Dot) داخل دکمه پروفایل */
 .minimal-btn.user-badge i {
     display: inline-block;
     width: 10px !important;
     height: 10px !important;
-    /* ✨ جلوگیری از بیضی شدن نقطه وضعیت ✨ */
     flex-shrink: 0 !important;
     background-color: var(--color-success);
     border-radius: 50%;
-    box-shadow: 0 0 8px rgba(0, 155, 76, 0.6);
+    box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
     animation: statusPulse 2s infinite ease-in-out;
 }
 
 @keyframes statusPulse {
-    0% {
-        transform: scale(0.9);
-        box-shadow: 0 0 0 0 rgba(0, 155, 76, 0.7);
-    }
-    70% {
-        transform: scale(1.1);
-        box-shadow: 0 0 0 6px rgba(0, 155, 76, 0);
-    }
-    100% {
-        transform: scale(0.9);
-        box-shadow: 0 0 0 0 rgba(0, 155, 76, 0);
-    }
+    0% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+    70% { transform: scale(1.1); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+    100% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
 }
 
 /* =========================================
-   6. DROPDOWNS (منوهای کشویی)
+   6. DROPDOWNS (منوهای کشویی دسکتاپ)
    ========================================= */
 .dropdown {
     position: relative;
@@ -469,12 +344,12 @@ h1, h2, h3, h4, h5, h6 {
     top: 100%;
     right: 0;
     background-color: #fff;
-    min-width: 150px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 4px;
-    border: 1px solid #eee;
+    min-width: 170px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    border-radius: 8px;
+    border: 1px solid #eef2f6;
     z-index: 100;
-    padding: 10px 0;
+    padding: 8px 0;
 }
 
 .dropdown:hover .dropdown-content {
@@ -483,16 +358,17 @@ h1, h2, h3, h4, h5, h6 {
 
 .dropdown-content li a {
     display: block;
-    padding: 8px 15px;
-    color: #333;
+    padding: 8px 16px;
+    color: #334155;
+    font-size: 0.88rem;
+    transition: all 0.2s ease;
 }
 
 .dropdown-content li a:hover {
-    background-color: #f1f1f1;
-    color: var(--color-success);
+    background-color: #ecfdf5;
+    color: var(--color-primary);
 }
 
-/* حل مشکل بیرون زدن زیرمنوی آخرین آیتم */
 .bottom-nav .dropdown:last-child .dropdown-content,
 .top-nav .dropdown:last-child .dropdown-content {
     right: auto;
@@ -506,217 +382,930 @@ h1, h2, h3, h4, h5, h6 {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 30px;
+    padding: 12px 30px;
     background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-}
-
-.bottom-left-section {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.books-logo-mock {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.books-icon {
-    width: 30px;
-    height: 35px;
-    border: 2px solid #006ebc;
-    border-radius: 6px;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    align-items: center;
-}
-
-.books-icon::before, .books-icon::after {
-    content: '';
-    width: 6px;
-    height: 6px;
-    border: 2px solid #006ebc;
-    border-radius: 50%;
-}
-
-.books-text {
-    display: flex;
-    flex-direction: column;
-    line-height: 1.1;
-}
-
-.books-text span:first-child {
-    font-size: 12px;
-    font-weight: bold;
-    color: #333;
-}
-
-.books-text span:last-child {
-    font-size: 18px;
-    font-weight: 800;
-    color: #000;
-    letter-spacing: -0.5px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
 }
 
 .bottom-nav {
     display: flex;
     align-items: center;
-    gap: 25px;
+    gap: 22px;
 }
 
 .bottom-nav a {
-    font-size: 15px;
-    color: #000;
+    font-size: 14.5px;
+    color: #1e293b;
+    font-weight: 500;
 }
 
 /* =========================================
-   8. HERO BANNER (بنر اصلی آترا)
+   8. HERO SECTION (Dark Studio Glassmorphism)
    ========================================= */
-.atra-hero-banner {
-    background-color: #B3C7F2;
-    width: 100%;
-    height: 650px;
-    max-height: 18cm;
-    font-family: 'Vazirmatn', 'Tahoma', sans-serif;
-    direction: rtl;
-    overflow: hidden;
+.atra-hero-root {
     position: relative;
-    background: linear-gradient(180deg, #ffffff 0%, #EBF8F0 100%);
+    width: 100%;
+    min-height: 90vh;
+    background: #060911;
+    overflow: hidden;
+    direction: rtl;
+    display: flex;
+    align-items: center;
+    padding: 60px 24px;
+    box-sizing: border-box;
+}
+
+.hero-cyber-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 50px 50px;
+    mask-image: radial-gradient(circle at center, black, transparent 80%);
+    -webkit-mask-image: radial-gradient(circle at center, black, transparent 80%);
+    pointer-events: none;
+}
+
+.hero-glow-emerald {
+    position: absolute;
+    width: 480px;
+    height: 480px;
+    background: radial-gradient(circle, rgba(4, 120, 87, 0.35) 0%, transparent 70%);
+    filter: blur(100px);
+    top: 10%;
+    right: 15%;
+    pointer-events: none;
+}
+
+.hero-glow-azure {
+    position: absolute;
+    width: 420px;
+    height: 420px;
+    background: radial-gradient(circle, rgba(2, 132, 199, 0.22) 0%, transparent 70%);
+    filter: blur(90px);
+    bottom: 5%;
+    left: 10%;
+    pointer-events: none;
 }
 
 .atra-hero-container {
-    max-width: 1200px;
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 1300px;
     margin: 0 auto;
-    padding: 0 40px;
+    display: grid;
+    grid-template-columns: 1.15fr 0.95fr;
+    gap: 50px;
+    align-items: center;
+}
+
+.hero-content-col {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.hero-live-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(4, 120, 87, 0.15);
+    border: 1px solid rgba(16, 185, 129, 0.35);
+    padding: 6px 16px;
+    border-radius: 999px;
+    margin-bottom: 24px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.live-chip-dot {
+    width: 8px;
+    height: 8px;
+    background: #10b981;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #10b981;
+    animation: pulseEmerald 1.8s infinite;
+}
+
+@keyframes pulseEmerald {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.3; transform: scale(0.85); }
+}
+
+.live-chip-text {
+    color: #6ee7b7;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: -0.2px;
+}
+
+.hero-main-title {
+    font-size: 2.7rem;
+    font-weight: 900;
+    line-height: 1.45;
+    color: #ffffff;
+    margin: 0 0 22px 0;
+    letter-spacing: -0.6px;
+}
+
+.text-emerald-glow {
+    background: linear-gradient(135deg, #10b981 0%, #34d399 50%, #38bdf8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline;
+}
+
+.hero-lead-text {
+    font-size: 1.05rem;
+    line-height: 1.95;
+    color: #94a3b8;
+    margin: 0 0 34px 0;
+    max-width: 620px;
+}
+
+.hero-cta-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 38px;
+}
+
+.btn-emerald-solid {
+    background: linear-gradient(135deg, #047857 0%, #059669 100%);
+    color: #ffffff !important;
+    padding: 14px 34px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 0.96rem;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 12px 28px -6px rgba(4, 120, 87, 0.45);
+    border: 1px solid rgba(52, 211, 153, 0.3);
+    transition: all 0.25s ease;
+}
+
+.btn-emerald-solid:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 36px -4px rgba(4, 120, 87, 0.6);
+    background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+}
+
+.btn-glass-outline {
+    background: rgba(255, 255, 255, 0.03);
+    color: #f1f5f9 !important;
+    padding: 14px 30px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 0.96rem;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: all 0.25s ease;
+}
+
+.btn-glass-outline:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.25);
+    color: #34d399 !important;
+}
+
+.hero-stats-band {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    width: 100%;
+    max-width: 580px;
+}
+
+.stat-metric-block {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-number {
+    font-size: 1.45rem;
+    font-weight: 900;
+    color: #ffffff;
+    letter-spacing: -0.5px;
+    direction: ltr !important;
+    unicode-bidi: isolate;
+}
+
+.stat-label {
+    font-size: 0.78rem;
+    color: #64748b;
+    margin-top: 4px;
+}
+
+.hero-visual-col {
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
+.ai-studio-window {
+    width: 100%;
+    max-width: 520px;
+    background: rgba(13, 19, 33, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 20px;
+    box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.7), 0 0 35px rgba(4, 120, 87, 0.15);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    overflow: hidden;
+    direction: ltr;
+}
+
+.window-header {
+    background: rgba(18, 26, 46, 0.95);
+    padding: 14px 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 100%;
-    gap: 80px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.atra-hero-content {
-    flex: 1;
-    max-width: 45%;
-    padding-left: 20px;
-    z-index: 10;
-    padding-right: 20px;
-}
-
-.atra-hero-content h1 {
-    font-family: 'Yekan Bakh', 'Vazirmatn', Tahoma, sans-serif;
-    font-size: 3.5rem;
-    font-weight: 900;
-    color: #1e293b;
-    margin-bottom: 15px;
-    line-height: 1.2;
-    letter-spacing: -1px;
-}
-
-.atra-brand-text {
-    color: #059669;
-    text-shadow: 0px 4px 15px rgba(5, 150, 105, 0.2);
-}
-
-.atra-hero-content p {
-    font-family: 'Yekan Bakh', 'Vazirmatn', Tahoma, sans-serif;
-    font-size: 1.25rem;
-    font-weight: 400;
-    color: #475569;
-    line-height: 1.8;
-    margin-bottom: 35px;
-    max-width: 480px;
-}
-
-.atra-store-buttons {
+.window-traffic-dots {
     display: flex;
-    gap: 15px;
+    gap: 8px;
 }
 
-.atra-store-buttons a {
+.traffic-dot {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+}
+
+.dot-close { background: #ef4444; }
+.dot-min { background: #f59e0b; }
+.dot-max { background: #10b981; }
+
+.window-title-tag {
+    font-family: monospace;
+    font-size: 0.78rem;
+    color: #94a3b8;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.window-body {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.studio-prompt-card {
+    background: rgba(6, 11, 22, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.prompt-label {
+    font-size: 0.72rem;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-family: monospace;
+}
+
+.prompt-body {
+    color: #e2e8f0;
+    font-size: 0.86rem;
+    line-height: 1.6;
+    direction: rtl;
+    text-align: right;
+}
+
+.studio-pipelines-status {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.pipeline-status-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 10px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.pipeline-status-card.active-emerald {
+    border-color: rgba(16, 185, 129, 0.3);
+    background: rgba(4, 120, 87, 0.08);
+}
+
+.status-key {
+    font-size: 0.74rem;
+    color: #94a3b8;
+}
+
+.status-value {
+    font-size: 0.86rem;
+    font-weight: 700;
+    color: #ffffff;
+    font-family: monospace;
+}
+
+.status-value.val-emerald { color: #34d399; }
+.status-value.val-sky { color: #38bdf8; }
+
+.studio-stream-terminal {
+    background: #040812;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 12px;
+    padding: 16px;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.82rem;
+    line-height: 1.7;
+}
+
+.terminal-token-highlight {
+    color: #38bdf8;
+}
+
+.terminal-cursor {
     display: inline-block;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    width: 8px;
+    height: 14px;
+    background: #10b981;
+    vertical-align: middle;
+    margin-left: 4px;
+    animation: blinkCursor 0.9s infinite;
 }
 
-.atra-store-buttons a:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+@keyframes blinkCursor {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
 }
 
-.atra-store-buttons img {
-    height: 55px;
-    width: auto;
+.floating-flutter-card {
+    position: absolute;
+    bottom: -20px;
+    right: -15px;
+    background: rgba(15, 23, 42, 0.95);
+    border: 1px solid rgba(52, 211, 153, 0.4);
+    border-radius: 14px;
+    padding: 12px 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 16px 30px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    direction: rtl;
 }
 
-/* --- موکاپ گوشی‌ها --- */
-.atra-hero-mockups {
-    flex: 1;
+.flutter-card-icon {
+    width: 34px;
+    height: 34px;
+    background: rgba(56, 189, 248, 0.15);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #38bdf8;
+}
+
+.flutter-card-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.flutter-card-title {
+    color: #ffffff;
+    font-size: 0.82rem;
+    font-weight: 700;
+}
+
+.flutter-card-sub {
+    color: #10b981;
+    font-size: 0.72rem;
+    font-weight: 600;
+}
+
+/* --------------------------------------------------------------------------
+   9. PILLARS SECTION (4 Glass Cards with Ambient Glows)
+   -------------------------------------------------------------------------- */
+.pillar-cards-section {
     position: relative;
+    width: 100%;
+    padding: 90px 24px;
+    direction: rtl;
+    box-sizing: border-box;
+    overflow: hidden;
+    background: #f8fafc;
+}
+
+.pillar-ambient-glows {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.ambient-orb-emerald {
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(16, 185, 129, 0.45) 0%, rgba(5, 150, 105, 0.25) 45%, transparent 70%);
+    filter: blur(55px);
+    top: -10%;
+    right: 2%;
+    animation: floatPillarOrb 10s ease-in-out infinite alternate;
+}
+
+.ambient-orb-cyan {
+    position: absolute;
+    width: 520px;
+    height: 520px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(14, 165, 233, 0.45) 0%, rgba(2, 132, 199, 0.22) 50%, transparent 70%);
+    filter: blur(55px);
+    bottom: -15%;
+    left: 25%;
+    animation: floatPillarOrbReverse 12s ease-in-out infinite alternate;
+}
+
+.ambient-orb-indigo {
+    position: absolute;
+    width: 460px;
+    height: 460px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(139, 92, 246, 0.42) 0%, rgba(99, 102, 241, 0.2) 48%, transparent 70%);
+    filter: blur(55px);
+    top: 10%;
+    left: -5%;
+    animation: floatPillarOrb 14s ease-in-out infinite alternate;
+}
+
+.ambient-orb-rose {
+    position: absolute;
+    width: 380px;
+    height: 380px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(244, 63, 94, 0.28) 0%, transparent 65%);
+    filter: blur(50px);
+    bottom: 5%;
+    right: 35%;
+    animation: floatPillarOrbReverse 11s ease-in-out infinite alternate;
+}
+
+@keyframes floatPillarOrb {
+    0% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(-35px, 25px) scale(1.08); }
+    100% { transform: translate(25px, -30px) scale(0.95); }
+}
+
+@keyframes floatPillarOrbReverse {
+    0% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(35px, -25px) scale(0.92); }
+    100% { transform: translate(-25px, 30px) scale(1.06); }
+}
+
+.pillar-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    max-width: 1280px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+}
+
+.pillar-glass-card {
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1.5px solid rgba(255, 255, 255, 0.85);
+    border-radius: 22px;
+    padding: 34px 22px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0 14px 35px -8px rgba(15, 23, 42, 0.07), 0 2px 6px -2px rgba(15, 23, 42, 0.04);
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.pillar-glass-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #047857, transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.pillar-glass-card:hover {
+    transform: translateY(-8px);
+    background: rgba(255, 255, 255, 0.85);
+    border-color: rgba(4, 120, 87, 0.35);
+    box-shadow: 0 24px 45px -10px rgba(4, 120, 87, 0.2), 0 6px 14px -2px rgba(15, 23, 42, 0.05);
+}
+
+.pillar-glass-card:hover::before {
+    opacity: 1;
+}
+
+.pillar-icon-box {
+    width: 62px;
+    height: 62px;
+    border-radius: 18px;
+    background: #ffffff;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    color: #047857;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 22px;
+    box-shadow: 0 6px 16px -4px rgba(4, 120, 87, 0.12);
+    transition: all 0.3s ease;
+}
+
+.pillar-glass-card:hover .pillar-icon-box {
+    background: #047857;
+    color: #ffffff;
+    transform: scale(1.08) rotate(3deg);
+    box-shadow: 0 10px 22px -4px rgba(4, 120, 87, 0.4);
+}
+
+.pillar-icon-box svg {
+    width: 28px;
+    height: 28px;
+}
+
+.pillar-card-title {
+    color: #0f172a;
+    font-size: 1.05rem;
+    font-weight: 800;
+    margin: 0 0 12px 0;
+    line-height: 1.5;
+    letter-spacing: -0.3px;
+}
+
+.pillar-card-desc {
+    color: #334155;
+    font-size: 0.88rem;
+    line-height: 1.85;
+    margin: 0;
+    font-weight: 500;
+}
+
+.pillar-card-desc span.tech-tag {
+    color: #047857;
+    font-weight: 700;
+    direction: ltr;
+    display: inline-block;
+}
+
+/* --------------------------------------------------------------------------
+   10. BENTO GRID SECTION (AI Architecture & Production Stack)
+   -------------------------------------------------------------------------- */
+.premium-bento-analytics {
+    position: relative;
+    width: 100%;
+    padding: 80px 24px;
+    direction: rtl;
+    box-sizing: border-box;
+}
+
+.bento-header {
+    text-align: center;
+    max-width: 820px;
+    margin: 0 auto 50px auto;
+    padding: 0 16px;
+    box-sizing: border-box;
+}
+
+.bento-header .badge {
+    display: inline-block;
+    background: rgba(16, 185, 129, 0.12);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    color: #047857;
+    font-size: 0.82rem;
+    font-weight: 700;
+    padding: 5px 16px;
+    border-radius: 999px;
+    margin-bottom: 14px;
+}
+
+.bento-title {
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: #0f172a;
+    margin: 0 0 16px 0;
+    line-height: 1.45;
+    letter-spacing: -0.4px;
+    word-break: normal;
+    overflow-wrap: break-word;
+}
+
+.bento-title .text-gradient {
+    background: linear-gradient(135deg, #047857 0%, #0284c7 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline;
+}
+
+.bento-header p {
+    font-size: 0.95rem;
+    line-height: 1.85;
+    color: #475569;
+    margin: 0;
+}
+
+.bento-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.15fr;
+    gap: 24px;
+    max-width: 1240px;
+    margin: 0 auto;
+    align-items: stretch;
+    box-sizing: border-box;
+}
+
+.bento-col-left {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.bento-col-right {
     height: 100%;
+}
+
+.bento-card-styled {
+    background: rgba(255, 255, 255, 0.45) !important;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.75) !important;
+    border-radius: 22px;
+    box-shadow: 0 12px 30px -10px rgba(15, 23, 42, 0.05), 0 2px 6px -2px rgba(15, 23, 42, 0.03);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    box-sizing: border-box;
+    text-align: right;
+}
+
+.bento-card-styled:hover {
+    transform: translateY(-4px);
+    background: rgba(255, 255, 255, 0.65) !important;
+    border-color: rgba(4, 120, 87, 0.3) !important;
+    box-shadow: 0 20px 38px -12px rgba(4, 120, 87, 0.12), 0 4px 12px -2px rgba(15, 23, 42, 0.03);
+}
+
+.bento-card-styled .bento-badge {
+    display: inline-block;
+    background: rgba(236, 253, 245, 0.85);
+    border: 1px solid #d1fae5;
+    color: #047857;
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 999px;
+    margin-bottom: 14px;
+    width: fit-content;
+}
+
+.bento-card-styled h3 {
+    color: #0f172a !important;
+    font-weight: 800;
+    margin: 0 0 12px 0;
+    line-height: 1.5;
+    letter-spacing: -0.3px;
+    text-align: right !important;
+    direction: rtl !important;
+    unicode-bidi: isolate;
+    overflow-wrap: break-word;
+    word-break: normal;
+    max-width: 100%;
+}
+
+.bento-card-styled p {
+    color: #334155 !important;
+    font-size: 0.88rem;
+    line-height: 1.85;
+    margin: 0;
+    font-weight: 500;
+    text-align: right;
+    unicode-bidi: isolate;
+}
+
+.tech-tag-accent {
+    color: #047857;
+    font-weight: 700;
+    direction: ltr;
+    display: inline-block;
+    unicode-bidi: isolate;
+}
+
+.bento-features-list {
+    list-style: none;
+    padding: 0;
+    margin: 22px 0 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.bento-features-list li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #1e293b;
+    text-align: right;
+}
+
+.bento-features-list li .check-icon {
+    width: 20px;
+    height: 20px;
+    background: #ecfdf5;
+    border: 1px solid #a7f3d0;
+    color: #047857;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+/* --------------------------------------------------------------------------
+   11. OFFLINE-FIRST ARCHITECTURE SECTION
+   -------------------------------------------------------------------------- */
+.real-finance {
+    width: 100%;
+    padding: 90px 24px;
+    direction: rtl;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.real-grid {
+    display: grid;
+    grid-template-columns: 1.05fr 1.15fr;
+    gap: 56px;
+    max-width: 1260px;
+    margin: 0 auto;
+    align-items: center;
+}
+
+.real-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: right;
+}
+
+.real-content h2 {
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: #0f172a;
+    margin: 0 0 18px 0;
+    line-height: 1.45;
+    letter-spacing: -0.4px;
+}
+
+.highlight-text {
+    background: linear-gradient(135deg, #047857 0%, #10b981 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline;
+}
+
+.real-desc {
+    color: #475569;
+    font-size: 0.98rem;
+    line-height: 1.95;
+    margin: 0 0 28px 0;
+    text-align: justify;
+}
+
+.real-features {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    width: 100%;
+    margin-bottom: 24px;
+}
+
+.feature-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(226, 232, 240, 0.9);
+    border-radius: 14px;
+    padding: 14px 18px;
+    box-shadow: 0 4px 16px -4px rgba(15, 23, 42, 0.04);
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(4, 120, 87, 0.35);
+}
+
+.feature-card .icon {
+    font-size: 1.25rem;
+}
+
+.feature-card .text {
+    color: #1e293b;
+    font-size: 0.88rem;
+    font-weight: 700;
+}
+
+.real-footer {
+    color: #64748b;
+    font-size: 0.88rem;
+    line-height: 1.7;
+    margin: 0;
+}
+
+.real-image-wrapper {
+    position: relative;
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.atra-phone {
+.glow-halo {
     position: absolute;
-    border-radius: 40px;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
-    overflow: hidden;
-    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    width: 85%;
+    height: 85%;
+    background: radial-gradient(circle, rgba(16, 185, 129, 0.28) 0%, rgba(4, 120, 87, 0.08) 60%, transparent 80%);
+    filter: blur(60px);
+    z-index: 0;
+    pointer-events: none;
 }
 
-.atra-phone-iphone {
-    width: 280px;
-    height: 570px;
-    background-color: #1c1c1e;
-    border: 8px solid #1c1c1e;
-    transform: rotate(15deg) translate(-20px, -20px);
-    z-index: 2;
-}
-
-.atra-phone-android {
-    width: 290px;
-    height: 590px;
-    background-color: #212121;
-    border: 10px solid #212121;
-    transform: rotate(25deg) translate(40px, 50px);
+.large-dashboard-mockup {
+    position: relative;
     z-index: 1;
-    opacity: 0.9;
+    width: 100%;
+    max-width: 620px;
+    background: #090d16;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 24px;
+    padding: 8px;
+    box-shadow: 0 25px 60px -15px rgba(15, 23, 42, 0.25), 0 10px 25px -5px rgba(4, 120, 87, 0.15);
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
 }
 
-.atra-phone-screen {
-    width: 100%;
-    height: 100%;
-    border-radius: 32px;
-    overflow: hidden;
+.large-dashboard-mockup:hover {
+    transform: translateY(-6px) scale(1.01);
+    box-shadow: 0 32px 70px -15px rgba(15, 23, 42, 0.3), 0 12px 30px -4px rgba(4, 120, 87, 0.25);
 }
 
-.atra-app-image {
+.large-dashboard-mockup img {
     width: 100%;
-    height: 100%;
+    height: auto;
+    min-height: 380px;
+    max-height: 480px;
     object-fit: cover;
+    border-radius: 18px;
     display: block;
 }
 
-.atra-hero-banner:hover .atra-phone-iphone {
-    transform: rotate(12deg) translate(-30px, -30px) scale(1.02);
-}
-
-.atra-hero-banner:hover .atra-phone-android {
-    transform: rotate(28deg) translate(50px, 40px) scale(1.02);
-}
-
-/* =========================================
-Video Navigation Section ویدیوها
-   ========================================= */
+/* ==============================================================
+   12. VIDEO POPUP SECTION (پاپ‌آپ ویدیو)
+   ============================================================== */
 .video-premium-section {
     width: 100%;
-    padding: 50px 20px; /* پدینگ رو کمتر کردم تا جمع‌وجور و مینیمال بشه */
+    padding: 50px 20px;
     position: relative;
     overflow: hidden;
     background-color: #f8fafc;
@@ -724,10 +1313,8 @@ Video Navigation Section ویدیوها
     justify-content: center;
     align-items: center;
     z-index: 1;
-
 }
 
-/* هاله‌های نوری پس‌زمینه (جادوی کار) */
 .glow-orb {
     position: absolute;
     border-radius: 50%;
@@ -755,22 +1342,18 @@ Video Navigation Section ویدیوها
 }
 
 @keyframes floatOrb {
-    0% {
-        transform: translate(0, 0) scale(1);
-    }
-    100% {
-        transform: translate(30px, 40px) scale(1.1);
-    }
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(30px, 40px) scale(1.1); }
 }
-/* استایل‌های پاپ‌آپ ویدیو */
+
 .video-popup-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(0, 0, 0, 0.85); /* پس‌زمینه تاریک */
-    backdrop-filter: blur(10px); /* تار کردن بک‌گراند سایت */
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     z-index: 999999;
     display: flex;
@@ -781,7 +1364,6 @@ Video Navigation Section ویدیوها
     transition: opacity 0.4s ease, visibility 0.4s ease;
 }
 
-/* کلاسی که پاپ‌آپ را نمایان می‌کند */
 .video-popup-overlay.active {
     opacity: 1;
     visibility: visible;
@@ -790,19 +1372,18 @@ Video Navigation Section ویدیوها
 .video-popup-content {
     position: relative;
     width: 90%;
-    max-width: 1000px; /* حداکثر عرض در دسکتاپ */
+    max-width: 1000px;
     background: #000;
     border-radius: 20px;
     box-shadow: 0 20px 60px rgba(0,0,0,0.8), 0 0 20px rgba(255,255,255,0.1);
-    transform: scale(0.7); /* برای انیمیشن بزرگ‌نمایی */
+    transform: scale(0.7);
     transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .video-popup-overlay.active .video-popup-content {
-    transform: scale(1); /* اجرای انیمیشن بزرگ‌نمایی در دسکتاپ و موبایل */
+    transform: scale(1);
 }
 
-/* دکمه خروج */
 .close-popup-btn {
     position: absolute;
     top: -20px;
@@ -828,7 +1409,6 @@ Video Navigation Section ویدیوها
     transform: rotate(90deg) scale(1.1);
 }
 
-/* خود ویدیو پلیر */
 #popupVideoPlayer {
     width: 100%;
     height: auto;
@@ -837,486 +1417,30 @@ Video Navigation Section ویدیوها
     outline: none;
 }
 
-/* ریسپانسیو برای موبایل */
-@media (max-width: 768px) {
-    .video-popup-content {
-        width: 95%;
-        border-radius: 12px;
-    }
-    #popupVideoPlayer {
-        border-radius: 10px;
-    }
-    .close-popup-btn {
-        top: -15px;
-        right: -10px;
-        width: 35px;
-        height: 35px;
-        font-size: 24px;
-    }
-}
-
-/* ==============================================================
-   VARIABLES & GLOBAL SETTINGS FOR PREMIUM SECTION (IMAGE BASED)
-=============================================================== */
-
-/* تنظیمات کلی سکشن */
-.premium-bento-analytics {
-    position: relative;
-    background-color: #f4fdf8;
-    padding: 50px 20px 40px;
-    overflow: hidden;
-    font-family: system-ui, -apple-system, sans-serif;
-    direction: rtl;
-}
-
-/* هاله نور پس‌زمینه */
-.bento-glow-bg {
-    position: absolute;
-    top: 40%;
-    left: 50%;
-    width: 70vw;
-    height: 70vw;
-    background: radial-gradient(circle, rgba(0, 255, 102, 0.12) 0%, rgba(204, 255, 221, 0) 60%);
-    transform: translate(-50%, -50%);
-    pointer-events: none;
-    z-index: 1;
-}
-
-/* استایل‌های هدر */
-.bento-header {
-    text-align: center;
-    position: relative;
-    z-index: 2;
-    margin-bottom: 40px;
-}
-
-.badge {
-    background: rgba(0, 255, 102, 0.15);
-    color: #008a37;
-    padding: 6px 16px;
-    border-radius: 50px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    border: 1px solid rgba(0, 255, 102, 0.3);
-}
-
-.bento-title {
-    font-size: 2.8rem;
-    color: #111;
-    margin: 15px 0;
-    font-weight: 800;
-}
-
-.text-gradient {
-    background: linear-gradient(to right, #00b34a, #004d26);
-    -webkit-background-clip: text;
-    color: transparent;
-    display: inline-block;
-}
-
-.bento-header p {
-    color: #555;
-    font-size: 1.1rem;
-}
-
-/* ساختار گرید اصلی */
-.bento-grid {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    gap: 24px;
-    max-width: 1200px;
-    margin: 0 auto;
-    position: relative;
-    z-index: 2;
-}
-
-.bento-col-left {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-}
-
-.bento-col-right {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-}
-/* استایل‌های مربوط به لینک شدن تصاویر بنتو گرید */
-.bento-interactive-link {
-    position: relative;
-    display: block;
-    width: 100%;
-    border-radius: 12px;
-    overflow: hidden;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-.bento-dynamic-img {
-    width: 100%;
-    height: auto;
-    border-radius: 12px;
-    display: block;
-    transition: transform 0.5s ease;
-}
-
-/* افکت لایه رویی هنگام هاور (سایه تاریک و متن) */
-.bento-hover-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.6); /* لایه تاریک شیک */
-    backdrop-filter: blur(3px); /* کمی تار کردن عکس زیرین */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    z-index: 2;
-    transition: all 0.4s ease;
-    border-radius: 12px;
-}
-
-.overlay-text {
-    color: #fff;
-    font-size: 1.1rem;
-    font-weight: bold;
-    padding: 10px 20px;
-    border: 2px solid #00E676; /* استفاده از رنگ سبز برند شما */
-    border-radius: 30px;
-    transform: translateY(20px);
-    transition: transform 0.4s ease;
-    background: rgba(0, 230, 118, 0.1);
-}
-
-/* اتفاقاتی که هنگام هاور رخ می‌دهد */
-.bento-interactive-link:hover .bento-dynamic-img {
-    transform: scale(1.08); /* زوم شدن نرم عکس */
-}
-
-.bento-interactive-link:hover .bento-hover-overlay {
-    opacity: 1; /* نمایان شدن لایه تاریک */
-}
-
-.bento-interactive-link:hover .overlay-text {
-    transform: translateY(0); /* بالا آمدن جذاب متن */
-}
-
-/* ==============================================================
-   GLASSMORPHISM CARDS & IMAGE STYLES
-=============================================================== */
-
-/* کارت‌های شیشه‌ای پایه */
-.bento-card {
-    background: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(0, 255, 102, 0.2);
-    border-radius: 24px;
-    padding: 16px; /* پدینگ رو کمی کمتر کردم تا عکس‌ها بهتر خودشون رو نشون بدن */
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.03), inset 0 0 0 1px rgba(255, 255, 255, 0.5);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden; /* جلوگیری از بیرون زدن عکس هنگام زوم */
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-/* افکت هاور جذاب برای کل کارت */
-.bento-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 50px rgba(0, 200, 100, 0.08);
-}
-
-/* تنظیمات سراسری برای عکس‌های داخل کارت‌ها */
-.bento-card img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* باعث میشه عکس دفرمه نشه و فضای کارت رو پر کنه */
-    border-radius: 12px;
-    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* انیمیشن نرم برای زوم عکس */
-    display: block;
-}
-
-/* افکت زوم ملایم روی عکس در زمان هاور کردن روی کارت */
-.bento-card:hover img {
-    transform: scale(1.03);
-}
-
-/* کلاس‌های اختصاصی (در صورت نیاز به تنظیمات مجزا در آینده) */
-.bento-image-card-small {
-    flex: 1; /* ارتفاع مساوی برای دو کارت کوچک در ستون چپ */
-}
-
-.bento-image-card-large {
-    flex: 1;
-    min-height: 400px; /* حداقل ارتفاع برای اینکه عکس نمودار اصلی به اندازه کافی بزرگ باشه */
-}
-
-/* ==============================================================
-   RESPONSIVE DESIGN (موبایل و تبلت)
-=============================================================== */
-
-@media (max-width: 900px) {
-    .bento-grid {
-        grid-template-columns: 1fr; /* در موبایل همه چیز در یک ستون قرار میگیره */
-    }
-
-    .bento-title {
-        font-size: 2.2rem;
-    }
-
-    .bento-image-card-large {
-        min-height: 300px; /* تو موبایل یکم ارتفاع عکس بزرگ رو کمتر میکنیم که تو اسکرول اذیت نکنه */
-    }
-}
-
-/* ========================================================
-     بخش مقالات و آموزش‌های آترا
-   ======================================================== */
-/* ==========================================================================
-   بخش مقالات آترا - استایل‌های ایزوله شده (بدون تداخل با قالب اصلی)
-   ========================================================================== */
-
-/* استایل والد: هیچ اثری خارج از این کلاس نخواهد داشت */
-.atra-knowledge-section {
-    padding: 100px 20px;
-    background: transparent;
-    position: relative;
-    direction: rtl;
-    /* فونت را از قالب اصلی شما ارث می‌برد، مگر اینکه بخواهید فورس کنید */
-}
-
-.atra-knowledge-section .knowledge-container {
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-/* --- هدر بخش --- */
-.atra-knowledge-section .knowledge-header {
-    text-align: center;
-    margin-bottom: 60px;
-}
-
-.atra-knowledge-section .knowledge-title {
-    color:  #1a1f36;
-    font-size: 2.5rem;
-    font-weight: 800;
-    margin-bottom: 15px;
-    letter-spacing: -0.5px;
-}
-
-.atra-knowledge-section .knowledge-title span {
-    color: #00E676;
-    text-shadow: 0 0 20px rgba(0, 230, 118, 0.4);
-}
-
-.atra-knowledge-section .knowledge-subtitle {
-    color: #a0aab5;
-    font-size: 1.1rem;
-    max-width: 600px;
-    margin: 0 auto;
-    line-height: 1.6;
-}
-
-/* --- گرید مقالات --- */
-.atra-knowledge-section .knowledge-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 30px;
-}
-
-/* --- کارت مقالات (ایزوله شده) --- */
-.atra-knowledge-section .glass-article-card {
-    background: rgba(25, 30, 36, 0.6);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 24px;
-    padding: 20px;
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-}
-
-.atra-knowledge-section .glass-article-card:hover {
-    transform: translateY(-10px);
-    border-color: rgba(0, 230, 118, 0.3);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 30px rgba(0, 230, 118, 0.1) inset;
-}
-
-/* --- تصویر درون کارت --- */
-.atra-knowledge-section .card-image-wrapper {
-    position: relative;
-    width: 100%;
-    height: 220px;
-    border-radius: 16px;
-    overflow: hidden;
-    margin-bottom: 24px;
-}
-
-.atra-knowledge-section .card-image-wrapper img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.6s ease;
-}
-
-.atra-knowledge-section .glass-article-card:hover .card-image-wrapper img {
-    transform: scale(1.08);
-}
-
-/* --- تگ (بج) روی تصویر --- */
-.atra-knowledge-section .article-badge {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    background: rgba(0, 0, 0, 0.7);
-    color: #ffffff;
-    padding: 6px 14px;
-    border-radius: 8px;
-    font-size: 0.8rem;
-    font-weight: 600;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    z-index: 2;
-}
-
-/* --- محتوای متنی کارت --- */
-.atra-knowledge-section .card-content {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-}
-
-.atra-knowledge-section .card-title {
-    color: #ffffff;
-    font-size: 1.4rem;
-    font-weight: 700;
-    margin-bottom: 12px;
-    line-height: 1.4;
-    transition: color 0.3s ease;
-}
-
-.atra-knowledge-section .glass-article-card:hover .card-title {
-    color: #00E676;
-}
-
-.atra-knowledge-section .card-excerpt {
-    color: #a0aab5;
-    font-size: 0.95rem;
-    line-height: 1.7;
-    margin-bottom: 25px;
-    flex-grow: 1;
-}
-
-/* --- دکمه/لینک مطالعه مقاله --- */
-.atra-knowledge-section .card-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    color: #00E676;
-    font-weight: 600;
-    font-size: 1rem;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    align-self: flex-start;
-}
-
-.atra-knowledge-section .card-link svg {
-    transition: transform 0.3s ease;
-}
-
-.atra-knowledge-section .card-link:hover {
-    text-shadow: 0 0 10px rgba(0, 230, 118, 0.4);
-}
-
-.atra-knowledge-section .card-link:hover svg {
-    transform: translateX(-5px);
-}
-
-/* ==========================================================================
-   دکمه شناور مشاوره فروش (با پیشوند اختصاصی برای جلوگیری از تداخل)
-   ========================================================================== */
-.atra-floating-sales-btn {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    background: #00E676;
-    padding: 12px 24px;
-    border-radius: 50px;
-    text-decoration: none;
-    z-index: 9999;
-    box-shadow: 0 10px 25px rgba(0, 230, 118, 0.4);
-
-    /* حالت پیش‌فرض: مخفی و پایین‌تر از صفحه */
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(50px);
-    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-.atra-floating-sales-btn:hover {
-    background: #00c853;
-    box-shadow: 0 15px 35px rgba(0, 230, 118, 0.6);
-    transform: translateY(-5px) !important;
-}
-
-/* کلاسی که JS برای نمایش دکمه اضافه میکنه */
-.atra-floating-sales-btn.is-visible {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-}
-
-.atra-floating-sales-btn .floating-btn-content {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.atra-floating-sales-btn .phone-icon,
-.atra-floating-sales-btn .btn-text {
-    color: #ffffff;
-    font-weight: 700;
-}
-/* ========================================================
-   کدهای جدید و کامل برای کادر شیشه‌ای (افقی و مینیمال)
-   ======================================================== */
-
-/* کادر دربرگیرنده - افقی شدن آیتم‌ها در اینجا اتفاق می‌افتد */
 .video-glass-container {
-    display: flex; /* این خط آیتم‌ها را کنار هم قرار می‌دهد */
-    flex-direction: row-reverse; /* راست‌چین کردن اصولی برای فارسی */
+    display: flex;
+    flex-direction: row-reverse;
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    max-width: 950px; /* عرض کادر رو کمتر کردم تا جمع‌وجور و مینیمال بشه */
-    padding: 20px 40px; /* پدینگ داخلی کمتر و ظریف‌تر */
+    max-width: 950px;
+    padding: 20px 40px;
     gap: 20px;
     z-index: 2;
-
-    /* افکت شیشه‌ای مات (Glassmorphism) */
     background: transparent;
     border: none;
     box-shadow: none;
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
 }
 
-/* استایل هر آیتم ویدیو */
 .video-item-lux {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 10px; /* فاصله بین آیکون، تایتل و دکمه (مینیمال) */
-    flex: 1; /* عرض مساوی برای همه */
+    gap: 10px;
+    flex: 1;
 }
 
-/* استایل آیکون‌های تزئینی بالای تایتل */
 .video-icon-wrapper {
     color: #4a5568;
     display: flex;
@@ -1330,9 +1454,8 @@ Video Navigation Section ویدیوها
     opacity: 0.8;
 }
 
-/* استایل تایتل‌ها */
 .video-title-lux {
-    font-size: 0.95rem; /* فونت ظریف‌تر */
+    font-size: 0.95rem;
     font-weight: 700;
     color: #2d3748;
     margin: 0;
@@ -1340,13 +1463,12 @@ Video Navigation Section ویدیوها
     white-space: nowrap;
 }
 
-/* دکمه‌های جذاب و جمع‌وجور */
 .play-btn-lux {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 6px;
-    padding: 8px 20px; /* دکمه‌های ظریف‌تر */
+    padding: 8px 20px;
     background: linear-gradient(135deg, #ff4b2b, #ff416c);
     color: #ffffff;
     border: none;
@@ -1374,126 +1496,87 @@ Video Navigation Section ویدیوها
     transform: scale(1.15);
 }
 
-/* ========================================================
-   ریسپانسیو (برای تبلت و موبایل که در صفحه‌های کوچک خراب نشود)
-   ======================================================== */
-@media (max-width: 900px) {
-    .video-glass-container {
-        flex-wrap: wrap; /* در تبلت می‌شکنند */
-        padding: 20px;
-    }
-
-    .video-item-lux {
-        flex: 1 1 40%; /* دوتا بالا دوتا پایین */
-        margin-bottom: 15px;
-    }
-}
-
-@media (max-width: 500px) {
-    .video-item-lux {
-        flex: 1 1 100%; /* در موبایل کاملا زیر هم */
-        padding-bottom: 15px;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-    }
-
-    .video-item-lux:last-child {
-        border-bottom: none;
-        padding-bottom: 0;
-        margin-bottom: 0;
-    }
-}
-
-/* =========================================
-Plans Section ( پلن خای اقتصادی پیشرفته حرفه ای)
-   ========================================= */
-
-/* تنظیمات کلی سکشن پلن‌ها */
+/* ==============================================================
+   13. PLANS & PRICING SECTION (سکشن پلن‌ها و تعرفه‌ها)
+   ============================================================== */
 .plans-break-section {
     padding: 80px 0;
-    background-color: #fafbfc; /* یک پس‌زمینه طوسی بسیار ملایم برای تفکیک از سفیدی مطلق سایر بخش‌ها */
+    background-color: #fafbfc;
     position: relative;
     z-index: 2;
 }
 
-/* هدر سکشن (عنوان و توضیحات) */
 .plans-break-section .section-header {
     margin-bottom: 50px;
 }
 
 .plans-break-section .section-header h2 {
-    color: #2c3e50; /* رنگ تیره و حرفه‌ای برای عنوان */
+    color: #2c3e50;
     font-size: 1.8rem;
     margin-bottom: 10px;
 }
 
-/* گرید‌بندی کارت‌ها برای چیدمان ریسپانسیو و خودکار */
 .plans-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 30px;
-    align-items: center; /* تراز کردن کارت‌ها در مرکز تا کارت ویژه (پیشرفته) که بزرگتر است زیباتر دیده شود */
+    align-items: center;
     max-width: 1100px;
     margin: 0 auto;
 }
 
-/* استایل پایه برای هر کارت پلن */
 .plan-card {
     background: #ffffff;
     border-radius: 20px;
     padding: 40px 30px;
     text-align: center;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04); /* سایه نرم و محو */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
     border: 1px solid rgba(0, 0, 0, 0.05);
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* انیمیشن فنری و بسیار جذاب برای هاور */
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     position: relative;
     display: flex;
     flex-direction: column;
-    height: 100%; /* هم‌اندازه شدن ارتفاع کارت‌ها */
+    height: 100%;
 }
 
-/* افکت شناور شدن کارت هنگام هاور */
 .plan-card:hover {
     transform: translateY(-10px);
-    box-shadow: 0 20px 40px rgba(0, 155, 76, 0.1); /* سایه ملایم سبز رنگ اختصاصی آترا */
-    border-color: rgba(0, 155, 76, 0.3);
+    box-shadow: 0 20px 40px rgba(4, 120, 87, 0.12);
+    border-color: rgba(4, 120, 87, 0.3);
 }
 
-/* --- استایل کارت ویژه (پلن پیشرفته در وسط) --- */
 .featured-plan {
-    transform: scale(1.05); /* کمی بزرگتر از بقیه کارت‌ها برای جلب توجه */
-    border: 2px solid #009b4c; /* حاشیه سبز رنگ برند */
-    box-shadow: 0 15px 35px rgba(0, 155, 76, 0.15);
-    z-index: 2; /* قرار گرفتن روی کارت‌های کناری در صورت نزدیک شدن */
+    transform: scale(1.05);
+    border: 2px solid #047857;
+    box-shadow: 0 15px 35px rgba(4, 120, 87, 0.15);
+    z-index: 2;
 }
 
-/* جلوگیری از تداخل انیمیشن هاور با اسکیل پایه کارت ویژه */
 .featured-plan:hover {
     transform: scale(1.05) translateY(-10px);
 }
 
-/* لیبل "پیشنهاد ویژه" برای کارت وسط */
 .popular-badge {
     position: absolute;
     top: -15px;
     left: 50%;
     transform: translateX(-50%);
-    background: linear-gradient(135deg, #009b4c, #00cc66); /* گرادیانت سبز حرفه‌ای */
+    background: linear-gradient(135deg, #047857, #10b981);
     color: #fff;
     padding: 6px 16px;
     border-radius: 20px;
     font-size: 0.85rem;
     font-weight: bold;
     letter-spacing: 0.5px;
-    box-shadow: 0 4px 10px rgba(0, 155, 76, 0.3);
+    box-shadow: 0 4px 10px rgba(4, 120, 87, 0.3);
     white-space: nowrap;
 }
 
-/* --- استایل آیکون‌های بالای هر کارت --- */
 .plan-icon {
     width: 70px;
     height: 70px;
-    background: rgba(0, 155, 76, 0.08); /* پس‌زمینه سبز بسیار شفاف */
-    color: #009b4c;
+    background: rgba(4, 120, 87, 0.08);
+    color: #047857;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -1503,14 +1586,12 @@ Plans Section ( پلن خای اقتصادی پیشرفته حرفه ای)
     transition: all 0.3s ease;
 }
 
-/* تغییر رنگ پس‌زمینه آیکون هنگام هاور روی کارت */
 .plan-card:hover .plan-icon {
-    background: #009b4c;
+    background: #047857;
     color: #fff;
-    transform: rotateY(180deg); /* یک افکت چرخش سه‌بعدی نرم برای آیکون */
+    transform: rotateY(180deg);
 }
 
-/* --- تایپوگرافی داخل کارت‌ها --- */
 .plan-card h3 {
     font-size: 1.5rem;
     color: #1f2937;
@@ -1523,16 +1604,15 @@ Plans Section ( پلن خای اقتصادی پیشرفته حرفه ای)
     color: #6b7280;
     line-height: 1.6;
     margin-bottom: 25px;
-    min-height: 45px; /* جلوگیری از بهم ریختگی چیدمان به خاطر طول متن‌های متفاوت */
+    min-height: 45px;
 }
 
-/* --- لیست ویژگی‌های هر پلن --- */
 .plan-features {
     list-style: none;
     padding: 0;
     margin: 0 0 30px 0;
     text-align: right;
-    flex-grow: 1; /* هُل دادن دکمه به سمت پایین */
+    flex-grow: 1;
 }
 
 .plan-features li {
@@ -1544,14 +1624,12 @@ Plans Section ( پلن خای اقتصادی پیشرفته حرفه ای)
     gap: 10px;
 }
 
-/* استایل تیک‌های سبز رنگ کنار ویژگی‌ها */
 .plan-features li i {
-    color: #009b4c;
+    color: #047857;
     font-size: 1rem;
-    flex-shrink: 0; /* جلوگیری از فشرده شدن آیکون در صفحات کوچک */
+    flex-shrink: 0;
 }
 
-/* --- استایل دکمه‌های انتخاب پلن --- */
 .plan-btn {
     width: 100%;
     display: block;
@@ -1559,29 +1637,21 @@ Plans Section ( پلن خای اقتصادی پیشرفته حرفه ای)
     padding: 12px 0;
     border-radius: 12px;
     font-weight: bold;
-    margin-top: auto; /* چسباندن دکمه به پایین کارت */
+    margin-top: auto;
 }
 
-/* دکمه اختصاصی کارت ویژه (رنگ توپر) */
 .plan-btn.primary-btn {
-    background-color: #009b4c;
+    background-color: #047857;
     color: #fff;
-    border-color: #009b4c;
+    border-color: #047857;
 }
 
 .plan-btn.primary-btn:hover {
-    background-color: #007f3d;
+    background-color: #065f46;
     color: #fff;
-    box-shadow: 0 5px 15px rgba(0, 155, 76, 0.3);
+    box-shadow: 0 5px 15px rgba(4, 120, 87, 0.3);
 }
 
-
-/* ==========================================================================
-   مدیا کوئری‌ها (ریسپانسیو کردن سکشن پلن‌ها برای موبایل و تبلت)
-   ========================================================================== */
-/* =========================================
-   استایل‌های تضمینی بخش پلن‌ها
-========================================= */
 .pricing-section-wrapper {
     padding: 80px 0;
     background-color: #fcfcfc;
@@ -1604,7 +1674,6 @@ Plans Section ( پلن خای اقتصادی پیشرفته حرفه ای)
     margin: 40px auto 0;
 }
 
-/* استایل پایه همه کارت‌ها */
 .pricing-card-box {
     background: #ffffff;
     border-radius: 20px;
@@ -1613,23 +1682,40 @@ Plans Section ( پلن خای اقتصادی پیشرفته حرفه ای)
     position: relative;
     border: 2px solid transparent !important;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03) !important;
-    /* این خط باعث افکت پرش ملایم به سمت بالا می‌شود */
     transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), border-color 0.4s ease, box-shadow 0.4s ease !important;
+    overflow: hidden;
+    z-index: 1;
 }
 
-/* هاور قدرتمند برای همه کارت‌ها - دقیقا شبیه کارت وسط می‌شوند */
+.pricing-card-box::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(4, 120, 87, 0.05);
+    z-index: -1;
+    transform-origin: top;
+    transform: scaleY(0);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.pricing-card-box:hover::before {
+    transform: scaleY(1);
+}
+
 .pricing-card-box:hover {
     transform: scale(1.05) translateY(-8px) !important;
-    border-color: #059669 !important;
-    box-shadow: 0 20px 40px rgba(5, 150, 105, 0.15) !important;
+    border-color: #047857 !important;
+    box-shadow: 0 20px 40px rgba(4, 120, 87, 0.15) !important;
     z-index: 10;
 }
 
-/* کارت وسط (پیش‌فرض بزرگ و بالا آمده است) */
 .pricing-card-featured {
-    border-color: #059669 !important;
+    border-color: #047857 !important;
     transform: scale(1.05) translateY(-8px) !important;
-    box-shadow: 0 20px 40px rgba(5, 150, 105, 0.1) !important;
+    box-shadow: 0 20px 40px rgba(4, 120, 87, 0.1) !important;
     z-index: 2;
 }
 
@@ -1638,13 +1724,13 @@ Plans Section ( پلن خای اقتصادی پیشرفته حرفه ای)
     top: -16px;
     left: 50%;
     transform: translateX(-50%);
-    background: #059669;
+    background: #047857;
     color: #ffffff;
     padding: 6px 20px;
     border-radius: 30px;
     font-size: 0.85rem;
     font-weight: bold;
-    box-shadow: 0 4px 10px rgba(5, 150, 105, 0.3);
+    box-shadow: 0 4px 10px rgba(4, 120, 87, 0.3);
 }
 
 .pricing-card-box h3 {
@@ -1662,7 +1748,6 @@ Plans Section ( پلن خای اقتصادی پیشرفته حرفه ای)
     min-height: 70px;
 }
 
-/* تنظیم دایره‌ها و انیمیشن آیکون داخلشان */
 .pricing-icon-circle {
     width: 85px;
     height: 85px;
@@ -1676,16 +1761,15 @@ Plans Section ( پلن خای اقتصادی پیشرفته حرفه ای)
 
 .pricing-card-box:not(.pricing-card-featured) .pricing-icon-circle {
     background: #ecfdf5;
-    color: #059669;
+    color: #047857;
 }
 
 .pricing-card-featured .pricing-icon-circle {
-    background: #059669;
+    background: #047857;
     color: #ffffff;
-    box-shadow: 0 10px 20px rgba(5, 150, 105, 0.3);
+    box-shadow: 0 10px 20px rgba(4, 120, 87, 0.3);
 }
 
-/* چرخش زیبای آیکون وقتی روی کارت می‌روید */
 .pricing-card-box:hover .pricing-icon-circle {
     transform: scale(1.1) rotate(10deg);
 }
@@ -1707,7 +1791,7 @@ Plans Section ( پلن خای اقتصادی پیشرفته حرفه ای)
 }
 
 .pricing-features-list li svg {
-    color: #059669;
+    color: #047857;
     background: #ecfdf5;
     padding: 5px;
     border-radius: 50%;
@@ -1715,7 +1799,6 @@ Plans Section ( پلن خای اقتصادی پیشرفته حرفه ای)
     height: 28px;
 }
 
-/* دکمه‌ها */
 .pricing-action-btn {
     display: block;
     width: 100%;
@@ -1735,250 +1818,188 @@ Plans Section ( پلن خای اقتصادی پیشرفته حرفه ای)
 
 .pricing-btn-outline:hover {
     background: #f9fafb !important;
-    border-color: #059669 !important;
-    color: #059669 !important;
+    border-color: #047857 !important;
+    color: #047857 !important;
 }
 
 .pricing-btn-solid {
-    background: #059669 !important;
+    background: #047857 !important;
     color: #ffffff !important;
     border: none !important;
 }
 
 .pricing-btn-solid:hover {
-    background: #047857 !important;
-    box-shadow: 0 8px 20px rgba(5, 150, 105, 0.2) !important;
+    background: #065f46 !important;
+    box-shadow: 0 8px 20px rgba(4, 120, 87, 0.2) !important;
     color: #ffffff !important;
 }
 
-/* ریسپانسیو */
-@media (max-width: 992px) {
-    .pricing-grid-container {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .pricing-card-featured {
-        grid-column: span 2;
-        max-width: 500px;
-        margin: 0 auto;
-    }
+/* ==============================================================
+   14. KNOWLEDGE & ARTICLES SECTION (بخش مقالات و آموزش‌ها)
+   ============================================================== */
+.atra-knowledge-section {
+    padding: 100px 20px;
+    background: transparent;
+    position: relative;
+    direction: rtl;
 }
 
-@media (max-width: 768px) {
-    .pricing-grid-container {
-        grid-template-columns: 1fr;
-    }
-
-    .pricing-card-featured {
-        grid-column: span 1;
-    }
+.atra-knowledge-section .knowledge-container {
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-/* تنظیمات پایه برای کارت‌های قیمت‌گذاری شما */
-.pricing-card-box {
-    position: relative; /* بسیار مهم برای کنترل لایه پس‌زمینه */
-    overflow: hidden; /* جلوگیری از بیرون زدن رنگ از گوشه‌های گرد */
-    z-index: 1; /* ایجاد یک بستر لایه‌بندی */
-    /* یک ترانزیشن نرم برای حرکت کل کارت موقع هاور */
-    transition: transform 0.4s ease, box-shadow 0.4s ease;
+.atra-knowledge-section .knowledge-header {
+    text-align: center;
+    margin-bottom: 60px;
 }
 
-/* ساخت لایه سبز رنگ مخفی که از بالا قراره بیاد پایین */
-.pricing-card-box::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
+.atra-knowledge-section .knowledge-title {
+    color: #1a1f36;
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 15px;
+    letter-spacing: -0.5px;
+}
+
+.atra-knowledge-section .knowledge-title span {
+    color: #10b981;
+    text-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+}
+
+.atra-knowledge-section .knowledge-subtitle {
+    color: #64748b;
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.atra-knowledge-section .knowledge-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 30px;
+}
+
+.atra-knowledge-section .glass-article-card {
+    background: rgba(25, 30, 36, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 24px;
+    padding: 20px;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.atra-knowledge-section .glass-article-card:hover {
+    transform: translateY(-10px);
+    border-color: rgba(16, 185, 129, 0.3);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 30px rgba(16, 185, 129, 0.1) inset;
+}
+
+.atra-knowledge-section .card-image-wrapper {
+    position: relative;
+    width: 100%;
+    height: 220px;
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 24px;
+}
+
+.atra-knowledge-section .card-image-wrapper img {
     width: 100%;
     height: 100%;
-
-    /* یک سبز بسیار ملایم (شفافیت ۵ درصد) */
-    background-color: rgba(15, 157, 88, 0.05);
-
-    z-index: -1; /* می‌اندازیمش پشت محتوای کارت تا روی متن‌ها رو نگیره */
-
-    /* تنظیمات انیمیشن */
-    transform-origin: top; /* نقطه شروع انیمیشن: بالاترین قسمت کارت */
-    transform: scaleY(0); /* در حالت عادی ارتفاعش صفره و دیده نمیشه */
-
-    /* انیمیشن نرم و جذاب با زمان 0.4 ثانیه */
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    object-fit: cover;
+    transition: transform 0.6s ease;
 }
 
-/* وقتی کاربر موس رو می‌بره روی کارت (اجرای افکت‌ها) */
-.pricing-card-box:hover::before {
-    transform: scaleY(1); /* ارتفاع لایه سبز به ۱۰۰٪ می‌رسه */
+.atra-knowledge-section .glass-article-card:hover .card-image-wrapper img {
+    transform: scale(1.08);
 }
 
-/* افکت اضافه و جذاب: خود کارت هم کمی میاد بالا و سایه‌اش بیشتر میشه */
-.pricing-card-box:hover {
-    transform: translateY(-8px); /* ۸ پیکسل حرکت نرم به سمت بالا */
-    box-shadow: 0 15px 35px rgba(15, 157, 88, 0.1); /* یک سایه سبز خیلی ملایم و جذاب */
-}
-
-/* اطمینان از اینکه متن‌ها، آیکون‌ها و دکمه‌های داخل کارت زیر رنگ نمیرن */
-.pricing-card-box > * {
-    position: relative;
+.atra-knowledge-section .article-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(0, 0, 0, 0.7);
+    color: #ffffff;
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     z-index: 2;
 }
 
-/* =========================================
-   9. REAL GRID & FEATURES (بخش ویژگی‌ها و موکاپ معلق)
-   ========================================= */
-.real-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
-    align-items: center;
-    padding: 5rem 0;
-}
-
-.real-content h2 {
-    font-size: 2.2rem;
-    font-weight: 800;
-    margin-bottom: 1.5rem;
-    line-height: 1.4;
-    color: #1e1e1e;
-}
-
-.real-content .highlight-text {
-    color: #00c896;
-}
-
-.real-desc {
-    font-size: 1.1rem;
-    color: #666;
-    line-height: 1.8;
-    margin-bottom: 2.5rem;
-}
-
-.real-footer {
-    margin-top: 2.5rem;
-    font-size: 0.95rem;
-    color: #888;
-    font-weight: 500;
-    border-right: 3px solid #00c896;
-    padding-right: 15px;
-}
-
-.real-features {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.2rem;
-}
-
-.feature-card {
+.atra-knowledge-section .card-content {
+    flex-grow: 1;
     display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 1rem 1.2rem;
-    background: #ffffff;
-    border-radius: 16px;
-    border: 1px solid rgba(0, 0, 0, 0.03);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    cursor: default;
+    flex-direction: column;
 }
 
-.feature-card .icon {
-    font-size: 1.5rem;
+.atra-knowledge-section .card-title {
+    color: #ffffff;
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+    line-height: 1.4;
+    transition: color 0.3s ease;
+}
+
+.atra-knowledge-section .glass-article-card:hover .card-title {
+    color: #34d399;
+}
+
+.atra-knowledge-section .card-excerpt {
+    color: #94a3b8;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    margin-bottom: 25px;
+    flex-grow: 1;
+}
+
+.atra-knowledge-section .card-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #34d399;
+    font-weight: 600;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    align-self: flex-start;
+}
+
+.atra-knowledge-section .card-link svg {
     transition: transform 0.3s ease;
 }
 
-.feature-card .text {
-    font-weight: 600;
-    color: #333;
-    font-size: 0.95rem;
+.atra-knowledge-section .card-link:hover {
+    text-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
 }
 
-.feature-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0, 200, 150, 0.15);
-    border-color: rgba(0, 200, 150, 0.2);
-}
-
-.feature-card:hover .icon {
-    transform: scale(1.2);
-}
-
-.real-image-wrapper {
-    position: relative;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    perspective: 1200px;
-}
-
-.glow-halo {
-    position: absolute;
-    width: 300px;
-    height: 400px;
-    background: radial-gradient(circle, rgba(0, 200, 150, 0.3) 0%, rgba(255, 255, 255, 0) 70%);
-    filter: blur(40px);
-    z-index: 0;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
-@keyframes floatingMockup {
-    0% {
-        transform: translateY(0px) rotateX(5deg) rotateY(-15deg);
-    }
-    50% {
-        transform: translateY(-15px) rotateX(5deg) rotateY(-15deg);
-    }
-    100% {
-        transform: translateY(0px) rotateX(5deg) rotateY(-15deg);
-    }
-}
-
-.isometric-mockup {
-    position: relative;
-    z-index: 1;
-    transform: rotateX(5deg) rotateY(-15deg);
-    animation: floatingMockup 5s ease-in-out infinite;
-    box-shadow: -20px 30px 50px rgba(0, 0, 0, 0.2);
-    border-radius: 36px;
-}
-
-.phone-frame {
-    background: #111;
-    padding: 10px;
-    border-radius: 36px;
-    overflow: hidden;
-    border: 1px solid #333;
-}
-
-.phone-frame img {
-    display: block;
-    width: 100%;
-    max-width: 280px;
-    height: auto;
-    border-radius: 28px;
-    object-fit: cover;
+.atra-knowledge-section .card-link:hover svg {
+    transform: translateX(-5px);
 }
 
 /* ==============================================================
-FAQ
-=============================================================== */
-/* ===============================================================
-   بخش سوالات متداول (FAQ) - استایل فوق مینیمال و ظریف
-   =============================================================== */
+   15. FAQ SECTION (سوالات متداول)
+   ============================================================== */
 .premium-faq-section {
     padding: 80px 20px;
-    background-color: #f8f9fa; /* پس‌زمینه بسیار روشن‌تر و ملایم‌تر */
-    font-family: system-ui, -apple-system, sans-serif;
+    background-color: #f8f9fa;
     direction: rtl;
 }
 
 .faq-container {
-    max-width: 1100px; /* کمی جمع‌وجورتر برای تمرکز بهتر روی متن */
+    max-width: 1100px;
     margin: 0 auto;
 }
 
-/* هدر مینیمال */
 .faq-header {
     text-align: center;
     margin-bottom: 50px;
@@ -1986,10 +2007,10 @@ FAQ
 
 .faq-badge {
     display: inline-block;
-    background: transparent; /* حذف بک‌گراند رنگی */
-    color: #00cc55;
+    background: #ecfdf5;
+    color: #047857;
     padding: 6px 16px;
-    border: 1px solid rgba(0, 204, 85, 0.3); /* حاشیه بسیار ظریف */
+    border: 1px solid rgba(4, 120, 87, 0.3);
     border-radius: 50px;
     font-size: 0.85rem;
     font-weight: 600;
@@ -1997,65 +2018,59 @@ FAQ
 }
 
 .faq-title {
-    font-size: 2.2rem; /* کاهش سایز برای جلوگیری از زمختی */
-    color: #1a1f36; /* رنگ سرمه‌ای/خاکستری بسیار تیره و شیک */
+    font-size: 2.2rem;
+    color: #1a1f36;
     margin: 0 0 10px 0;
     font-weight: 800;
-    letter-spacing: -0.5px; /* فشرده‌سازی ظریف حروف */
+    letter-spacing: -0.5px;
 }
 
 .text-neon-green {
-    color: #00cc55;
+    color: #047857;
 }
 
 .faq-subtitle {
-    color: #697386; /* رنگ ملایم‌تر برای زیرنویس */
+    color: #697386;
     font-size: 1.05rem;
     font-weight: 400;
 }
 
-/* گرید دو ستونه */
 .faq-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 20px; /* فاصله ظریف‌تر بین کارت‌ها */
+    gap: 20px;
     align-items: start;
 }
 
-/* استایل کارت سوالات - تمرکز روی ظرافت */
 .faq-item {
     background: #ffffff;
-    border: 1px solid rgba(0, 0, 0, 0.03); /* حاشیه نامحسوس */
-    border-radius: 16px; /* گوشه‌های نرم‌تر و مدرن‌تر */
+    border: 1px solid rgba(0, 0, 0, 0.04);
+    border-radius: 16px;
     overflow: hidden;
-    /* سایه بسیار ملایم شبیه استایل‌های اپل */
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.02), 0 1px 3px rgba(0, 0, 0, 0.03);
     transition: all 0.3s ease;
 }
 
 .faq-item:hover {
-    transform: translateY(-2px); /* حرکت بسیار نرم */
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04); /* سایه نرم در هاور */
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
 }
 
-/* در حالت اکتیو، از رنگ‌های جیغ دوری می‌کنیم */
 .faq-item.active {
-    border-color: rgba(0, 204, 85, 0.2);
-    box-shadow: 0 8px 24px rgba(0, 204, 85, 0.06);
+    border-color: rgba(4, 120, 87, 0.2);
+    box-shadow: 0 8px 24px rgba(4, 120, 87, 0.06);
 }
 
-/* خط سبز ظریف کنار کارت‌های خاص (دقیقاً مثل عکس) */
 .highlight-offline {
-    border-right: 3px solid #00cc55; /* ضخامت کمتر و ظریف‌تر */
+    border-right: 3px solid #047857;
 }
 
-/* دکمه سوال */
 .faq-question {
     width: 100%;
     text-align: right;
     background: transparent;
     border: none;
-    padding: 24px; /* پدینگ متعادل‌تر */
+    padding: 24px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -2064,25 +2079,24 @@ FAQ
 }
 
 .q-text {
-    font-size: 1.05rem; /* فونت ظریف‌تر */
-    font-weight: 600; /* کاهش وزن فونت از 700 به 600 */
-    color: #2d3748; /* خاکستری تیره نرم */
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #2d3748;
     transition: color 0.3s ease;
     line-height: 1.5;
     padding-left: 15px;
 }
 
 .faq-item.active .q-text {
-    color: #00a344; /* سبز ملایم‌تر در حالت باز شده */
+    color: #047857;
 }
 
-/* باکس آیکون - کوچک و مینیمال (مثل عکس) */
 .q-icon-box {
     flex-shrink: 0;
-    width: 32px; /* کوچکتر شدن باکس */
+    width: 32px;
     height: 32px;
     border-radius: 50%;
-    background: #f0f2f5; /* رنگ پس‌زمینه بسیار ملایم */
+    background: #f0f2f5;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -2090,24 +2104,22 @@ FAQ
 }
 
 .q-icon {
-    width: 16px; /* آیکون کوچکتر و ظریف‌تر */
+    width: 16px;
     height: 16px;
-    color: #a0aec0; /* رنگ خاکستری روشن برای آیکون بسته */
-    stroke-width: 2; /* ضخامت کمتر خطوط آیکون */
+    color: #a0aec0;
+    stroke-width: 2;
     transition: transform 0.3s ease;
 }
 
 .faq-item.active .q-icon-box {
-    background: rgba(0, 204, 85, 0.1); /* پس‌زمینه سبز بسیار شفاف */
-    box-shadow: none; /* حذف سایه اضافه */
+    background: rgba(4, 120, 87, 0.1);
 }
 
 .faq-item.active .q-icon {
-    color: #00cc55;
+    color: #047857;
     transform: rotate(180deg);
 }
 
-/* انیمیشن باز شدن (CSS Grid) */
 .faq-answer {
     display: grid;
     grid-template-rows: 0fr;
@@ -2122,12 +2134,11 @@ FAQ
     overflow: hidden;
 }
 
-/* استایل متن پاسخ */
 .answer-inner p {
-    padding: 0 24px 24px 24px; /* هماهنگ با پدینگ سوال */
+    padding: 0 24px 24px 24px;
     margin: 0;
-    color: #697386; /* رنگ خوانا و ملایم برای چشم */
-    font-size: 0.95rem; /* کمی کوچکتر از سوال برای ایجاد سلسله مراتب بصری */
+    color: #697386;
+    font-size: 0.95rem;
     line-height: 1.8;
     font-weight: 400;
 }
@@ -2137,449 +2148,16 @@ FAQ
     font-weight: 600;
 }
 
-/* ریسپانسیو برای تبلت و موبایل */
-@media (max-width: 900px) {
-    .faq-grid {
-        grid-template-columns: 1fr; /* تبدیل به تک ستونه */
-    }
-
-    .faq-title {
-        font-size: 1.8rem;
-    }
-
-    .faq-item {
-        border-radius: 12px; /* گوشه‌های کمی تیزتر در موبایل */
-    }
-}
-
-/* =========================================
-     FOOTER
-   ========================================= */
-/* Atra Ultra Premium Footer */
-.atra-ultra-footer {
-    position: relative;
-    background: rgba(255, 255, 255, 0.5);
-    backdrop-filter: blur(25px);
-    -webkit-backdrop-filter: blur(25px);
-    border-top: 1px solid rgba(0, 179, 71, 0.2);
-    padding: 80px 5% 20px;
-    direction: rtl;
-    font-family: 'Vazirmatn', Tahoma, sans-serif;
-    overflow: hidden;
-    box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.02);
-}
-
-.footer-glow {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(80px);
-    z-index: -1;
-    opacity: 0.6;
-    animation: floatGlow 8s infinite alternate;
-}
-.glow-left {
-    width: 400px; height: 400px;
-    background: radial-gradient(circle, rgba(0, 255, 102, 0.15) 0%, rgba(255, 255, 255, 0) 70%);
-    bottom: -100px; left: -100px;
-}
-.glow-right {
-    width: 300px; height: 300px;
-    background: radial-gradient(circle, rgba(0, 179, 71, 0.1) 0%, rgba(255, 255, 255, 0) 70%);
-    top: -50px; right: 10%;
-    animation-delay: 2s;
-}
-
-@keyframes floatGlow {
-    0% { transform: translateY(0) scale(1); }
-    100% { transform: translateY(-30px) scale(1.1); }
-}
-
-.footer-content-wrapper {
-    max-width: 1300px;
-    margin: 0 auto;
-    position: relative;
-    z-index: 1;
-}
-
-/* ساختار جدید ۴ ستونه - متناسب با خبرنامه */
-.footer-grid {
-    display: grid;
-    grid-template-columns: 1.8fr 1fr 1.5fr 1fr;
-    gap: 40px;
-    margin-bottom: 50px;
-}
-
-.footer-col { display: flex; flex-direction: column; }
-
-.footer-main-logo {
-    max-width: 140px;
-    height: auto;
-    margin-bottom: 20px;
-    filter: drop-shadow(0 4px 6px rgba(0, 179, 71, 0.2));
-}
-
-.brand-desc {
-    color: #444; font-size: 15px; line-height: 1.9; margin-bottom: 25px;
-}
-
-/* Social Icons - اضافه شدن یوتیوب و لینکدین */
-.social-icons { display: flex; gap: 12px; flex-wrap: wrap; }
-.social-link {
-    display: flex; align-items: center; justify-content: center;
-    width: 42px; height: 42px;
-    border-radius: 12px;
-    background: rgba(255, 255, 255, 0.8);
-    border: 1px solid rgba(0, 179, 71, 0.1);
-    color: #00b347;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-.social-link svg { width: 20px; height: 20px; }
-.social-link:hover {
-    background: #00b347; color: #fff;
-    transform: translateY(-6px) scale(1.05);
-    box-shadow: 0 10px 20px rgba(0, 179, 71, 0.3);
-    border-color: #00b347;
-}
-
-/* Titles */
-.footer-title {
-    font-size: 18px; font-weight: 800; color: #111;
-    margin-bottom: 25px; position: relative; padding-right: 18px;
-}
-.footer-title::before {
-    content: ''; position: absolute; right: 0; top: 50%; transform: translateY(-50%);
-    width: 5px; height: 18px;
-    background: linear-gradient(to bottom, #00ff66, #00b347);
-    border-radius: 4px; box-shadow: 0 0 10px rgba(0, 255, 102, 0.4);
-}
-
-.footer-links { list-style: none; padding: 0; margin: 0; }
-.footer-links li { margin-bottom: 15px; }
-.footer-links a {
-    color: #555; text-decoration: none; font-size: 15px; font-weight: 500;
-    transition: all 0.3s ease; display: inline-flex; align-items: center;
-}
-.footer-links a::before {
-    content: '←'; margin-left: 8px; color: #00b347;
-    opacity: 0; transform: translateX(10px); transition: all 0.3s ease;
-}
-.footer-links a:hover { color: #00b347; transform: translateX(-5px); }
-.footer-links a:hover::before { opacity: 1; transform: translateX(0); }
-/* =========================================
-   Footer Bottom & Legal Links
-========================================= */
-.footer-bottom {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-top: 1px solid rgba(0, 179, 71, 0.15); /* خط جداکننده محو و شیک */
-    padding-top: 20px;
-    margin-top: 20px;
-    flex-wrap: wrap;
-    gap: 15px;
-}
-
-.footer-copyright p {
-    margin: 0;
-    color: #555;
-    font-size: 14px;
-    font-weight: 500;
-}
-
-.footer-legal-links {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.footer-legal-links a {
-    color: #666;
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    position: relative;
-}
-
-.footer-legal-links a:hover {
-    color: #00b347;
-    text-shadow: 0 0 8px rgba(0, 179, 71, 0.3); /* یه افکت درخشش ریز موقع هاور */
-}
-
-.footer-legal-links .separator {
-    color: #b3b3b3;
-    font-size: 16px;
-    user-select: none;
-}
-/* ==================================================
-   استایل‌های بخش پایینی فوتر (کپی‌رایت و لینک‌ها)
-================================================== */
-
-/* کانتینر اصلی که همه چیز رو دقیقاً وسط می‌کشه */
-.footer-bottom-container {
-    display: flex;
-    flex-direction: column; /* چیدمان زیر هم */
-    align-items: center; /* وسط‌چین کردن افقی */
-    justify-content: center;
-    text-align: center;
-    padding: 20px 0;
-    gap: 10px; /* فاصله دقیق بین متن کپی‌رایت و لینک‌ها */
-    border-top: 1px solid #e2e8f0; /* یه خط جداکننده خیلی ملایم در بالای این بخش (اختیاری) */
-}
-
-/* متن کپی‌رایت */
-.copyright-text {
-    color: #64748b; /* طوسی ملایم اما کاملاً خوانا */
-    font-size: 14px;
-    margin: 0;
-}
-
-/* رنگ کلمه آترا در کپی‌رایت */
-.atra-highlight {
-    color: #10b981; /* سبز جذاب آترا */
-    font-weight: 700;
-}
-
-/* کانتینر لینک‌های قانونی */
-.footer-legal-links {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px; /* فاصله بین لینک‌ها و نقطه وسط */
-}
-
-/* نقطه جداکننده بین لینک‌ها */
-.footer-legal-links .separator {
-    color: #94a3b8;
-    font-size: 18px;
-    line-height: 1;
-}
-
-/* استایل خود لینک‌ها (مشکل رنگ اینجا حل شد!) */
-.footer-legal-links a {
-    position: relative;
-    color: #475569; /* رنگ طوسی تیره و کاملاً مشخص برای دیده شدن عالی */
-    font-size: 14px;
-    font-weight: 600; /* کمی بولدتر تا به چشم بیاد */
-    text-decoration: none;
-    padding-bottom: 4px;
-    transition: color 0.3s ease;
-}
-
-/* افکت خط زیرین مخفی */
-.footer-legal-links a::after {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 2px;
-    bottom: 0;
-    right: 0;
-    background-color: #10b981; /* خط متحرک به رنگ سبز آترا */
-    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    border-radius: 2px;
-}
-
-/* وقتی موس میره روی لینک‌ها */
-.footer-legal-links a:hover {
-    color: #10b981; /* متن هم سبز میشه */
-}
-
-/* ظاهر شدن خط زیرین موقع هاور */
-.footer-legal-links a:hover::after {
-    width: 100%;
-}
-
-/* ریسپانسیو کردن بخش پایین فوتر برای موبایل */
-@media (max-width: 768px) {
-    .footer-bottom {
-        flex-direction: column;
-        justify-content: center;
-        text-align: center;
-        padding-top: 25px;
-    }
-
-    .footer-legal-links {
-        justify-content: center;
-        margin-top: 5px;
-    }
-}
-
-/* Newsletter Form (مینیمال و شیشه‌ای) */
-.newsletter-desc {
-    font-size: 14px; color: #666; margin-bottom: 15px; line-height: 1.6;
-}
-.newsletter-form { position: relative; }
-.input-group {
-    display: flex;
-    background: rgba(255, 255, 255, 0.6);
-    border: 1px solid rgba(0, 179, 71, 0.2);
-    border-radius: 12px;
-    overflow: hidden;
-    transition: all 0.3s ease;
-}
-.input-group:focus-within {
-    border-color: #00b347;
-    box-shadow: 0 0 15px rgba(0, 179, 71, 0.15);
-    background: #fff;
-}
-.input-group input {
-    flex: 1; border: none; background: transparent;
-    padding: 12px 15px; font-family: inherit; font-size: 13px;
-    outline: none; color: #333;
-}
-.input-group input::placeholder { color: #aaa; }
-.input-group .submit-btn {
-    background: #00b347; border: none; color: white;
-    padding: 0 15px; cursor: pointer; transition: 0.3s ease;
-    display: flex; align-items: center; justify-content: center;
-}
-.input-group .submit-btn svg { width: 20px; height: 20px; }
-.input-group .submit-btn:hover { background: #00993d; }
-
-/* App Store Images (کلاس‌های جدید برای عکس‌ها) */
-.app-store-badges {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-.store-badge-link {
-    display: inline-block;
-    transition: all 0.3s ease;
-}
-.store-badge-img {
-    height: 45px; /* ارتفاع استاندارد استورها */
-    width: auto;
-    max-width: 100%;
-    object-fit: contain;
-    border-radius: 8px; /* گردی ملایم گوشه‌ها */
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-.store-badge-link:hover .store-badge-img {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 20px rgba(0, 179, 71, 0.2);
-}
-
-.contact-info-mini p {
-    color: #666; font-size: 14px; font-weight: 600;
-    margin-top: 20px;
-}
-
-/* Footer Bottom */
-.footer-bottom {
-    text-align: center; padding-top: 25px;
-    border-top: 1px solid rgba(0, 179, 71, 0.15);
-    color: #777; font-size: 14px;
-}
-.footer-bottom strong { color: #00b347; }
-
-/* Responsive */
-@media (max-width: 1024px) {
-    .footer-grid { grid-template-columns: repeat(2, 1fr); gap: 50px; }
-}
-@media (max-width: 768px) {
-    .atra-ultra-footer { padding: 50px 5% 20px; }
-    .footer-grid { grid-template-columns: 1fr; gap: 40px; }
-    .footer-col { align-items: center; text-align: center; }
-    .footer-title::before { display: none; }
-    .footer-links a::before { display: none; }
-    .footer-links a:hover { transform: none; }
-    .newsletter-desc { text-align: center; }
-}
-
-
-/* Glass Scroll to Top Button */
-.glass-scroll-btn {
-    position: fixed;
-    bottom: 30px;
-    left: 30px; /* چون سایت راست‌چین است، دکمه در سمت چپ قرار می‌گیرد */
-    width: 50px;
-    height: 50px;
-    background: rgba(255, 255, 255, 0.4);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    border: 1px solid rgba(0, 179, 71, 0.3);
-    border-radius: 50%;
-    color: #00b347;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 999;
-
-    /* افکت مخفی بودن در ابتدا */
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(20px);
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-
-    /* انیمیشن پالس سبز رنگ */
-    animation: greenPulse 2s infinite;
-}
-
-.glass-scroll-btn svg {
-    width: 24px;
-    height: 24px;
-    transition: transform 0.3s ease;
-}
-
-/* حالتی که دکمه با اسکرول ظاهر می‌شود */
-.glass-scroll-btn.show {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-}
-
-/* افکت هاور (رفتن موس روی دکمه) */
-.glass-scroll-btn:hover {
-    background: #00b347;
-    color: #ffffff;
-    box-shadow: 0 10px 25px rgba(0, 179, 71, 0.4);
-    border-color: #00b347;
-    animation: none; /* توقف پالس در حالت هاور */
-}
-
-.glass-scroll-btn:hover svg {
-    transform: translateY(-3px); /* پرش کوچک فلش به سمت بالا */
-}
-
-/* تعریف انیمیشن پالس */
-@keyframes greenPulse {
-    0% {
-        box-shadow: 0 0 0 0 rgba(0, 179, 71, 0.4);
-    }
-    70% {
-        box-shadow: 0 0 0 15px rgba(0, 179, 71, 0);
-    }
-    100% {
-        box-shadow: 0 0 0 0 rgba(0, 179, 71, 0);
-    }
-}
-
-/* ریسپانسیو برای موبایل */
-@media (max-width: 768px) {
-    .glass-scroll-btn {
-        bottom: 20px;
-        left: 20px;
-        width: 45px;
-        height: 45px;
-    }
-}
-
-/* =========================================================
-   استایل‌های بخش همکاران ما (Infinite Marquee)
-   ========================================================= */
-
-/* کانتینر اصلی بخش */
+/* ==============================================================
+   16. PARTNERS MARQUEE SECTION (اسلایدر همکاران)
+   ============================================================== */
 .atra-partners-section {
     padding: 80px 0;
     position: relative;
-    overflow: hidden; /* جلوگیری از ایجاد اسکرول افقی در کل سایت */
-    background: transparent; /* بک‌گراند رو می‌تونی با سایتت ست کنی */
+    overflow: hidden;
+    background: transparent;
 }
 
-/* هدر بخش */
 .atra-partners-header {
     text-align: center;
     margin-bottom: 50px;
@@ -2597,32 +2175,26 @@ FAQ
     color: #666;
 }
 
-/* کانتینر اسلایدر با ماسک برای محو شدن دو طرف */
 .atra-partners-slider {
     display: flex;
     overflow: hidden;
     width: 100%;
-    /* ایجاد یک گرادیانت ماسک که وسط شفاف و لبه‌ها محو هستن */
     -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
     mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
 }
 
-/* توقف انیمیشن وقتی ماوس میره روی اسلایدر (خیلی کاربرپسنده) */
 .atra-partners-slider:hover .atra-partners-track {
     animation-play-state: paused;
 }
 
-/* نواری که آیتم‌ها داخلش هستن و حرکت می‌کنه */
 .atra-partners-track {
     display: flex;
     align-items: center;
-    gap: 50px; /* فاصله بین دایره‌ها */
-    padding-left: 50px; /* باید برابر با gap باشه تا لوپ یکدست بشه */
-    /* زمان 25s سرعت حرکت رو تعیین می‌کنه، می‌تونی کم و زیادش کنی */
+    gap: 50px;
+    padding-left: 50px;
     animation: atraScrollRTL 25s linear infinite;
 }
 
-/* هر آیتم (دایره + متن) */
 .atra-partner-item {
     display: flex;
     flex-direction: column;
@@ -2632,59 +2204,50 @@ FAQ
     transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-/* افکت هاور: پرش نرم به بالا */
 .atra-partner-item:hover {
     transform: translateY(-10px);
 }
 
-/* دایره شیشه‌ای (Glassmorphism) */
 .atra-partner-circle {
     width: 110px;
     height: 110px;
     border-radius: 50%;
-    /* استایل شیشه‌ای */
-    background: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.6);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border: 1px solid rgba(255, 255, 255, 0.8);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.04);
-
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 20px; /* فضای داخلی برای لوگو */
+    padding: 20px;
     transition: all 0.4s ease;
 }
 
-/* تغییر رنگ و درخشش دایره در زمان هاور */
 .atra-partner-item:hover .atra-partner-circle {
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.95);
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
     border-color: #fff;
 }
 
-/* استایل عکس لوگوها */
 .atra-partner-circle img {
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
-    /* این خط لوگوها رو سیاه و سفید می‌کنه تا یکدست بشن (اختیاری) */
     filter: grayscale(100%) opacity(0.7);
     transition: all 0.4s ease;
 }
 
-/* در زمان هاور لوگو رنگی و پررنگ میشه */
 .atra-partner-item:hover .atra-partner-circle img {
     filter: grayscale(0%) opacity(1);
     transform: scale(1.1);
 }
 
-/* نام شرکت زیر دایره */
 .atra-partner-name {
     font-size: 14px;
     font-weight: 600;
     color: #444;
-    white-space: nowrap; /* جلوگیری از دو خط شدن اسم */
+    white-space: nowrap;
     opacity: 0.8;
     transition: color 0.3s ease;
 }
@@ -2694,363 +2257,439 @@ FAQ
     opacity: 1;
 }
 
-/* =========================================================
-   انیمیشن کلیدی برای حرکت پیوسته (RTL Support)
-   ========================================================= */
 @keyframes atraScrollRTL {
-    0% {
-        /* برای سایت‌های راست‌چین از 0 به مثبت صد حرکت می‌دیم */
-        transform: translateX(0);
-    }
-    100% {
-        transform: translateX(100%);
-    }
+    0% { transform: translateX(0); }
+    100% { transform: translateX(100%); }
 }
 
-/* ریسپانسیو برای تبلت و موبایل */
-@media (max-width: 768px) {
-    .atra-partner-circle {
-        width: 80px;
-        height: 80px;
-        padding: 15px;
-    }
-
-    .atra-partner-name {
-        font-size: 13px;
-    }
-
-    .atra-partners-track {
-        gap: 30px;
-        padding-left: 30px;
-    }
-
-    .atra-partners-title {
-        font-size: 22px;
-    }
+/* ==============================================================
+   17. FOOTER SECTION (فوتر شیشه‌ای تیره آترا)
+   ============================================================== */
+.atra-ultra-footer {
+    position: relative;
+    background: #090d16;
+    color: #94a3b8;
+    padding: 70px 5% 25px;
+    direction: rtl;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    overflow: hidden;
 }
 
-
-/* =========================================
-   10. MEDIA QUERIES (ریسپانسیو سیستم)
-   ========================================= */
-
-@media (max-width: 1024px) {
-    .top-nav, .bottom-nav {
-        gap: 15px;
-    }
-
-    .top-bar, .bottom-bar {
-        padding: 10px 15px;
-    }
+.footer-glow {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(90px);
+    z-index: 0;
+    opacity: 0.6;
+    pointer-events: none;
 }
 
-/* --- تنظیمات حیاتی هدر برای تبلت و موبایل ($992px$) --- */
-@media screen and (max-width: 992px) {
-    .atra-hero-banner {
-        height: auto;
-        padding: 80px 0;
-    }
-
-    .atra-hero-container {
-        flex-direction: column;
-        text-align: center;
-    }
-
-    .atra-hero-content {
-        max-width: 100%;
-        padding-left: 0;
-        margin-bottom: 60px;
-    }
-
-    .atra-store-buttons {
-        justify-content: center;
-    }
-
-    .atra-hero-mockups {
-        height: 500px;
-        width: 100%;
-    }
-
-    .real-grid {
-        grid-template-columns: 1fr;
-        gap: 3rem;
-    }
-
-    .isometric-mockup {
-        transform: rotateX(5deg) rotateY(0deg);
-        animation: none;
-    }
-
-    /* ✨ حل مشکل چیدمان دکمه‌های هدر در صفحات کوچکتر ✨ */
-    .top-right-section {
-        justify-content: center;
-        width: 100%;
-    }
-
-    /* دکمه خوش‌آمدگویی را تمام‌عرض کرده و به بالای سایر دکمه‌ها می‌فرستیم */
-    .minimal-btn.user-badge {
-        width: 100%;
-        order: -1;
-        justify-content: center;
-        margin-bottom: 8px;
-    }
+.glow-left {
+    width: 320px; height: 320px;
+    background: rgba(4, 120, 87, 0.18);
+    top: -60px; right: -80px;
 }
 
-@media (max-width: 850px) {
-    .top-nav {
-        display: none;
-    }
-
-    .bottom-bar {
-        flex-direction: column;
-        gap: 15px;
-        align-items: flex-start;
-    }
-
-    .bottom-nav {
-        flex-wrap: wrap;
-        gap: 15px;
-    }
+.glow-right {
+    width: 300px; height: 300px;
+    background: rgba(16, 185, 129, 0.12);
+    bottom: 0; left: -50px;
 }
 
-@media screen and (max-width: 768px) {
-    .minimal-btn {
-        font-size: 13px;
-        padding: 6px 12px;
-    }
-}
-
-@media (max-width: 576px) {
-    .atra-hero-content h1 {
-        font-size: 36px;
-    }
-
-    .atra-hero-content p {
-        font-size: 18px;
-    }
-
-    .atra-store-buttons img {
-        height: 45px;
-    }
-
-    .atra-phone-android {
-        display: none;
-    }
-
-    .atra-phone-iphone {
-        width: 240px;
-        height: 490px;
-        transform: rotate(10deg) translate(0px, 0px);
-    }
-
-    .atra-hero-banner:hover .atra-phone-iphone {
-        transform: rotate(8deg) translate(0, -10px) scale(1.02);
-    }
-}
-
-@media (max-width: 500px) {
-    .top-bar {
-        flex-direction: column;
-        gap: 15px;
-    }
-
-    .top-right-section {
-        width: 100%;
-        justify-content: center;
-    }
-}
-/* ==========================================================================
-   Responsive Design for Knowledge Section & Floating Button
-   ========================================================================== */
-
-/* 1. تنظیمات پایه گرید برای دسکتاپ (اگر از قبل نداری، اینو حتما بذار) */
-.atra-knowledge-section .knowledge-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3 ستون در دسکتاپ */
-    gap: 30px;
-    padding: 0 20px;
-    max-width: 1200px;
+.footer-content-wrapper {
+    max-width: 1280px;
     margin: 0 auto;
+    position: relative;
+    z-index: 1;
 }
 
-/* ==========================================================================
-   تبلت‌های بزرگ و لپ‌تاپ‌های کوچک (حداکثر عرض 1024px)
-   ========================================================================== */
-@media screen and (max-width: 1024px) {
-    .atra-knowledge-section {
-        padding: 60px 0; /* کاهش فاصله کلی سکشن */
-    }
-
-    .atra-knowledge-section .knowledge-grid {
-        gap: 20px; /* کاهش فاصله بین کارت‌ها */
-        padding: 0 15px;
-    }
-
-    .atra-knowledge-section .knowledge-title {
-        font-size: 2.2rem; /* تنظیم سایز تیتر */
-    }
+.footer-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr 1.2fr;
+    gap: 40px;
+    margin-bottom: 50px;
 }
 
-/* ==========================================================================
-   تبلت‌ها و موبایل‌های افقی (حداکثر عرض 768px)
-   ========================================================================== */
-@media screen and (max-width: 768px) {
-    /* تبدیل گرید به 2 ستون یا 1 ستون بسته به نیاز، اینجا 2 ستون میکنیم */
-    .atra-knowledge-section .knowledge-grid {
+.footer-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.footer-main-logo {
+    max-width: 140px;
+    height: auto;
+    margin-bottom: 18px;
+}
+
+.brand-desc {
+    color: #94a3b8;
+    font-size: 0.9rem;
+    line-height: 1.85;
+    margin-bottom: 22px;
+}
+
+.social-icons {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: #cbd5e1;
+    transition: all 0.25s ease;
+}
+
+.social-link svg {
+    width: 18px;
+    height: 18px;
+}
+
+.social-link:hover {
+    background: #047857;
+    color: #fff;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(4, 120, 87, 0.35);
+}
+
+.footer-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #f8fafc;
+    margin-bottom: 22px;
+    position: relative;
+    display: inline-block;
+}
+
+.footer-title::after {
+    content: "";
+    position: absolute;
+    bottom: -6px;
+    right: 0;
+    width: 24px;
+    height: 2.5px;
+    background: #10b981;
+    border-radius: 2px;
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-links li {
+    margin-bottom: 12px;
+}
+
+.footer-links li a {
+    color: #94a3b8;
+    font-size: 0.88rem;
+    transition: all 0.2s ease;
+    display: inline-block;
+}
+
+.footer-links li a:hover {
+    color: #34d399;
+    transform: translateX(-5px);
+}
+
+.newsletter-desc {
+    font-size: 0.86rem;
+    line-height: 1.7;
+    color: #94a3b8;
+    margin-bottom: 16px;
+}
+
+.newsletter-form {
+    position: relative;
+}
+
+.input-group {
+    display: flex;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 12px;
+    padding: 4px;
+    transition: border-color 0.2s;
+}
+
+.input-group:focus-within {
+    border-color: #10b981;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+}
+
+.input-group input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    padding: 10px 14px;
+    font-size: 0.86rem;
+    color: #fff;
+    outline: none;
+}
+
+.input-group input::placeholder {
+    color: #64748b;
+}
+
+.input-group .submit-btn {
+    background: #047857;
+    border: none;
+    color: white;
+    border-radius: 9px;
+    width: 42px;
+    cursor: pointer;
+    transition: 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.input-group .submit-btn:hover {
+    background: #059669;
+    transform: scale(1.04);
+}
+
+.contact-box-mini {
+    margin-top: 20px;
+    padding: 14px 16px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 12px;
+}
+
+.contact-box-mini p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: #cbd5e1;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.contact-box-mini a {
+    color: #34d399;
+    text-decoration: none;
+    font-weight: 700;
+    direction: ltr;
+}
+
+.footer-bottom-container {
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding-top: 24px;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.copyright-text {
+    color: #64748b;
+    font-size: 0.85rem;
+    margin: 0;
+}
+
+.atra-highlight {
+    color: #34d399;
+    font-weight: 700;
+}
+
+.footer-legal-links {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 0.84rem;
+}
+
+.footer-legal-links a {
+    color: #64748b;
+    transition: color 0.2s;
+}
+
+.footer-legal-links a:hover {
+    color: #10b981;
+}
+
+/* ==============================================================
+   18. FLOATING BUTTON & SCROLL TO TOP
+   ============================================================== */
+.glass-scroll-btn {
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
+    width: 50px;
+    height: 50px;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(4, 120, 87, 0.3);
+    border-radius: 50%;
+    color: #047857;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.glass-scroll-btn.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.glass-scroll-btn:hover {
+    background: #047857;
+    color: #ffffff;
+    box-shadow: 0 10px 25px rgba(4, 120, 87, 0.4);
+}
+
+.atra-floating-sales-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: #047857;
+    padding: 12px 24px;
+    border-radius: 50px;
+    text-decoration: none;
+    z-index: 9999;
+    box-shadow: 0 10px 25px rgba(4, 120, 87, 0.4);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(50px);
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.atra-floating-sales-btn.is-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.atra-floating-sales-btn:hover {
+    background: #059669;
+    transform: translateY(-5px) !important;
+}
+
+.atra-floating-sales-btn .floating-btn-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.atra-floating-sales-btn .phone-icon,
+.atra-floating-sales-btn .btn-text {
+    color: #ffffff;
+    font-weight: 700;
+}
+
+/* ==============================================================
+   19. UNIFIED RESPONSIVE MEDIA QUERIES (پوشش کامل تبلت و موبایل)
+   ============================================================== */
+@media (max-width: 1100px) {
+    .pillar-cards-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 20px;
     }
-
-    .atra-knowledge-section .knowledge-title {
-        font-size: 2rem;
-        margin-bottom: 10px;
-    }
-
-    /* تنظیمات دکمه شناور برای تبلت */
-    .atra-floating-sales-btn {
-        bottom: 20px;
-        right: 20px;
-        padding: 10px 20px;
-    }
 }
 
-/* ==========================================================================
-   گوشی‌های هوشمند (حداکثر عرض 576px - کاملا موبایلی)
-   ========================================================================== */
-@media screen and (max-width: 576px) {
-    .atra-knowledge-section {
-        padding: 40px 0;
-    }
+@media (max-width: 1024px) {
+    .top-nav, .bottom-nav { gap: 15px; }
+    .top-bar, .bottom-bar { padding: 10px 15px; }
+    .footer-grid { grid-template-columns: repeat(2, 1fr); gap: 40px; }
 
-    /* تبدیل چیدمان به 1 ستون کامل برای موبایل */
-    .atra-knowledge-section .knowledge-grid {
+    .atra-hero-container {
         grid-template-columns: 1fr;
-        gap: 25px; /* فاصله عمودی بین کارت‌ها در موبایل */
+        gap: 48px;
+        text-align: center;
+    }
+    .hero-content-col {
+        align-items: center;
+        text-align: center;
+    }
+    .hero-main-title {
+        font-size: 2.2rem;
+    }
+    .hero-cta-actions,
+    .hero-stats-band {
+        justify-content: center;
     }
 
-    /* استایل‌های کارت در حالت موبایل برای حفظ زیبایی */
-    .atra-knowledge-section .knowledge-card {
-        min-height: 250px; /* ارتفاع متناسب برای موبایل */
-        border-radius: 15px;
-    }
-
-    /* تنظیم تیتر اصلی بخش مقالات برای صفحه نمایش کوچک */
-    .atra-knowledge-section .knowledge-title {
-        font-size: 1.7rem;
-        text-align: center; /* وسط‌چین کردن تیتر در موبایل معمولاً زیباتره */
-    }
-
-    /*
-       تنظیمات بسیار مهم دکمه شناور در موبایل:
-       سایز آیکون و فونت رو کمی جمع‌وجورتر می‌کنیم تا مزاحم تایپ یا اسکرول کاربر نشه
-    */
-    .atra-floating-sales-btn {
-        bottom: 15px;
-        right: 15px;
-        padding: 10px 15px;
-        border-radius: 40px;
-    }
-
-    .atra-floating-sales-btn .btn-text {
-        font-size: 0.9rem;
-    }
-
-    .atra-floating-sales-btn .phone-icon {
-        width: 20px;
-        height: 20px;
-    }
+    .atra-knowledge-section { padding: 60px 0; }
+    .atra-knowledge-section .knowledge-grid { gap: 20px; padding: 0 15px; }
+    .atra-knowledge-section .knowledge-title { font-size: 2.2rem; }
 }
 
-/* ==========================================================================
-   گوشی‌های بسیار کوچک (حداکثر عرض 380px - مثل iPhone SE)
-   ========================================================================== */
-@media screen and (max-width: 380px) {
-    .atra-knowledge-section .knowledge-title {
-        font-size: 1.5rem;
+@media (max-width: 992px) {
+    .bento-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    .bento-title {
+        font-size: 1.8rem;
+    }
+    .premium-bento-analytics {
+        padding: 50px 16px;
+    }
+    .bento-card-styled {
+        padding: 24px 18px !important;
+    }
+    .real-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+    .real-content {
+        align-items: center;
+        text-align: center;
+    }
+    .real-content h2 {
+        font-size: 1.85rem;
+    }
+    .real-desc {
+        text-align: center;
+    }
+    .large-dashboard-mockup {
+        max-width: 100%;
+    }
+    .large-dashboard-mockup img {
+        min-height: 260px;
     }
 
-    /* در گوشی‌های خیلی کوچیک، فقط آیکون رو نشون میدیم و متن رو مخفی میکنیم تا فضا اشغال نشه */
-    .atra-floating-sales-btn .btn-text {
-        display: none;
-    }
-
-    .atra-floating-sales-btn {
-        padding: 12px;
-        border-radius: 50%; /* دکمه کاملا گرد میشه */
-    }
-}
-/* ==========================================================================
-   هدر چسبان (Sticky Header) - ویژه دسکتاپ
-   ========================================================================== */
-@media screen and (min-width: 992px) {
-    /* انیمیشن نرم برای زمان چسبیدن و جدا شدن */
-    .bottom-bar {
-        transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-        z-index: 1000; /* برای اینکه همیشه روی بقیه المان‌ها قرار بگیره */
-    }
-
-    /* این کلاس توسط جاوااسکریپت در زمان اسکرول اضافه میشه */
-    .bottom-bar.is-sticky {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-
-        /* استایل فوق‌لوکس Glassmorphism */
-        background: rgba(255, 255, 255, 0.85) !important;
-        backdrop-filter: blur(15px);
-        -webkit-backdrop-filter: blur(15px);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.4);
-
-        /* کمی جمع‌وجور کردن منو در حالت چسبان برای زیبایی بیشتر */
-        padding-top: 8px;
-        padding-bottom: 8px;
-    }
-
-
-    body.has-sticky-menu {
-        padding-top: 60px;
-    }
-}
-
-
-
-
-
-/* =========================================================
-   محدودسازی استایل‌ها فقط برای موبایل و تبلت
-   ========================================================= */
-.atra-inline-hamburger {
-    display: none; /* در دسکتاپ مخفی است */
-}
-
-@media screen and (max-width: 992px) {
-    /* 1. نمایش دکمه همبرگری کنار آیکون سرچ */
+    /* نوبار و منوی همبرگری کشویی موبایل */
     .top-right-section {
         display: flex;
         align-items: center;
-        gap: 15px; /* فاصله بین المان‌های راست */
+        gap: 15px;
     }
-
     .atra-inline-hamburger {
         display: flex;
         flex-direction: column;
         gap: 5px;
         cursor: pointer;
-        z-index: 1001; /* باید بالاتر از منوی کشویی باشد */
+        z-index: 1001;
         padding: 5px;
     }
-
     .atra-inline-hamburger span {
         width: 24px;
         height: 2px;
-        background-color: #333; /* رنگ خطوط همبرگری */
+        background-color: #333;
         border-radius: 2px;
         transition: all 0.3s ease;
     }
-
-    /* انیمیشن تبدیل همبرگر به ضربدر (هنگام باز بودن) */
     .atra-inline-hamburger.active span:nth-child(1) {
         transform: translateY(7px) rotate(45deg);
     }
@@ -3060,52 +2699,39 @@ FAQ
     .atra-inline-hamburger.active span:nth-child(3) {
         transform: translateY(-7px) rotate(-45deg);
     }
+    .top-nav { display: none !important; }
 
-    /* 2. مخفی کردن منوی بالا در موبایل (برای خلوت شدن) */
-    .top-nav {
-        display: none !important;
-    }
-
-    /* 3. جادوی اصلی: تبدیل نوار پایینی به منوی کشویی Glassmorphism */
     .bottom-bar {
         position: fixed;
         top: 0;
-        right: -100%; /* پیش‌فرض بیرون کادر در سمت راست */
+        right: -100%;
         width: 85%;
         max-width: 320px;
-        height: 100vh; /* تمام قد */
-        background: rgba(255, 255, 255, 0.85) !important; /* پس‌زمینه شیشه‌ای */
+        height: 100vh;
+        background: rgba(255, 255, 255, 0.95) !important;
         backdrop-filter: blur(15px);
         -webkit-backdrop-filter: blur(15px);
-        flex-direction: column !important; /* چینش ستونی */
+        flex-direction: column !important;
         justify-content: flex-start !important;
         align-items: flex-start !important;
-        padding: 80px 20px 20px !important; /* فاصله از بالا تا زیر دکمه ضربدر بمونه */
+        padding: 80px 20px 20px !important;
         transition: right 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
         z-index: 1000;
         box-shadow: -5px 0 25px rgba(0,0,0,0.1);
     }
-
-    /* وقتی کلاس active به bottom-bar اضافه شد، میاد داخل صفحه */
-    .bottom-bar.active {
-        right: 0;
-    }
-
-    /* 4. استایل دادن به لینک‌های داخل منوی موبایل */
+    .bottom-bar.active { right: 0; }
     .bottom-nav {
         display: flex;
         flex-direction: column;
         width: 100%;
         gap: 0 !important;
     }
-
     .bottom-nav > a,
     .bottom-nav .dropdown {
         width: 100%;
         margin: 0 !important;
         border-bottom: 1px solid rgba(0, 0, 0, 0.05);
     }
-
     .bottom-nav > a {
         display: block;
         padding: 15px 10px;
@@ -3113,8 +2739,6 @@ FAQ
         color: #333;
         text-align: right;
     }
-
-    /* استایل Dropdown ها در موبایل */
     .bottom-nav .dropdown > a {
         display: flex;
         justify-content: space-between;
@@ -3123,45 +2747,33 @@ FAQ
         font-weight: 600;
         color: #333;
     }
-
-    /* تبدیل محتوای Dropdown از حالت Hover دسکتاپ به حالت آکاردئونی موبایل */
     .bottom-nav .dropdown-content {
-        position: static !important; /* خروج از حالت Absolute */
-        display: none; /* پیش‌فرض مخفی */
+        position: static !important;
+        display: none;
         box-shadow: none !important;
         background: rgba(0,0,0,0.02) !important;
         width: 100%;
         padding: 5px 0;
         border-radius: 0 0 8px 8px;
     }
-
-    /* کلاسی که با جاوااسکریپت برای باز شدن زیرمنوها اضافه می‌کنیم */
-    .bottom-nav .dropdown.open .dropdown-content {
-        display: block;
-    }
-
-    /* چرخش فلش زیرمنو در حالت باز */
+    .bottom-nav .dropdown.open .dropdown-content { display: block; }
     .bottom-nav .dropdown.open > a .arrow {
         transform: rotate(180deg);
         display: inline-block;
         transition: transform 0.3s;
     }
-
-    /* 5. دکمه نسخه آزمایشی (هل دادن به پایین منو) */
     .bottom-left-section {
-        margin-top: auto; /* به انتهای منو می‌چسبد */
+        margin-top: auto;
         width: 100%;
         padding-top: 20px;
         display: flex;
         justify-content: center;
     }
-
-    /* یک Overlay مشکی تاریک برای پشت منو (اختیاری ولی برای زیبایی عالیه) */
     .atra-mobile-overlay-inline {
         position: fixed;
         top: 0; left: 0; width: 100%; height: 100%;
         background: rgba(0,0,0,0.4);
-        z-index: 999; /* زیر منو، روی سایت */
+        z-index: 999;
         opacity: 0;
         visibility: hidden;
         transition: all 0.4s ease;
@@ -3169,5 +2781,1073 @@ FAQ
     .atra-mobile-overlay-inline.active {
         opacity: 1;
         visibility: visible;
+    }
+
+    .pricing-grid-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .pricing-card-featured {
+        grid-column: span 2;
+        max-width: 500px;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .atra-hero-root {
+        padding: 36px 16px;
+        overflow-x: hidden;
+        width: 100%;
+    }
+    .atra-hero-container {
+        gap: 36px;
+    }
+    .hero-main-title {
+        font-size: 1.65rem !important;
+        line-height: 1.5 !important;
+        word-break: normal;
+        overflow-wrap: break-word;
+    }
+    .hero-lead-text {
+        font-size: 0.9rem;
+        line-height: 1.9;
+        text-align: justify;
+        text-align-last: center;
+    }
+    .hero-cta-actions {
+        width: 100%;
+        flex-direction: column;
+        gap: 12px;
+    }
+    .btn-emerald-solid,
+    .btn-glass-outline {
+        width: 100%;
+        justify-content: center;
+        box-sizing: border-box;
+        padding: 13px 18px;
+        font-size: 0.92rem;
+    }
+    .hero-stats-band {
+        width: 100%;
+        flex-direction: column;
+        gap: 16px;
+        align-items: center;
+    }
+    .stat-metric-block {
+        align-items: center;
+        text-align: center;
+    }
+    .stat-number {
+        font-size: 1.35rem;
+    }
+
+    .hero-visual-col {
+        width: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        position: static !important;
+        margin-top: 10px;
+    }
+    .ai-studio-window {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+    }
+    .window-body {
+        padding: 16px 12px !important;
+        gap: 12px !important;
+    }
+    .studio-prompt-card {
+        padding: 12px !important;
+    }
+    .studio-pipelines-status {
+        grid-template-columns: 1fr !important;
+        gap: 8px !important;
+    }
+    .studio-stream-terminal {
+        font-size: 0.75rem !important;
+        padding: 12px !important;
+        line-height: 1.6 !important;
+    }
+    .floating-flutter-card {
+        position: static !important;
+        transform: none !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-top: 14px !important;
+        margin-bottom: 20px !important;
+        box-sizing: border-box !important;
+        display: flex !important;
+        flex-direction: row-reverse !important;
+        justify-content: center !important;
+        align-items: center !important;
+        text-align: right !important;
+        padding: 12px 16px !important;
+        right: auto !important;
+        bottom: auto !important;
+        left: auto !important;
+        top: auto !important;
+    }
+    .flutter-card-info {
+        align-items: flex-start !important;
+    }
+
+    .pricing-grid-container {
+        grid-template-columns: 1fr;
+    }
+    .pricing-card-featured {
+        grid-column: span 1;
+    }
+
+    .atra-knowledge-section .knowledge-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+    .atra-knowledge-section .knowledge-title {
+        font-size: 2rem;
+    }
+
+    .faq-grid {
+        grid-template-columns: 1fr;
+    }
+    .faq-title {
+        font-size: 1.8rem;
+    }
+    .faq-item {
+        border-radius: 12px;
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+    }
+    .footer-bottom-container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .atra-partner-circle {
+        width: 80px;
+        height: 80px;
+        padding: 15px;
+    }
+    .atra-partner-name {
+        font-size: 13px;
+    }
+    .atra-partners-track {
+        gap: 30px;
+        padding-left: 30px;
+    }
+}
+
+@media (max-width: 640px) {
+    .pillar-cards-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+    .pillar-glass-card {
+        padding: 26px 18px;
+    }
+}
+
+@media (max-width: 576px) {
+    .bento-title {
+        font-size: 1.55rem;
+    }
+    .bento-card-styled h3 {
+        font-size: 1.15rem !important;
+    }
+    .bento-card-styled p {
+        font-size: 0.84rem;
+        line-height: 1.75;
+    }
+
+    .atra-knowledge-section { padding: 40px 0; }
+    .atra-knowledge-section .knowledge-grid { grid-template-columns: 1fr; gap: 25px; }
+    .atra-knowledge-section .knowledge-title { font-size: 1.7rem; text-align: center; }
+
+    .atra-floating-sales-btn {
+        bottom: 15px;
+        right: 15px;
+        padding: 10px 15px;
+    }
+    .atra-floating-sales-btn .btn-text { font-size: 0.9rem; }
+}
+
+@media (max-width: 540px) {
+    .real-features {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 380px) {
+    .hero-main-title {
+        font-size: 1.45rem !important;
+    }
+    .hero-live-chip {
+        padding: 4px 10px;
+    }
+    .live-chip-text {
+        font-size: 0.74rem;
+    }
+    .atra-floating-sales-btn .btn-text {
+        display: none;
+    }
+    .atra-floating-sales-btn {
+        padding: 12px;
+        border-radius: 50%;
+    }
+}
+
+/* ==============================================================
+   20. STICKY HEADER (ویژه دسکتاپ)
+   ============================================================== */
+@media screen and (min-width: 992px) {
+    .bottom-bar {
+        transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        z-index: 1000;
+    }
+    .bottom-bar.is-sticky {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.88) !important;
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+        padding-top: 8px;
+        padding-bottom: 8px;
+    }
+    body.has-sticky-menu {
+        padding-top: 60px;
+    }
+}
+
+/* ==========================================================================
+   ✨ AI MODELS SHOWCASE (Studio Architecture Cards)
+   ========================================================================== */
+.ai-models-showcase {
+    position: relative;
+    width: 100%;
+    padding: 90px 24px;
+    background: #f8fafc;
+    direction: rtl;
+    box-sizing: border-box;
+}
+
+.ai-models-container {
+    max-width: 1280px;
+    margin: 0 auto;
+}
+
+.ai-showcase-header {
+    text-align: center;
+    max-width: 780px;
+    margin: 0 auto 56px auto;
+}
+
+.ai-header-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #ecfdf5;
+    border: 1px solid #a7f3d0;
+    color: #047857;
+    font-size: 0.84rem;
+    font-weight: 700;
+    padding: 6px 16px;
+    border-radius: 999px;
+    margin-bottom: 16px;
+}
+
+.ai-header-badge .badge-dot {
+    width: 8px;
+    height: 8px;
+    background: #10b981;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #10b981;
+}
+
+.ai-showcase-title {
+    font-size: 2.3rem;
+    font-weight: 900;
+    color: #0f172a;
+    line-height: 1.45;
+    margin: 0 0 14px 0;
+    letter-spacing: -0.4px;
+}
+
+.ai-showcase-desc {
+    font-size: 0.98rem;
+    color: #475569;
+    line-height: 1.9;
+    margin: 0;
+}
+
+/* ساختار گرید سه‌ستونه */
+.ai-models-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+    align-items: stretch;
+}
+
+/* کارت‌های استودیو هوش مصنوعی */
+.ai-model-card {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid #e2e8f0;
+    border-radius: 24px;
+    padding: 32px 26px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 10px 30px -10px rgba(15, 23, 42, 0.04);
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.ai-model-card:hover {
+    transform: translateY(-8px);
+    border-color: rgba(4, 120, 87, 0.35);
+    box-shadow: 0 24px 45px -12px rgba(4, 120, 87, 0.12);
+}
+
+/* کارت ویژه وسطی */
+.ai-model-card.featured-glow {
+    background: #ffffff;
+    border: 2px solid #047857;
+    box-shadow: 0 20px 40px -10px rgba(4, 120, 87, 0.16);
+    transform: scale(1.02);
+}
+
+.ai-model-card.featured-glow:hover {
+    transform: scale(1.02) translateY(-8px);
+    box-shadow: 0 28px 55px -10px rgba(4, 120, 87, 0.22);
+}
+
+.featured-ribbon {
+    position: absolute;
+    top: 16px;
+    left: 20px;
+    background: linear-gradient(135deg, #047857, #10b981);
+    color: #ffffff;
+    padding: 4px 12px;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    box-shadow: 0 4px 10px rgba(4, 120, 87, 0.25);
+}
+
+/* بالای کارت: آیکون و بج استک */
+.model-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+
+.model-icon-box {
+    width: 54px;
+    height: 54px;
+    border-radius: 16px;
+    background: #f1f5f9;
+    color: #334155;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.model-icon-box svg {
+    width: 26px;
+    height: 26px;
+}
+
+.model-icon-box.accent-emerald {
+    background: #ecfdf5;
+    color: #047857;
+}
+
+.ai-model-card:hover .model-icon-box {
+    background: #047857;
+    color: #ffffff;
+    transform: scale(1.05);
+}
+
+.model-stack-tag {
+    font-family: monospace;
+    font-size: 0.74rem;
+    padding: 4px 10px;
+    background: #f1f5f9;
+    color: #64748b;
+    border-radius: 6px;
+    direction: ltr;
+}
+
+.model-stack-tag.tag-emerald {
+    background: #ecfdf5;
+    color: #047857;
+    font-weight: 700;
+}
+
+/* محتوا و متون کارت */
+.model-card-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.model-title {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0 0 10px 0;
+    line-height: 1.5;
+}
+
+.model-subtitle-en {
+    display: block;
+    font-size: 0.82rem;
+    color: #047857;
+    font-weight: 700;
+    direction: ltr;
+    margin-top: 2px;
+}
+
+.model-desc {
+    font-size: 0.88rem;
+    line-height: 1.85;
+    color: #475569;
+    margin: 0 0 20px 0;
+}
+
+/* گروه چیپ‌های فناوری */
+.model-chips-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 28px;
+}
+
+.model-chip {
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 8px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    color: #334155;
+}
+
+.model-chip.chip-highlight {
+    background: #ecfdf5;
+    border-color: #a7f3d0;
+    color: #047857;
+}
+
+/* دکمه‌های اکشن */
+.btn-model-action {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 13px 20px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 0.92rem;
+    text-decoration: none;
+    box-sizing: border-box;
+    transition: all 0.25s ease;
+}
+
+.btn-model-action.outline {
+    background: transparent;
+    color: #0f172a !important;
+    border: 1.5px solid #cbd5e1;
+}
+
+.btn-model-action.outline:hover {
+    background: #0f172a;
+    color: #ffffff !important;
+    border-color: #0f172a;
+}
+
+.btn-model-action.solid {
+    background: linear-gradient(135deg, #047857, #059669);
+    color: #ffffff !important;
+    border: none;
+    box-shadow: 0 8px 20px rgba(4, 120, 87, 0.3);
+}
+
+.btn-model-action.solid:hover {
+    background: linear-gradient(135deg, #059669, #10b981);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 25px rgba(4, 120, 87, 0.4);
+}
+
+/* ریسپانسیو اختصاصی */
+@media (max-width: 1024px) {
+    .ai-models-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+    .ai-model-card.featured-glow {
+        transform: none;
+    }
+    .ai-model-card.featured-glow:hover {
+        transform: translateY(-6px);
+    }
+}
+
+/* =========================================================
+   استایل بنر کال تو اکشن انتهای صفحات (CTA Banner)
+   ========================================================= */
+.custom-plan-card {
+    background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%) !important;
+    border: 1.5px solid rgba(4, 120, 87, 0.2) !important;
+    border-radius: 24px !important;
+    padding: 36px 40px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 32px !important;
+    box-shadow: 0 16px 35px -10px rgba(4, 120, 87, 0.08) !important;
+    margin-top: 60px !important;
+    box-sizing: border-box !important;
+}
+
+.custom-plan-info {
+    flex: 1 !important;
+    text-align: right !important;
+}
+
+.custom-plan-title {
+    font-size: 1.35rem !important;
+    font-weight: 800 !important;
+    color: #0f172a !important;
+    margin: 0 0 10px 0 !important;
+    line-height: 1.5 !important;
+}
+
+.custom-plan-desc {
+    font-size: 0.92rem !important;
+    color: #475569 !important;
+    margin: 0 !important;
+    line-height: 1.8 !important;
+}
+
+.btn-custom {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: linear-gradient(135deg, #047857 0%, #059669 100%) !important;
+    color: #ffffff !important;
+    padding: 14px 28px !important;
+    border-radius: 14px !important;
+    font-size: 0.95rem !important;
+    font-weight: 700 !important;
+    text-decoration: none !important;
+    white-space: nowrap !important;
+    flex-shrink: 0 !important;
+    box-shadow: 0 10px 24px -6px rgba(4, 120, 87, 0.35) !important;
+    transition: all 0.25s ease !important;
+}
+
+.btn-custom:hover {
+    background: linear-gradient(135deg, #059669 0%, #10b981 100%) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 14px 30px -4px rgba(4, 120, 87, 0.5) !important;
+    color: #ffffff !important;
+}
+
+@media (max-width: 850px) {
+    .custom-plan-card {
+        flex-direction: column !important;
+        text-align: center !important;
+        padding: 28px 20px !important;
+        gap: 20px !important;
+    }
+    .custom-plan-info {
+        text-align: center !important;
+    }
+    .btn-custom {
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
+}
+/* ==========================================================================
+   🌐 4 DISTINCT LIGHT-THEME STYLES FOR DEVOPS & INFRASTRUCTURE
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   STYLE 1: LINUX HARDENING & SECURITY LAYERS
+   -------------------------------------------------------------------------- */
+.linux-page-root {
+    background: #f8fafc;
+    padding: 80px 24px 100px;
+    direction: rtl;
+    color: #0f172a;
+}
+.linux-shield-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #ecfdf5;
+    border: 1px solid #a7f3d0;
+    color: #047857;
+    padding: 6px 18px;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+.linux-audit-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin: 50px auto 40px;
+    max-width: 1200px;
+}
+.linux-spec-box {
+    background: #ffffff;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 20px;
+    padding: 36px 30px;
+    box-shadow: 0 10px 30px -10px rgba(15, 23, 42, 0.05);
+}
+.linux-spec-box.highlight {
+    border-color: #047857;
+    box-shadow: 0 18px 40px -10px rgba(4, 120, 87, 0.12);
+}
+.linux-step-item {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    margin-bottom: 22px;
+}
+.linux-step-num {
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+    background: #ecfdf5;
+    color: #047857;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+/* --------------------------------------------------------------------------
+   STYLE 2: NGINX & SSL TRAFFIC PIPELINE
+   -------------------------------------------------------------------------- */
+.nginx-page-root {
+    background: linear-gradient(180deg, #f0fdf4 0%, #ffffff 50%, #f8fafc 100%);
+    padding: 80px 24px 100px;
+    direction: rtl;
+    color: #0f172a;
+}
+.pipeline-diagram {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 1100px;
+    margin: 50px auto 40px;
+}
+.pipeline-node {
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-right: 6px solid #047857;
+    border-radius: 16px;
+    padding: 24px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 6px 20px -6px rgba(15, 23, 42, 0.05);
+    transition: transform 0.25s ease;
+}
+.pipeline-node:hover {
+    transform: translateX(-6px);
+    border-color: #047857;
+}
+.pipeline-node-info h3 {
+    margin: 0 0 6px 0;
+    font-size: 1.15rem;
+    color: #0f172a;
+}
+.pipeline-node-info p {
+    margin: 0;
+    font-size: 0.88rem;
+    color: #475569;
+}
+.pipeline-tag {
+    background: #f1f5f9;
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-family: monospace;
+    font-size: 0.82rem;
+    color: #047857;
+    font-weight: 700;
+}
+
+/* --------------------------------------------------------------------------
+   STYLE 3: DOCKER CONTAINER CLUSTER TILES
+   -------------------------------------------------------------------------- */
+.docker-page-root {
+    background: #f1f5f9;
+    padding: 80px 24px 100px;
+    direction: rtl;
+    color: #0f172a;
+}
+.container-tiles-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    max-width: 1200px;
+    margin: 50px auto 40px;
+}
+.container-tile {
+    background: #ffffff;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 18px;
+    padding: 28px 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 10px 25px -8px rgba(15, 23, 42, 0.06);
+    transition: all 0.3s ease;
+}
+.container-tile:hover {
+    border-color: #0284c7;
+    transform: translateY(-6px);
+    box-shadow: 0 16px 35px -8px rgba(2, 132, 199, 0.15);
+}
+.tile-status-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+}
+.tile-status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #ecfdf5;
+    color: #047857;
+    font-size: 0.76rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 999px;
+}
+.tile-status-pill .dot {
+    width: 6px;
+    height: 6px;
+    background: #10b981;
+    border-radius: 50%;
+}
+.tile-port {
+    font-family: monospace;
+    font-size: 0.78rem;
+    color: #64748b;
+}
+
+/* --------------------------------------------------------------------------
+   STYLE 4: STORE PUBLISHING ROADMAP & BADGES
+   -------------------------------------------------------------------------- */
+.store-page-root {
+    background: #ffffff;
+    padding: 80px 24px 100px;
+    direction: rtl;
+    color: #0f172a;
+}
+.store-brands-strip {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+}
+.store-brand-pill {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #f8fafc;
+    border: 1.5px solid #e2e8f0;
+    padding: 10px 22px;
+    border-radius: 14px;
+    font-weight: 700;
+    font-size: 0.92rem;
+    color: #1e293b;
+}
+.store-steps-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    max-width: 1240px;
+    margin: 40px auto;
+}
+.store-step-card {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 18px;
+    padding: 28px 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.store-badge-icon {
+    width: 50px;
+    height: 50px;
+    background: #ecfdf5;
+    color: #047857;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+}
+
+@media (max-width: 992px) {
+    .linux-audit-grid,
+    .container-tiles-grid,
+    .store-steps-row {
+        grid-template-columns: 1fr;
+    }
+}
+/* ==========================================================================
+   🚀 ATRA ENGINEERING PORTFOLIO & 50+ PROJECTS SHOWCASE
+   ========================================================================== */
+.portfolio-page-root {
+    background: #f8fafc;
+    padding: 90px 24px 120px;
+    direction: rtl;
+    color: #0f172a;
+    box-sizing: border-box;
+}
+
+.portfolio-hero-section {
+    text-align: center;
+    max-width: 860px;
+    margin: 0 auto 60px auto;
+}
+
+/* پروژه پرچمدار و ویژه: شیمکس (Shimax AI) */
+.flagship-project-card {
+    background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%);
+    border: 2px solid #047857;
+    border-radius: 28px;
+    padding: 48px;
+    box-shadow: 0 25px 60px -15px rgba(4, 120, 87, 0.18);
+    max-width: 1240px;
+    margin: 0 auto 70px auto;
+    position: relative;
+    overflow: hidden;
+}
+
+.flagship-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #047857;
+    color: #ffffff;
+    font-size: 0.84rem;
+    font-weight: 800;
+    padding: 6px 18px;
+    border-radius: 999px;
+    margin-bottom: 20px;
+}
+
+.flagship-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 40px;
+    align-items: center;
+}
+
+.flagship-title {
+    font-size: 2.3rem;
+    font-weight: 900;
+    color: #0f172a;
+    margin: 0 0 16px 0;
+    line-height: 1.35;
+}
+
+.flagship-desc {
+    font-size: 1rem;
+    color: #475569;
+    line-height: 1.95;
+    margin-bottom: 24px;
+    text-align: justify;
+}
+
+.flagship-tags-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.flagship-tag {
+    background: #ffffff;
+    border: 1px solid #a7f3d0;
+    color: #047857;
+    font-size: 0.82rem;
+    font-weight: 700;
+    padding: 6px 14px;
+    border-radius: 8px;
+}
+
+.flagship-metrics-box {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+    padding: 30px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.04);
+}
+
+.metric-item-val {
+    font-size: 1.6rem;
+    font-weight: 900;
+    color: #047857;
+    direction: ltr;
+    display: block;
+}
+
+.metric-item-lbl {
+    font-size: 0.82rem;
+    color: #64748b;
+    margin-top: 4px;
+    display: block;
+}
+
+/* بخش دسته‌بندی و گرید ۵۰ پروژه */
+.projects-category-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    max-width: 1240px;
+    margin: 50px auto 26px auto;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+.projects-category-header h3 {
+    font-size: 1.45rem;
+    font-weight: 900;
+    color: #0f172a;
+    margin: 0;
+}
+
+.projects-cat-badge {
+    background: #ecfdf5;
+    color: #047857;
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-size: 0.82rem;
+    font-weight: 800;
+}
+
+.projects-showcase-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    max-width: 1240px;
+    margin: 0 auto 50px auto;
+}
+
+/* کارت‌های نمایش پروژه (غیرقابل کلیک و پایدار) */
+.project-display-card {
+    background: #ffffff;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 20px;
+    padding: 26px 22px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 6px 18px -4px rgba(15, 23, 42, 0.04);
+    cursor: default; /* غیرقابل کلیک */
+    transition: transform 0.25s ease, border-color 0.25s ease;
+    user-select: text;
+}
+
+.project-display-card:hover {
+    transform: translateY(-4px);
+    border-color: #047857;
+    box-shadow: 0 16px 30px -8px rgba(4, 120, 87, 0.1);
+}
+
+.card-num-watermark {
+    font-family: monospace;
+    font-size: 0.8rem;
+    color: #94a3b8;
+    background: #f1f5f9;
+    padding: 2px 8px;
+    border-radius: 6px;
+    width: fit-content;
+    margin-bottom: 12px;
+}
+
+.project-card-name {
+    font-size: 1.12rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0 0 10px 0;
+    line-height: 1.5;
+}
+
+.project-card-brief {
+    font-size: 0.88rem;
+    color: #475569;
+    line-height: 1.85;
+    margin: 0 0 18px 0;
+    flex-grow: 1;
+}
+
+.project-tech-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.project-tech-pill {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    color: #334155;
+    font-size: 0.74rem;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 6px;
+    direction: ltr;
+}
+
+@media (max-width: 1024px) {
+    .projects-showcase-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .flagship-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 680px) {
+    .projects-showcase-grid {
+        grid-template-columns: 1fr;
+    }
+    .flagship-project-card {
+        padding: 28px 20px;
+    }
+    .flagship-title {
+        font-size: 1.7rem;
     }
 }

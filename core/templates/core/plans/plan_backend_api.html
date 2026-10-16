@@ -1,0 +1,102 @@
+{% extends 'parent/base.html' %}
+{% load static %}
+
+{% block title %}پلن توسعه اختصاصی بک‌اند و API با Django | آترا{% endblock %}
+{% block meta_description %}طراحی و اجرای بک‌اند ماژولار با Django REST Framework، دیتابیس PostgreSQL، کش Redis و سیستم‌های احراز هویت پیامکی با پایداری ۹۹.۹٪.{% endblock %}
+{% block meta_keywords %}سفارش بک اند جنگو, هزینه طراحی API, توسعه Django REST, برنامه نویسی پایتون بک اند, وب سرویس اختصاصی{% endblock %}
+
+{% block extra_schema %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "توسعه اختصاصی بک‌اند و API با Django",
+  "provider": {"@type": "Organization", "name": "آترا"},
+  "description": "معماری ماژولار بک‌اند، احراز هویت پیامکی و وب‌سرویس‌های پرسرعت REST",
+  "areaServed": "IR"
+}
+</script>
+{% endblock %}
+
+{% block extra_css %}
+    <link href="{% static 'css/navbar.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<section class="offline-feature-page">
+    <div class="offline-container">
+
+        <div class="offline-hero">
+            <div class="offline-badge">
+                <span>پلن تخصصی بک‌اند و وب‌سرویس</span>
+            </div>
+            <h1 class="offline-main-title">
+                توسعه اختصاصی <span class="title-highlight">بک‌اند و RESTful API</span>
+            </h1>
+            <p class="offline-subtitle">
+                معماری مقیاس‌پذیر، تفکیک لایه‌های سرویس و بیزینس، دیتابیس بهینه و وب‌سرویس‌های ایمن با کمترین زمان پاسخ‌دهی برای اپلیکیشن‌ها و سامانه‌های بزرگ.
+            </p>
+        </div>
+
+        <div class="offline-bento-grid">
+            <div class="offline-card bento-main">
+                <div class="offline-icon-wrapper">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                        <polyline points="2 17 12 22 22 17"></polyline>
+                        <polyline points="2 12 12 17 22 12"></polyline>
+                    </svg>
+                </div>
+                <h2 class="offline-card-title">هسته فنی مقاوم در برابر ترافیک سنگین</h2>
+                <p class="offline-card-text">
+                    پیاده‌سازی بر پایه فریم‌ورک قدرتمند Django و DRF با الگوهای طراحی استاندارد، مدیریت حافظه موقت با Redis، اتصال به درگاه‌های پرداخت، سیستم صدور فاکتور و صف‌های پردازش پس‌زمینه با Celery جهت پردازش هزاران تراکنش همزمان بدون افت فریم و تایم‌اوت.
+                </p>
+                <div class="offline-image-container">
+                    <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=900&q=80" alt="کدنویسی بک اند جنگو">
+                </div>
+            </div>
+
+            <div class="offline-card bento-square-1">
+                <div class="offline-icon-wrapper">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                </div>
+                <h3 class="offline-card-title">احراز هویت پیامکی و JWT</h3>
+                <p class="offline-card-text">
+                    سیستم OTP با خطوط خدماتی بدون بلک‌لیست، ذخیره کدهای ورود در رم Redis و صدور توکن‌های امن Access و Refresh برای کلاینت‌ها.
+                </p>
+            </div>
+
+            <div class="offline-card bento-square-2">
+                <div class="offline-icon-wrapper">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>
+                </div>
+                <h3 class="offline-card-title">پایگاه داده PostgreSQL</h3>
+                <p class="offline-card-text">
+                    ایندکس‌گذاری تخصصی B-Tree و GIN، جلوگیری قطعی از N+1 Query و تضمین پایداری و یکپارچگی داده‌ها (ACID).
+                </p>
+            </div>
+
+            <div class="offline-card bento-wide">
+                <div class="wide-content">
+                    <h3 class="offline-card-title">مستندات Swagger و تحویل سورس کامل Git</h3>
+                    <p class="offline-card-text">
+                        تولید خودکار داکیومنت تعاملی وب‌سرویس‌ها (Swagger / Redoc)، پشتیبانی فنی پس از استقرار و تحویل کامل ریپازیتوری کد روی گیت‌لب یا گیت‌هاب با استانداردهای CI/CD.
+                    </p>
+                </div>
+                <div class="wide-image">
+                    <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=700&q=80" alt="مستندات API و توسعه وب سرویس">
+                </div>
+            </div>
+        </div>
+
+        <div class="custom-plan-card">
+            <div class="custom-plan-info">
+                <h3 class="custom-plan-title">نیاز به توسعه بک‌اند و وب‌سرویس استاندارد دارید؟</h3>
+                <p class="custom-plan-desc">مشخصات فنی و نیازمندی پروژه خود را ثبت کنید تا برآورد دقیق زمان‌بندی و هزینه توسط مهندسین آترا انجام شود.</p>
+            </div>
+            <a href="{% url 'core:submit_ticket' %}" class="btn-custom">ثبت درخواست توسعه بک‌اند</a>
+        </div>
+
+    </div>
+</section>
+{% endblock %}

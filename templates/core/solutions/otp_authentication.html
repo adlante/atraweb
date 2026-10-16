@@ -1,0 +1,29 @@
+{% extends 'parent/base.html' %}
+{% load static %}
+
+{% block title %}سیستم احراز هویت پیامکی OTP | آترا{% endblock %}
+{% block meta_description %}ورود بدون کلمه عبور با ردیس و پیامک{% endblock %}
+
+{% block extra_css %}
+    <link href="{% static 'css/navbar.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<section class="offline-feature-page">
+    <div class="offline-container">
+        <div class="offline-hero">
+            <div class="offline-badge"><span>توسعه مهندسی نرم‌افزار و هوش مصنوعی</span></div>
+            <h1 class="offline-main-title">احراز هویت پیامکی OTP و توکن JWT</h1>
+            <p class="offline-subtitle">ورود بدون کلمه عبور با ردیس و پیامک</p>
+        </div>
+
+        <div class="custom-plan-card" style="margin-top: 50px;">
+            <div class="custom-plan-info">
+                <h3 class="custom-plan-title">نیاز به اجرای این راهکار برای کسب‌وکار خود دارید؟</h3>
+                <p class="custom-plan-desc">مشخصات اولیه نیازمندی‌های خود را ثبت کنید تا بررسی فنی توسط مهندسین آترا انجام شود.</p>
+            </div>
+            <a href="{% url 'core:submit_ticket' %}" class="btn-custom">ثبت درخواست و شروع همکاری</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

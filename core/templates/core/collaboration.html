@@ -1,0 +1,88 @@
+{% extends 'parent/base.html' %}
+{% load static %}
+{% block extra_css %}
+    <link href="{% static 'css/navbar.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="atra-ticket-wrapper">
+    <div class="atra-ticket-container">
+
+        <!-- بخش اطلاعات و مزایا (راست) -->
+        <div class="atra-ticket-info">
+            <div class="atra-ticket-info-content">
+                <h2>به تیم آترا بپیوندید!</h2>
+                <p>ما در آترا همیشه به دنبال افراد خلاق، پرانرژی و متخصص هستیم. اگر دوست دارید در یک محیط پویا و رو به رشد کار کنید، جای شما اینجاست.</p>
+
+                <div class="atra-ticket-contact-items">
+                    <div class="atra-ticket-item">
+                        <div class="atra-ticket-item-icon">🚀</div>
+                        <div>
+                            <strong style="display:block; margin-bottom:5px;">فرصت رشد بی‌نظیر</strong>
+                            <span style="color:#cbd5e1; font-size:0.85rem;">کار روی پروژه‌های چالشی و یادگیری مداوم</span>
+                        </div>
+                    </div>
+                    <div class="atra-ticket-item">
+                        <div class="atra-ticket-item-icon">🤝</div>
+                        <div>
+                            <strong style="display:block; margin-bottom:5px;">فرهنگ تیمی دوستانه</strong>
+                            <span style="color:#cbd5e1; font-size:0.85rem;">محیطی صمیمی بر پایه احترام و همکاری</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- بخش فرم همکاری (چپ) -->
+        <div class="atra-ticket-form-section">
+            <h3>درخواست همکاری با ما</h3>
+
+            <!-- پیام‌های موفقیت -->
+            {% if messages %}
+            <div class="atra-ticket-messages">
+                {% for message in messages %}
+                <div class="atra-ticket-alert">{{ message }}</div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <!-- فرم -->
+            <form method="POST" action="{% url 'core:work_with_us' %}">
+                {% csrf_token %}
+                <div class="atra-ticket-form-grid">
+
+                    <div class="atra-ticket-form-group">
+                        <label for="{{ form.name.id_for_label }}">نام و نام خانوادگی</label>
+                        {{ form.name }}
+                        {% if form.name.errors %}<div class="text-danger mt-1" style="font-size: 0.85rem;">{{ form.name.errors.0 }}</div>{% endif %}
+                    </div>
+
+                    <div class="atra-ticket-form-group">
+                        <label for="{{ form.phone.id_for_label }}">شماره موبایل</label>
+                        {{ form.phone }}
+                        {% if form.phone.errors %}<div class="text-danger mt-1" style="font-size: 0.85rem;">{{ form.phone.errors.0 }}</div>{% endif %}
+                    </div>
+
+                    <div class="atra-ticket-form-group full-width">
+                        <label for="{{ form.expertise.id_for_label }}">زمینه تخصص</label>
+                        {{ form.expertise }}
+                        {% if form.expertise.errors %}<div class="text-danger mt-1" style="font-size: 0.85rem;">{{ form.expertise.errors.0 }}</div>{% endif %}
+                    </div>
+
+                    <div class="atra-ticket-form-group full-width">
+                        <label for="{{ form.message.id_for_label }}">توضیحات و سوابق</label>
+                        {{ form.message }}
+                        {% if form.message.errors %}<div class="text-danger mt-1" style="font-size: 0.85rem;">{{ form.message.errors.0 }}</div>{% endif %}
+                    </div>
+
+                </div>
+
+                <button type="submit" class="atra-ticket-submit-btn">
+                    ارسال درخواست همکاری
+                </button>
+            </form>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
