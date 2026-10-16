@@ -11,7 +11,7 @@ SECRET_KEY = os.getenv(
     'django-insecure-z(mf%g7cp-$7yx3+#ji!det*rz2&5d5t1akiss6@o@v39&_kni'
 )
 
-# در لوکال True باشد، روی سرور می‌توانید متغیر DJANGO_DEBUG=False ست کنید یا پیش‌فرض تغییر دهید
+# در لوکال مقدار پیش‌فرض True است، روی سرور با تعریف متغیر DJANGO_DEBUG=False خاموش می‌شود
 DEBUG = os.getenv('DJANGO_DEBUG', 'True') == 'True'
 
 ALLOWED_HOSTS = [
@@ -20,6 +20,13 @@ ALLOWED_HOSTS = [
     '46.249.101.21',
     '127.0.0.1',
     'localhost',
+]
+
+# دامنه معتبر برای فرم‌های امن و ورود به ادمین در محیط پروداکشن
+CSRF_TRUSTED_ORIGINS = [
+    'https://atraweb.com',
+    'https://www.atraweb.com',
+    'http://46.249.101.21',
 ]
 
 INSTALLED_APPS = [
@@ -67,7 +74,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'AtraDev.wsgi.application'
 
 # Database
-# اگر در لوکال هستید از SQLite استفاده می‌کند، روی سرور با تعریف USE_POSTGRESQL=True به Postgres وصل می‌شود
+# لوکال: SQLite3 | سرور: PostgreSQL
 if os.getenv('USE_POSTGRESQL', 'False') == 'True':
     DATABASES = {
         'default': {
@@ -100,7 +107,8 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'core/static')]
+STATIC_DIR_PATH = os.path.join(BASE_DIR, 'core/static')
+STATICFILES_DIRS = [STATIC_DIR_PATH] if os.path.exists(STATIC_DIR_PATH) else []
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 MEDIA_URL = '/media/'
