@@ -107,66 +107,66 @@ def subscribe_newsletter(request):
 
 def backend_modular_view(request):
     """رندر صفحه معماری ماژولار Django & DRF"""
-    return render(request, 'core/solutions/modular_django.html', {})
+    return render(request, 'core/backend/modular_django.html', {})
 
 
 def backend_postgresql_view(request):
     """رندر صفحه طراحی دیتابیس و PostgreSQL"""
-    return render(request, 'core/solutions/postgresql_database.html', {})
+    return render(request, 'core/backend/postgresql_database.html', {})
 
 
 def backend_otp_view(request):
     """رندر صفحه احراز هویت پیامکی OTP و JWT"""
-    return render(request, 'core/solutions/otp_authentication.html', {})
+    return render(request, 'core/backend/otp_authentication.html', {})
 
 
 def backend_celery_redis_view(request):
     """رندر صفحه مدیریت صف‌های سنگین Celery/Redis"""
-    return render(request, 'core/solutions/backend_celery_redis.html', {})
+    return render(request, 'core/backend/backend_celery_redis.html', {})
 
 
 # ------------------ Flutter Services Views ------------------
 
 def flutter_crossplatform_view(request):
     """رندر صفحه کراس‌پلتفرم iOS و Android با فلاتر"""
-    return render(request, 'core/solutions/flutter_crossplatform.html', {})
+    return render(request, 'core/flluter/flutter_crossplatform.html', {})
 
 
 def flutter_offline_first_view(request):
     """رندر صفحه معماری آفلاین‌محور در فلاتر (Offline-First)"""
-    return render(request, 'core/solutions/flutter_offline_first.html', {})
+    return render(request, 'core/flluter/flutter_offline_first.html', {})
 
 
 def flutter_ai_streaming_view(request):
     """رندر صفحه استریم پاسخ‌های هوش مصنوعی (SSE & WebSockets)"""
-    return render(request, 'core/solutions/flutter_ai_streaming.html', {})
+    return render(request, 'core/flluter/flutter_ai_streaming.html', {})
 
 
 def flutter_memory_optimization_view(request):
     """رندر صفحه بهینه‌سازی مصرف حافظه و رندرینگ ۶۰ فریم"""
-    return render(request, 'core/solutions/flutter_memory_optimization.html', {})
+    return render(request, 'core/flluter/flutter_memory_optimization.html', {})
 
 
 # ------------------ AI & LLM Services Views ------------------
 
 def ai_rag_system_view(request):
     """رندر صفحه پایگاه دانش سازمانی RAG"""
-    return render(request, 'core/solutions/ai_rag_system.html', {})
+    return render(request, 'core/ai/ai_rag_system.html', {})
 
 
 def ai_vector_databases_view(request):
     """رندر صفحه پایگاه‌های برداری Vector DBs (Qdrant & pgvector)"""
-    return render(request, 'core/solutions/ai_vector_databases.html', {})
+    return render(request, 'core/ai/ai_vector_databases.html', {})
 
 
 def ai_finetuning_lora_view(request):
     """رندر صفحه فاین‌تیونینگ مدل‌های زبانی با متد LoRA"""
-    return render(request, 'core/solutions/ai_finetuning_lora.html', {})
+    return render(request, 'core/ai/ai_finetuning_lora.html', {})
 
 
 def ai_generative_studio_view(request):
     """رندر صفحه استودیوهای تولید تصویر Generative AI"""
-    return render(request, 'core/solutions/ai_generative_studio.html', {})
+    return render(request, 'core/ai/ai_generative_studio.html')
 
 
 # ------------------ Development Plans Views ------------------

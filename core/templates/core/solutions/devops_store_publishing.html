@@ -1,80 +1,703 @@
 {% extends 'parent/base.html' %}
 {% load static %}
 
-{% block title %}انتشار رسمی اپلیکیشن در گوگل‌پلی، اپ‌استور و کافه‌بازار | آترا{% endblock %}
-{% block meta_description %}انتشار حرفه‌ای اپلیکیشن Flutter در مارکت‌های داخلی و بین‌المللی؛ ساخت باندل AAB، رعایت پالیسی‌های Google Play و App Store و دریافت تاییدیه.{% endblock %}
+{% block title %}خدمات انتشار اپلیکیشن در مارکت‌ها (کافه‌بازار، مایکت و گوگل‌پلی) | آتراوب{% endblock %}
+{% block meta_description %}انتشار حرفه‌ای و رفع خطاهای ریجکتی اپلیکیشن در کافه‌بازار، مایکت، سیب‌اپ و Google Play؛ امضای کلید اختصاصی Keystore، کانفیگ اکانت دولوپر و آپدیت خودکار.{% endblock %}
+{% block meta_keywords %}انتشار برنامه در بازار, ثبت اپلیکیشن در گوگل پلی, رفع ریجکت کافه بازار, انتشار اپ مایکت, امضای اپلیکیشن Keystore, اکانت دولوپر گوگل پلی, انتشار اپلیکیشن فلاتر{% endblock %}
 
 {% block extra_schema %}
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "Service",
-  "name": "انتشار اپلیکیشن در مارکت‌ها و استورها",
-  "author": {"@type": "Organization", "name": "آترا"}
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "سرویس انتشار و مدیریت ریلیز اپلیکیشن در مارکت‌های آتراوب",
+      "operatingSystem": "Android, iOS, HarmonyOS",
+      "applicationCategory": "DeveloperApplication",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "IRR"
+      }
+    },
+    {
+      "@type": "TechArticle",
+      "headline": "چک‌لیست مهندسی انتشار، رفع ریجکتی و امضای امن اپلیکیشن‌های موبایل در استورهای رسمی",
+      "description": "بررسی الزامات Target SDK 34+، قوانین حریم خصوصی و مجوزهای حساس اندروید، فرآیند امضای دیجیتال AAB و اتوماسیون انتشار با Fastlane",
+      "inLanguage": "fa-IR",
+      "author": {"@type": "Organization", "name": "آتراوب", "url": "https://atraweb.com"},
+      "publisher": {"@type": "Organization", "name": "آتراوب"}
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "علت اصلی ریجکت شدن اپلیکیشن‌ها در کافه‌بازار و گوگل‌پلی چیست؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "عدم تطابق با آخرین نسخه Target SDK، درخواست مجوزهای غیرضروری در مانیفست (مانند دسترسی پیامک یا مخاطبین)، نبود صفحه سیاست حفظ حریم خصوصی (Privacy Policy) معتبر و نقص در فرآیند تست احراز هویت تاییدکنندگان استور از دلایل عمده رد برنامه است."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "چرا نگهداری امن فایل کلید امضا (Keystore) برای یک برنامه حیاتی است؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "در صورت مفقود شدن فایل Keystore یا گذرواژه آن، امکان انتشار آپدیت‌های بعدی اپلیکیشن در استورها برای همیشه از بین می‌رود و باید برنامه با نام پکیج جدید مجدداً از صفر ثبت گردد."
+          }
+        }
+      ]
+    }
+  ]
 }
 </script>
 {% endblock %}
 
+{% block extra_css %}
+    <link href="{% static 'css/navbar.css' %}" rel="stylesheet">
+    <style>
+        /* 🚀 پالت کیهانی و استودیو لانچ‌پد انتشار اپلیکیشن (Cosmic Launchpad) */
+        .pub-launchpad-root {
+            background-color: #05020c !important;
+            color: #f1f5f9;
+            direction: rtl;
+            position: relative;
+            overflow-x: hidden;
+            padding: 55px 0 110px 0;
+            font-family: var(--font-main);
+            box-sizing: border-box;
+        }
+
+        .pub-ambient-fuchsia {
+            position: absolute;
+            width: 580px;
+            height: 580px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(217, 70, 239, 0.16) 0%, transparent 70%);
+            filter: blur(130px);
+            top: 0;
+            right: 5%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .pub-ambient-violet {
+            position: absolute;
+            width: 520px;
+            height: 520px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, transparent 70%);
+            filter: blur(120px);
+            bottom: 5%;
+            left: 5%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .pub-stars-grid {
+            position: absolute;
+            inset: 0;
+            background-image:
+                radial-gradient(rgba(217, 70, 239, 0.12) 1.2px, transparent 1.2px),
+                linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+            background-size: 32px 32px, 64px 64px, 64px 64px;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .pub-container {
+            width: 100%;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 2;
+            box-sizing: border-box;
+        }
+
+        /* هدر استودیو لانچ‌پد */
+        .pub-hero-head {
+            text-align: center;
+            max-width: 980px;
+            margin: 0 auto 55px auto;
+        }
+
+        .pub-badge-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(217, 70, 239, 0.08);
+            border: 1px solid rgba(244, 114, 182, 0.35);
+            color: #f472b6;
+            font-size: clamp(0.75rem, 2vw, 0.86rem);
+            font-weight: 800;
+            padding: 7px 22px;
+            border-radius: 999px;
+            margin-bottom: 22px;
+            box-shadow: 0 0 25px rgba(217, 70, 239, 0.2);
+        }
+
+        .pub-pulse-beacon {
+            width: 8px;
+            height: 8px;
+            background: #d946ef;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #d946ef;
+            animation: pubPulse 1.8s infinite;
+            flex-shrink: 0;
+        }
+
+        @keyframes pubPulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.3; transform: scale(0.8); }
+        }
+
+        .pub-main-title {
+            font-size: clamp(1.85rem, 4.5vw, 3.2rem);
+            font-weight: 900;
+            color: #ffffff;
+            line-height: 1.35;
+            margin-bottom: 22px;
+            letter-spacing: -0.6px;
+        }
+
+        .pub-main-title span {
+            background: linear-gradient(135deg, #f472b6 0%, #d946ef 50%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .pub-lead-desc {
+            color: #94a3b8;
+            font-size: clamp(0.94rem, 2vw, 1.08rem);
+            line-height: 2;
+            margin: 0;
+            text-align: justify;
+            text-align-last: center;
+        }
+
+        /* استیج دیاگرام تعاملی ریلیز و ساخت بیلد AAB در SVG */
+        .pub-stage-box {
+            background: rgba(18, 10, 36, 0.8);
+            border: 1.5px solid rgba(217, 70, 239, 0.3);
+            border-radius: 26px;
+            padding: clamp(20px, 4vw, 42px);
+            backdrop-filter: blur(25px);
+            box-shadow: 0 30px 70px -15px rgba(0, 0, 0, 0.9);
+            margin-bottom: 70px;
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 38px;
+            align-items: center;
+            box-sizing: border-box;
+        }
+
+        .pub-stage-text h2 {
+            font-size: clamp(1.3rem, 2.8vw, 1.75rem);
+            font-weight: 900;
+            color: #ffffff;
+            margin-bottom: 16px;
+            line-height: 1.45;
+        }
+
+        .pub-stage-text p {
+            color: #94a3b8;
+            font-size: 0.96rem;
+            line-height: 1.95;
+            text-align: justify;
+            margin-bottom: 16px;
+        }
+
+        /* فریم وکتوری پایپ‌لاین انتشار */
+        .pub-svg-wrapper {
+            background: #030108;
+            border: 1.5px solid rgba(217, 70, 239, 0.35);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.85);
+            width: 100%;
+            box-sizing: border-box;
+            min-width: 0;
+            direction: ltr;
+        }
+
+        .pub-svg-topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 12px;
+            margin-bottom: 14px;
+        }
+
+        .pub-top-tag {
+            font-family: monospace;
+            font-size: 0.76rem;
+            color: #f472b6;
+            font-weight: 700;
+        }
+
+        .pub-top-chip {
+            background: rgba(16, 185, 129, 0.15);
+            color: #34d399;
+            font-size: 0.72rem;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 6px;
+        }
+
+        /* 🚀 چیدمان خط لوله مرحله‌ای ریلیز و انتشار (Release Pipeline Stepper) */
+        .pub-pipeline-stepper {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 70px;
+        }
+
+        .pub-step-node {
+            background: rgba(16, 8, 32, 0.75);
+            border: 1.5px solid rgba(255, 255, 255, 0.08);
+            border-radius: 22px;
+            padding: 28px 22px;
+            backdrop-filter: blur(18px);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .pub-step-node::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #d946ef, #8b5cf6);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .pub-step-node:hover {
+            transform: translateY(-6px);
+            border-color: rgba(217, 70, 239, 0.45);
+            background: rgba(16, 8, 32, 0.95);
+            box-shadow: 0 20px 40px -10px rgba(217, 70, 239, 0.22);
+        }
+
+        .pub-step-node:hover::before {
+            opacity: 1;
+        }
+
+        .pub-step-num {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: rgba(217, 70, 239, 0.12);
+            color: #f472b6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 1.1rem;
+            margin-bottom: 18px;
+            border: 1px solid rgba(217, 70, 239, 0.28);
+        }
+
+        .pub-step-title {
+            font-size: 1.18rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 10px;
+            line-height: 1.45;
+        }
+
+        .pub-step-desc {
+            font-size: 0.88rem;
+            color: #94a3b8;
+            line-height: 1.85;
+            margin: 0;
+        }
+
+        /* ماتریس بنچمارک مقایسه‌ای استورها */
+        .pub-table-wrapper {
+            background: rgba(18, 10, 36, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: clamp(20px, 4vw, 36px);
+            margin-bottom: 70px;
+            box-sizing: border-box;
+        }
+
+        .pub-table-title {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .pub-table-title h3 {
+            font-size: clamp(1.25rem, 2.5vw, 1.65rem);
+            font-weight: 900;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+
+        .pub-table-title p {
+            color: #64748b;
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        .pub-scroll-area {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .pub-market-table {
+            width: 100%;
+            min-width: 680px;
+            border-collapse: collapse;
+            text-align: right;
+            font-size: 0.9rem;
+        }
+
+        .pub-market-table th {
+            padding: 16px 18px;
+            color: #f472b6;
+            font-weight: 800;
+            background: rgba(255, 255, 255, 0.02);
+            border-bottom: 2px solid rgba(217, 70, 239, 0.3);
+            white-space: nowrap;
+        }
+
+        .pub-market-table td {
+            padding: 16px 18px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: #cbd5e1;
+            vertical-align: middle;
+            white-space: nowrap;
+        }
+
+        .pub-market-table tr:hover td {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .badge-pub-ok {
+            background: rgba(217, 70, 239, 0.18);
+            color: #f472b6;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-weight: 800;
+            font-size: 0.78rem;
+        }
+
+        /* سوالات متداول سئو دارک */
+        .pub-faq-wrapper {
+            background: rgba(18, 10, 36, 0.65);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: clamp(20px, 4vw, 40px);
+            margin-bottom: 65px;
+            box-sizing: border-box;
+        }
+
+        /* بنر فراخوان نهایی */
+        .pub-cta-box {
+            background: linear-gradient(135deg, rgba(217, 70, 239, 0.22) 0%, rgba(139, 92, 246, 0.16) 100%);
+            border: 1.5px solid rgba(244, 114, 182, 0.4);
+            border-radius: 24px;
+            padding: clamp(24px, 4vw, 44px);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 25px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+            box-sizing: border-box;
+        }
+
+        .pub-cta-btn {
+            background: linear-gradient(135deg, #c026d3 0%, #7c3aed 100%);
+            color: #ffffff !important;
+            padding: 15px 34px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 0.96rem;
+            text-decoration: none;
+            white-space: nowrap;
+            box-shadow: 0 10px 30px rgba(217, 70, 239, 0.4);
+            border: 1px solid #f472b6;
+            transition: all 0.25s ease;
+            text-align: center;
+        }
+
+        .pub-cta-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(217, 70, 239, 0.6);
+            background: #a21caf;
+        }
+
+        /* ریسپانسیو اختصاصی موبایل و تبلت */
+        @media (max-width: 1024px) {
+            .pub-stage-box {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            .pub-pipeline-stepper {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .pub-pipeline-stepper {
+                grid-template-columns: 1fr;
+            }
+            .pub-cta-box {
+                flex-direction: column;
+                text-align: center;
+            }
+            .pub-cta-btn {
+                width: 100%;
+                box-sizing: border-box;
+            }
+        }
+    </style>
+{% endblock %}
+
 {% block content %}
-<section class="store-page-root">
-    <div class="container text-center">
-        <!-- برچسب‌های مارکت‌ها -->
-        <div class="store-brands-strip">
-            <div class="store-brand-pill"><span>🟢</span> کافه‌بازار (Cafe Bazaar)</div>
-            <div class="store-brand-pill"><span>🤖</span> گوگل‌پلی (Google Play)</div>
-            <div class="store-brand-pill"><span>🍎</span> اپ‌استور (App Store)</div>
-            <div class="store-brand-pill"><span>🔵</span> مایکت (Myket)</div>
+<div class="pub-launchpad-root">
+    <div class="pub-ambient-fuchsia"></div>
+    <div class="pub-ambient-violet"></div>
+    <div class="pub-stars-grid"></div>
+
+    <div class="pub-container">
+
+        <!-- هدر تخصصی انتشار اپلیکیشن -->
+        <header class="pub-hero-head">
+            <div class="pub-badge-pill">
+                <span class="pub-pulse-beacon"></span>
+                <span>تولید باندل AAB، امضای رسمی با Keystore و عبور از فیلترهای نظارتی استورها</span>
+            </div>
+
+            <h1 class="pub-main-title">
+                انتشار رسمی در <span class="text-gradient">کافه‌بازار، مایکت و گوگل‌پلی</span>
+            </h1>
+
+            <p class="pub-lead-desc">
+                پایان ریجکتی‌های فرسایشی به دلیل خطاهای دسترسی، مانیفست یا Target SDK؛ در آتراوب، فرآیند ممیزی، ساخت کلید امضا، تنظیم حریم خصوصی و استقرار اپلیکیشن موبایل شما در مارکت‌های داخلی و بین‌المللی با گارانتی تایید انتشار انجام می‌پذیرد.
+            </p>
+        </header>
+
+        <!-- معرفی رسانه‌ای فنی با دیاگرام وکتوری ریلیز به زبان SVG -->
+        <section class="pub-stage-box">
+            <div class="pub-stage-text">
+                <h2>چرا انتشار اصولی اپلیکیشن نیازمند مهندسی دقیق ریلیز است؟</h2>
+                <p>
+                    فرایند انتشار صرفاً خروجی گرفتن یک فایل نصبی نیست. مارکت‌های مدرن مانند کافه‌بازار و Google Play کدهای برنامه را با بات‌های خودکار از نظر مصرف باتری، نشت اطلاعات، پکیج‌های آلوده تبلیغاتی و دسترسی‌های بدون مجوز اسکن کرده و در صورت وجود کوچک‌ترین مغایرت، اکانت دولوپر را مسدود می‌کنند.
+                </p>
+                <p>
+                    تیم توسعه آتراوب با تسلط بر خروجی‌های استاندارد
+                    <a href="{% url 'core:flutter_crossplatform' %}" style="color: #f472b6; font-weight: 700; text-decoration: underline;">اپلیکیشن فلاتر</a>،
+                    ایمن‌سازی ارتباط با
+                    <a href="{% url 'core:backend_modular' %}" style="color: #f472b6; font-weight: 700; text-decoration: underline;">وب‌سرویس‌های جنگو</a>
+                    و استقرار خودکار، فرایند بررسی را در کوتاه‌ترین زمان ممکن به نتیجه می‌رساند.
+                </p>
+            </div>
+
+            <!-- دیاگرام وکتوری مراحل امضا و تایید استور در SVG ریسپانسیو -->
+            <div class="pub-svg-wrapper">
+                <div class="pub-svg-topbar">
+                    <span class="pub-top-tag">RELEASE PIPELINE: FLUTTER -> SIGN -> PUBLISH</span>
+                    <span class="pub-top-chip">STORE APPROVED</span>
+                </div>
+
+                <svg viewBox="0 0 440 250" width="100%" height="auto" fill="none" xmlns="http://www.w3.org/2000/svg" style="display: block;">
+                    <!-- نود بیلد سورس -->
+                    <rect x="20" y="25" width="115" height="55" rx="8" fill="#150a2b" stroke="#d946ef" stroke-width="1.5" />
+                    <text x="77" y="48" fill="#ffffff" font-size="10.5" font-weight="bold" text-anchor="middle" font-family="monospace">Flutter Build</text>
+                    <text x="77" y="66" fill="#f472b6" font-size="8.5" text-anchor="middle">flutter build appbundle</text>
+
+                    <!-- اتصال ۱ به ۲ -->
+                    <path d="M 135 52 L 175 52" stroke="#d946ef" stroke-width="2" />
+
+                    <!-- نود امضا و Keystore -->
+                    <rect x="175" y="25" width="125" height="55" rx="8" fill="#150a2b" stroke="#a855f7" stroke-width="1.5" />
+                    <text x="237" y="48" fill="#ffffff" font-size="10.5" font-weight="bold" text-anchor="middle" font-family="monospace">Code Signing</text>
+                    <text x="237" y="66" fill="#c084fc" font-size="8.5" text-anchor="middle">V2/V3 Keystore RSA-4096</text>
+
+                    <!-- اتصال ۲ به ۳ -->
+                    <path d="M 300 52 L 340 52" stroke="#a855f7" stroke-width="2" />
+
+                    <!-- نود استورها -->
+                    <rect x="340" y="25" width="85" height="55" rx="8" fill="#150a2b" stroke="#38bdf8" stroke-width="1.5" />
+                    <text x="382" y="48" fill="#ffffff" font-size="10.5" font-weight="bold" text-anchor="middle" font-family="monospace">App Stores</text>
+                    <text x="382" y="66" fill="#7dd3fc" font-size="8" text-anchor="middle">Bazaar / Play</text>
+
+                    <!-- خط هدایت تست‌های تاییدیه -->
+                    <path d="M 382 80 L 382 125" stroke="#38bdf8" stroke-width="2" stroke-dasharray="3 3"/>
+
+                    <!-- نود کنترل حریم خصوصی و مانیفست -->
+                    <rect x="220" y="125" width="205" height="50" rx="8" fill="#150a2b" stroke="#10b981" stroke-width="1.5" />
+                    <text x="322" y="147" fill="#ffffff" font-size="10" font-weight="bold" text-anchor="middle" font-family="monospace">Policy &amp; Permissions Audit</text>
+                    <text x="322" y="163" fill="#34d399" font-size="8.5" text-anchor="middle">Target SDK 34+ / Zero Policy Flags</text>
+
+                    <!-- نود گزارش ریلیز و اتوماسیون -->
+                    <rect x="20" y="125" width="180" height="50" rx="8" fill="#150a2b" stroke="#f59e0b" stroke-width="1.5" />
+                    <text x="110" y="147" fill="#ffffff" font-size="10" font-weight="bold" text-anchor="middle" font-family="monospace">Fastlane Track Deployment</text>
+                    <text x="110" y="163" fill="#fbbf24" font-size="8.5" text-anchor="middle">Automated Changelog &amp; Version</text>
+
+                    <!-- پنل گزارش نهایی -->
+                    <rect x="20" y="195" width="405" height="45" rx="8" fill="#080315" stroke="rgba(255,255,255,0.08)"/>
+                    <text x="222" y="215" fill="#f472b6" font-size="9.5" font-weight="bold" text-anchor="middle" font-family="monospace">Guaranteed Acceptance on CafeBazaar, Myket &amp; Google Play</text>
+                    <text x="222" y="230" fill="#94a3b8" font-size="8" text-anchor="middle">Full Keystore file and credentials transferred securely to the client</text>
+                </svg>
+
+                <div style="margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.06); display: flex; justify-content: space-between; font-size: 0.78rem; color: #94a3b8; direction: rtl;">
+                    <span>نوع باندل خروجی: <strong>Android App Bundle (.aab)</strong></span>
+                    <span>تطابق با الزامات: <strong>Target SDK 34 و حریم خصوصی</strong></span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 🚀 چیدمان خط لوله مرحله‌ای ریلیز و انتشار (Release Pipeline Stepper) -->
+        <section class="pub-pipeline-stepper">
+            <div class="pub-step-node">
+                <div>
+                    <div class="pub-step-num">۱</div>
+                    <h3 class="pub-step-title">ممیزی مانیفست و دسترسی‌ها</h3>
+                    <p class="pub-step-desc">بررسی کدهای برنامه، حذف دسترسی‌های خطرناک که منجر به ریجکتی می‌شوند و تطبیق معماری با آخرین قوانین اندروید ۱۴ و ۱۵.</p>
+                </div>
+            </div>
+
+            <div class="pub-step-node">
+                <div>
+                    <div class="pub-step-num">۲</div>
+                    <h3 class="pub-step-title">تولید کلید امضای اختصاصی (Keystore)</h3>
+                    <p class="pub-step-desc">ایجاد کلید امضای دیجیتال با رمزنگاری پیشرفته RSA-4096، بکاپ‌گیری امن در والت محرمانه و تحویل مستقیم به کارفرما.</p>
+                </div>
+            </div>
+
+            <div class="pub-step-node">
+                <div>
+                    <div class="pub-step-num">۳</div>
+                    <h3 class="pub-step-title">تنظیم صفحه حریم خصوصی و ادمین تست</h3>
+                    <p class="pub-step-desc">ایجاد سند رسمی Privacy Policy منطبق بر قوانین GDPR، تعریف اکانت تستی برای داوران استور و آماده‌سازی اسکرین‌شات‌های رسمی.</p>
+                </div>
+            </div>
+
+            <div class="pub-step-node">
+                <div>
+                    <div class="pub-step-num">۴</div>
+                    <h3 class="pub-step-title">پیگیری ممیزی تا تایید نهایی و انتشار</h3>
+                    <p class="pub-step-desc">ارسال بیلد به صف بررسی کافه‌بازار، مایکت و گوگل‌پلی، مکاتبه با داوران در صورت بروز ایراد و دریافت لینک دانلود مستقیم برنامه.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ماتریس مقایسه الزامات و تایید در استورها -->
+        <section class="pub-table-wrapper">
+            <div class="pub-table-title">
+                <h3>ماتریس چک‌لیست و الزامات انتشار در مارکت‌های مختلف</h3>
+                <p>مقایسه زمان بررسی، فرمت خروجی، محدودیت‌های تحریم و نیازمندی‌های احراز هویت</p>
+            </div>
+
+            <div class="pub-scroll-area">
+                <table class="pub-market-table">
+                    <thead>
+                        <tr>
+                            <th>شاخص بررسی و انتشار</th>
+                            <th>کافه‌بازار (CafeBazaar)</th>
+                            <th>مایکت (Myket)</th>
+                            <th>گوگل‌پلی (Google Play Console)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>فرمت استاندارد فایل خروجی</td>
+                            <td>APK یا AAB</td>
+                            <td>APK یا AAB</td>
+                            <td><span class="badge-pub-ok">صرفاً Android App Bundle (.aab)</span></td>
+                        </tr>
+                        <tr>
+                            <td>مدت زمان میانگین تایید و بررسی</td>
+                            <td>۲۴ الی ۴۸ ساعت کاری</td>
+                            <td>۱۲ الی ۲۴ ساعت کاری</td>
+                            <td>۳ الی ۷ روز کاری (نیازمند تست ۲۰ نفره)</td>
+                        </tr>
+                        <tr>
+                            <td>احراز هویت اکانت توسعه‌دهنده</td>
+                            <td>کارت ملی و اطلاعات بانکی ایران</td>
+                            <td>تایید شماره موبایل و کد ملی</td>
+                            <td>هویت غیرایرانی و پرداخت ۲۵ دلار ثبت‌نام</td>
+                        </tr>
+                        <tr>
+                            <td>الزام صفحه سیاست حفظ حریم خصوصی</td>
+                            <td>اجباری برای برنامه‌های دارای ورود</td>
+                            <td>اجباری برای برنامه‌های دارای ورود</td>
+                            <td><span class="badge-pub-ok">اجباری برای ۱۰۰٪ برنامه‌ها با هاست معتبر</span></td>
+                        </tr>
+                        <tr>
+                            <td>پشتیبانی از پرداخت درون‌برنامه‌ای</td>
+                            <td>SDK اختصاصی بازار</td>
+                            <td>SDK اختصاصی مایکت</td>
+                            <td>Google Play Billing (نیازمند حساب ارزی)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- سوالات متداول سئو دارک -->
+        <section class="pub-faq-wrapper">
+            <h2 style="font-size: clamp(1.25rem, 2.5vw, 1.55rem); font-weight: 800; color: #ffffff; text-align: center; margin-bottom: 24px;">
+                پرسش‌های متداول صاحبان کسب‌وکار درباره انتشار برنامه در استورها
+            </h2>
+            <div class="faq-grid">
+                <div class="faq-item active" style="background: rgba(14, 6, 28, 0.85); border-color: rgba(255, 255, 255, 0.08);">
+                    <div class="faq-question">
+                        <span class="q-text" style="color: #ffffff;">آیا برنامه در پنل اختصاصی کارفرما منتشر می‌شود یا در پنل آتراوب؟</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="answer-inner">
+                            <p style="color: #94a3b8;">اولویت اصلی انتشار در پنل رسمی اختصاصی خود کارفرما به همراه مالکیت ۱۰۰٪ حقوقی است؛ در صورت تمایل کارفرما، امکان انتشار تحت اکانت رسمی آتراوب نیز مهیا می‌باشد.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item active" style="background: rgba(14, 6, 28, 0.85); border-color: rgba(255, 255, 255, 0.08);">
+                    <div class="faq-question">
+                        <span class="q-text" style="color: #ffffff;">چگونه قانون جدید تست ۲۰ نفره برای انتشار در گوگل‌پلی اجرا می‌شود؟</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="answer-inner">
+                            <p style="color: #94a3b8;">برای اکانت‌های شخصی جدید گوگل‌پلی، برنامه ابتدا در ترک Closed Testing برای ۲۰ تستر واقعی به مدت ۱۴ روز متوالی فعال شده و پس از پاس کردن این مرحله، بیلد به صورت عمومی منتشر می‌گردد.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- بنر فراخوان نهایی -->
+        <div class="pub-cta-box">
+            <div>
+                <h3 style="font-size: clamp(1.2rem, 2.5vw, 1.6rem); font-weight: 900; color: #ffffff; margin-bottom: 8px;">
+                    اپلیکیشن شما آماده انتشار است یا در استورها ریجکت شده است؟
+                </h3>
+                <p style="color: #cbd5e1; font-size: 0.95rem; margin: 0; line-height: 1.85;">
+                    ممیزی فنی مانیفست، امضای دیجیتال و پیگیری تایید در کافه‌بازار و گوگل‌پلی را به تیم متخصص آتراوب بسپارید.
+                </p>
+            </div>
+            <a href="{% url 'core:submit_ticket' %}" class="pub-cta-btn">
+                درخواست انتشار و رفع ریجکتی
+            </a>
         </div>
 
-        <h1 class="hero-main-title" style="color: #0f172a;">
-            انتشار رسمی و <span class="text-emerald-glow">پاس کردن تاییدیه‌های مارکت‌ها</span>
-        </h1>
-        <p class="hero-lead-text" style="margin: 0 auto 30px auto; color: #475569;">
-            دیگر نگران ریجکت شدن به خاطر تحریم، نقض قوانین حریم خصوصی یا خطاهای سایز بیلد نباشید.
-        </p>
     </div>
-
-    <!-- مراحل گام‌به‌گام انتشار -->
-    <div class="store-steps-row">
-        <div class="store-step-card">
-            <div class="store-badge-icon">🔑</div>
-            <h3 style="font-size: 1.15rem; margin: 0 0 10px;">۱. ساخت کلیدهای امضا (Keystore)</h3>
-            <p style="font-size: 0.88rem; color: #64748b; margin: 0; line-height: 1.7;">
-                تولید کلیدهای رسمی با الگوریتم SHA-256 و نگهداری امن برای تداوم آپدیت‌های آینده بدون تداخل پکیج.
-            </p>
-        </div>
-
-        <div class="store-step-card">
-            <div class="store-badge-icon">📦</div>
-            <h3 style="font-size: 1.15rem; margin: 0 0 10px;">۲. خروجی بهینه فرمت AAB</h3>
-            <p style="font-size: 0.88rem; color: #64748b; margin: 0; line-height: 1.7;">
-                کاهش حجم دانلود کاربر با فشرده‌سازی R8 و ProGuard و حذف کدهای آزمایشی و تست از بیلد نهایی.
-            </p>
-        </div>
-
-        <div class="store-step-card">
-            <div class="store-badge-icon">📜</div>
-            <h3 style="font-size: 1.15rem; margin: 0 0 10px;">۳. تطبیق قوانین حریم خصوصی (Privacy)</h3>
-            <p style="font-size: 0.88rem; color: #64748b; margin: 0; line-height: 1.7;">
-                تدوین استاندارد صفحه شرایط استفاده و تعیین صحیح دسترسی‌ها جهت عبور از بررسی خودکار استورها.
-            </p>
-        </div>
-
-        <div class="store-step-card">
-            <div class="store-badge-icon">🚀</div>
-            <h3 style="font-size: 1.15rem; margin: 0 0 10px;">۴. تاییدیه نهایی و انتشار عمومی</h3>
-            <p style="font-size: 0.88rem; color: #64748b; margin: 0; line-height: 1.7;">
-                تنظیم دسته‌بندی، متون ASO و تصاویر استاندارد مارکت و دریافت تایید رسمی برای شروع دانلود کاربران.
-            </p>
-        </div>
-    </div>
-
-    <div class="custom-plan-card" style="max-width: 1240px; margin: 40px auto 0;">
-        <div class="custom-plan-info">
-            <h3 class="custom-plan-title">اپلیکیشن فلاتر شما آماده انتشار و بارگذاری در استورهاست؟</h3>
-            <p class="custom-plan-desc">فرایند ساخت بیلد رسمی، دریافت تاییدیه و انتشار نهایی را به متخصصین آترا بسپارید.</p>
-        </div>
-        <a href="{% url 'core:submit_ticket' %}" class="btn-custom">سفارش انتشار اپلیکیشن در مارکت‌ها</a>
-    </div>
-</section>
+</div>
 {% endblock %}

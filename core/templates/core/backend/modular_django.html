@@ -1,0 +1,246 @@
+{% extends 'parent/base.html' %}
+{% load static %}
+
+{% block title %}معماری ماژولار بک‌اند با Django و Django REST Framework | آتراوب{% endblock %}
+{% block meta_description %}طراحی و توسعه وب‌سرویس‌ها و بک‌اند مقیاس‌پذیر با معماری ماژولار جنگو و DRF؛ پیاده‌سازی Clean Architecture، بهینه‌سازی کوئری‌ها و تفکیک دامنه‌های تجاری.{% endblock %}
+{% block meta_keywords %}طراحی وب با جنگو, توسعه بک اند Django, معماری ماژولار جنگو, جنگو رست فریمورک DRF, طراحی وب سرویس مقیاس پذیر, Clean Architecture پایتون{% endblock %}
+
+{% block extra_schema %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "headline": "توسعه وب‌سرویس و معماری ماژولار با Django و DRF",
+      "description": "معماری ماژولار و مقیاس‌پذیر برای سامانه‌های تحت وب سازمانی با جنگو و جنگو رست فریم‌ورک",
+      "author": {"@type": "Organization", "name": "آتراوب", "url": "https://atraweb.com"},
+      "publisher": {"@type": "Organization", "name": "آتراوب"}
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "چرا معماری ماژولار در جنگو برای پروژه‌های بزرگ ضروری است؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "معماری ماژولار هر دامنه بیزینس را در یک اپلیکیشن مستقل ایزوله می‌کند. این امر تست‌پذیری، نگهداری آسان و مقیاس‌پذیری تیم توسعه را بدون وابستگی متقابل تضمین می‌نماید."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "آیا جنگو REST فریم‌ورک توانایی هندل ترافیک سنگین را دارد؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "بله؛ با بهینه‌سازی کوئری‌های ORM با select_related و prefetch_related، کش لایه‌ای با Redis و لود بالانسر، DRF به راحتی هزاران درخواست در ثانیه را پردازش می‌کند."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+{% endblock %}
+
+{% block extra_css %}
+    <link href="{% static 'css/navbar.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="nginx-page-root">
+    <div class="container">
+
+        <!-- هدر معرفی بخش -->
+        <header class="bento-header">
+            <div class="linux-shield-badge">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                    <polyline points="2 17 12 22 22 17"></polyline>
+                    <polyline points="2 12 12 17 22 12"></polyline>
+                </svg>
+                <span>معماری مقیاس‌پذیر سازمانی &amp; Clean Code</span>
+            </div>
+            <h1 class="bento-title">
+                معماری ماژولار بک‌اند با <span class="text-gradient">Django &amp; DRF</span>
+            </h1>
+            <p>
+                طراحی و پیاده‌سازی لایه دیتامدل، کنترلرها و وب‌سرویس‌های RESTful فوق‌سریع با ساختار ماژولار، سریالایزرهای اعتبارسنجی دقیق و حداقل زمان پاسخگویی پایگاه‌داده.
+            </p>
+        </header>
+
+        <!-- معرفی جامع و سئو برای عبارت طراحی وب و معماری بک‌اند -->
+        <article class="linux-spec-box highlight" style="margin-bottom: 40px;">
+            <h2 style="font-size: 1.45rem; margin-bottom: 16px; color: #0f172a;">چرا توسعه پایدار و طراحی وب حرفه‌ای به معماری ماژولار نیاز دارد؟</h2>
+            <p style="color: #475569; line-height: 1.95; font-size: 0.96rem; text-align: justify; margin-bottom: 16px;">
+                در پروژه‌های نرم‌افزاری تجاری و طراحی وب‌سایت‌های پیچیده، ساختار پیش‌فرض و چسبیده به دیتابیس در طولانی‌مدت به «کد اسپاگتی» و افزایش سرسام‌آور بدهی فنی منجر می‌شود. معماری ماژولار بر پایه فریم‌ورک پایتونی <strong>Django</strong> و <strong>Django REST Framework (DRF)</strong> با جداسازی منطق کسب‌وکار (Service Layer)، کنترل دسترسی‌ها، و نگاشت داده‌ها، سیستمی مستقل و قابل گسترش ارائه می‌دهد.
+            </p>
+            <p style="color: #475569; line-height: 1.95; font-size: 0.96rem; text-align: justify;">
+                این زیرساخت با اتصال استاندارد به
+                <a href="{% url 'core:backend_postgresql' %}" style="color: #047857; font-weight: 700; text-decoration: underline;">پایگاه داده PostgreSQL</a>
+                و تلفیق با لایه تسک‌های پس‌زمینه
+                <a href="{% url 'core:backend_celery_redis' %}" style="color: #047857; font-weight: 700; text-decoration: underline;">Celery و Redis</a>،
+                پایداری و پاسخ‌دهی بالای ۹۹.۹٪ را برای کلاینت‌های وب و اپلیکیشن فلاتر به همراه دارد.
+            </p>
+        </article>
+
+        <!-- ۴ کارت قابلیت‌های کلیدی معماری ماژولار -->
+        <section class="pillar-cards-section" style="padding: 10px 0 50px 0; background: transparent;">
+            <div class="pillar-cards-grid">
+
+                <div class="pillar-glass-card">
+                    <div class="pillar-icon-box">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="14" width="7" height="7"></rect>
+                            <rect x="3" y="14" width="7" height="7"></rect>
+                        </svg>
+                    </div>
+                    <h3 class="pillar-card-title">تفکیک ماژول‌ها و Domain Isolation</h3>
+                    <p class="pillar-card-desc">
+                        جداسازی کامل حوزه‌های بیزینس در اپ‌های مستقل (Auth, Billing, Orders, Core) با کمترین وابستگی مستقیم بین مدل‌ها.
+                    </p>
+                </div>
+
+                <div class="pillar-glass-card">
+                    <div class="pillar-icon-box">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="pillar-card-title">بهینه‌سازی عمیق ORM و کوئری‌ها</h3>
+                    <p class="pillar-card-desc">
+                        حذف کامل خطای پرهزینه <span class="tech-tag">N+1 Problem</span> با استفاده اصولی از select_related و ایندکس‌گذاری‌های پیشرفته.
+                    </p>
+                </div>
+
+                <div class="pillar-glass-card">
+                    <div class="pillar-icon-box">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="pillar-card-title">لایه دسترسی و Permission گرانولار</h3>
+                    <p class="pillar-card-desc">
+                        پیاده‌سازی سطوح دسترسی سفارشی، لاگین توکن‌محور، اعتبارسنجی لایه ورودی Serializer و مهار درخواست‌های غیرمجاز.
+                    </p>
+                </div>
+
+                <div class="pillar-glass-card">
+                    <div class="pillar-icon-box">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="16 18 22 12 16 6"></polyline>
+                            <polyline points="8 6 2 12 8 18"></polyline>
+                        </svg>
+                    </div>
+                    <h3 class="pillar-card-title">مستندسازی خودکار با Swagger/OpenAPI</h3>
+                    <p class="pillar-card-desc">
+                        تولید خودکار شمای وب‌سرویس و اسناد تعاملی API جهت سهولت یکپارچه‌سازی فرانت‌اند، کلاینت فلاتر و تیم تست نرم‌افزار.
+                    </p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- دیاگرام معماری خط لوله لایه‌ای (Clean Architecture Pipeline) -->
+        <section class="pipeline-diagram">
+            <h2 style="font-size: 1.35rem; margin-bottom: 12px; color: #0f172a;">جریان داده و چرخه حیات درخواست در معماری ماژولار آترا</h2>
+
+            <div class="pipeline-node">
+                <div class="pipeline-node-info">
+                    <div class="linux-step-item" style="margin-bottom: 8px;">
+                        <span class="linux-step-num">۱</span>
+                        <h3>دریافت و فیلترینگ در لایه Router &amp; Middleware</h3>
+                    </div>
+                    <p>
+                        تحلیل هدرها، ریت‌لیمیتینگ با Redis، شناسایی آی‌پی و رمزگشایی توکن احراز هویت قبل از ورود پردازش به هسته بیزینس.
+                    </p>
+                </div>
+                <div class="pipeline-tag">Gateway Layer</div>
+            </div>
+
+            <div class="pipeline-node">
+                <div class="pipeline-node-info">
+                    <div class="linux-step-item" style="margin-bottom: 8px;">
+                        <span class="linux-step-num">۲</span>
+                        <h3>اعتبارسنجی داده‌ها با DRF Serializers</h3>
+                    </div>
+                    <p>
+                        بررسی تایپ داده‌ها، پاکسازی ورودی‌ها از حملات تزریقی، اعتبارسنجی قواعد منطقی فرم‌ها و تبدیل داده به ساختار داخلی پایتون.
+                    </p>
+                </div>
+                <div class="pipeline-tag">Data Validation</div>
+            </div>
+
+            <div class="pipeline-node">
+                <div class="pipeline-node-info">
+                    <div class="linux-step-item" style="margin-bottom: 8px;">
+                        <span class="linux-step-num">۳</span>
+                        <h3>اجرای منطق بیزینس در Service Layer (تفکیک از Views)</h3>
+                    </div>
+                    <p>
+                        اجرای محاسبات اصلی درون سرویس‌های مجزا، ثبت لاگ‌های مالی یا آماری و جلوگیری از حجیم شدن فایل‌های view و مدل.
+                    </p>
+                </div>
+                <div class="pipeline-tag">Core Logic</div>
+            </div>
+
+            <div class="pipeline-node">
+                <div class="pipeline-node-info">
+                    <div class="linux-step-item" style="margin-bottom: 8px;">
+                        <span class="linux-step-num">۴</span>
+                        <h3>پایدارسازی اتمیک در دیتابیس (Atomic Transactions)</h3>
+                    </div>
+                    <p>
+                        اجرای تراکنش‌های حساس درون بلاک‌های `transaction.atomic` جهت پیشگیری از ناهماهنگی اطلاعات و صدور فوری پاسخ JSON به کلاینت.
+                    </p>
+                </div>
+                <div class="pipeline-tag">PostgreSQL / ORM</div>
+            </div>
+        </section>
+
+        <!-- سوالات متداول سئو -->
+        <section class="premium-faq-section" style="background: transparent; padding: 40px 0;">
+            <div class="faq-container">
+                <div class="faq-header">
+                    <span class="faq-badge">پرسش‌های پرتکرار</span>
+                    <h2 class="faq-title">پرسش‌های متداول توسعه بک‌اند و طراحی وب با جنگو</h2>
+                </div>
+                <div class="faq-grid">
+                    <div class="faq-item highlight-offline active">
+                        <div class="faq-question">
+                            <span class="q-text">آیا مهاجرت از ساختار مونوپک قدیمی به معماری ماژولار امکان‌پذیر است؟</span>
+                        </div>
+                        <div class="faq-answer">
+                            <div class="answer-inner">
+                                <p>بله؛ این فرآیند به صورت گام‌به‌گام با تفکیک مدل‌ها، تعریف مایگریشن‌های وابسته و ایجاد لایه سرویس بدون خواب سرور (Zero Downtime) اجرا می‌گردد.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="faq-item highlight-offline active">
+                        <div class="faq-question">
+                            <span class="q-text">مزیت اصلی جنگو نسبت به فریم‌ورک‌های سبک‌تر چیست؟</span>
+                        </div>
+                        <div class="faq-answer">
+                            <div class="answer-inner">
+                                <p>سیستم ORM فوق‌العاده پایدار، پنل ادمین قدرتمند، مدیریت اتوماتیک مایگریشن‌های دیتابیس و رعایت بالاترین استانداردهای امنیتی در برابر حملات متداول وب نظیر CSRF و SQL Injection.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- کارت اکشن و سفارش -->
+        <div class="custom-plan-card">
+            <div class="custom-plan-info">
+                <h3 class="custom-plan-title">نیازمند طراحی وب‌سرویس و معماری پایدار بک‌اند هستید؟</h3>
+                <p class="custom-plan-desc">طراحی دیتامدل، کدنویسی تمیز با جنگو و مستندسازی کامل API پروژه شما مطابق استانداردهای روز دنیا پیاده‌سازی می‌شود.</p>
+            </div>
+            <a href="{% url 'core:submit_ticket' %}" class="btn-custom">سفارش توسعه معماری بک‌اند</a>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

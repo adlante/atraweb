@@ -1,102 +1,805 @@
 {% extends 'parent/base.html' %}
 {% load static %}
 
-{% block title %}پلن توسعه اختصاصی بک‌اند و API با Django | آترا{% endblock %}
-{% block meta_description %}طراحی و اجرای بک‌اند ماژولار با Django REST Framework، دیتابیس PostgreSQL، کش Redis و سیستم‌های احراز هویت پیامکی با پایداری ۹۹.۹٪.{% endblock %}
-{% block meta_keywords %}سفارش بک اند جنگو, هزینه طراحی API, توسعه Django REST, برنامه نویسی پایتون بک اند, وب سرویس اختصاصی{% endblock %}
+{% block title %}پلن توسعه اختصاصی بک‌اند و طراحی وب‌سرویس‌های مقیاس‌پذیر | آتراوب{% endblock %}
+{% block meta_description %}تعرفه، پلن‌های قیمتی و خدمات توسعه اختصاصی بک‌اند با جنگو و FastAPI؛ معماری میکروسرویس، پیاده‌سازی APIهای پرسرعت REST/gRPC، تست امنیتی و گارانتی SLA.{% endblock %}
+{% block meta_keywords %}قیمت توسعه بک اند, هزینه ساخت API اختصاصی, تعرفه برنامه نویسی پایتون, پلن توسعه جنگو, طراحی وب سرویس شرکتی, قرارداد توسعه نرم افزار بک اند{% endblock %}
 
 {% block extra_schema %}
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "Service",
-  "name": "توسعه اختصاصی بک‌اند و API با Django",
-  "provider": {"@type": "Organization", "name": "آترا"},
-  "description": "معماری ماژولار بک‌اند، احراز هویت پیامکی و وب‌سرویس‌های پرسرعت REST",
-  "areaServed": "IR"
+  "@graph": [
+    {
+      "@type": "Product",
+      "name": "پلن توسعه اختصاصی بک‌اند و وب‌سرویس آتراوب",
+      "image": "https://atraweb.com/static/images/backend_api_architecture.png",
+      "description": "پکیج جامع مهندسی زیرساخت بک‌اند، طراحی دیتابیس رابطه‌ای، امنیت وب‌سرویس و اتصال به صف‌های توزیع‌شده با پایتون و جنگو",
+      "brand": {
+        "@type": "Brand",
+        "name": "آتراوب"
+      },
+      "offers": {
+        "@type": "AggregateOffer",
+        "priceCurrency": "IRR",
+        "lowPrice": "250000000",
+        "highPrice": "950000000",
+        "offerCount": "3"
+      }
+    },
+    {
+      "@type": "TechArticle",
+      "headline": "استانداردها و ماتریس هزینه‌ای توسعه اختصاصی بک‌اند سازمانی",
+      "description": "راهنمای ارزیابی زمان، نیازمندی‌های سخت‌افزاری، پیاده‌سازی آزمون‌های خودکار و شاخص‌های کیفی در قراردادهای توسعه Backend و API",
+      "inLanguage": "fa-IR",
+      "author": {"@type": "Organization", "name": "آتراوب", "url": "https://atraweb.com"},
+      "publisher": {"@type": "Organization", "name": "آتراوب"}
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "پلن‌های توسعه بک‌اند آتراوب شامل چه فازهایی از پروژه می‌شود؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "کلیه مراحل از طراحی دیاگرام دیتابیس (ERD)، کدنویسی تمیز با جنگو یا FastAPI، تست‌های واحد (Unit Tests)، مستندسازی تعاملی در Swagger/Postman، پیکربندی صف‌های پردازشی ردیس و سلری، تا استقرار نهایی در سرورهای لینوکس داکرایز شده را پوشش می‌دهد."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "تفاوت پلن‌های استارتاپی، مقیاس‌پذیر و سازمانی در چیست؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "پلن استارتاپی بر سرعت ورود به بازار (MVP) با معماری ماژولار متمرکز است؛ پلن مقیاس‌پذیر لایه‌های ردیس کش، صف‌های توزیع‌شده و ریت‌لیمیتینگ را اضافه می‌کند؛ و پلن سازمانی مجهز به کلاسترینگ پایگاه‌داده، گارانتی پایداری ۹۹.۹٪ SLA و پشتیبانی ۲۴/۷ اختصاصی است."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "آیا مالکیت سورس‌کد و مستندات API به کارفرما واگذار می‌گردد؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "بله؛ تمام سورس‌کدهای پروژه بدون هیچ‌گونه قفل یا کدگذاری به همراه مستندات کامل فنی و گیت‌ریپازیتوری رسمی در پایان هر مایل‌استون به کارفرما تحویل داده می‌شود."
+          }
+        }
+      ]
+    }
+  ]
 }
 </script>
 {% endblock %}
 
 {% block extra_css %}
     <link href="{% static 'css/navbar.css' %}" rel="stylesheet">
+    <style>
+        /* 🌌 تم متالیک لاجورد عمیق (Deep Lapis & Titanium Ledger) */
+        .plan-lapis-root {
+            background-color: #020817 !important;
+            color: #f8fafc;
+            direction: rtl;
+            position: relative;
+            overflow-x: hidden;
+            padding: 55px 0 110px 0;
+            font-family: var(--font-main);
+            box-sizing: border-box;
+        }
+
+        .plan-ambient-lapis {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(37, 99, 235, 0.18) 0%, transparent 70%);
+            filter: blur(120px);
+            top: 0;
+            right: 5%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .plan-ambient-cyan {
+            position: absolute;
+            width: 520px;
+            height: 520px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(14, 165, 233, 0.14) 0%, transparent 70%);
+            filter: blur(110px);
+            bottom: 5%;
+            left: 5%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .plan-mesh-overlay {
+            position: absolute;
+            inset: 0;
+            background-image:
+                radial-gradient(rgba(59, 130, 246, 0.12) 1.2px, transparent 1.2px),
+                linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 32px 32px, 64px 64px, 64px 64px;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .plan-container-main {
+            width: 100%;
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 2;
+            box-sizing: border-box;
+        }
+
+        /* هدر استودیو معرفی پلن */
+        .plan-hero-header {
+            text-align: center;
+            max-width: 980px;
+            margin: 0 auto 55px auto;
+        }
+
+        .plan-badge-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(37, 99, 235, 0.1);
+            border: 1px solid rgba(96, 165, 250, 0.35);
+            color: #60a5fa;
+            font-size: clamp(0.75rem, 2vw, 0.86rem);
+            font-weight: 800;
+            padding: 7px 22px;
+            border-radius: 999px;
+            margin-bottom: 22px;
+            box-shadow: 0 0 25px rgba(37, 99, 235, 0.2);
+        }
+
+        .plan-status-dot {
+            width: 8px;
+            height: 8px;
+            background: #3b82f6;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #3b82f6;
+            animation: planPulse 1.8s infinite;
+            flex-shrink: 0;
+        }
+
+        @keyframes planPulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.3; transform: scale(0.8); }
+        }
+
+        .plan-main-title {
+            font-size: clamp(1.85rem, 4.5vw, 3.2rem);
+            font-weight: 900;
+            color: #ffffff;
+            line-height: 1.35;
+            margin-bottom: 22px;
+            letter-spacing: -0.6px;
+        }
+
+        .plan-main-title span {
+            background: linear-gradient(135deg, #60a5fa 0%, #38bdf8 50%, #34d399 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .plan-lead-desc {
+            color: #94a3b8;
+            font-size: clamp(0.94rem, 2vw, 1.08rem);
+            line-height: 2;
+            margin: 0;
+            text-align: justify;
+            text-align-last: center;
+        }
+
+        /* بخش رسانه‌ای تکنیکال با تصویر معماری اختصاصی بک‌اند */
+        .plan-visual-stage {
+            background: rgba(10, 18, 38, 0.75);
+            border: 1.5px solid rgba(59, 130, 246, 0.25);
+            border-radius: 28px;
+            padding: clamp(20px, 4vw, 42px);
+            backdrop-filter: blur(25px);
+            box-shadow: 0 30px 70px -15px rgba(0, 0, 0, 0.85);
+            margin-bottom: 70px;
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: 38px;
+            align-items: center;
+            box-sizing: border-box;
+        }
+
+        .plan-stage-info h2 {
+            font-size: clamp(1.3rem, 2.8vw, 1.75rem);
+            font-weight: 900;
+            color: #ffffff;
+            margin-bottom: 16px;
+            line-height: 1.45;
+        }
+
+        .plan-stage-info p {
+            color: #94a3b8;
+            font-size: 0.96rem;
+            line-height: 1.95;
+            text-align: justify;
+            margin-bottom: 16px;
+        }
+
+        .plan-media-frame {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1.5px solid rgba(59, 130, 246, 0.35);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 30px rgba(37, 99, 235, 0.15);
+            background: #01040f;
+        }
+
+        .plan-media-frame img {
+            width: 100%;
+            height: auto;
+            max-height: 380px;
+            object-fit: cover;
+            display: block;
+            filter: contrast(1.05) brightness(0.95);
+            transition: transform 0.4s ease;
+        }
+
+        .plan-media-frame:hover img {
+            transform: scale(1.03);
+        }
+
+        .plan-media-badge {
+            position: absolute;
+            bottom: 14px;
+            right: 14px;
+            background: rgba(2, 6, 23, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #60a5fa;
+            font-size: 0.78rem;
+            font-weight: 700;
+            padding: 5px 14px;
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+        }
+
+        /* گرید ۳ ستونه تعرفه‌ها و پکیج‌های توسعه */
+        .plan-pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-bottom: 75px;
+            align-items: stretch;
+        }
+
+        .plan-price-card {
+            background: rgba(13, 22, 44, 0.65);
+            border: 1.5px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: 34px 26px;
+            backdrop-filter: blur(18px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .plan-price-card.featured {
+            background: rgba(15, 28, 58, 0.9);
+            border-color: #3b82f6;
+            box-shadow: 0 25px 50px -10px rgba(37, 99, 235, 0.3);
+            transform: scale(1.02);
+        }
+
+        .plan-price-card:hover {
+            transform: translateY(-8px);
+            border-color: #60a5fa;
+            box-shadow: 0 24px 45px -12px rgba(59, 130, 246, 0.25);
+        }
+
+        .plan-featured-ribbon {
+            position: absolute;
+            top: 14px;
+            left: 18px;
+            background: linear-gradient(135deg, #2563eb, #38bdf8);
+            color: #ffffff;
+            font-size: 0.74rem;
+            font-weight: 800;
+            padding: 4px 12px;
+            border-radius: 6px;
+        }
+
+        .plan-card-tag {
+            font-size: 0.8rem;
+            color: #60a5fa;
+            font-weight: 800;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .plan-card-name {
+            font-size: 1.45rem;
+            font-weight: 900;
+            color: #ffffff;
+            margin-bottom: 12px;
+        }
+
+        .plan-card-desc {
+            font-size: 0.88rem;
+            color: #94a3b8;
+            line-height: 1.8;
+            margin-bottom: 22px;
+            min-height: 52px;
+        }
+
+        .plan-features-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 30px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding-top: 20px;
+            flex-grow: 1;
+        }
+
+        .plan-features-list li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.88rem;
+            color: #cbd5e1;
+        }
+
+        .plan-features-list li svg {
+            width: 18px;
+            height: 18px;
+            color: #38bdf8;
+            flex-shrink: 0;
+        }
+
+        .plan-action-link {
+            display: block;
+            width: 100%;
+            text-align: center;
+            padding: 14px 0;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: all 0.25s ease;
+            box-sizing: border-box;
+        }
+
+        .btn-lapis-outline {
+            background: transparent;
+            color: #ffffff !important;
+            border: 1.5px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-lapis-outline:hover {
+            border-color: #3b82f6;
+            background: rgba(37, 99, 235, 0.15);
+        }
+
+        .btn-lapis-solid {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            color: #ffffff !important;
+            border: none;
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.4);
+        }
+
+        .btn-lapis-solid:hover {
+            background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+            transform: translateY(-2px);
+        }
+
+        /* ماتریس مقایسه تحویل و استانداردهای SLA */
+        .plan-matrix-panel {
+            background: rgba(10, 18, 38, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: clamp(20px, 4vw, 36px);
+            margin-bottom: 70px;
+            box-sizing: border-box;
+        }
+
+        .plan-table-header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .plan-table-header h3 {
+            font-size: clamp(1.25rem, 2.5vw, 1.65rem);
+            font-weight: 900;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+
+        .plan-table-header p {
+            color: #64748b;
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        .plan-scroller {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .plan-matrix-table {
+            width: 100%;
+            min-width: 680px;
+            border-collapse: collapse;
+            text-align: right;
+            font-size: 0.9rem;
+        }
+
+        .plan-matrix-table th {
+            padding: 16px 18px;
+            color: #60a5fa;
+            font-weight: 800;
+            background: rgba(255, 255, 255, 0.02);
+            border-bottom: 2px solid rgba(59, 130, 246, 0.3);
+            white-space: nowrap;
+        }
+
+        .plan-matrix-table td {
+            padding: 16px 18px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: #cbd5e1;
+            vertical-align: middle;
+            white-space: nowrap;
+        }
+
+        .plan-matrix-table tr:hover td {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .badge-table-win {
+            background: rgba(16, 185, 129, 0.18);
+            color: #34d399;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-weight: 800;
+            font-size: 0.78rem;
+        }
+
+        /* سوالات متداول سئو دارک */
+        .plan-faq-deck {
+            background: rgba(10, 18, 38, 0.65);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: clamp(20px, 4vw, 40px);
+            margin-bottom: 65px;
+            box-sizing: border-box;
+        }
+
+        /* بنر فراخوان نهایی */
+        .plan-cta-box {
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.22) 0%, rgba(14, 165, 233, 0.16) 100%);
+            border: 1.5px solid rgba(96, 165, 250, 0.4);
+            border-radius: 24px;
+            padding: clamp(24px, 4vw, 44px);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 25px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+            box-sizing: border-box;
+        }
+
+        .plan-cta-btn {
+            background: linear-gradient(135deg, #2563eb 0%, #38bdf8 100%);
+            color: #ffffff !important;
+            padding: 15px 34px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 0.96rem;
+            text-decoration: none;
+            white-space: nowrap;
+            box-shadow: 0 10px 30px rgba(37, 99, 235, 0.4);
+            border: 1px solid #60a5fa;
+            transition: all 0.25s ease;
+            text-align: center;
+        }
+
+        .plan-cta-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(37, 99, 235, 0.6);
+            background: #1d4ed8;
+        }
+
+        /* ریسپانسیو اختصاصی موبایل و تبلت */
+        @media (max-width: 1024px) {
+            .plan-visual-stage {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            .plan-pricing-grid {
+                grid-template-columns: 1fr;
+            }
+            .plan-price-card.featured {
+                transform: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .plan-cta-box {
+                flex-direction: column;
+                text-align: center;
+            }
+            .plan-cta-btn {
+                width: 100%;
+                box-sizing: border-box;
+            }
+        }
+    </style>
 {% endblock %}
 
 {% block content %}
-<section class="offline-feature-page">
-    <div class="offline-container">
+<div class="plan-lapis-root">
+    <div class="plan-ambient-lapis"></div>
+    <div class="plan-ambient-cyan"></div>
+    <div class="plan-mesh-overlay"></div>
 
-        <div class="offline-hero">
-            <div class="offline-badge">
-                <span>پلن تخصصی بک‌اند و وب‌سرویس</span>
+    <div class="plan-container-main">
+
+        <!-- هدر تخصصی پلن توسعه بک‌اند -->
+        <header class="plan-hero-header">
+            <div class="plan-badge-pill">
+                <span class="plan-status-dot"></span>
+                <span>پکیج‌های مهندسی معماری ماژولار، امنیت داده‌ها و وب‌سرویس‌های پرسرعت</span>
             </div>
-            <h1 class="offline-main-title">
-                توسعه اختصاصی <span class="title-highlight">بک‌اند و RESTful API</span>
+
+            <h1 class="plan-main-title">
+                پلن‌های توسعه اختصاصی <span class="text-gradient">Backend &amp; API Architecture</span>
             </h1>
-            <p class="offline-subtitle">
-                معماری مقیاس‌پذیر، تفکیک لایه‌های سرویس و بیزینس، دیتابیس بهینه و وب‌سرویس‌های ایمن با کمترین زمان پاسخ‌دهی برای اپلیکیشن‌ها و سامانه‌های بزرگ.
+
+            <p class="plan-lead-desc">
+                پایان پروژه‌های شکست‌خورده با کدهای غیرمعیار و قطعی‌های مداوم سرور؛ در آتراوب، لایه سرور کسب‌وکار شما با استانداردهای سطح سازمانی در پایتون، جنگو و FastAPI طراحی شده و با بهینه‌سازی کوئری‌های دیتابیس و تست‌های خودکار یکپارچگی تحویل داده می‌شود.
             </p>
-        </div>
+        </header>
 
-        <div class="offline-bento-grid">
-            <div class="offline-card bento-main">
-                <div class="offline-icon-wrapper">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
-                        <polyline points="2 17 12 22 22 17"></polyline>
-                        <polyline points="2 12 12 17 22 12"></polyline>
-                    </svg>
-                </div>
-                <h2 class="offline-card-title">هسته فنی مقاوم در برابر ترافیک سنگین</h2>
-                <p class="offline-card-text">
-                    پیاده‌سازی بر پایه فریم‌ورک قدرتمند Django و DRF با الگوهای طراحی استاندارد، مدیریت حافظه موقت با Redis، اتصال به درگاه‌های پرداخت، سیستم صدور فاکتور و صف‌های پردازش پس‌زمینه با Celery جهت پردازش هزاران تراکنش همزمان بدون افت فریم و تایم‌اوت.
+        <!-- معرفی رسانه‌ای فنی همراه با تصویر شماتیک مهندسی -->
+        <section class="plan-visual-stage">
+            <div class="plan-stage-info">
+                <h2>چرا سرمایه‌گذاری روی معماری استاندارد بک‌اند حیاتی‌ترین دارایی فنی است؟</h2>
+                <p>
+                    زیباترین رابط‌های کاربری وب و اپلیکیشن در صورت ضعف سرور، تاخیر در پاسخگویی یا نشت اطلاعات در چشم مشتریان بی‌ارزش می‌شوند. انتخاب یک پلن مهندسی استاندارد بک‌اند تضمین می‌کند سیستم زیر ترافیک همزمان کمپین‌های تبلیغاتی پایدار بماند.
                 </p>
-                <div class="offline-image-container">
-                    <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=900&q=80" alt="کدنویسی بک اند جنگو">
-                </div>
-            </div>
-
-            <div class="offline-card bento-square-1">
-                <div class="offline-icon-wrapper">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-                </div>
-                <h3 class="offline-card-title">احراز هویت پیامکی و JWT</h3>
-                <p class="offline-card-text">
-                    سیستم OTP با خطوط خدماتی بدون بلک‌لیست، ذخیره کدهای ورود در رم Redis و صدور توکن‌های امن Access و Refresh برای کلاینت‌ها.
+                <p>
+                    خدمات توسعه بک‌اند آتراوب منطبق با
+                    <a href="{% url 'core:backend_modular' %}" style="color: #60a5fa; font-weight: 700; text-decoration: underline;">معماری ماژولار جنگو</a>،
+                    بهینه‌سازی عمیق
+                    <a href="{% url 'core:backend_postgresql' %}" style="color: #60a5fa; font-weight: 700; text-decoration: underline;">پایگاه داده PostgreSQL</a>
+                    و مدیریت صفوف سنگین با
+                    <a href="{% url 'core:backend_celery_redis' %}" style="color: #60a5fa; font-weight: 700; text-decoration: underline;">Celery و Redis</a>
+                    پیاده‌سازی می‌گردند تا پاسخگویی وب‌سرویس‌ها زیر ۵۰ میلی‌ثانیه تثبیت شود.
                 </p>
             </div>
 
-            <div class="offline-card bento-square-2">
-                <div class="offline-icon-wrapper">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>
+            <div class="plan-media-frame">
+                <img src="{% static 'images/ai_rag_architecture_diagram.png' %}"
+                     alt="نمودار شماتیک معماری توسعه اختصاصی بک‌اند، دیتابیس رابطه‌ای و وب‌سرویس‌های مقیاس‌پذیر"
+                     title="معماری مهندسی زیرساخت بک‌اند آتراوب"
+                     loading="lazy"
+                     onerror="this.src='https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&q=80'">
+                <div class="plan-media-badge">
+                    High-Concurrency Certified SLA 99.9%
                 </div>
-                <h3 class="offline-card-title">پایگاه داده PostgreSQL</h3>
-                <p class="offline-card-text">
-                    ایندکس‌گذاری تخصصی B-Tree و GIN، جلوگیری قطعی از N+1 Query و تضمین پایداری و یکپارچگی داده‌ها (ACID).
+            </div>
+        </section>
+
+        <!-- گرید کارت‌های ۳گانه پلن‌های توسعه بک‌اند -->
+        <section class="plan-pricing-grid">
+
+            <!-- پلن استارتاپ و MVP -->
+            <div class="plan-price-card">
+                <div>
+                    <span class="plan-card-tag">استارتاپ‌ها و MVP</span>
+                    <h3 class="plan-card-name">پلن استارتاپی Core</h3>
+                    <p class="plan-card-desc">توسعه سریع و پایدار بک‌اند برای اعتبارسنجی ایده تجاری با معماری استاندارد و تست‌شده.</p>
+
+                    <ul class="plan-features-list">
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            <span>توسعه بک‌اند با Django و DRF</span>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            <span>طراحی دیتامدل در PostgreSQL</span>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            <span>سیستم احراز هویت توکن JWT و OTP</span>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            <span>مستندسازی خودکار با Swagger</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <a href="{% url 'core:submit_ticket' %}" class="plan-action-link btn-lapis-outline">
+                    انتخاب پلن استارتاپی
+                </a>
+            </div>
+
+            <!-- پلن تجاری مقیاس‌پذیر (Featured) -->
+            <div class="plan-price-card featured">
+                <span class="plan-featured-ribbon">انتخاب شرکت‌های پیشرو</span>
+                <div>
+                    <span class="plan-card-tag">کسب‌وکارهای در حال رشد</span>
+                    <h3 class="plan-card-name">پلن تجاری Scale-Up</h3>
+                    <p class="plan-card-desc">زیرساخت با همزمانی بالا، کش چندلایه‌ای و صف‌های پردازشی برای ترافیک‌های سنگین فروشگاهی و خدماتی.</p>
+
+                    <ul class="plan-features-list">
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            <span>تمام امکانات پلن Core</span>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            <span>صف‌های توزیع‌شده با Celery و Redis</span>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            <span>مدیریت اتصالات با PgBouncer و ایندکس GIN</span>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            <span>پوشش تست‌های خودکار (Unit Tests > 85%)</span>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            <span>کانفیگ کامل Docker و داکر کامپوز</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <a href="{% url 'core:submit_ticket' %}" class="plan-action-link btn-lapis-solid">
+                    انتخاب پلن تجاری مقیاس‌پذیر
+                </a>
+            </div>
+
+            <!-- پلن سطح سازمانی -->
+            <div class="plan-price-card">
+                <div>
+                    <span class="plan-card-tag">سازمان‌ها و پروژه‌های ملی</span>
+                    <h3 class="plan-card-name">پلن سازمانی Enterprise</h3>
+                    <p class="plan-card-desc">معماری میکروسرویس، سیستم‌های مالی ضد بن‌بست و گارانتی رسمی سطح سرویس SLA.</p>
+
+                    <ul class="plan-features-list">
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            <span>معماری میکروسرویس بر پایه FastAPI و gRPC</span>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            <span>کلاستر دیتابیس با قابلیت High Availability</span>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            <span>داشبورد تله‌متری لایو و لاگینگ با Grafana</span>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            <span>پشتیبانی و مانیتورینگ ۲۴/۷ اختصاصی</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <a href="{% url 'core:submit_ticket' %}" class="plan-action-link btn-lapis-outline">
+                    درخواست مشاوره پلن سازمانی
+                </a>
+            </div>
+
+        </section>
+
+        <!-- ماتریس مقایسه تحویل و استانداردهای SLA -->
+        <section class="plan-matrix-panel">
+            <div class="plan-table-header">
+                <h3>ماتریس مقایسه جزئیات فنی و خروجی‌های تحویلی پلن‌ها</h3>
+                <p>شفافیت کامل در شاخص‌های کیفی، مستندسازی و پشتیبانی فنی پروژه‌ها</p>
+            </div>
+
+            <div class="plan-scroller">
+                <table class="plan-matrix-table">
+                    <thead>
+                        <tr>
+                            <th>شاخص فنی و تحویلی</th>
+                            <th>پلن استارتاپی Core</th>
+                            <th>پلن مقیاس‌پذیر Scale-Up</th>
+                            <th>پلن سازمانی Enterprise</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>فریم‌ورک‌های مورد استفاده</td>
+                            <td>Django + DRF</td>
+                            <td>Django + Async Ninja + Redis</td>
+                            <td>FastAPI + gRPC + Django Core</td>
+                        </tr>
+                        <tr>
+                            <td>معیار تاخیر پاسخگویی (P95 Latency)</td>
+                            <td>زیر ۱۲۰ میلی‌ثانیه</td>
+                            <td><span class="badge-table-win">زیر ۴۵ میلی‌ثانیه</span></td>
+                            <td><span class="badge-table-win">زیر ۱۵ میلی‌ثانیه</span></td>
+                        </tr>
+                        <tr>
+                            <td>پایگاه‌داده و مدیریت کانکشن</td>
+                            <td>PostgreSQL تک نود</td>
+                            <td>PostgreSQL + PgBouncer</td>
+                            <td><span class="badge-table-win">کلاستر Multi-Master + Replica</span></td>
+                        </tr>
+                        <tr>
+                            <td>گارانتی پایداری و توافق‌نامه SLA</td>
+                            <td>۹۹.۵٪ با پایش خودکار</td>
+                            <td><span class="badge-table-win">۹۹.۹٪ بدون قطعی</span></td>
+                            <td><span class="badge-table-win">۹۹.۹۹٪ با جبران خسارت</span></td>
+                        </tr>
+                        <tr>
+                            <td>پوشش تست و امنیت نفوذ</td>
+                            <td>اعتبارسنجی فیلدها و ورودی‌ها</td>
+                            <td>تست خودکار و مانیتورینگ Sentry</td>
+                            <td><span class="badge-table-win">تست نفوذ OWASP و ممیزی امنیتی</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- سوالات متداول سئو دارک -->
+        <section class="plan-faq-deck">
+            <h2 style="font-size: clamp(1.25rem, 2.5vw, 1.55rem); font-weight: 800; color: #ffffff; text-align: center; margin-bottom: 24px;">
+                پرسش‌های متداول کارفرمایان پیرامون پلن‌های توسعه بک‌اند
+            </h2>
+            <div class="faq-grid">
+                <div class="faq-item active" style="background: rgba(2, 6, 23, 0.85); border-color: rgba(255, 255, 255, 0.08);">
+                    <div class="faq-question">
+                        <span class="q-text" style="color: #ffffff;">آیا امکان اتصال بک‌اند به فرانت‌اندها و اپلیکیشن‌های موبایل آماده وجود دارد؟</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="answer-inner">
+                            <p style="color: #94a3b8;">بله؛ تمامی وب‌سرویس‌های خروجی مطابق با استاندارد OpenAPI/Swagger طراحی می‌شوند و کلاینت‌های React، Next.js و اپلیکیشن‌های فلاتر می‌توانند با حداقل کدنویسی به API متصل شوند.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item active" style="background: rgba(2, 6, 23, 0.85); border-color: rgba(255, 255, 255, 0.08);">
+                    <div class="faq-question">
+                        <span class="q-text" style="color: #ffffff;">فرآیند پرداخت و مایل‌استون‌های مالی پروژه به چه صورت است؟</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="answer-inner">
+                            <p style="color: #94a3b8;">پرداخت‌ها در قالب مایل‌استون‌های مشخص (طراحی دیتامدل، تکمیل وب‌سرویس‌ها، تست‌های یکپارچگی و استقرار نهایی) تفکیک شده و پس از تایید تست هر فاز توسط کارفرما تسویه می‌گردد.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- بنر کال تو اکشن پایانی -->
+        <div class="plan-cta-box">
+            <div>
+                <h3 style="font-size: clamp(1.2rem, 2.5vw, 1.6rem); font-weight: 900; color: #ffffff; margin-bottom: 8px;">
+                    نیاز به توسعه زیرساخت اختصاصی بک‌اند یا دریافت مشاوره فنی دارید؟
+                </h3>
+                <p style="color: #cbd5e1; font-size: 0.95rem; margin: 0; line-height: 1.85;">
+                    برآورد زمان، بررسی معماری مورد نیاز و جلسه مشاوره رایگان با مدیران ارشد فنی آتراوب را آغاز کنید.
                 </p>
             </div>
-
-            <div class="offline-card bento-wide">
-                <div class="wide-content">
-                    <h3 class="offline-card-title">مستندات Swagger و تحویل سورس کامل Git</h3>
-                    <p class="offline-card-text">
-                        تولید خودکار داکیومنت تعاملی وب‌سرویس‌ها (Swagger / Redoc)، پشتیبانی فنی پس از استقرار و تحویل کامل ریپازیتوری کد روی گیت‌لب یا گیت‌هاب با استانداردهای CI/CD.
-                    </p>
-                </div>
-                <div class="wide-image">
-                    <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=700&q=80" alt="مستندات API و توسعه وب سرویس">
-                </div>
-            </div>
-        </div>
-
-        <div class="custom-plan-card">
-            <div class="custom-plan-info">
-                <h3 class="custom-plan-title">نیاز به توسعه بک‌اند و وب‌سرویس استاندارد دارید؟</h3>
-                <p class="custom-plan-desc">مشخصات فنی و نیازمندی پروژه خود را ثبت کنید تا برآورد دقیق زمان‌بندی و هزینه توسط مهندسین آترا انجام شود.</p>
-            </div>
-            <a href="{% url 'core:submit_ticket' %}" class="btn-custom">ثبت درخواست توسعه بک‌اند</a>
+            <a href="{% url 'core:submit_ticket' %}" class="plan-cta-btn">
+                درخواست جلسه و برآورد پروژه
+            </a>
         </div>
 
     </div>
-</section>
+</div>
 {% endblock %}

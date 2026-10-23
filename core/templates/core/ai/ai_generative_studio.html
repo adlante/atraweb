@@ -1,0 +1,732 @@
+{% extends 'parent/base.html' %}
+{% load static %}
+
+{% block title %}استودیو هوش مصنوعی تولید تصویر و طراحی ژنراتیو (Flux & SDXL) | آتراوب{% endblock %}
+{% block meta_description %}راه‌اندازی اختصاصی استودیوهای تولید تصویر هوش مصنوعی با Flux.1، Stable Diffusion XL و پایپ‌لاین‌های نودمحور ComfyUI؛ رندرینگ فوتورئال، ادغام ControlNet و پردازش لوکال بدون تحریم.{% endblock %}
+{% block meta_keywords %}استودیو تولید تصویر هوش مصنوعی, راه اندازی ComfyUI اختصاصی, طراحی عکس با استیبل دیفیوژن, مدل Flux 1, ادغام ControlNet و LoRA, ساخت تصاویر صنعتی با هوش مصنوعی, Generative AI استودیو{% endblock %}
+
+{% block extra_schema %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "موتور استودیو مولد تصویر و پایپ‌لاین هوش مصنوعی آتراوب",
+      "operatingSystem": "Linux, NVIDIA CUDA, Docker",
+      "applicationCategory": "MultimediaApplication",
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.97",
+        "reviewCount": "94"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "IRR"
+      }
+    },
+    {
+      "@type": "TechArticle",
+      "headline": "اصول مهندسی و راه‌اندازی استودیوهای تولید تصویر Generative AI با Diffusion Models",
+      "description": "تحلیل گام‌به‌گام فرایند نویززدایی نهفته در Latent Space، هدایت هندسی با ControlNet، استقرار خودکار ComfyUI با سرورهای لینوکس و کاهش زمان استنتاج تصویر به زیر ۳ ثانیه",
+      "inLanguage": "fa-IR",
+      "author": {"@type": "Organization", "name": "آتراوب", "url": "https://atraweb.com"},
+      "publisher": {"@type": "Organization", "name": "آتراوب"}
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "چرا سازمان‌ها به استودیوی اختصاصی تولید تصویر نیاز دارند در حالی که Midjourney وجود دارد؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "سرویس‌های ابری نظیر Midjourney عمومی بوده و اطلاعات و محصولات تجاری شما را به سرورهای خارجی ارسال می‌کنند؛ مالکیت معنوی طرح‌ها مبهم است و امکان کنترل دقیق روی زوایا، کاراکترهای ثابت برند، پالت‌های رنگ سازمانی و اتوماسیون با APIهای داخلی در آن‌ها وجود ندارد."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "تفاوت مدل نسل نوین Flux.1 با استیبل دیفیوژن SDXL چیست؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "مدل Flux.1 از معماری ترکیبی ترنسفورمر-دیفیوژن (DiT) با ۱۲ میلیارد پارامتر بهره می‌برد که درک پرامپت‌های متنی طولانی، رندر آناتومی دست و انگشتان، و تایپ متون داخل تصویر را بدون خطا و با کیفیتی معادل عکاسی استودیویی انجام می‌دهد."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "ابزار ControlNet چگونه ترکیب‌بندی و پوزیشن محصول را در تولید تصویر تثبیت می‌کند؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "با استخراج نقشه عمق (Depth)، لبه‌ها (Canny) یا پوزیشن اسکلت انسانی (OpenPose) از تصویر اولیه، کنترل‌نت مدل مولد را مقید می‌کند که بدون دستکاری ساختار اصلی، بافت، استایل و نورپردازی را بازآفرینی کند."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+{% endblock %}
+
+{% block extra_css %}
+    <link href="{% static 'css/navbar.css' %}" rel="stylesheet">
+    <style>
+        /* 🌌 پالت هولوگرافیک استودیو تصویر Deep Void */
+        .gen-studio-root {
+            background-color: #03050c !important;
+            color: #f1f5f9;
+            direction: rtl;
+            position: relative;
+            overflow-x: hidden;
+            padding: 50px 0 100px 0;
+            font-family: var(--font-main);
+            box-sizing: border-box;
+        }
+
+        .gen-ambient-violet {
+            position: absolute;
+            width: 580px;
+            height: 580px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.18) 0%, transparent 70%);
+            filter: blur(120px);
+            top: 0;
+            right: 5%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .gen-ambient-pink {
+            position: absolute;
+            width: 520px;
+            height: 520px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(236, 72, 153, 0.14) 0%, transparent 70%);
+            filter: blur(110px);
+            bottom: 5%;
+            left: 5%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .gen-dots-grid {
+            position: absolute;
+            inset: 0;
+            background-image:
+                radial-gradient(rgba(139, 92, 246, 0.1) 1.2px, transparent 1.2px),
+                linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 32px 32px, 64px 64px, 64px 64px;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .gen-shell {
+            width: 100%;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 2;
+            box-sizing: border-box;
+        }
+
+        /* هدر استودیو بصری */
+        .gen-hero-header {
+            text-align: center;
+            max-width: 960px;
+            margin: 0 auto 55px auto;
+        }
+
+        .gen-status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(139, 92, 246, 0.08);
+            border: 1px solid rgba(167, 139, 250, 0.35);
+            color: #c084fc;
+            font-size: clamp(0.75rem, 2vw, 0.86rem);
+            font-weight: 800;
+            padding: 6px 20px;
+            border-radius: 999px;
+            margin-bottom: 22px;
+            box-shadow: 0 0 25px rgba(139, 92, 246, 0.18);
+        }
+
+        .gen-dot-signal {
+            width: 8px;
+            height: 8px;
+            background: #a855f7;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #a855f7;
+            animation: genPulse 1.8s infinite;
+            flex-shrink: 0;
+        }
+
+        @keyframes genPulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.3; transform: scale(0.8); }
+        }
+
+        .gen-title-h1 {
+            font-size: clamp(1.85rem, 4.5vw, 3.2rem);
+            font-weight: 900;
+            color: #ffffff;
+            line-height: 1.35;
+            margin-bottom: 22px;
+            letter-spacing: -0.6px;
+        }
+
+        .gen-title-h1 span {
+            background: linear-gradient(135deg, #c084fc 0%, #ec4899 50%, #38bdf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .gen-lead-text {
+            color: #94a3b8;
+            font-size: clamp(0.94rem, 2vw, 1.08rem);
+            line-height: 2;
+            margin: 0;
+            text-align: justify;
+            text-align-last: center;
+        }
+
+        /* استیج پایپ‌لاین ComfyUI و نودهای رندرینگ */
+        .gen-stage-deck {
+            background: rgba(12, 16, 28, 0.8);
+            border: 1.5px solid rgba(139, 92, 246, 0.25);
+            border-radius: 26px;
+            padding: clamp(20px, 4vw, 42px);
+            backdrop-filter: blur(25px);
+            box-shadow: 0 30px 70px -15px rgba(0, 0, 0, 0.85);
+            margin-bottom: 65px;
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: 36px;
+            align-items: center;
+            box-sizing: border-box;
+        }
+
+        .gen-article-content h2 {
+            font-size: clamp(1.3rem, 2.8vw, 1.75rem);
+            font-weight: 900;
+            color: #ffffff;
+            margin-bottom: 16px;
+            line-height: 1.45;
+        }
+
+        .gen-article-content p {
+            color: #94a3b8;
+            font-size: 0.96rem;
+            line-height: 1.95;
+            text-align: justify;
+            margin-bottom: 16px;
+        }
+
+        .gen-svg-container {
+            background: #01040a;
+            border: 1.5px solid rgba(139, 92, 246, 0.35);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.8);
+            width: 100%;
+            box-sizing: border-box;
+            min-width: 0;
+        }
+
+        .gen-circuit-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 12px;
+            margin-bottom: 14px;
+            direction: ltr;
+        }
+
+        .gen-circuit-title {
+            font-family: monospace;
+            font-size: 0.76rem;
+            color: #c084fc;
+            font-weight: 700;
+        }
+
+        .gen-badge-metric {
+            background: rgba(236, 72, 153, 0.12);
+            color: #f472b6;
+            font-size: 0.72rem;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 6px;
+        }
+
+        /* گرید ۴گانه قابلیت‌های استودیو */
+        .gen-quad-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 65px;
+        }
+
+        .gen-quad-card {
+            background: rgba(14, 18, 34, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 22px;
+            padding: 28px 22px;
+            backdrop-filter: blur(18px);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .gen-quad-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #8b5cf6, #ec4899);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .gen-quad-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(167, 139, 250, 0.45);
+            background: rgba(14, 18, 34, 0.95);
+            box-shadow: 0 20px 40px -10px rgba(139, 92, 246, 0.22);
+        }
+
+        .gen-quad-card:hover::before {
+            opacity: 1;
+        }
+
+        .gen-icon-box {
+            width: 52px;
+            height: 52px;
+            border-radius: 15px;
+            background: rgba(139, 92, 246, 0.12);
+            color: #c084fc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 18px;
+            border: 1px solid rgba(167, 139, 250, 0.28);
+        }
+
+        .gen-icon-box svg {
+            width: 26px;
+            height: 26px;
+        }
+
+        .gen-card-h3 {
+            font-size: 1.18rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 10px;
+            line-height: 1.45;
+        }
+
+        .gen-card-p {
+            font-size: 0.88rem;
+            color: #94a3b8;
+            line-height: 1.85;
+            margin: 0;
+        }
+
+        /* جدول بنچمارک مقایسه‌ای استودیو تصویر */
+        .gen-table-panel {
+            background: rgba(12, 16, 28, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: clamp(20px, 4vw, 36px);
+            margin-bottom: 65px;
+            box-sizing: border-box;
+        }
+
+        .gen-table-head-info {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .gen-table-head-info h3 {
+            font-size: clamp(1.25rem, 2.5vw, 1.65rem);
+            font-weight: 900;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+
+        .gen-table-head-info p {
+            color: #64748b;
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        .gen-scroll-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .gen-data-table {
+            width: 100%;
+            min-width: 680px;
+            border-collapse: collapse;
+            text-align: right;
+            font-size: 0.9rem;
+        }
+
+        .gen-data-table th {
+            padding: 16px 18px;
+            color: #c084fc;
+            font-weight: 800;
+            background: rgba(255, 255, 255, 0.02);
+            border-bottom: 2px solid rgba(139, 92, 246, 0.3);
+            white-space: nowrap;
+        }
+
+        .gen-data-table td {
+            padding: 16px 18px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: #cbd5e1;
+            vertical-align: middle;
+            white-space: nowrap;
+        }
+
+        .gen-data-table tr:hover td {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .gen-chip-purple {
+            background: rgba(139, 92, 246, 0.18);
+            color: #c084fc;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-weight: 800;
+            font-size: 0.78rem;
+        }
+
+        .gen-chip-pink {
+            background: rgba(236, 72, 153, 0.18);
+            color: #f472b6;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-weight: 800;
+            font-size: 0.78rem;
+        }
+
+        /* سوالات متداول سئو دارک */
+        .gen-faq-wrapper {
+            background: rgba(12, 16, 28, 0.65);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: clamp(20px, 4vw, 40px);
+            margin-bottom: 65px;
+            box-sizing: border-box;
+        }
+
+        /* بنر کال تو اکشن پایانی */
+        .gen-cta-banner {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.22) 0%, rgba(236, 72, 153, 0.16) 100%);
+            border: 1.5px solid rgba(167, 139, 250, 0.4);
+            border-radius: 24px;
+            padding: clamp(24px, 4vw, 44px);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 25px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+            box-sizing: border-box;
+        }
+
+        .gen-cta-btn {
+            background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
+            color: #ffffff !important;
+            padding: 15px 34px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 0.96rem;
+            text-decoration: none;
+            white-space: nowrap;
+            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.4);
+            border: 1px solid #c084fc;
+            transition: all 0.25s ease;
+            text-align: center;
+        }
+
+        .gen-cta-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(139, 92, 246, 0.6);
+            background: #9333ea;
+        }
+
+        /* ریسپانسیو اختصاصی موبایل و تبلت */
+        @media (max-width: 1024px) {
+            .gen-stage-deck {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            .gen-quad-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .gen-quad-grid {
+                grid-template-columns: 1fr;
+            }
+            .gen-cta-banner {
+                flex-direction: column;
+                text-align: center;
+            }
+            .gen-cta-btn {
+                width: 100%;
+                box-sizing: border-box;
+            }
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+<div class="gen-studio-root">
+    <div class="gen-ambient-violet"></div>
+    <div class="gen-ambient-pink"></div>
+    <div class="gen-dots-grid"></div>
+
+    <div class="gen-shell">
+
+        <!-- هدر تخصصی استودیو تصویر -->
+        <header class="gen-hero-header">
+            <div class="gen-status-pill">
+                <span class="gen-dot-signal"></span>
+                <span>استقرار لوکال پایپ‌لاین‌های نودمحور ComfyUI با مدل‌های Flux.1 و SDXL</span>
+            </div>
+
+            <h1 class="gen-title-h1">
+                استودیوهای تولید تصویر <span class="text-gradient">Generative AI &amp; Diffusion</span>
+            </h1>
+
+            <p class="gen-lead-text">
+                تولید محتوای بصری فوتورئال، کاتالوگ محصولات صنعتی و تصویرسازی‌های تبلیغاتی بدون محدودیت و تحریم سرویس‌های ابری؛ در آتراوب، استودیوهای تولید تصویر بر پایه آخرین مدل‌های انتشار نظیر Flux.1 و پایپ‌لاین‌های نودمحور ComfyUI روی سرورهای اختصاصی سازمان پیاده‌سازی و یکپارچه می‌شوند.
+            </p>
+        </header>
+
+        <!-- استیج معرفی با اینفوگرافیک پایپ‌لاین نودمحور ComfyUI -->
+        <section class="gen-stage-deck">
+            <div class="gen-article-content">
+                <h2>چرا موتورهای اختصاصی دیفیوژن جایگزین ابزارهای جنریک خارجی شده‌اند؟</h2>
+                <p>
+                    سرویس‌های ابری نظیر میدجورنی علاوه بر هزینه‌های دلاری مداوم و محدودیت‌های اعمالی، امکان حفظ سبک ثابت برند، کنترل روی ژست محصول با ابزارهایی نظیر ControlNet و اعمال پالت‌های سازمانی اختصاصی را فراهم نمی‌کنند.
+                </p>
+                <p>
+                    در پایپ‌لاین‌های استودیو تصویر آتراوب، مدل‌های مولد به صورت ایزوله روی سرورهای پردازش ابری سازمان با مدیریت صف‌های غیرهمزمان
+                    <a href="{% url 'core:backend_celery_redis' %}" style="color: #c084fc; font-weight: 700; text-decoration: underline;">Celery و Redis</a>
+                    راه‌اندازی می‌شوند تا کلاینت‌های فلاتر و پورتال‌های وب، تصاویر با رزولوشن 4K و 8K را در چند ثانیه و بدون کوچک‌ترین افت کیفیت رندر کنند.
+                </p>
+            </div>
+
+            <!-- اینفوگرافیک پایپ‌لاین ComfyUI به صورت SVG کاملاً ریسپانسیو -->
+            <div class="gen-svg-container">
+                <div class="gen-circuit-header">
+                    <span class="gen-circuit-title">PIPELINE: TEXT ENCODER -> DIT DENOISING -> VAE</span>
+                    <span class="gen-badge-metric">FLUX.1 SCHEDULER</span>
+                </div>
+
+                <svg viewBox="0 0 440 260" width="100%" height="auto" fill="none" xmlns="http://www.w3.org/2000/svg" style="display: block; direction: ltr;">
+                    <!-- نود ۱: ورودی پرامپت متنی T5 & CLIP -->
+                    <rect x="20" y="25" width="115" height="55" rx="10" fill="#0c1022" stroke="#8b5cf6" stroke-width="1.5" />
+                    <text x="77" y="48" fill="#ffffff" font-size="10.5" font-weight="bold" text-anchor="middle" font-family="monospace">Text Prompt</text>
+                    <text x="77" y="66" fill="#c084fc" font-size="8.5" text-anchor="middle">T5-XXL + CLIP-L</text>
+
+                    <!-- اتصال ۱ به ۲ -->
+                    <path d="M 135 52 L 175 52" stroke="#8b5cf6" stroke-width="2" />
+
+                    <!-- نود ۲: هدایت تصویری با ControlNet -->
+                    <rect x="20" y="115" width="115" height="55" rx="10" fill="#0c1022" stroke="#ec4899" stroke-width="1.5" />
+                    <text x="77" y="138" fill="#ffffff" font-size="10.5" font-weight="bold" text-anchor="middle" font-family="monospace">ControlNet</text>
+                    <text x="77" y="156" fill="#f472b6" font-size="8.5" text-anchor="middle">Depth &amp; Canny</text>
+
+                    <!-- اتصال کنترل نت به هسته دیفیوژن -->
+                    <path d="M 135 142 L 155 142 L 155 85 L 175 85" stroke="#ec4899" stroke-width="2" stroke-dasharray="3 3"/>
+
+                    <!-- نود ۳: موتور نویززدایی Flux.1 DiT -->
+                    <rect x="175" y="30" width="130" height="90" rx="12" fill="#180e2f" stroke="#a855f7" stroke-width="2" />
+                    <text x="240" y="60" fill="#ffffff" font-size="12" font-weight="900" text-anchor="middle" font-family="monospace">Flux.1 DiT</text>
+                    <text x="240" y="80" fill="#c084fc" font-size="9" text-anchor="middle">12B Rectified Flow</text>
+                    <text x="240" y="100" fill="#a7f3d0" font-size="8.5" text-anchor="middle">24 Sampling Steps</text>
+
+                    <!-- اتصال هسته به نود Upscaler -->
+                    <path d="M 305 75 L 340 75" stroke="#a855f7" stroke-width="2" />
+
+                    <!-- نود ۴: رمزگشای VAE و بازسازی تصویر -->
+                    <rect x="340" y="45" width="85" height="60" rx="10" fill="#0c1022" stroke="#38bdf8" stroke-width="1.5" />
+                    <text x="382" y="72" fill="#ffffff" font-size="10.5" font-weight="bold" text-anchor="middle" font-family="monospace">VAE Decode</text>
+                    <text x="382" y="90" fill="#7dd3fc" font-size="8.5" text-anchor="middle">Latent to RGB</text>
+
+                    <!-- فریم خروجی رندر نهایی -->
+                    <rect x="175" y="155" width="250" height="85" rx="12" fill="#070a14" stroke="#34d399" stroke-width="1.5" stroke-dasharray="4 4"/>
+                    <text x="300" y="185" fill="#34d399" font-size="11" font-weight="bold" text-anchor="middle" font-family="monospace">High-Resolution Output</text>
+                    <text x="300" y="205" fill="#94a3b8" font-size="9" text-anchor="middle">Photorealistic 4K / Consistent Brand Identity</text>
+                    <text x="300" y="223" fill="#6ee7b7" font-size="8.5" text-anchor="middle">Latency: 2.8s on RTX 4090</text>
+                </svg>
+
+                <div style="margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.06); display: flex; justify-content: space-between; font-size: 0.78rem; color: #94a3b8; direction: rtl;">
+                    <span>سرعت رندرینگ: <strong>۲.۸ ثانیه برای هر تصویر</strong></span>
+                    <span>رزولوشن خروجی خالص: <strong>تا سقف 4K و 8K</strong></span>
+                </div>
+            </div>
+        </section>
+
+        <!-- گرید ۴گانه قابلیت‌های استودیو تولید تصویر -->
+        <section class="gen-quad-grid">
+            <div class="gen-quad-card">
+                <div class="gen-icon-box">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                    </svg>
+                </div>
+                <h3 class="gen-card-h3">ثبات چهره و کاراکتر (Face Consistency)</h3>
+                <p class="gen-card-p">پیاده‌سازی ماژول‌های اختصاصی InstantID و PhotoMaker جهت تولید تصاویر در موقعیت‌ها و زوایای مختلف با چهره ۱۰۰٪ یکسان.</p>
+            </div>
+
+            <div class="gen-quad-card">
+                <div class="gen-icon-box">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                        <polyline points="21 15 16 10 5 21"></polyline>
+                    </svg>
+                </div>
+                <h3 class="gen-card-h3">کنترل هندسی و ژست محصول</h3>
+                <p class="gen-card-p">استفاده از الگوریتم‌های ControlNet و IP-Adapter برای قرار دادن محصول در پس‌زمینه‌های تبلیغاتی بدون تغییر فرم فیزیکی بسته یا کالا.</p>
+            </div>
+
+            <div class="gen-quad-card">
+                <div class="gen-icon-box">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                    </svg>
+                </div>
+                <h3 class="gen-card-h3">رندر فوق‌سریع در مقیاس بالا</h3>
+                <p class="gen-card-p">استقرار مدل‌های کوانتایزشده FP8 و NF4 بر روی سرورهای اختصاصی با مصرف حافظه بهینه VRAM و خروجی صدها تصویر در ساعت.</p>
+            </div>
+
+            <div class="gen-quad-card">
+                <div class="gen-icon-box">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                    </svg>
+                </div>
+                <h3 class="gen-card-h3">مالکیت معنوی ۱۰۰٪ محلی</h3>
+                <p class="gen-card-p">حفظ محرمانگی طراحی محصولات قبل از معرفی رسمی به بازار با استقرار کانتینرهای مستقل بدون ارسال اطلاعات به سرورهای ابری خارجی.</p>
+            </div>
+        </section>
+
+        <!-- جدول بنچمارک مقایسه‌ای مدل‌های تصویرساز -->
+        <section class="gen-table-panel">
+            <div class="gen-table-head-info">
+                <h3>ماتریس جامع مقایسه فنی مدل‌های تولید تصویر هوش مصنوعی</h3>
+                <p>بررسی عملکرد بر اساس درک پرامپت، رندر آناتومی بدن، سرعت استنتاج و استقرار لوکال</p>
+            </div>
+
+            <div class="gen-scroll-wrapper">
+                <table class="gen-data-table">
+                    <thead>
+                        <tr>
+                            <th>شاخص فنی و کارایی</th>
+                            <th>استودیو سازمانی آتراوب (Flux.1 / SDXL)</th>
+                            <th>سرویس Midjourney v6</th>
+                            <th>مدل DALL-E 3</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>استقرار ۱۰۰٪ لوکال و بدون تحریم</td>
+                            <td><span class="gen-chip-purple">بله (روی سرورهای اختصاصی داخل سازمان)</span></td>
+                            <td>خیر (کاملاً ابری با ریسک فیلترینگ و تحریم)</td>
+                            <td>خیر (سرویس ابری وابسته به API شرکت OpenAI)</td>
+                        </tr>
+                        <tr>
+                            <td>کنترل هندسی محصول (ControlNet)</td>
+                            <td><span class="gen-chip-purple">پشتیبانی کامل از زاویه، عمق و پوزیشن</span></td>
+                            <td>بسیار ضعیف و محدود به رفرنس‌های متنی</td>
+                            <td>غیرممکن (تولید رندوم بر اساس درک زبانی)</td>
+                        </tr>
+                        <tr>
+                            <td>رندر دقیق آناتومی دست و حروف متنی</td>
+                            <td><span class="gen-chip-purple">عالی با بهره‌گیری از ترنسفورمر DiT</span></td>
+                            <td>خوب با خطاهای گهگاهی در فونت‌ها</td>
+                            <td>خوب در متون کوتاه انگلیسی</td>
+                        </tr>
+                        <tr>
+                            <td>هزینه رندر و مقیاس‌پذیری ماهانه</td>
+                            <td><span class="gen-chip-pink">تولید نامحدود بدون هزینه دلاری به ازای تصویر</span></td>
+                            <td>اشتراک‌های ماهیانه گران‌قیمت دلاری</td>
+                            <td>هزینه ثابت به ازای هر تصویر رندرشده</td>
+                        </tr>
+                        <tr>
+                            <td>اتوماسیون با APIهای بک‌اند سازمان</td>
+                            <td><span class="gen-chip-purple">یکپارچگی مستقیم با وب‌سرویس و اپلیکیشن</span></td>
+                            <td>فقط از طریق بات دیسکورد</td>
+                            <td>API محدود با نظارت و ممیزی سخت‌گیرانه</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- سوالات متداول سئو دارک -->
+        <section class="gen-faq-wrapper">
+            <h2 style="font-size: clamp(1.25rem, 2.5vw, 1.55rem); font-weight: 800; color: #ffffff; text-align: center; margin-bottom: 24px;">
+                پرسش‌های متداول پیرامون راه‌اندازی استودیو تولید تصویر هوش مصنوعی
+            </h2>
+            <div class="faq-grid">
+                <div class="faq-item active" style="background: rgba(3, 5, 12, 0.85); border-color: rgba(255, 255, 255, 0.08);">
+                    <div class="faq-question">
+                        <span class="q-text" style="color: #ffffff;">برای راه‌اندازی استودیو اختصاصی به چه سخت‌افزار سروری نیاز است؟</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="answer-inner">
+                            <p style="color: #94a3b8;">با اعمال تکنیک‌های فشرده‌سازی کوانتایز وزن‌ها به FP8، مدل Flux.1 بر روی کارت‌های گرافیک تک‌هسته‌ای با حداقل ۱۶ تا ۲۴ گیگابایت VRAM (نظیر RTX 3090 یا RTX 4090) با حداکثر سرعت استنتاج ران می‌شود.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item active" style="background: rgba(3, 5, 12, 0.85); border-color: rgba(255, 255, 255, 0.08);">
+                    <div class="faq-question">
+                        <span class="q-text" style="color: #ffffff;">آیا امکان آموزش هوش مصنوعی روی محصولات اختصاصی کارخانه ما وجود دارد؟</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="answer-inner">
+                            <p style="color: #94a3b8;">بله؛ با جمع‌آوری ۱۵ الی ۳۰ تصویر باکیفیت از زوایای مختلف کالا، آداپتور سبک‌وزن LoRA اختصاصی آموزش داده شده و مدل یاد می‌گیرد دقیقاً همان محصول را با بسته‌بندی واقعی در هر سناریوی تبلیغاتی بازآفرینی کند.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- بنر کال تو اکشن پایانی -->
+        <div class="gen-cta-banner">
+            <div>
+                <h3 style="font-size: clamp(1.2rem, 2.5vw, 1.6rem); font-weight: 900; color: #ffffff; margin-bottom: 8px;">
+                    می‌خواهید استودیو اختصاصی تولید تصویر هوش مصنوعی برند خود را راه‌اندازی کنید؟
+                </h3>
+                <p style="color: #cbd5e1; font-size: 0.95rem; margin: 0; line-height: 1.85;">
+                    پایپ‌لاین‌های نودمحور ComfyUI، آموزش LoRA روی محصولات شما و استقرار سرورهای رندرینگ توسط مهندسین آتراوب انجام می‌شود.
+                </p>
+            </div>
+            <a href="{% url 'core:submit_ticket' %}" class="gen-cta-btn">
+                سفارش استودیو تولید تصویر
+            </a>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

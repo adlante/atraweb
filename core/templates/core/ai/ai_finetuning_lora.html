@@ -1,0 +1,682 @@
+{% extends 'parent/base.html' %}
+{% load static %}
+
+{% block title %}سفارشی‌سازی و فاین‌تیونینگ مدل‌های زبانی با متد LoRA و QLoRA | آتراوب{% endblock %}
+{% block meta_description %}تنظیم دقیق و فاین‌تیونینگ تخصصی مدل‌های زبانی بزرگ (LLM) شامل Llama 3 و DeepSeek با متد کم‌رتبه LoRA؛ کاهش ۸۰ درصدی مصرف حافظه VRAM و بومی‌سازی لحن و واژگان سازمانی.{% endblock %}
+{% block meta_keywords %}فاین تیونینگ مدل زبانی, آموزش LLM با LoRA, تنظیم دقیق QLoRA, سفارشی سازی هوش مصنوعی سازمان, فاین تیونینگ Llama فارسی, آموزش مدل زبانی محلی{% endblock %}
+
+{% block extra_schema %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "زیرساخت آموزش و فاین‌تیونینگ مدل‌های زبانی آتراوب",
+      "operatingSystem": "Linux, NVIDIA CUDA, ROCm",
+      "applicationCategory": "DeveloperApplication",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "IRR"
+      }
+    },
+    {
+      "@type": "TechArticle",
+      "headline": "مبانی مهندسی و ریاضیات Low-Rank Adaptation (LoRA) در آموزش مدل‌های زبانی",
+      "description": "تحلیل ضرب ماتریس‌های کم‌رتبه، فریز وزن‌های اولیه W0، آموزش آداپتورهای سبک وزن و کاهش هزینه سخت‌افزاری پردازش هوش مصنوعی در سرورهای لینوکس",
+      "inLanguage": "fa-IR",
+      "author": {"@type": "Organization", "name": "آتراوب", "url": "https://atraweb.com"},
+      "publisher": {"@type": "Organization", "name": "آتراوب"}
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "متد LoRA چگونه مصرف حافظه گرافیکی (VRAM) را تا ۸۰ درصد کاهش می‌دهد؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "به جای بروزرسانی تمام وزن‌های متراکم مدل اصلی (که صدها گیگابایت حافظه طلب می‌کند)، متد LoRA وزن‌های اصلی را قفل (Freeze) کرده و صرفاً دو ماتریس کم‌رتبه تفکیک‌شده با رنک کوچک (A و B) را آموزش می‌دهد که حجم فایل نهایی خروجی را به چند مگابایت محدود می‌کند."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "تفاوت کاربرد RAG با Fine-Tuning چیست و چه زمانی به فاین‌تیونینگ نیاز داریم؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "سیستم RAG برای بازیابی اطلاعات متغیر، اسناد روزانه و پاسخ به سوالات بر اساس مستندات است؛ اما Fine-Tuning برای یادگیری لحن تخصصی، یادگیری سبک نگارش صنف مربوطه، تسلط به اصطلاحات خاص حقوقی/پزشکی و خروجی دادن در فرمت‌های ساختاریافته غیرمعمول ضروری است."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "آیا فاین‌تیونینگ مدل بر روی متون زبان فارسی کیفیت خروجی را تضمین می‌کند؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "بله؛ با آماده‌سازی دیتاست‌های جفتی ساختاریافته (Instruction Datasets)، توکنایز دقیق خط و الفبای فارسی و تنظیم دقیق هایپرپارامترها، مدل‌های زبانی جهانی به طور تخصصی به زبان و دستور زبان فارسی تسلط می‌یابند."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+{% endblock %}
+
+{% block extra_css %}
+    <link href="{% static 'css/navbar.css' %}" rel="stylesheet">
+    <style>
+        /* ⚙️ زبان بصری متفاوت: کارگاه متالیک تانسورها (Metallic Tensor Foundry) */
+        .ft-forge-root {
+            background-color: #04060d !important;
+            color: #e2e8f0;
+            direction: rtl;
+            position: relative;
+            overflow-x: hidden;
+            padding: 50px 0 100px 0;
+            font-family: var(--font-main);
+            box-sizing: border-box;
+        }
+
+        /* الگوی بافت مهندسی تانسور و بار الکتریکی کهربایی */
+        .ft-circuit-lines {
+            position: absolute;
+            inset: 0;
+            background-image:
+                radial-gradient(circle at 10% 10%, rgba(245, 158, 11, 0.12) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(217, 119, 6, 0.1) 0%, transparent 45%),
+                linear-gradient(rgba(245, 158, 11, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(245, 158, 11, 0.02) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .ft-container {
+            width: 100%;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 2;
+            box-sizing: border-box;
+        }
+
+        /* هدر استیج صنعتی و پر انرژی */
+        .ft-header-wrap {
+            text-align: center;
+            max-width: 950px;
+            margin: 0 auto 50px auto;
+        }
+
+        .ft-core-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(245, 158, 11, 0.08);
+            border: 1px solid rgba(245, 158, 11, 0.35);
+            color: #fbbf24;
+            font-size: clamp(0.75rem, 2vw, 0.86rem);
+            font-weight: 800;
+            padding: 6px 18px;
+            border-radius: 999px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 25px rgba(245, 158, 11, 0.15);
+        }
+
+        .ft-pulse-core {
+            width: 8px;
+            height: 8px;
+            background: #f59e0b;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #f59e0b;
+            animation: pulseAmber 1.8s infinite;
+            flex-shrink: 0;
+        }
+
+        @keyframes pulseAmber {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.3; transform: scale(0.8); }
+        }
+
+        .ft-main-title {
+            font-size: clamp(1.8rem, 4.5vw, 3.1rem);
+            font-weight: 900;
+            color: #ffffff;
+            line-height: 1.35;
+            margin-bottom: 20px;
+            letter-spacing: -0.5px;
+        }
+
+        .ft-main-title span {
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #f97316 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .ft-lead-paragraph {
+            color: #94a3b8;
+            font-size: clamp(0.92rem, 2vw, 1.08rem);
+            line-height: 2;
+            margin: 0;
+            text-align: justify;
+            text-align-last: center;
+        }
+
+        /* پنل کالبدشکافی تانسوری ماتریس LoRA */
+        .ft-tensor-deck {
+            background: rgba(11, 15, 25, 0.85);
+            border: 1.5px solid rgba(245, 158, 11, 0.25);
+            border-radius: 24px;
+            padding: clamp(20px, 4vw, 40px);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.8), 0 0 35px rgba(245, 158, 11, 0.08);
+            margin-bottom: 60px;
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: 35px;
+            align-items: center;
+            box-sizing: border-box;
+        }
+
+        .ft-content-side h2 {
+            font-size: clamp(1.3rem, 2.8vw, 1.75rem);
+            font-weight: 900;
+            color: #ffffff;
+            margin-bottom: 16px;
+            line-height: 1.45;
+        }
+
+        .ft-content-side p {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            line-height: 2;
+            text-align: justify;
+            margin-bottom: 16px;
+        }
+
+        /* قاب اینفوگرافیک ریاضی ماتریس کم‌رتبه با SVG ریسپانسیو */
+        .ft-math-visual-box {
+            background: #020409;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.7);
+            width: 100%;
+            box-sizing: border-box;
+            min-width: 0;
+        }
+
+        .ft-box-top-spec {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 12px;
+            margin-bottom: 16px;
+            direction: ltr;
+        }
+
+        .ft-spec-lbl {
+            font-family: monospace;
+            font-size: 0.76rem;
+            color: #fbbf24;
+            font-weight: 700;
+        }
+
+        .ft-badge-status {
+            background: rgba(16, 185, 129, 0.15);
+            color: #34d399;
+            font-size: 0.72rem;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 6px;
+        }
+
+        /* گرید ۴گانه متدولوژی آموزش مدل */
+        .ft-method-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 60px;
+        }
+
+        .ft-card-metric {
+            background: rgba(15, 21, 37, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-radius: 20px;
+            padding: 26px 20px;
+            backdrop-filter: blur(15px);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .ft-card-metric::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #f59e0b, #f97316);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .ft-card-metric:hover {
+            transform: translateY(-6px);
+            border-color: rgba(245, 158, 11, 0.4);
+            box-shadow: 0 20px 40px -10px rgba(245, 158, 11, 0.2);
+            background: rgba(15, 21, 37, 0.95);
+        }
+
+        .ft-card-metric:hover::before {
+            opacity: 1;
+        }
+
+        .ft-icon-hex {
+            width: 50px;
+            height: 50px;
+            border-radius: 14px;
+            background: rgba(245, 158, 11, 0.12);
+            color: #fbbf24;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 18px;
+            border: 1px solid rgba(245, 158, 11, 0.25);
+        }
+
+        .ft-icon-hex svg {
+            width: 26px;
+            height: 26px;
+        }
+
+        .ft-card-heading {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 10px;
+            line-height: 1.45;
+        }
+
+        .ft-card-text {
+            font-size: 0.88rem;
+            color: #94a3b8;
+            line-height: 1.85;
+            margin: 0;
+        }
+
+        /* جدول بنچمارک مقایسه‌ای سخت‌افزار با قابلیت اسکرول نرم موبایل */
+        .ft-benchmark-panel {
+            background: rgba(11, 15, 25, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: clamp(20px, 4vw, 36px);
+            margin-bottom: 60px;
+            box-sizing: border-box;
+        }
+
+        .ft-bench-header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .ft-bench-header h3 {
+            font-size: clamp(1.25rem, 2.5vw, 1.6rem);
+            font-weight: 900;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+
+        .ft-bench-header p {
+            color: #64748b;
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        .ft-scrollable-table {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .ft-data-table {
+            width: 100%;
+            min-width: 650px;
+            border-collapse: collapse;
+            text-align: right;
+            font-size: 0.9rem;
+        }
+
+        .ft-data-table th {
+            padding: 16px 18px;
+            color: #fbbf24;
+            font-weight: 800;
+            background: rgba(255, 255, 255, 0.02);
+            border-bottom: 2px solid rgba(245, 158, 11, 0.3);
+            white-space: nowrap;
+        }
+
+        .ft-data-table td {
+            padding: 16px 18px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: #cbd5e1;
+            vertical-align: middle;
+            white-space: nowrap;
+        }
+
+        .ft-data-table tr:hover td {
+            background: rgba(245, 158, 11, 0.03);
+        }
+
+        .ft-tag-gold {
+            background: rgba(245, 158, 11, 0.18);
+            color: #fbbf24;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-weight: 800;
+            font-size: 0.78rem;
+        }
+
+        /* سوالات متداول سئو دارک */
+        .ft-faq-deck {
+            background: rgba(11, 15, 25, 0.65);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: clamp(20px, 4vw, 40px);
+            margin-bottom: 60px;
+            box-sizing: border-box;
+        }
+
+        /* بنر فراخوان نهایی */
+        .ft-cta-box {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.22) 0%, rgba(249, 115, 22, 0.15) 100%);
+            border: 1.5px solid rgba(245, 158, 11, 0.4);
+            border-radius: 24px;
+            padding: clamp(24px, 4vw, 44px);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 25px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+            box-sizing: border-box;
+        }
+
+        .ft-cta-btn {
+            background: linear-gradient(135deg, #d97706 0%, #ea580c 100%);
+            color: #ffffff !important;
+            padding: 15px 34px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 0.96rem;
+            text-decoration: none;
+            white-space: nowrap;
+            box-shadow: 0 10px 30px rgba(217, 119, 6, 0.4);
+            border: 1px solid #fbbf24;
+            transition: all 0.25s ease;
+            text-align: center;
+        }
+
+        .ft-cta-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(217, 119, 6, 0.6);
+            background: #b45309;
+        }
+
+        /* 📱 شکستن دقیق گریدها در موبایل و تبلت برای جلوگیری از بهم‌ریختگی */
+        @media (max-width: 1024px) {
+            .ft-tensor-deck {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            .ft-method-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .ft-method-grid {
+                grid-template-columns: 1fr;
+            }
+            .ft-cta-box {
+                flex-direction: column;
+                text-align: center;
+            }
+            .ft-cta-btn {
+                width: 100%;
+                box-sizing: border-box;
+            }
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+<div class="ft-forge-root">
+    <div class="ft-circuit-lines"></div>
+
+    <div class="ft-container">
+
+        <!-- هدر مهندسی آموزش مدل زبانی -->
+        <header class="ft-header-wrap">
+            <div class="ft-core-pill">
+                <span class="ft-pulse-core"></span>
+                <span>آموزش آداپتورهای کم‌رتبه LoRA با کاهش ۸۰٪ هزینه سخت‌افزار GPU</span>
+            </div>
+
+            <h1 class="ft-main-title">
+                سفارشی‌سازی و فاین‌تیونینگ مدل‌های زبانی با <span class="text-gradient">LoRA &amp; QLoRA</span>
+            </h1>
+
+            <p class="ft-lead-paragraph">
+                تبدیل مدل‌های بزرگ متن‌باز جهانی (Llama 3، DeepSeek و Mistral) به دستیاران فوق‌تخصصی سازمان شما؛ در آتراوب با استفاده از متدهای ریاضیاتی انطباق کم‌رتبه (LoRA)، بدون نیاز به کلاسترهای فوق‌سنگین پردازشی، مدل‌ها به اصطلاحات، لحن اداری، قواعد ساختاری و متون تخصصی صنف شما آموزش داده می‌شوند.
+            </p>
+        </header>
+
+        <!-- پنل کالبدشکافی تانسوری ماتریس کم‌رتبه LoRA -->
+        <section class="ft-tensor-deck">
+            <div class="ft-content-side">
+                <h2>چرا فاین‌تیونینگ با LoRA جایگزین آموزش کامل سنتی (Full Fine-Tuning) شد؟</h2>
+                <p>
+                    آموزش کامل تمام لایه‌ها و وزن‌های یک مدل ۷۰ میلیارد پارامتری به ده‌ها ترابایت رم و سرورهای چندصد هزار دلاری مجهز به چیپست‌های H100 نیازمند است. علاوه بر هزینه گزاف، این روش دچار خطای فاجعه‌بار «فراموشی آموخته‌های پیشین» (Catastrophic Forgetting) می‌شود.
+                </p>
+                <p>
+                    در رویکرد ابداعی <strong>LoRA (Low-Rank Adaptation)</strong>، ماتریس وزن‌های اصلی قفل شده و تنها تانسورهای کم‌رتبه $A$ و $B$ در جریان گرادیان نزولی آموزش داده می‌شوند. این تغییرات پس از استقرار بر روی زیرساخت
+                    <a href="{% url 'core:devops_linux_ubuntu' %}" style="color: #fbbf24; font-weight: 700; text-decoration: underline;">سرورهای لینوکس اوبونتو</a>
+                    و هماهنگی با
+                    <a href="{% url 'core:ai_rag_system' %}" style="color: #fbbf24; font-weight: 700; text-decoration: underline;">سیستم پایگاه دانش RAG</a>،
+                    کیفیت خروجی را با کمترین هزینه سخت‌افزاری به سطح یک متخصص درون‌سازمانی می‌رساند.
+                </p>
+            </div>
+
+            <!-- دیاگرام ماتریسی ضرب وزن‌های LoRA به صورت SVG خالص -->
+            <div class="ft-math-visual-box">
+                <div class="ft-box-top-spec">
+                    <span class="ft-spec-lbl">WEIGHT UPDATE: W = W₀ + (B × A) · α/r</span>
+                    <span class="ft-badge-status">FROZEN BASE WEIGHTS</span>
+                </div>
+
+                <svg viewBox="0 0 440 260" width="100%" height="auto" fill="none" xmlns="http://www.w3.org/2000/svg" style="display: block; direction: ltr;">
+                    <!-- ماتریس اصلی قفل شده W0 -->
+                    <rect x="20" y="30" width="130" height="180" rx="12" fill="#0f172a" stroke="#64748b" stroke-width="2" stroke-dasharray="4 4" />
+                    <text x="85" y="115" fill="#94a3b8" font-size="16" font-weight="900" text-anchor="middle" font-family="monospace">W₀</text>
+                    <text x="85" y="140" fill="#64748b" font-size="10" text-anchor="middle">Pre-trained Weights</text>
+                    <text x="85" y="160" fill="#f87171" font-size="9" text-anchor="middle">d × k (FROZEN)</text>
+
+                    <!-- علامت جمع تانسوری -->
+                    <circle cx="190" cy="120" r="16" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+                    <text x="190" y="126" fill="#fbbf24" font-size="18" font-weight="bold" text-anchor="middle">+</text>
+
+                    <!-- ماتریس کم‌رتبه B -->
+                    <rect x="235" y="45" width="45" height="150" rx="8" fill="#1c1917" stroke="#f59e0b" stroke-width="2" />
+                    <text x="257" y="115" fill="#fbbf24" font-size="14" font-weight="bold" text-anchor="middle" font-family="monospace">B</text>
+                    <text x="257" y="135" fill="#d97706" font-size="8.5" text-anchor="middle">d × r</text>
+
+                    <!-- ضرب ماتریسی -->
+                    <text x="298" y="125" fill="#f59e0b" font-size="14" font-weight="bold" text-anchor="middle">×</text>
+
+                    <!-- ماتریس کم‌رتبه A -->
+                    <rect x="315" y="100" width="105" height="40" rx="8" fill="#1c1917" stroke="#ea580c" stroke-width="2" />
+                    <text x="367" y="125" fill="#fb923c" font-size="14" font-weight="bold" text-anchor="middle" font-family="monospace">A</text>
+                    <text x="367" y="155" fill="#ea580c" font-size="8.5" text-anchor="middle">r × k (Init: Gaussian)</text>
+
+                    <!-- توضیحات رنک کم -->
+                    <rect x="235" y="215" width="185" height="26" rx="6" fill="#18181b" stroke="rgba(245,158,11,0.2)"/>
+                    <text x="327" y="232" fill="#a1a1aa" font-size="9.5" text-anchor="middle" font-family="monospace">Rank r ≪ min(d, k) [r=8 / 16 / 32]</text>
+                </svg>
+
+                <div style="margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.06); display: flex; justify-content: space-between; font-size: 0.78rem; color: #94a3b8; direction: rtl;">
+                    <span>حجم آداپتور نهایی: <strong>۱۵ الی ۵۰ مگابایت</strong></span>
+                    <span>پارامترهای قابل آموزش: <strong>کمتر از ۰.۲٪ مدل</strong></span>
+                </div>
+            </div>
+        </section>
+
+        <!-- گرید ۴گانه متدولوژی آموزش هوش مصنوعی -->
+        <section class="ft-method-grid">
+            <div class="ft-card-metric">
+                <div class="ft-icon-hex">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                        <polyline points="2 17 12 22 22 17"></polyline>
+                        <polyline points="2 12 12 17 22 12"></polyline>
+                    </svg>
+                </div>
+                <h3 class="ft-card-heading">کوانتایز ۴ بیتی با متد QLoRA</h3>
+                <p class="ft-card-text">امکان آموزش مدل‌های بزرگ ۷۰B حتی روی تک‌کارت‌های گرافیک مصرفی ۲۴ گیگابایتی (مانند RTX 3090/4090) با فرمت NF4.</p>
+            </div>
+
+            <div class="ft-card-metric">
+                <div class="ft-icon-hex">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        <polyline points="14 2 14 8 20 8"></polyline>
+                        <line x1="16" y1="13" x2="8" y2="13"></line>
+                        <line x1="16" y1="17" x2="8" y2="17"></line>
+                    </svg>
+                </div>
+                <h3 class="ft-card-heading">پالایش دیتاست‌های جفتی (Alpaca/ShareGPT)</h3>
+                <p class="ft-card-text">تمیزکاری، استانداردسازی ورودی-پاسخ و حذف نویز از صدها هزار سطر داده‌های فارسی برای تضمین یادگیری بدون سوگیری.</p>
+            </div>
+
+            <div class="ft-card-metric">
+                <div class="ft-icon-hex">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                    </svg>
+                </div>
+                <h3 class="ft-card-heading">مانیتورینگ Loss و هایپرپارامترها</h3>
+                <p class="ft-card-text">کنترل نرخ یادگیری (Learning Rate)، تعداد دورهای آموزش (Epochs) و تکنیک‌های Warmup برای جلوگیری از بیش‌برازش (Overfitting).</p>
+            </div>
+
+            <div class="ft-card-metric">
+                <div class="ft-icon-hex">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                </div>
+                <h3 class="ft-card-heading">ادغام بدون تاخیر (Zero-Overhead Merge)</h3>
+                <p class="ft-card-text">امکان ادغام وزن‌های ماتریس LoRA با مدل مادر به صورت باینری خالص برای استنتاج با سرعت بیشینه و بدون تاخیر اضافی.</p>
+            </div>
+        </section>
+
+        <!-- جدول بنچمارک مقایسه‌ای سخت‌افزار و هزینه‌ها -->
+        <section class="ft-benchmark-panel">
+            <div class="ft-bench-header">
+                <h3>بنچمارک نیازمندی‌های سخت‌افزاری و هزینه آموزش مدل‌های ۷B و ۷۰B</h3>
+                <p>مقایسه ابعاد فایل، مصرف حافظه کارت گرافیک و توان محاسباتی در روش‌های گوناگون</p>
+            </div>
+
+            <div class="ft-scrollable-table">
+                <table class="ft-data-table">
+                    <thead>
+                        <tr>
+                            <th>روش آموزش مدل</th>
+                            <th>حافظه VRAM مورد نیاز (مدل 8B)</th>
+                            <th>حافظه VRAM مورد نیاز (مدل 70B)</th>
+                            <th>حجم فایل آداپتور خروجی</th>
+                            <th>هزینه سخت‌افزاری زیرساخت</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="ft-tag-gold">QLoRA 4-bit (پیش‌فرض آتراوب)</span></td>
+                            <td><strong style="color: #34d399;">کمتر از ۶ گیگابایت</strong></td>
+                            <td><strong style="color: #34d399;">کمتر از ۲۴ گیگابایت (تک کارت)</strong></td>
+                            <td>۲۰ الی ۴۰ مگابایت</td>
+                            <td>بسیار اقتصادی و مقیاس‌پذیر در سرورهای محلی</td>
+                        </tr>
+                        <tr>
+                            <td>LoRA Standard (16-bit)</td>
+                            <td>۱۴ الی ۱۸ گیگابایت</td>
+                            <td>۸۰ گیگابایت (نیاز به A100)</td>
+                            <td>۵۰ الی ۱۲۰ مگابایت</td>
+                            <td>متوسط و نیازمند سخت‌افزار صنعتی سرور</td>
+                        </tr>
+                        <tr>
+                            <td>Full Fine-Tuning سنتی</td>
+                            <td>بیش از ۶۴ گیگابایت</td>
+                            <td>بیش از ۶۴۰ گیگابایت (کلاستر چندگانه)</td>
+                            <td>۱۶ الی ۱۴۰ گیگابایت</td>
+                            <td>هزینه‌های چندده‌هزار دلاری سرور ابری</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- سوالات متداول سئو دارک -->
+        <section class="ft-faq-deck">
+            <h2 style="font-size: clamp(1.25rem, 2.5vw, 1.55rem); font-weight: 800; color: #ffffff; text-align: center; margin-bottom: 24px;">
+                پرسش‌های کلیدی پیرامون سفارشی‌سازی و Fine-Tuning مدل‌های زبانی
+            </h2>
+            <div class="faq-grid">
+                <div class="faq-item active" style="background: rgba(4, 6, 13, 0.85); border-color: rgba(255, 255, 255, 0.08);">
+                    <div class="faq-question">
+                        <span class="q-text" style="color: #ffffff;">برای فاین‌تیونینگ یک مدل زبانی به چه تعداد نمونه داده (Dataset) نیاز است؟</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="answer-inner">
+                            <p style="color: #94a3b8;">برای تطبیق لحن یا خروجی در فرمت خاص (مانند ساختار JSON مشخص)، بین ۱,۰۰۰ تا ۵,۰۰۰ جفت داده باکیفیت و بازبینی‌شده کفایت می‌کند؛ در حالی که برای آموزش دانش‌های کاملاً نوین، به بیش از ۵۰,۰۰۰ نمونه استاندارد نیاز خواهد بود.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item active" style="background: rgba(4, 6, 13, 0.85); border-color: rgba(255, 255, 255, 0.08);">
+                    <div class="faq-question">
+                        <span class="q-text" style="color: #ffffff;">آیا آداپتورهای آموزش‌دیده را می‌توان روی سرورهای ابری خارجی نیز استفاده کرد؟</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="answer-inner">
+                            <p style="color: #94a3b8;">بله؛ خروجی این روش فایل‌های استاندارد بر پایه فرمت Safetensors و HuggingFace است که هم بر روی سرورهای ایزوله On-Premise لینوکسی و هم در پلتفرم‌های ابری (RunPod، AWS و داکر) با سرورهای استنتاج vLLM و Ollama قابل اجرا هستند.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- بنر فراخوان نهایی -->
+        <div class="ft-cta-box">
+            <div>
+                <h3 style="font-size: clamp(1.2rem, 2.5vw, 1.6rem); font-weight: 900; color: #ffffff; margin-bottom: 8px;">
+                    می‌خواهید مدل زبانی اختصاصی سازمان خود را فاین‌تیون کنید؟
+                </h3>
+                <p style="color: #cbd5e1; font-size: 0.95rem; margin: 0; line-height: 1.85;">
+                    آماده‌سازی دیتاست، تست هایپرپارامترها و آموزش پایدار با تکنیک‌های LoRA را به مهندسین آتراوب بسپارید.
+                </p>
+            </div>
+            <a href="{% url 'core:submit_ticket' %}" class="ft-cta-btn">
+                مشاوره و سفارش Fine-Tuning
+            </a>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

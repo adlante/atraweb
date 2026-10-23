@@ -1,0 +1,747 @@
+{% extends 'parent/base.html' %}
+{% load static %}
+
+{% block title %}پایگاه داده‌های برداری (Vector Databases) و موتورهای Qdrant و Milvus | آتراوب{% endblock %}
+{% block meta_description %}طراحی، بهینه‌سازی و استقرار دیتابیس‌های برداری مقیاس‌پذیر با Qdrant، Milvus و pgvector؛ جستجوی شباهت معنایی (Cosine Similarity) با ایندکس‌های HNSW در مقیاس میلیاردی.{% endblock %}
+{% block meta_keywords %}پایگاه داده برداری, Vector Database چیست, نصب Qdrant, اکستنشن pgvector, دیتابیس Milvus, جستجوی معنایی وکتور, الگوریتم HNSW, هوش مصنوعی برداری{% endblock %}
+
+{% block extra_schema %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "زیرساخت پایگاه‌های داده برداری مقیاس‌پذیر آتراوب",
+      "operatingSystem": "Linux Ubuntu Server, Docker Cluster, Kubernetes",
+      "applicationCategory": "DeveloperApplication",
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.96",
+        "reviewCount": "78"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "IRR"
+      }
+    },
+    {
+      "@type": "TechArticle",
+      "headline": "راهنمای جامع معماری و بنچمارک پایگاه داده‌های برداری (Vector DBs)",
+      "description": "تحلیل تخصصی شاخص‌گذاری HNSW، مقایسه نرخ تاخیر Qdrant و pgvector و Milvus در جستجوی تشابه معنایی چندبعدی و کاهش زمان پاسخگویی به زیر ۳ میلی‌ثانیه",
+      "inLanguage": "fa-IR",
+      "author": {"@type": "Organization", "name": "آتراوب", "url": "https://atraweb.com"},
+      "publisher": {"@type": "Organization", "name": "آتراوب"}
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "تفاوت جستجوی برداری با کوئری‌های متنی متداول (LIKE یا Full-Text Search) چیست؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "جستجوهای سنتی بر پایه برابری دقیق کلمات کلیدی کار می‌کنند؛ در حالی که دیتابیس‌های برداری، مفاهیم را به بردارهای متراکم ریاضی (Dense Vectors) تبدیل کرده و با فاصله کسینوسی، ارتباط معنایی متون و اسناد را حتی بدون هیچ واژه مشترکی در کسری از میلی‌ثانیه می‌یابند."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "برای استقرار سیستم RAG، موتور Qdrant برتر است یا pgvector؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "اگر حجم بردارها زیر ۱ میلیون رکورد است و می‌خواهید دیتابیس جداگانه مدیریت نکنید، pgvector به دلیل یکپارچگی با PostgreSQL بهترین گزینه است. برای بیش از ۱ میلیون بردار، فیلترینگ سنگین همزمان متادیتا و سرعت بیشینه، Qdrant به دلیل معماری نوشته‌شده با Rust برتری قطعی دارد."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "الگوریتم ایندکس‌گذاری HNSW چگونه کار می‌کند؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "الگوریتم Hierarchical Navigable Small World با ساخت گراف‌های چندلایه‌ای چندبعدی، مسیر جستجو را از لایه‌های تنک آغاز کرده و به لایه‌های متراکم همگرا می‌کند؛ در نتیجه سرعت جستجو از O(N) به O(log N) می‌رسد."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+{% endblock %}
+
+{% block extra_css %}
+    <link href="{% static 'css/navbar.css' %}" rel="stylesheet">
+    <style>
+        /* 🌌 پالت Obsidian Deep Dark با اکسنت زمردی ماتریسی */
+        .vdb-root-canvas {
+            background-color: #02050b !important;
+            color: #f1f5f9;
+            direction: rtl;
+            position: relative;
+            overflow-x: hidden;
+            padding: 50px 0 100px 0;
+            font-family: var(--font-main);
+            box-sizing: border-box;
+        }
+
+        .vdb-ambient-glow-1 {
+            position: absolute;
+            width: 580px;
+            height: 580px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.18) 0%, transparent 70%);
+            filter: blur(120px);
+            top: 0;
+            right: 5%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .vdb-ambient-glow-2 {
+            position: absolute;
+            width: 520px;
+            height: 520px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(6, 182, 212, 0.14) 0%, transparent 70%);
+            filter: blur(110px);
+            bottom: 5%;
+            left: 5%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .vdb-matrix-grid {
+            position: absolute;
+            inset: 0;
+            background-image:
+                radial-gradient(rgba(16, 185, 129, 0.1) 1.2px, transparent 1.2px),
+                linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 32px 32px, 64px 64px, 64px 64px;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .vdb-shell {
+            width: 100%;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 2;
+            box-sizing: border-box;
+        }
+
+        /* هدر مهندسی دیتابیس برداری */
+        .vdb-hero-header {
+            text-align: center;
+            max-width: 960px;
+            margin: 0 auto 55px auto;
+        }
+
+        .vdb-status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(16, 185, 129, 0.08);
+            border: 1px solid rgba(52, 211, 153, 0.35);
+            color: #34d399;
+            font-size: clamp(0.75rem, 2vw, 0.86rem);
+            font-weight: 800;
+            padding: 6px 20px;
+            border-radius: 999px;
+            margin-bottom: 22px;
+            box-shadow: 0 0 25px rgba(16, 185, 129, 0.18);
+        }
+
+        .vdb-dot-signal {
+            width: 8px;
+            height: 8px;
+            background: #10b981;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #10b981;
+            animation: vdbPulse 1.8s infinite;
+            flex-shrink: 0;
+        }
+
+        @keyframes vdbPulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.3; transform: scale(0.8); }
+        }
+
+        .vdb-title-h1 {
+            font-size: clamp(1.85rem, 4.5vw, 3.2rem);
+            font-weight: 900;
+            color: #ffffff;
+            line-height: 1.35;
+            margin-bottom: 22px;
+            letter-spacing: -0.6px;
+        }
+
+        .vdb-title-h1 span {
+            background: linear-gradient(135deg, #34d399 0%, #10b981 50%, #38bdf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .vdb-lead-text {
+            color: #94a3b8;
+            font-size: clamp(0.94rem, 2vw, 1.08rem);
+            line-height: 2;
+            margin: 0;
+            text-align: justify;
+            text-align-last: center;
+        }
+
+        /* استیج دیاگرام فضای چندبعدی بردارها و محاسبات کسینوسی */
+        .vdb-stage-deck {
+            background: rgba(8, 16, 28, 0.8);
+            border: 1.5px solid rgba(16, 185, 129, 0.25);
+            border-radius: 26px;
+            padding: clamp(20px, 4vw, 42px);
+            backdrop-filter: blur(25px);
+            box-shadow: 0 30px 70px -15px rgba(0, 0, 0, 0.85);
+            margin-bottom: 65px;
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: 36px;
+            align-items: center;
+            box-sizing: border-box;
+        }
+
+        .vdb-article-content h2 {
+            font-size: clamp(1.3rem, 2.8vw, 1.75rem);
+            font-weight: 900;
+            color: #ffffff;
+            margin-bottom: 16px;
+            line-height: 1.45;
+        }
+
+        .vdb-article-content p {
+            color: #94a3b8;
+            font-size: 0.96rem;
+            line-height: 1.95;
+            text-align: justify;
+            margin-bottom: 16px;
+        }
+
+        .vdb-svg-container {
+            background: #010814;
+            border: 1.5px solid rgba(16, 185, 129, 0.35);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.8);
+            width: 100%;
+            box-sizing: border-box;
+            min-width: 0;
+        }
+
+        .vdb-circuit-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 12px;
+            margin-bottom: 14px;
+            direction: ltr;
+        }
+
+        .vdb-circuit-title {
+            font-family: monospace;
+            font-size: 0.76rem;
+            color: #34d399;
+            font-weight: 700;
+        }
+
+        .vdb-badge-metric {
+            background: rgba(56, 189, 248, 0.12);
+            color: #38bdf8;
+            font-size: 0.72rem;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 6px;
+        }
+
+        /* گرید ۴گانه قابلیت‌های فنی وکتور دیتابیس */
+        .vdb-quad-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 65px;
+        }
+
+        .vdb-quad-card {
+            background: rgba(10, 20, 34, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 22px;
+            padding: 28px 22px;
+            backdrop-filter: blur(18px);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .vdb-quad-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #10b981, #06b6d4);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .vdb-quad-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(52, 211, 153, 0.45);
+            background: rgba(10, 20, 34, 0.95);
+            box-shadow: 0 20px 40px -10px rgba(16, 185, 129, 0.22);
+        }
+
+        .vdb-quad-card:hover::before {
+            opacity: 1;
+        }
+
+        .vdb-icon-box {
+            width: 52px;
+            height: 52px;
+            border-radius: 15px;
+            background: rgba(16, 185, 129, 0.12);
+            color: #34d399;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 18px;
+            border: 1px solid rgba(16, 185, 129, 0.28);
+        }
+
+        .vdb-icon-box svg {
+            width: 26px;
+            height: 26px;
+        }
+
+        .vdb-card-h3 {
+            font-size: 1.18rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 10px;
+            line-height: 1.45;
+        }
+
+        .vdb-card-p {
+            font-size: 0.88rem;
+            color: #94a3b8;
+            line-height: 1.85;
+            margin: 0;
+        }
+
+        /* جدول بنچمارک مقایسه‌ای دیتابیس‌های برداری */
+        .vdb-table-panel {
+            background: rgba(8, 16, 28, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: clamp(20px, 4vw, 36px);
+            margin-bottom: 65px;
+            box-sizing: border-box;
+        }
+
+        .vdb-table-head-info {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .vdb-table-head-info h3 {
+            font-size: clamp(1.25rem, 2.5vw, 1.65rem);
+            font-weight: 900;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+
+        .vdb-table-head-info p {
+            color: #64748b;
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        .vdb-scroll-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .vdb-data-table {
+            width: 100%;
+            min-width: 680px;
+            border-collapse: collapse;
+            text-align: right;
+            font-size: 0.9rem;
+        }
+
+        .vdb-data-table th {
+            padding: 16px 18px;
+            color: #34d399;
+            font-weight: 800;
+            background: rgba(255, 255, 255, 0.02);
+            border-bottom: 2px solid rgba(52, 211, 153, 0.3);
+            white-space: nowrap;
+        }
+
+        .vdb-data-table td {
+            padding: 16px 18px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: #cbd5e1;
+            vertical-align: middle;
+            white-space: nowrap;
+        }
+
+        .vdb-data-table tr:hover td {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .vdb-chip-green {
+            background: rgba(16, 185, 129, 0.18);
+            color: #34d399;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-weight: 800;
+            font-size: 0.78rem;
+        }
+
+        .vdb-chip-blue {
+            background: rgba(59, 130, 246, 0.18);
+            color: #60a5fa;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-weight: 800;
+            font-size: 0.78rem;
+        }
+
+        /* سوالات متداول سئو دارک */
+        .vdb-faq-wrapper {
+            background: rgba(8, 16, 28, 0.65);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: clamp(20px, 4vw, 40px);
+            margin-bottom: 65px;
+            box-sizing: border-box;
+        }
+
+        /* بنر کال تو اکشن پایانی */
+        .vdb-cta-banner {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.22) 0%, rgba(6, 182, 212, 0.16) 100%);
+            border: 1.5px solid rgba(52, 211, 153, 0.4);
+            border-radius: 24px;
+            padding: clamp(24px, 4vw, 44px);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 25px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+            box-sizing: border-box;
+        }
+
+        .vdb-cta-btn {
+            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+            color: #ffffff !important;
+            padding: 15px 34px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 0.96rem;
+            text-decoration: none;
+            white-space: nowrap;
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);
+            border: 1px solid #34d399;
+            transition: all 0.25s ease;
+            text-align: center;
+        }
+
+        .vdb-cta-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(16, 185, 129, 0.6);
+            background: #10b981;
+        }
+
+        /* ریسپانسیو اختصاصی موبایل و تبلت */
+        @media (max-width: 1024px) {
+            .vdb-stage-deck {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            .vdb-quad-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .vdb-quad-grid {
+                grid-template-columns: 1fr;
+            }
+            .vdb-cta-banner {
+                flex-direction: column;
+                text-align: center;
+            }
+            .vdb-cta-btn {
+                width: 100%;
+                box-sizing: border-box;
+            }
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+<div class="vdb-root-canvas">
+    <div class="vdb-ambient-glow-1"></div>
+    <div class="vdb-ambient-glow-2"></div>
+    <div class="vdb-matrix-grid"></div>
+
+    <div class="vdb-shell">
+
+        <!-- هدر تخصصی پایگاه داده برداری -->
+        <header class="vdb-hero-header">
+            <div class="vdb-status-pill">
+                <span class="vdb-dot-signal"></span>
+                <span>ذخیره‌سازی و بازیابی چندبعدی در مقیاس‌های ده‌ها میلیونی با HNSW Index</span>
+            </div>
+
+            <h1 class="vdb-title-h1">
+                پایگاه داده‌های برداری <span class="text-gradient">Vector Databases &amp; Qdrant</span>
+            </h1>
+
+            <p class="vdb-lead-text">
+                گذر از محدودیت‌های جستجوی سنتی کلیدواژه‌ای و ورود به پردازش معنایی هوش مصنوعی؛ در آتراوب، پایگاه‌های داده برداری تخصصی با استفاده از Qdrant، Milvus و افزونه pgvector در PostgreSQL کانفیگ می‌شوند تا صدها میلیون بردار متراکم را در کمتر از ۳ میلی‌ثانیه فیلتر و بازیابی کنند.
+            </p>
+        </header>
+
+        <!-- استیج معرفی با اینفوگرافیک برداری SVG -->
+        <section class="vdb-stage-deck">
+            <div class="vdb-article-content">
+                <h2>چرا موتورهای برداری (Vector Engines) قلب سامانه‌های هوش مصنوعی هستند؟</h2>
+                <p>
+                    داده‌های بدون ساختار نظیر قراردادها، گزارش‌های حسابداری، تصاویر و متون فنی نمی‌توانند در قالب ردیف‌ها و ستون‌های سنتی SQL به درستی تطبیق داده شوند. شبکه‌های عصبی این مفاهیم را به فضاهای متراکم چندبعدی (Dense Vectors با ابعاد ۱۵۳۶ یا ۳۰۷۲ بعد) نگاشت می‌کنند.
+                </p>
+                <p>
+                    در پایگاه‌های داده برداری طراحی‌شده توسط آتراوب، الگوریتم‌های پیشرفته <strong>HNSW</strong> همراه با فیلترینگ هیبریدی متادیتا پیاده‌سازی می‌شوند؛ در نتیجه اتصال به
+                    <a href="{% url 'core:backend_postgresql' %}" style="color: #34d399; font-weight: 700; text-decoration: underline;">پایگاه داده PostgreSQL</a>
+                    و زیرساخت
+                    <a href="{% url 'core:ai_rag_system' %}" style="color: #34d399; font-weight: 700; text-decoration: underline;">پایگاه دانش سازمانی RAG</a>،
+                    سرعت پاسخگویی را زیر بار ترافیکی چند هزار درخواست همزمان در حد میلی‌ثانیه تضمین می‌کند.
+                </p>
+            </div>
+
+            <!-- اینفوگرافیک زنده وکتور و هندسه چندبعدی با SVG کاملاً ریسپانسیو -->
+            <div class="vdb-svg-container">
+                <div class="vdb-circuit-header">
+                    <span class="vdb-circuit-title">METRIC: COSINE DISTANCE / HNSW GRAPH</span>
+                    <span class="vdb-badge-metric">LIVE VECTOR SEARCH</span>
+                </div>
+
+                <svg viewBox="0 0 440 260" width="100%" height="auto" fill="none" xmlns="http://www.w3.org/2000/svg" style="display: block; direction: ltr;">
+                    <defs>
+                        <radialGradient id="vGlow" cx="50%" cy="50%" r="50%">
+                            <stop offset="0%" stop-color="#34d399" stop-opacity="0.7"/>
+                            <stop offset="100%" stop-color="#10b981" stop-opacity="0"/>
+                        </radialGradient>
+                    </defs>
+
+                    <!-- محورهای مختصات فضایی نمادین -->
+                    <line x1="40" y1="220" x2="400" y2="220" stroke="#1e293b" stroke-width="1.5" />
+                    <line x1="40" y1="220" x2="40" y2="25" stroke="#1e293b" stroke-width="1.5" />
+                    <line x1="40" y1="220" x2="160" y2="110" stroke="#1e293b" stroke-width="1.5" stroke-dasharray="3 3" />
+
+                    <!-- خوشه شماره ۱: اسناد مالی و قراردادها -->
+                    <circle cx="120" cy="80" r="42" fill="url(#vGlow)" />
+                    <circle cx="110" cy="70" r="4" fill="#34d399" />
+                    <circle cx="135" cy="65" r="3.5" fill="#34d399" />
+                    <circle cx="125" cy="95" r="4" fill="#34d399" />
+                    <circle cx="100" cy="90" r="3" fill="#34d399" />
+                    <line x1="110" y1="70" x2="135" y2="65" stroke="#34d399" stroke-width="0.8" opacity="0.6"/>
+                    <line x1="135" y1="65" x2="125" y2="95" stroke="#34d399" stroke-width="0.8" opacity="0.6"/>
+                    <line x1="125" y1="95" x2="100" y2="90" stroke="#34d399" stroke-width="0.8" opacity="0.6"/>
+                    <text x="120" y="42" fill="#6ee7b7" font-size="9.5" font-weight="bold" text-anchor="middle" font-family="monospace">Financial Cluster</text>
+
+                    <!-- خوشه شماره ۲: مستندات فنی و لاگ‌های سرور -->
+                    <circle cx="310" cy="95" r="45" fill="url(#vGlow)" />
+                    <circle cx="300" cy="85" r="4" fill="#38bdf8" />
+                    <circle cx="325" cy="80" r="4" fill="#38bdf8" />
+                    <circle cx="330" cy="110" r="3.5" fill="#38bdf8" />
+                    <circle cx="295" cy="105" r="4" fill="#38bdf8" />
+                    <line x1="300" y1="85" x2="325" y2="80" stroke="#38bdf8" stroke-width="0.8" opacity="0.6"/>
+                    <line x1="325" y1="80" x2="330" y2="110" stroke="#38bdf8" stroke-width="0.8" opacity="0.6"/>
+                    <line x1="330" y1="110" x2="295" y2="105" stroke="#38bdf8" stroke-width="0.8" opacity="0.6"/>
+                    <text x="315" y="58" fill="#7dd3fc" font-size="9.5" font-weight="bold" text-anchor="middle" font-family="monospace">Technical Logs Cluster</text>
+
+                    <!-- بردار پرسش ورودی -->
+                    <circle cx="210" cy="170" r="6" fill="#f59e0b" />
+                    <text x="210" y="195" fill="#fbbf24" font-size="10" font-weight="bold" text-anchor="middle" font-family="monospace">Vector Query (User)</text>
+
+                    <!-- خطوط محاسبه شباهت کسینوسی -->
+                    <path d="M 210 170 L 125 95" stroke="#f59e0b" stroke-width="1.8" stroke-dasharray="3 3"/>
+                    <text x="155" y="145" fill="#fbbf24" font-size="8.5" font-family="monospace">cos θ = 0.942</text>
+                    <path d="M 210 170 L 295 105" stroke="#64748b" stroke-width="1" stroke-dasharray="2 2" opacity="0.4"/>
+                    <text x="268" y="150" fill="#64748b" font-size="8" font-family="monospace">cos θ = 0.410</text>
+                </svg>
+
+                <div style="margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.06); display: flex; justify-content: space-between; font-size: 0.78rem; color: #94a3b8; direction: rtl;">
+                    <span>نرخ یادآوری (Recall): <strong>۹۹.۵٪</strong></span>
+                    <span>تاخیر جستجو در ۱۰M بردار: <strong>۲.۴ میلی‌ثانیه</strong></span>
+                </div>
+            </div>
+        </section>
+
+        <!-- گرید ۴گانه قابلیت‌های وکتور دیتابیس -->
+        <section class="vdb-quad-grid">
+            <div class="vdb-quad-card">
+                <div class="vdb-icon-box">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                        <polyline points="2 17 12 22 22 17"></polyline>
+                        <polyline points="2 12 12 17 22 12"></polyline>
+                    </svg>
+                </div>
+                <h3 class="vdb-card-h3">موتور برداری فوق‌سریع Qdrant</h3>
+                <p class="vdb-card-p">توسعه‌یافته با زبان Rust برای استعلام‌های پرسرعت، دارای فیلترینگ عمیق متادیتا و حداقل مصرف حافظه RAM.</p>
+            </div>
+
+            <div class="vdb-quad-card">
+                <div class="vdb-icon-box">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+                        <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path>
+                        <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
+                    </svg>
+                </div>
+                <h3 class="vdb-card-h3">افزونه pgvector در PostgreSQL</h3>
+                <p class="vdb-card-p">ادغام مستقیم بردارها با جداول رابطه‌ای دیتابیس فعلی بدون نیاز به راه‌اندازی سرور مجزا و با حفظ اصول ACID.</p>
+            </div>
+
+            <div class="vdb-quad-card">
+                <div class="vdb-icon-box">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="2" y="2" width="20" height="8" rx="2"></rect>
+                        <rect x="2" y="14" width="20" height="8" rx="2"></rect>
+                        <line x1="6" y1="6" x2="6.01" y2="6"></line>
+                        <line x1="6" y1="18" x2="6.01" y2="18"></line>
+                    </svg>
+                </div>
+                <h3 class="vdb-card-h3">کلاستر توزیع‌شده Milvus</h3>
+                <p class="vdb-card-p">طراحی‌شده برای پروژه‌های در سطح ملی با مقیاس‌های بیش از ۱۰۰ میلیون بردار و معماری مبتنی بر کوبرنتیز.</p>
+            </div>
+
+            <div class="vdb-quad-card">
+                <div class="vdb-icon-box">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                    </svg>
+                </div>
+                <h3 class="vdb-card-h3">کوانتایز بردارها (Product Quantization)</h3>
+                <p class="vdb-card-p">کاهش ۴ برابری مصرف رم با فشرده‌سازی بردارها بدون افت محسوس دقت بازیابی شباهت معنایی.</p>
+            </div>
+        </section>
+
+        <!-- جدول بنچمارک مقایسه‌ای دیتابیس‌های برداری -->
+        <section class="vdb-table-panel">
+            <div class="vdb-table-head-info">
+                <h3>ماتریس جامع مقایسه فنی پایگاه‌های داده برداری</h3>
+                <p>بررسی عملکرد بر اساس نرخ تاخیر (Latency)، مصرف رم و مقیاس‌پذیری در مقیاس ۱۰ میلیون رکورد</p>
+            </div>
+
+            <div class="vdb-scroll-wrapper">
+                <table class="vdb-data-table">
+                    <thead>
+                        <tr>
+                            <th>ویژگی و شاخص عملکردی</th>
+                            <th>Qdrant Engine (پیش‌فرض آتراوب)</th>
+                            <th>PostgreSQL + pgvector</th>
+                            <th>Milvus Distributed</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>زبان هسته و معماری پایه</td>
+                            <td><span class="vdb-chip-green">Rust (مدیریت امن حافظه بدون GC)</span></td>
+                            <td>C (افزونه رسمی PostgreSQL)</td>
+                            <td>Go &amp; C++ (معماری توزیع‌شده)</td>
+                        </tr>
+                        <tr>
+                            <td>میانگین تاخیر کوئری (P95 Latency)</td>
+                            <td><span class="vdb-chip-green">&lt; ۲.۸ میلی‌ثانیه</span></td>
+                            <td><span class="vdb-chip-blue">۸ الی ۱۸ میلی‌ثانیه</span></td>
+                            <td><span class="vdb-chip-green">&lt; ۳.۵ میلی‌ثانیه</span></td>
+                        </tr>
+                        <tr>
+                            <td>فیلترینگ ترکیبی Payload (متادیتا)</td>
+                            <td><span class="vdb-chip-green">فیلترینگ قبل از پیمایش ایندکس</span></td>
+                            <td>پشتیبانی با کوئری استاندارد SQL</td>
+                            <td><span class="vdb-chip-green">فیلترینگ سریع بولین</span></td>
+                        </tr>
+                        <tr>
+                            <td>حداکثر ظرفیت بردار در کلاستر</td>
+                            <td>چند صد میلیون بردار در هر کلاستر</td>
+                            <td>بهینه تا سقف ۵ میلیون رکورد</td>
+                            <td><span class="vdb-chip-green">میلیارد بردار در کلاستر توزیع‌شده</span></td>
+                        </tr>
+                        <tr>
+                            <td>سهولت راه‌اندازی و نگهداری</td>
+                            <td><span class="vdb-chip-green">کانتینر داکر مستقل با APIهای gRPC/REST</span></td>
+                            <td><span class="vdb-chip-green">درون دیتابیس فعلی بدون سرور جدید</span></td>
+                            <td>پیچیدگی بالا با وابستگی به Etcd و MinIO</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- سوالات متداول سئو دارک -->
+        <section class="vdb-faq-wrapper">
+            <h2 style="font-size: clamp(1.25rem, 2.5vw, 1.55rem); font-weight: 800; color: #ffffff; text-align: center; margin-bottom: 24px;">
+                پرسش‌های متداول مهندسی پیرامون پایگاه‌های داده برداری
+            </h2>
+            <div class="faq-grid">
+                <div class="faq-item active" style="background: rgba(2, 6, 23, 0.85); border-color: rgba(255, 255, 255, 0.08);">
+                    <div class="faq-question">
+                        <span class="q-text" style="color: #ffffff;">آیا پایگاه داده‌های برداری جایگزین پایگاه‌های رابطه‌ای (مانند PostgreSQL) می‌شوند؟</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="answer-inner">
+                            <p style="color: #94a3b8;">خیر؛ وکتور دیتابیس‌ها به عنوان مکمل تخصصی در کنار دیتابیس‌های رابطه‌ای فعالیت می‌کنند. داده‌های اصلی تجاری (سفارش‌ها، تراکنش‌ها، لاگین کاربران) در PostgreSQL نگهداری شده و شاخص‌های معنایی و برداری به موتورهای Qdrant منتقل می‌شوند.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item active" style="background: rgba(2, 6, 23, 0.85); border-color: rgba(255, 255, 255, 0.08);">
+                    <div class="faq-question">
+                        <span class="q-text" style="color: #ffffff;">فرآیند ساخت و آپدیت ایندکس‌های HNSW چگونه است؟</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="answer-inner">
+                            <p style="color: #94a3b8;">در موتور Qdrant بردارها ابتدا به بافر موقت اضافه شده و در پس‌زمینه توسط ترد‌های مستقل پردازنده بدون مسدودسازی عملیات خواندن، به گراف HNSW متصل می‌گردند؛ این امر امکان ایندکس‌گذاری آنلاین و پیوسته را بدون توقف سرور فراهم می‌سازد.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- بنر کال تو اکشن پایانی -->
+        <div class="vdb-cta-banner">
+            <div>
+                <h3 style="font-size: clamp(1.2rem, 2.5vw, 1.6rem); font-weight: 900; color: #ffffff; margin-bottom: 8px;">
+                    نیازمند راه‌اندازی زیرساخت پرسرعت پایگاه برداری برای هوش مصنوعی هستید؟
+                </h3>
+                <p style="color: #cbd5e1; font-size: 0.95rem; margin: 0; line-height: 1.85;">
+                    کانفیگ کلاسترهای Qdrant، نصب اکستنشن pgvector و تیونینگ شاخص‌های HNSW را به مهندسین آتراوب بسپارید.
+                </p>
+            </div>
+            <a href="{% url 'core:submit_ticket' %}" class="vdb-cta-btn">
+                سفارش زیرساخت پایگاه برداری
+            </a>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

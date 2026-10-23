@@ -1,0 +1,523 @@
+{% extends 'parent/base.html' %}
+{% load static %}
+
+{% block title %}استریم بلادرنگ پاسخ هوش مصنوعی در فلاتر (SSE & WebSockets) | آتراوب{% endblock %}
+{% block meta_description %}پیاده‌سازی استریم پاسخ‌های مدل‌های زبانی بزرگ (LLM) و چت‌بات‌های هوش مصنوعی در فلاتر با Server-Sent Events، وب‌سوکت‌های کم‌مصرف و رندر تایپ کلمه به کلمه.{% endblock %}
+{% block meta_keywords %}استریم هوش مصنوعی فلاتر, اتصال Flutter به ChatGPT, وب سوکت در فلاتر, ساخت چت بات هوش مصنوعی موبایل, سرور سنت ایونت SSE فلاتر, برنامه نویسی هوش مصنوعی دارت{% endblock %}
+
+{% block extra_schema %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "موتور استریم آنی هوش مصنوعی در کلاینت‌های فلاتر آتراوب",
+      "operatingSystem": "iOS, Android, Web",
+      "applicationCategory": "BusinessApplication",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "IRR"
+      }
+    },
+    {
+      "@type": "TechArticle",
+      "headline": "معماری رندر استریم توکن‌های هوش مصنوعی با فلاتر و پروتکل SSE",
+      "description": "نحوه کاهش تاخیر دریافت توکن‌ها در چت‌بات‌های موبایل، اتصال به وب‌سوکت جنگو و مدیریت بافر متن با معماری واکنش‌گرا در Dart",
+      "inLanguage": "fa-IR",
+      "author": {"@type": "Organization", "name": "آتراوب", "url": "https://atraweb.com"},
+      "publisher": {"@type": "Organization", "name": "آتراوب"}
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "چرا در اپلیکیشن‌های هوش مصنوعی به جای REST API از پروتکل SSE استفاده می‌شود؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "در مدل‌های زبانی مانند DeepSeek و Claude، پاسخ‌ها به صورت کلمه به کلمه (توکن) تولید می‌شوند؛ استفاده از پروتکل Server-Sent Events تاخیر اولیه کاربر را از ۱۰ ثانیه به زیر ۳۰۰ میلی‌ثانیه می‌رساند و حس زنده تایپ شدن پاسخ را ارائه می‌دهد."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "آیا استریم طولانی‌مدت پاسخ‌ها باعث تخلیه سریع باتری موبایل می‌شود؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "خیر؛ با تنظیم بهینه بافر بسته‌ها در کتابخانه Dio و استفاده از کانکشن‌های سوکت کم‌مصرف و ایزوله در Dart، مصرف پردازنده و باتری به حداقل ممکن کاهش می‌یابد."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+{% endblock %}
+
+{% block extra_css %}
+    <link href="{% static 'css/navbar.css' %}" rel="stylesheet">
+    <style>
+        .ai-dark-canvas {
+            background-color: #030712 !important;
+            color: #f8fafc;
+            direction: rtl;
+            position: relative;
+            overflow: hidden;
+            padding: 50px 0 100px 0;
+            font-family: var(--font-main);
+        }
+
+        .ai-glow-violet {
+            position: absolute;
+            width: 580px;
+            height: 580px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(124, 58, 237, 0.22) 0%, transparent 70%);
+            filter: blur(110px);
+            top: 2%;
+            right: 8%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .ai-glow-fuchsia {
+            position: absolute;
+            width: 480px;
+            height: 480px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(236, 72, 153, 0.18) 0%, transparent 70%);
+            filter: blur(100px);
+            bottom: 8%;
+            left: 5%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .ai-quantum-grid {
+            position: absolute;
+            inset: 0;
+            background-image:
+                radial-gradient(rgba(124, 58, 237, 0.12) 1px, transparent 1px),
+                linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 30px 30px, 60px 60px, 60px 60px;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .ai-container {
+            max-width: 1260px;
+            margin: 0 auto;
+            padding: 0 24px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .ai-header-stage {
+            text-align: center;
+            max-width: 920px;
+            margin: 0 auto 60px auto;
+        }
+
+        .ai-stream-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(124, 58, 237, 0.12);
+            border: 1px solid rgba(167, 139, 250, 0.35);
+            color: #c084fc;
+            font-size: 0.84rem;
+            font-weight: 800;
+            padding: 6px 20px;
+            border-radius: 999px;
+            margin-bottom: 22px;
+            box-shadow: 0 0 25px rgba(124, 58, 237, 0.2);
+        }
+
+        .pulse-violet {
+            width: 8px;
+            height: 8px;
+            background: #a855f7;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #a855f7;
+            animation: pulseViolet 1.8s infinite;
+        }
+
+        @keyframes pulseViolet {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(0.85); }
+        }
+
+        .ai-title-hero {
+            font-size: 2.85rem;
+            font-weight: 900;
+            color: #ffffff;
+            line-height: 1.35;
+            margin-bottom: 22px;
+            letter-spacing: -0.5px;
+        }
+
+        .ai-title-hero span {
+            background: linear-gradient(135deg, #c084fc 0%, #ec4899 50%, #38bdf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .ai-desc-lead {
+            color: #94a3b8;
+            font-size: 1.05rem;
+            line-height: 2;
+            margin: 0;
+            text-align: justify;
+            text-align-last: center;
+        }
+
+        /* شبیه‌ساز چت تعاملی و استریم توکن‌ها در اپلیکیشن موبایل */
+        .ai-terminal-showcase {
+            background: rgba(15, 23, 42, 0.65);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 28px;
+            padding: 40px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.7);
+            margin-bottom: 70px;
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .chat-mock-window {
+            background: #090d16;
+            border: 1px solid rgba(124, 58, 237, 0.3);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .chat-msg-row {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .chat-bubble-user {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 12px 18px;
+            border-radius: 16px 16px 2px 16px;
+            font-size: 0.9rem;
+            color: #e2e8f0;
+            margin-right: auto;
+        }
+
+        .chat-bubble-ai {
+            background: rgba(124, 58, 237, 0.12);
+            border: 1px solid rgba(167, 139, 250, 0.25);
+            padding: 14px 20px;
+            border-radius: 16px 16px 16px 2px;
+            font-size: 0.92rem;
+            color: #f8fafc;
+            line-height: 1.85;
+            position: relative;
+        }
+
+        .streaming-caret {
+            display: inline-block;
+            width: 7px;
+            height: 16px;
+            background: #c084fc;
+            margin-right: 4px;
+            vertical-align: middle;
+            animation: blinkCaret 0.8s infinite;
+        }
+
+        @keyframes blinkCaret {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .stream-meta-badge {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.74rem;
+            color: #64748b;
+            padding-top: 10px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .ai-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 22px;
+            margin-bottom: 70px;
+        }
+
+        .ai-glass-card {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 22px;
+            padding: 30px 22px;
+            backdrop-filter: blur(16px);
+            transition: all 0.35s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ai-glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #7c3aed, #ec4899);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .ai-glass-card:hover {
+            transform: translateY(-8px);
+            background: rgba(15, 23, 42, 0.9);
+            border-color: rgba(192, 132, 252, 0.45);
+            box-shadow: 0 20px 40px -10px rgba(124, 58, 237, 0.25);
+        }
+
+        .ai-glass-card:hover::before {
+            opacity: 1;
+        }
+
+        .ai-card-icon {
+            width: 54px;
+            height: 54px;
+            border-radius: 16px;
+            background: rgba(124, 58, 237, 0.15);
+            color: #c084fc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            border: 1px solid rgba(167, 139, 250, 0.25);
+        }
+
+        .ai-card-title {
+            font-size: 1.18rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 12px;
+        }
+
+        .ai-card-desc {
+            font-size: 0.88rem;
+            color: #94a3b8;
+            line-height: 1.85;
+            margin: 0;
+        }
+
+        .faq-ai-box {
+            background: rgba(13, 19, 33, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: 40px;
+            margin-bottom: 60px;
+        }
+
+        .ai-cta-banner {
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.25) 0%, rgba(236, 72, 153, 0.18) 100%);
+            border: 1px solid rgba(192, 132, 252, 0.4);
+            border-radius: 24px;
+            padding: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 30px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+        }
+
+        .ai-cta-btn {
+            background: linear-gradient(135deg, #7c3aed 0%, #ec4899 100%);
+            color: #ffffff !important;
+            padding: 14px 34px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 0.95rem;
+            text-decoration: none;
+            white-space: nowrap;
+            box-shadow: 0 10px 25px rgba(124, 58, 237, 0.4);
+            border: 1px solid #c084fc;
+            transition: all 0.25s ease;
+        }
+
+        .ai-cta-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(124, 58, 237, 0.6);
+            background: #9333ea;
+        }
+
+        @media (max-width: 1024px) {
+            .ai-terminal-showcase { grid-template-columns: 1fr; }
+            .ai-cards-grid { grid-template-columns: repeat(2, 1fr); }
+            .ai-cta-banner { flex-direction: column; text-align: center; }
+        }
+
+        @media (max-width: 640px) {
+            .ai-title-hero { font-size: 2.1rem; }
+            .ai-cards-grid { grid-template-columns: 1fr; }
+            .ai-terminal-showcase { padding: 24px; }
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+<div class="ai-dark-canvas">
+    <div class="ai-glow-violet"></div>
+    <div class="ai-glow-fuchsia"></div>
+    <div class="ai-quantum-grid"></div>
+
+    <div class="ai-container">
+
+        <header class="ai-header-stage">
+            <div class="ai-stream-pill">
+                <span class="pulse-violet"></span>
+                <span>استریم توکن‌های هوش مصنوعی با پروتکل SSE و WebSocket در فلاتر</span>
+            </div>
+
+            <h1 class="ai-title-hero">
+                استریم پاسخ‌های <span class="text-gradient">هوش مصنوعی</span> در Flutter
+            </h1>
+
+            <p class="ai-desc-lead">
+                تجربه کاربری زنده، مدرن و بدون معطلی شبیه به ChatGPT در اپلیکیشن‌های موبایل؛ با پیاده‌سازی پروتکل‌های Server-Sent Events و وب‌سوکت‌های مقاوم در برابر فیلترینگ، پاسخ‌های چت‌بات‌ها و مدل‌های زبانی بدون مسدود شدن صفحه نمایش و در لحظه به صورت تایپ کلمه به کلمه به کاربر تحویل داده می‌شود.
+            </p>
+        </header>
+
+        <section class="ai-terminal-showcase">
+            <div>
+                <h2 style="font-size: 1.55rem; font-weight: 900; color: #ffffff; margin-bottom: 16px;">
+                    چرا استریم زنده توکن‌ها در اپلیکیشن‌های AI الزامی است؟
+                </h2>
+                <p style="color: #94a3b8; font-size: 0.95rem; line-height: 1.95; margin-bottom: 18px; text-align: justify;">
+                    پاسخ‌های کامل مدل‌های زبانی مانند DeepSeek، GPT-4o و مدل‌های سفارشی محلی بین ۵ تا ۱۵ ثانیه زمان برای استنتاج کامل نیاز دارند. منتظر نگه داشتن کاربر در حالت لودینگ سنتی به ریزش شدید کاربران منجر می‌شود.
+                </p>
+                <p style="color: #94a3b8; font-size: 0.95rem; line-height: 1.95; text-align: justify; margin: 0;">
+                    مهندسین آتراوب این لایه استریم را مستقیماً به
+                    <a href="{% url 'core:ai_rag_system' %}" style="color: #c084fc; font-weight: 700; text-decoration: underline;">پایگاه دانش سازمانی RAG</a>
+                    و سرورهای پرسرعت بک‌اند متصل می‌کنند تا تجربه گفتگو بدون هیچ‌گونه پرش فریم و با نهایت هماهنگی روی دستگاه کاربر رندر گردد.
+                </p>
+            </div>
+
+            <div class="chat-mock-window">
+                <div class="chat-msg-row">
+                    <div class="chat-bubble-user">
+                        خلاصه تحلیل مالی و پیش‌بینی فروش ماه آینده را بررسی کن.
+                    </div>
+                </div>
+
+                <div class="chat-msg-row">
+                    <div class="chat-bubble-ai">
+                        براساس داده‌های ثبت‌شده در پایگاه دانش، شاخص رشد ماهانه با ۱۵٪ افزایش همراه بوده و نقاط حساس نقدینگی تثبیت شده‌اند.<span class="streaming-caret"></span>
+                    </div>
+                </div>
+
+                <div class="stream-meta-badge">
+                    <span>سرعت تولید توکن: 48 tokens/sec</span>
+                    <span>تاخیر شبکه: 24ms</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="ai-cards-grid">
+            <div class="ai-glass-card">
+                <div class="ai-card-icon">
+                    <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                    </svg>
+                </div>
+                <h3 class="ai-card-title">استریم فوق‌سریع با SSE</h3>
+                <p class="ai-card-desc">اتصال پایدار یک‌طرفه با پروتکل Server-Sent Events جهت کاهش مصرف باتری موبایل و لود آنی کلمات.</p>
+            </div>
+
+            <div class="ai-glass-card">
+                <div class="ai-card-icon">
+                    <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                    </svg>
+                </div>
+                <h3 class="ai-card-title">وب‌سوکت‌های دوطرفه Real-Time</h3>
+                <p class="ai-card-desc">ارتباط دوطرفه وب‌سوکت برای چت همزمان، ارسال صدا (Audio Streaming) و تعاملات فوری کلاینت و سرور.</p>
+            </div>
+
+            <div class="ai-glass-card">
+                <div class="ai-card-icon">
+                    <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="2" y="3" width="20" height="14" rx="2"></rect>
+                        <line x1="8" y1="21" x2="16" y2="21"></line>
+                        <line x1="12" y1="17" x2="12" y2="21"></line>
+                    </svg>
+                </div>
+                <h3 class="ai-card-title">رندرینگ مارک‌داون بدون پرش</h3>
+                <p class="ai-card-desc">نمایش فرمول‌های ریاضی LaTeX، بلوک‌های کدهای برنامه‌نویسی و جداول در جریان استریم بدون اختلال در چیدمان صفحه.</p>
+            </div>
+
+            <div class="ai-glass-card">
+                <div class="ai-card-icon">
+                    <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                    </svg>
+                </div>
+                <h3 class="ai-card-title">مدیریت قطع و وصل خودکار شبکه</h3>
+                <p class="ai-card-desc">تلاش مجدد خودکار (Auto Reconnect) در صورت نوسان شبکه با حفظ بافر قبلی و جلوگیری از تکرار مجدد درخواست پردازش.</p>
+            </div>
+        </section>
+
+        <section class="faq-ai-box">
+            <h2 style="font-size: 1.5rem; font-weight: 800; color: #ffffff; text-align: center; margin-bottom: 24px;">
+                پرسش‌های متداول توسعه اپلیکیشن‌های هوش مصنوعی با Flutter
+            </h2>
+            <div class="faq-grid">
+                <div class="faq-item active" style="background: rgba(3, 7, 18, 0.8); border-color: rgba(255, 255, 255, 0.08);">
+                    <div class="faq-question">
+                        <span class="q-text" style="color: #ffffff;">آیا امکان اتصال مدل‌های محلی لاما (Llama) مستقیماً روی سخت‌افزار موبایل وجود دارد؟</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="answer-inner">
+                            <p style="color: #94a3b8;">بله؛ با بهره‌گیری از باینری‌های ONNX و کتابخانه‌های دارت FFI، مدل‌های کوچک زبانی (SLM) را می‌توان به شکل کاملاً آفلاین روی پردازنده NPU گوشی‌های جدید بدون نیاز به اینترنت اجرا کرد.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item active" style="background: rgba(3, 7, 18, 0.8); border-color: rgba(255, 255, 255, 0.08);">
+                    <div class="faq-question">
+                        <span class="q-text" style="color: #ffffff;">چگونه هزینه توکن‌های هوش مصنوعی در اپلیکیشن‌های عمومی مهار می‌شود؟</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="answer-inner">
+                            <p style="color: #94a3b8;">با پیاده‌سازی کش هوشمند پاسخ‌های مشابه با Semantic Caching روی پایگاه داده و کنترل سهمیه توکن کاربر از طریق وب‌سرویس بک‌اند جنگو قبل از ارسال به مدل اصلی.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="ai-cta-banner">
+            <div>
+                <h3 style="font-size: 1.55rem; font-weight: 900; color: #ffffff; margin-bottom: 8px;">
+                    می‌خواهید چت‌بات یا ابزار هوش مصنوعی اختصاصی خود را در اپلیکیشن موبایل عرضه کنید؟
+                </h3>
+                <p style="color: #cbd5e1; font-size: 0.95rem; margin: 0; line-height: 1.8;">
+                    اتصال امن، استریم توکن‌ها و رابط کاربری اختصاصی را به تیم توسعه آتراوب بسپارید.
+                </p>
+            </div>
+            <a href="{% url 'core:submit_ticket' %}" class="ai-cta-btn">
+                سفارش اپلیکیشن هوش مصنوعی
+            </a>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

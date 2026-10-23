@@ -1,0 +1,674 @@
+{% extends 'parent/base.html' %}
+{% load static %}
+
+{% block title %}طراحی اپلیکیشن موبایل Flutter کراس‌پلتفرم iOS و Android | استودیو آتراوب{% endblock %}
+{% block meta_description %}طراحی و ساخت اپلیکیشن‌های موبایل کراس‌پلتفرم سازمانی با Flutter و موتور Impeller؛ یکپارچه‌سازی متریال ۳ و کوپرتینو، رندرینگ روان ۱۲۰ هرتز و اتصال به وب‌سرویس‌های مقیاس‌پذیر.{% endblock %}
+{% block meta_keywords %}طراحی اپلیکیشن موبایل فلاتر, ساخت اپلیکیشن iOS و اندروید, برنامه نویسی Flutter شرکتی, توسعه کراس پلتفرم موبایل, فریمورک فلاتر گوگل, طراحی اپلیکیشن فروشگاهی فلاتر{% endblock %}
+
+{% block extra_schema %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "سرویس مهندسی و ساخت اپلیکیشن Flutter آترا",
+      "operatingSystem": "iOS 14+, Android 8.0+, iPadOS",
+      "applicationCategory": "BusinessApplication",
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.9",
+        "reviewCount": "58"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "IRR"
+      }
+    },
+    {
+      "@type": "TechArticle",
+      "headline": "راهنمای مهندسی معماری کراس‌پلتفرم اپلیکیشن‌های موبایل با Flutter",
+      "description": "بررسی رندرینگ بومی با موتور Impeller، مدیریت سورس‌کد واحد برای مارکت‌های گوگل پلی و اپ‌استور و حذف بریج‌های کند جاوااسکریپت",
+      "inLanguage": "fa-IR",
+      "author": {"@type": "Organization", "name": "آتراوب", "url": "https://atraweb.com"},
+      "publisher": {"@type": "Organization", "name": "آتراوب"}
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "آیا اپلیکیشن‌های توسعه‌یافته با Flutter در اپ استور (App Store) تایید می‌شوند؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "بله؛ فریم‌ورک Flutter کدهای دارت را مستقیماً به کدهای ماشین باینری (ARM64) کامپایل می‌کند. اپلیکیشن‌های تولیدی آتراوب منطبق با گایدلاین‌های سخت‌گیرانه اپل (Human Interface Guidelines) بوده و بدون هیچ مشکلی در App Store منتشر می‌شوند."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "تفاوت ران‌تایم فلاتر با فریم‌ورک‌های هایبرید مانند React Native چیست؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "فلاتر پل ارتباطی کند جاوااسکریپت (JS Bridge) را به کلی حذف کرده و با اتکا به موتور گرافیکی اختصاصی Impeller، پیکسلی‌ترین جزئیات را مستقیماً روی GPU دستگاه ترسیم می‌کند که مانع لگ و افت فریم در انیمیشن‌ها می‌شود."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+{% endblock %}
+
+{% block extra_css %}
+    <link href="{% static 'css/navbar.css' %}" rel="stylesheet">
+    <style>
+        /* 📱 استایل فوق‌العاده مدرن موبایل استودیو آترا */
+        .flt-universe-root {
+            background: #050811;
+            color: #f1f5f9;
+            direction: rtl;
+            position: relative;
+            overflow: hidden;
+            padding-bottom: 100px;
+        }
+
+        /* شبکه‌بندی مدرن و اورب‌های نورانی فلاتر */
+        .flt-grid-bg {
+            position: absolute;
+            inset: 0;
+            background-image:
+                radial-gradient(circle at 15% 20%, rgba(2, 132, 199, 0.18) 0%, transparent 40%),
+                radial-gradient(circle at 85% 60%, rgba(16, 185, 129, 0.15) 0%, transparent 45%),
+                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+            pointer-events: none;
+        }
+
+        /* هدر دو ستونه اختصاصی فلاتر با موکاپ گوشی هوشمند */
+        .flt-hero-wrap {
+            max-width: 1240px;
+            margin: 40px auto 70px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: 50px;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .flt-tag-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(14, 165, 233, 0.12);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            color: #38bdf8;
+            font-size: 0.85rem;
+            font-weight: 700;
+            padding: 6px 18px;
+            border-radius: 999px;
+            margin-bottom: 24px;
+        }
+
+        .flt-hero-title {
+            font-size: 2.8rem;
+            font-weight: 900;
+            line-height: 1.35;
+            color: #ffffff;
+            margin-bottom: 22px;
+            letter-spacing: -0.5px;
+        }
+
+        .flt-gradient-word {
+            background: linear-gradient(135deg, #38bdf8 0%, #0284c7 50%, #10b981 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .flt-hero-text {
+            color: #94a3b8;
+            font-size: 1.05rem;
+            line-height: 1.9;
+            margin-bottom: 35px;
+            text-align: justify;
+        }
+
+        .flt-store-badges {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+
+        .flt-badge-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 10px 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: #cbd5e1;
+        }
+
+        .flt-badge-item svg {
+            width: 20px;
+            height: 20px;
+            color: #38bdf8;
+        }
+
+        /* 📱 موکاپ گوشی هوشمند با CSS خالص و المان‌های اکتیو */
+        .phone-mockup-wrapper {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .smartphone-chassis {
+            width: 320px;
+            height: 640px;
+            background: #090e1a;
+            border: 11px solid #1e293b;
+            border-radius: 46px;
+            box-shadow: 0 35px 80px -15px rgba(2, 132, 199, 0.3), 0 0 0 2px rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ناچ داینامیک جزیره */
+        .phone-notch {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90px;
+            height: 22px;
+            background: #000;
+            border-radius: 20px;
+            z-index: 10;
+        }
+
+        .phone-screen {
+            flex: 1;
+            background: linear-gradient(180deg, #0b1528 0%, #050b14 100%);
+            padding: 45px 16px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            direction: rtl;
+        }
+
+        .phone-app-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .phone-brand-title {
+            font-size: 0.95rem;
+            font-weight: 800;
+            color: #ffffff;
+        }
+
+        .phone-fps-badge {
+            background: rgba(16, 185, 129, 0.2);
+            color: #34d399;
+            border: 1px solid rgba(16, 185, 129, 0.4);
+            font-size: 0.72rem;
+            font-weight: 800;
+            padding: 2px 8px;
+            border-radius: 6px;
+            direction: ltr;
+        }
+
+        .phone-card-preview {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 14px;
+        }
+
+        .phone-chart-line {
+            height: 48px;
+            width: 100%;
+            background: linear-gradient(90deg, rgba(56, 189, 248, 0.1), rgba(16, 185, 129, 0.2));
+            border-radius: 8px;
+            border-bottom: 2px solid #38bdf8;
+            margin: 8px 0;
+            position: relative;
+        }
+
+        .floating-stat-box {
+            position: absolute;
+            background: rgba(15, 23, 42, 0.92);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            border-radius: 16px;
+            padding: 14px 18px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            z-index: 12;
+        }
+
+        .stat-box-left {
+            top: 25%;
+            right: -25px;
+        }
+
+        .stat-box-right {
+            bottom: 18%;
+            left: -30px;
+        }
+
+        /* مقایسه معماری فلاتر با سایر روش‌ها */
+        .comparison-strip-box {
+            max-width: 1240px;
+            margin: 0 auto 60px auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .comparison-table-wrapper {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: 35px;
+            backdrop-filter: blur(16px);
+        }
+
+        .comparison-grid-3col {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-top: 25px;
+        }
+
+        .comp-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 18px;
+            padding: 24px;
+            position: relative;
+        }
+
+        .comp-card.highlight-flt {
+            background: rgba(2, 132, 199, 0.08);
+            border: 1.5px solid #0284c7;
+            box-shadow: 0 15px 35px -10px rgba(2, 132, 199, 0.3);
+        }
+
+        .comp-title {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 14px;
+        }
+
+        .comp-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            font-size: 0.9rem;
+            color: #94a3b8;
+        }
+
+        .comp-list li {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .comp-list li.check-yes {
+            color: #34d399;
+            font-weight: 600;
+        }
+
+        .comp-list li.check-no {
+            color: #f87171;
+        }
+
+        /* کارت‌های ویژگی‌های عمیق مهندسی */
+        .flt-features-grid {
+            max-width: 1240px;
+            margin: 0 auto 70px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .flt-feature-box {
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-radius: 20px;
+            padding: 28px 22px;
+            transition: all 0.3s ease;
+        }
+
+        .flt-feature-box:hover {
+            transform: translateY(-6px);
+            border-color: rgba(56, 189, 248, 0.4);
+            background: rgba(15, 23, 42, 0.85);
+            box-shadow: 0 20px 40px -10px rgba(2, 132, 199, 0.2);
+        }
+
+        .flt-icon-box {
+            width: 50px;
+            height: 50px;
+            border-radius: 14px;
+            background: rgba(56, 189, 248, 0.12);
+            color: #38bdf8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 18px;
+        }
+
+        .flt-icon-box svg {
+            width: 26px;
+            height: 26px;
+        }
+
+        /* کال تو اکشن ویژه مهندسی */
+        .flt-cta-banner {
+            max-width: 1200px;
+            margin: 50px auto 0 auto;
+            padding: 45px;
+            background: linear-gradient(135deg, rgba(2, 132, 199, 0.2) 0%, rgba(16, 185, 129, 0.15) 100%);
+            border: 1.5px solid rgba(56, 189, 248, 0.35);
+            border-radius: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 30px;
+            box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(20px);
+        }
+
+        @media (max-width: 1024px) {
+            .flt-hero-wrap { grid-template-columns: 1fr; text-align: center; }
+            .flt-hero-text { text-align: center; }
+            .flt-store-badges { justify-content: center; }
+            .comparison-grid-3col { grid-template-columns: 1fr; }
+            .flt-features-grid { grid-template-columns: repeat(2, 1fr); }
+            .stat-box-left, .stat-box-right { display: none; }
+        }
+
+        @media (max-width: 768px) {
+            .flt-hero-title { font-size: 2.1rem; }
+            .flt-features-grid { grid-template-columns: 1fr; }
+            .flt-cta-banner { flex-direction: column; text-align: center; padding: 30px 20px; }
+            .smartphone-chassis { width: 280px; height: 560px; }
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+<div class="flt-universe-root">
+    <div class="flt-grid-bg"></div>
+
+    <!-- بخش قهرمان و معرفی ویژوال اپلیکیشن موبایل -->
+    <header class="flt-hero-wrap">
+        <div class="flt-hero-content">
+            <div class="flt-tag-pill">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="12 2 2 12 12 22 22 12 12 2"></polygon>
+                </svg>
+                <span>نسل نوین توسعه اپلیکیشن موبایل با موتور رندرینگ Impeller</span>
+            </div>
+
+            <h1 class="flt-hero-title">
+                طراحی اپلیکیشن موبایل کراس‌پلتفرم با <span class="flt-gradient-word">Flutter &amp; Dart</span>
+            </h1>
+
+            <p class="flt-hero-text">
+                دیگر نیازی به راه‌اندازی دو تیم جداگانه و صرف هزینه‌های دوبرابری برای کاتلین و سوئیفت نیست. با معماری کراس‌پلتفرم آتراوب، اپلیکیشن شما با یک سورس‌کد واحد کاملاً بومی (Native)، با نرخ فریم فوق‌العاده ۶۰ تا ۱۲۰ هرتز برای هر دو پلتفرم iOS و Android تولید شده و تمامی استانداردهای اپ‌استور و گوگل‌پلی را کسب می‌کند.
+            </p>
+
+            <div class="flt-store-badges">
+                <div class="flt-badge-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2a10 10 0 0 1 10 10c0 5.52-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2z"></path>
+                    </svg>
+                    <span>Apple App Store (iOS 14+)</span>
+                </div>
+                <div class="flt-badge-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="5" y="2" width="14" height="20" rx="2"></rect>
+                    </svg>
+                    <span>Google Play &amp; بازار</span>
+                </div>
+                <div class="flt-badge-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    <span>تست با استانداردهای CI/CD</span>
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 16px; flex-wrap: wrap;">
+                <a href="{% url 'core:submit_ticket' %}" class="btn-emerald-solid" style="background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); border-color: #38bdf8;">
+                    سفارش ساخت اپلیکیشن اختصاصی
+                </a>
+                <a href="{% url 'core:portfolio' %}" class="btn-glass-outline">
+                    مشاهده نمونه‌کارهای فعال
+                </a>
+            </div>
+        </div>
+
+        <!-- شبیه‌ساز زنده موبایل -->
+        <div class="phone-mockup-wrapper">
+            <div class="smartphone-chassis">
+                <div class="phone-notch"></div>
+                <div class="phone-screen">
+                    <div class="phone-app-header">
+                        <span class="phone-brand-title">Atra Flutter App</span>
+                        <span class="phone-fps-badge">120 FPS</span>
+                    </div>
+
+                    <div class="phone-card-preview">
+                        <div style="font-size: 0.75rem; color: #94a3b8;">وضعیت اتصال به API</div>
+                        <div style="font-size: 0.88rem; font-weight: 700; color: #38bdf8; margin-top: 4px;">متصل به جنگو (gRPC/REST)</div>
+                        <div class="phone-chart-line"></div>
+                        <div style="display: flex; justify-content: space-between; font-size: 0.72rem; color: #64748b;">
+                            <span>تاخیر شبکه: 18ms</span>
+                            <span>کلاینت: BLoC v8.1</span>
+                        </div>
+                    </div>
+
+                    <div class="phone-card-preview" style="background: rgba(16, 185, 129, 0.08); border-color: rgba(16, 185, 129, 0.2);">
+                        <div style="font-size: 0.82rem; font-weight: 700; color: #34d399;">امنیت بیومتریک و توکن OTP</div>
+                        <div style="font-size: 0.74rem; color: #94a3b8; margin-top: 4px;">ذخیره‌سازی با رمزنگاری Keychain در iOS و Keystore در اندروید</div>
+                    </div>
+
+                    <div style="margin-top: auto; padding: 12px; background: rgba(56, 189, 248, 0.15); border-radius: 12px; text-align: center; color: #ffffff; font-weight: 700; font-size: 0.82rem;">
+                        کامپایل‌شده با موتور Impeller
+                    </div>
+                </div>
+            </div>
+
+            <!-- بج‌های شناور اطراف موکاپ -->
+            <div class="floating-stat-box stat-box-left">
+                <div style="font-size: 0.75rem; color: #94a3b8;">مصرف باتری و CPU</div>
+                <div style="font-size: 1.1rem; font-weight: 900; color: #34d399;">۳۵٪ بهینه‌تر از RN</div>
+            </div>
+
+            <div class="floating-stat-box stat-box-right">
+                <div style="font-size: 0.75rem; color: #94a3b8;">معماری کد</div>
+                <div style="font-size: 1.1rem; font-weight: 900; color: #38bdf8;">Clean Architecture</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- بخش مقایسه فنی: چرا فلاتر انتخاب اول تیم‌های مهندسی است؟ -->
+    <section class="comparison-strip-box">
+        <div class="comparison-table-wrapper">
+            <h2 style="font-size: 1.6rem; font-weight: 900; color: #ffffff; text-align: center; margin-bottom: 10px;">
+                مقایسه معماری فلاتر با روش‌های سنتی نیتیو و هایبرید
+            </h2>
+            <p style="text-align: center; color: #94a3b8; font-size: 0.95rem; margin-bottom: 20px;">
+                تحلیل جامع عملکرد، هزینه‌ها و چرخه عمر نرم‌افزار قبل از شروع پیاده‌سازی
+            </p>
+
+            <div class="comparison-grid-3col">
+                <div class="comp-card">
+                    <h3 class="comp-title" style="color: #cbd5e1;">توسعه جداگانه نیتیو (Swift / Kotlin)</h3>
+                    <ul class="comp-list">
+                        <li class="check-yes">✓ رندرینگ نیتیو و بدون واسطه</li>
+                        <li class="check-no">✕ دو تیم توسعه مجزا و هزینه ۲ برابری</li>
+                        <li class="check-no">✕ زمان طولانی‌تر ارائه فیچرها به بازار</li>
+                        <li class="check-no">✕ احتمال ایجاد باگ در سینک بودن نسخه‌ها</li>
+                    </ul>
+                </div>
+
+                <div class="comp-card highlight-flt">
+                    <div style="position: absolute; top: 12px; left: 16px; background: #0284c7; color: #fff; font-size: 0.72rem; font-weight: 800; padding: 2px 8px; border-radius: 6px;">
+                        انتخاب آتراوب
+                    </div>
+                    <h3 class="comp-title" style="color: #38bdf8;">فلاتر مدرن (Flutter Impeller Engine)</h3>
+                    <ul class="comp-list">
+                        <li class="check-yes">✓ سورس‌کد واحد برای اندروید، iOS و وب</li>
+                        <li class="check-yes">✓ رندرینگ مستقیم ۶۰ تا ۱۲۰ فریم بر ثانیه</li>
+                        <li class="check-yes">✓ ۵۰ درصد کاهش هزینه پیاده‌سازی و نگهداری</li>
+                        <li class="check-yes">✓ هماهنگ با دیزاین سیستم متریال ۳ و کوپرتینو</li>
+                    </ul>
+                </div>
+
+                <div class="comp-card">
+                    <h3 class="comp-title" style="color: #cbd5e1;">روش‌های تحت وب (React Native / Cordova)</h3>
+                    <ul class="comp-list">
+                        <li class="check-no">✕ متکی به پل کند جاوااسکریپت (JS Bridge)</li>
+                        <li class="check-no">✕ لگ و پرش فریم در لیست‌های سنگین</li>
+                        <li class="check-no">✕ ناسازگاری لایبری‌ها با آپدیت‌های iOS</li>
+                        <li class="check-yes">✓ سورس‌کد مشترک وب‌محور</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ۴ کارت ستون‌های تخصصی فلاتر -->
+    <section class="flt-features-grid">
+        <div class="flt-feature-box">
+            <div class="flt-icon-box">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                    <path d="M2 17l10 5 10-5"></path>
+                    <path d="M2 12l10 5 10-5"></path>
+                </svg>
+            </div>
+            <h3 style="font-size: 1.15rem; font-weight: 800; color: #fff; margin-bottom: 10px;">الگوی طراحی BLoC &amp; Cubit</h3>
+            <p style="font-size: 0.88rem; color: #94a3b8; line-height: 1.8;">
+                جداسازی ۱۰۰٪ رابط کاربری از منطق بیزینس که امکان تست‌نویسی خودکار و پایداری اپلیکیشن در آپدیت‌های بزرگ را فراهم می‌کند.
+            </p>
+        </div>
+
+        <div class="flt-feature-box">
+            <div class="flt-icon-box">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="11" width="18" height="11" rx="2"></rect>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+            </div>
+            <h3 style="font-size: 1.15rem; font-weight: 800; color: #fff; margin-bottom: 10px;">امنیت سخت‌افزاری و ضد مهندسی معکوس</h3>
+            <p style="font-size: 0.88rem; color: #94a3b8; line-height: 1.8;">
+                پیکربندی SSL Pinning، شناسایی روت بودن دستگاه و رمزنگاری دیتای حساس با کتابخانه‌های امنیتی سخت‌افزاری تراز اول.
+            </p>
+        </div>
+
+        <div class="flt-feature-box">
+            <div class="flt-icon-box">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                </svg>
+            </div>
+            <h3 style="font-size: 1.15rem; font-weight: 800; color: #fff; margin-bottom: 10px;">یکپارچه‌سازی وب‌سرویس و AI</h3>
+            <p style="font-size: 0.88rem; color: #94a3b8; line-height: 1.8;">
+                اتصال مستقیم به
+                <a href="{% url 'core:backend_modular' %}" style="color: #38bdf8; font-weight: 700; text-decoration: underline;">بک‌اند ماژولار جنگو</a>
+                و سرویس‌های پردازش رسانه‌ای با کمترین مصرف دیتای اینترنت کاربر.
+            </p>
+        </div>
+
+        <div class="flt-feature-box">
+            <div class="flt-icon-box">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+            </div>
+            <h3 style="font-size: 1.15rem; font-weight: 800; color: #fff; margin-bottom: 10px;">بهینه‌سازی سایز پکیج نهایی</h3>
+            <p style="font-size: 0.88rem; color: #94a3b8; line-height: 1.8;">
+                استفاده از ترفندهای ProGuard، حذف آیکون‌های بلااستفاده (Tree Shaking) و تحویل فایل نصبی زیر ۱۵ مگابایت برای افزایش نرخ دانلود کاربران.
+            </p>
+        </div>
+    </section>
+
+    <!-- سوالات متداول سئو تخصصی موبایل -->
+    <section class="premium-faq-section" style="background: transparent; padding: 20px 20px 40px 20px;">
+        <div class="faq-container">
+            <div class="faq-header">
+                <span class="faq-badge" style="background: rgba(56, 189, 248, 0.1); color: #38bdf8; border-color: rgba(56, 189, 248, 0.3);">
+                    دانشنامه تخصصی فلاتر
+                </span>
+                <h2 class="faq-title" style="color: #ffffff;">پرسش‌های کلیدی پیرامون طراحی اپلیکیشن با Flutter</h2>
+            </div>
+            <div class="faq-grid">
+                <div class="faq-item highlight-offline active" style="background: rgba(15, 23, 42, 0.7); border-color: rgba(255, 255, 255, 0.08);">
+                    <div class="faq-question">
+                        <span class="q-text" style="color: #ffffff;">آیا امکان اتصال درگاه‌های بانکی و سرویس‌های نقشه ایرانی در فلاتر وجود دارد؟</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="answer-inner">
+                            <p style="color: #94a3b8;">بله؛ تمامی درگاه‌های پرداخت شاپرکی، سرویس‌های پوش‌نوتیفیکیشن (مانند چابک و نجوا) و نقشه‌های بومی بدون هیچ محدودیتی از طریق متد چنل‌های نیتیو (MethodChannel) درون فلاتر تعبیه می‌شوند.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item highlight-offline active" style="background: rgba(15, 23, 42, 0.7); border-color: rgba(255, 255, 255, 0.08);">
+                    <div class="faq-question">
+                        <span class="q-text" style="color: #ffffff;">آیا سورس‌کد اپلیکیشن پس از اتمام پروژه در اختیار کارفرما قرار می‌گیرد؟</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="answer-inner">
+                            <p style="color: #94a3b8;">بله؛ در آتراوب مالکیت ۱۰۰٪ کلیه سورس‌کدهای پروژه دارت و فلاتر همراه با داکیومنت راه‌اندازی و معماری فنی تمیز تقدیم کارفرما می‌گردد.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- کارت کال تو اکشن فوق‌العاده شیک -->
+    <div class="flt-cta-banner">
+        <div>
+            <h3 style="font-size: 1.6rem; font-weight: 900; color: #ffffff; margin-bottom: 10px;">
+                آماده‌اید اپلیکیشن موبایل اختصاصی خود را با استانداردهای جهانی فلاتر بسازید؟
+            </h3>
+            <p style="color: #cbd5e1; font-size: 0.95rem; margin: 0; line-height: 1.8;">
+                مشاوره فنی، برآورد زمان‌بندی و طراحی وایرفریم رابط کاربری پروژه شما توسط تیم ارشد موبایل آتراوب انجام می‌شود.
+            </p>
+        </div>
+        <a href="{% url 'core:submit_ticket' %}" class="btn-emerald-solid" style="background: #ffffff; color: #0284c7 !important; border: none; font-size: 1rem; box-shadow: 0 10px 25px rgba(255,255,255,0.2);">
+            شروع پروژه اپلیکیشن
+        </a>
+    </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,728 @@
+{% extends 'parent/base.html' %}
+{% load static %}
+
+{% block title %}طراحی پایگاه دانش سازمانی RAG و هوش مصنوعی اختصاصی اسناد | آتراوب{% endblock %}
+{% block meta_description %}پیاده‌سازی سیستم‌های فوق پیشرفته RAG سازمانی؛ چت‌بات اسناد محرمانه، اتصال امن مدل‌های زبانی به PostgreSQL و پایگاه‌های برداری بدون توهم هوش مصنوعی.{% endblock %}
+{% block meta_keywords %}پیاده سازی RAG سازمانی, پایگاه دانش هوش مصنوعی, چت بات اسناد سازمانی, سیستم Retrieval Augmented Generation, اتصال LLM به دیتابیس, جلوگیری از توهم هوش مصنوعی, چت بات PDF فارسی{% endblock %}
+
+{% block extra_schema %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "سیستم RAG سازمانی آتراوب",
+      "operatingSystem": "Linux, Ubuntu Server, On-Premise Enterprise",
+      "applicationCategory": "BusinessApplication",
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.98",
+        "reviewCount": "112"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "IRR"
+      }
+    },
+    {
+      "@type": "TechArticle",
+      "headline": "معماری جامع پایگاه دانش سازمانی RAG و مهار توهم مدل‌های بزرگ زبانی",
+      "description": "بررسی فنی پایپ‌لاین‌های امبدینگ پیشرفته، الگوریتم‌های چانکینگ معنایی، جستجوی هیبریدی و استقرار امن چت‌بات‌های هوش مصنوعی سازمانی",
+      "inLanguage": "fa-IR",
+      "author": {"@type": "Organization", "name": "آتراوب", "url": "https://atraweb.com"},
+      "publisher": {"@type": "Organization", "name": "آتراوب"}
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "چگونه پایگاه دانش RAG خطای توهم (Hallucination) هوش مصنوعی را به صفر نزدیک می‌کند؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "سیستم RAG با مقیدسازی پرامپت استنتاج، مدل را ملزم می‌کند فقط از تکه اسناد رسمی استخراج‌شده با برچسب اعتبار بالا پاسخ دهد و در صورت نبود پاسخ قطعی در اسناد، شفافاً عدم وجود اطلاعات را اعلام نماید."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "امنیت و عدم نشت اطلاعات سازمانی چگونه در آتراوب تضمین می‌شود؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "تمامی اجزای سیستم شامل مدل‌های زبانی متن‌باز، موتور امبدینگ و پایگاه داده برداری بر روی سرورهای محلی (On-Premise) و ایزوله سازمان راه‌اندازی شده و هیچ درخواستی به سرورهای ابری خارجی ارسال نمی‌شود."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "آیا پایگاه دانش RAG اسناد فارسی، اسکن‌های تصویری و فایل‌های اکسل را متوجه می‌شود؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "بله؛ با موتورهای پردازش تصویر و OCR اختصاصی، متون اسکن‌شده فارسی، فایل‌های فشرده PDF، جداول اکسل و پایگاه داده‌های رابطه‌ای تبدیل به وکتورهای باینری شده و به صورت معنایی نمایه می‌گردند."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+{% endblock %}
+
+{% block extra_css %}
+    <link href="{% static 'css/navbar.css' %}" rel="stylesheet">
+    <style>
+        /* 🌌 پالت اختصاصی Deep Void AI */
+        .rag-master-canvas {
+            background-color: #02040a !important;
+            color: #e2e8f0;
+            direction: rtl;
+            position: relative;
+            overflow: hidden;
+            padding: 60px 0 120px 0;
+            font-family: var(--font-main);
+        }
+
+        /* شبکه‌بندی خطوط دیجیتال و گره‌های کوانتومی */
+        .rag-neural-mesh {
+            position: absolute;
+            inset: 0;
+            background-image:
+                radial-gradient(circle at 10% 15%, rgba(6, 182, 212, 0.16) 0%, transparent 45%),
+                radial-gradient(circle at 85% 45%, rgba(99, 102, 241, 0.14) 0%, transparent 50%),
+                radial-gradient(circle at 40% 85%, rgba(16, 185, 129, 0.12) 0%, transparent 45%),
+                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 100% 100%, 48px 48px, 48px 48px;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .rag-container-wide {
+            max-width: 1320px;
+            margin: 0 auto;
+            padding: 0 24px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* هدر پروموتور RAG */
+        .rag-hero-header {
+            text-align: center;
+            max-width: 1000px;
+            margin: 0 auto 65px auto;
+        }
+
+        .rag-live-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(6, 182, 212, 0.08);
+            border: 1px solid rgba(6, 182, 212, 0.35);
+            color: #38bdf8;
+            font-size: 0.85rem;
+            font-weight: 800;
+            padding: 7px 22px;
+            border-radius: 999px;
+            margin-bottom: 24px;
+            box-shadow: 0 0 30px rgba(6, 182, 212, 0.15);
+        }
+
+        .rag-live-indicator .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background: #06b6d4;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #06b6d4;
+            animation: pulseCyan 1.8s infinite;
+        }
+
+        @keyframes pulseCyan {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.3; transform: scale(0.85); }
+        }
+
+        .rag-primary-title {
+            font-size: 3.2rem;
+            font-weight: 900;
+            color: #ffffff;
+            line-height: 1.35;
+            margin-bottom: 24px;
+            letter-spacing: -0.8px;
+        }
+
+        .rag-primary-title span {
+            background: linear-gradient(135deg, #38bdf8 0%, #818cf8 50%, #34d399 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .rag-header-desc {
+            color: #94a3b8;
+            font-size: 1.1rem;
+            line-height: 2.1;
+            margin: 0;
+            text-align: justify;
+            text-align-last: center;
+        }
+
+        /* بخش معرفی چندرسانه‌ای با تصاویر مهندسی */
+        .rag-media-feature {
+            background: rgba(8, 14, 28, 0.7);
+            border: 1.5px solid rgba(255, 255, 255, 0.08);
+            border-radius: 30px;
+            padding: 44px;
+            backdrop-filter: blur(25px);
+            box-shadow: 0 35px 80px -15px rgba(0, 0, 0, 0.85);
+            margin-bottom: 80px;
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: 45px;
+            align-items: center;
+        }
+
+        .rag-rich-content h2 {
+            font-size: 1.75rem;
+            font-weight: 900;
+            color: #ffffff;
+            margin-bottom: 18px;
+            line-height: 1.45;
+        }
+
+        .rag-rich-content p {
+            color: #94a3b8;
+            font-size: 0.98rem;
+            line-height: 2;
+            text-align: justify;
+            margin-bottom: 18px;
+        }
+
+        .rag-image-visual {
+            position: relative;
+            border-radius: 22px;
+            overflow: hidden;
+            border: 1.5px solid rgba(6, 182, 212, 0.3);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 30px rgba(6, 182, 212, 0.15);
+        }
+
+        .rag-image-visual img {
+            width: 100%;
+            height: auto;
+            max-height: 420px;
+            object-fit: cover;
+            display: block;
+            filter: contrast(1.05) brightness(0.95);
+            transition: transform 0.5s ease;
+        }
+
+        .rag-image-visual:hover img {
+            transform: scale(1.04);
+        }
+
+        .rag-image-caption {
+            position: absolute;
+            bottom: 14px;
+            right: 14px;
+            background: rgba(2, 6, 23, 0.88);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #38bdf8;
+            font-size: 0.78rem;
+            font-weight: 700;
+            padding: 6px 14px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        /* دیاگرام ۶ مرحله‌ای چرخه بازیابی اطلاعات RAG */
+        .rag-workflow-wrapper {
+            margin-bottom: 85px;
+        }
+
+        .section-header-centered {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .section-header-centered h2 {
+            font-size: 1.95rem;
+            font-weight: 900;
+            color: #ffffff;
+            margin-bottom: 12px;
+        }
+
+        .section-header-centered p {
+            color: #64748b;
+            font-size: 0.95rem;
+            margin: 0;
+        }
+
+        .rag-workflow-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .workflow-step-box {
+            background: rgba(11, 19, 38, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 22px;
+            padding: 28px 24px;
+            backdrop-filter: blur(15px);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .workflow-step-box:hover {
+            transform: translateY(-6px);
+            border-color: rgba(56, 189, 248, 0.4);
+            background: rgba(11, 19, 38, 0.9);
+            box-shadow: 0 20px 40px -10px rgba(6, 182, 212, 0.2);
+        }
+
+        .workflow-step-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .workflow-num {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: rgba(6, 182, 212, 0.15);
+            border: 1px solid rgba(6, 182, 212, 0.3);
+            color: #38bdf8;
+            font-weight: 900;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .workflow-tag {
+            font-family: monospace;
+            font-size: 0.74rem;
+            padding: 4px 10px;
+            border-radius: 6px;
+            background: #020617;
+            color: #94a3b8;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            direction: ltr;
+        }
+
+        .workflow-title {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 10px;
+        }
+
+        .workflow-text {
+            color: #94a3b8;
+            font-size: 0.88rem;
+            line-height: 1.85;
+            margin: 0;
+        }
+
+        /* ماتریس بنچمارک مقایسه‌ای پایگاه دانش و دیتابیس‌ها */
+        .rag-benchmark-card {
+            background: rgba(8, 14, 28, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 28px;
+            padding: 40px;
+            margin-bottom: 85px;
+            backdrop-filter: blur(20px);
+        }
+
+        .benchmark-table-scroller {
+            overflow-x: auto;
+            margin-top: 25px;
+        }
+
+        .benchmark-styled-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: right;
+            font-size: 0.92rem;
+        }
+
+        .benchmark-styled-table th {
+            padding: 18px 20px;
+            color: #38bdf8;
+            font-weight: 800;
+            border-bottom: 2px solid rgba(56, 189, 248, 0.3);
+            background: rgba(255, 255, 255, 0.02);
+            white-space: nowrap;
+        }
+
+        .benchmark-styled-table td {
+            padding: 18px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            color: #cbd5e1;
+            vertical-align: middle;
+        }
+
+        .benchmark-styled-table tr:hover td {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .pill-success {
+            background: rgba(16, 185, 129, 0.15);
+            color: #34d399;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 0.8rem;
+        }
+
+        .pill-danger {
+            background: rgba(239, 68, 68, 0.15);
+            color: #f87171;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 0.8rem;
+        }
+
+        /* سوالات متداول سئو دارک */
+        .faq-deep-block {
+            background: rgba(8, 14, 28, 0.65);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 28px;
+            padding: 44px;
+            margin-bottom: 75px;
+        }
+
+        /* بنر کال تو اکشن پایانی */
+        .rag-cta-universe {
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.25) 0%, rgba(99, 102, 241, 0.18) 100%);
+            border: 1.5px solid rgba(56, 189, 248, 0.4);
+            border-radius: 28px;
+            padding: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 32px;
+            box-shadow: 0 30px 70px rgba(0, 0, 0, 0.8);
+        }
+
+        .rag-cta-button {
+            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+            color: #ffffff !important;
+            padding: 16px 38px;
+            border-radius: 14px;
+            font-weight: 800;
+            font-size: 1rem;
+            text-decoration: none;
+            white-space: nowrap;
+            box-shadow: 0 10px 30px rgba(2, 132, 199, 0.45);
+            border: 1px solid #38bdf8;
+            transition: all 0.25s ease;
+        }
+
+        .rag-cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 16px 40px rgba(2, 132, 199, 0.65);
+            background: #0284c7;
+        }
+
+        @media (max-width: 1024px) {
+            .rag-media-feature { grid-template-columns: 1fr; }
+            .rag-workflow-grid { grid-template-columns: repeat(2, 1fr); }
+            .rag-cta-universe { flex-direction: column; text-align: center; }
+        }
+
+        @media (max-width: 640px) {
+            .rag-primary-title { font-size: 2.2rem; }
+            .rag-workflow-grid { grid-template-columns: 1fr; }
+            .rag-media-feature { padding: 24px; }
+            .rag-benchmark-card { padding: 24px; }
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+<div class="rag-master-canvas">
+    <div class="rag-neural-mesh"></div>
+
+    <div class="rag-container-wide">
+
+        <!-- هدر استودیویی و سئو هوش مصنوعی -->
+        <header class="rag-hero-section">
+            <div class="rag-live-indicator">
+                <span class="pulse-dot"></span>
+                <span>سیستم بازیابی اسناد RAG سازمانی بدون نیاز به ارسال دیتا به سرورهای خارجی</span>
+            </div>
+
+            <h1 class="rag-primary-title">
+                طراحی پایگاه دانش سازمانی <span class="rag-gradient-span">RAG &amp; Large Language Models</span>
+            </h1>
+
+            <p class="rag-header-desc">
+                حذف کامل پاسخ‌های تخیلی و توهم (Hallucination) مدل‌های زبانی با استخراج اتمیک اسناد رسمی سازمان؛ در آتراوب، مدل‌های زبانی مستقیماً به مخزن امن فایل‌های محرمانه، دیتابیس‌های مالی و بخشنامه‌های سازمانی متصل می‌شوند تا پاسخی دقیق، سریع و همراه با شماره صفحه سند تحویل دهند.
+            </p>
+        </header>
+
+        <!-- معرفی رسانه‌ای به همراه عکس مهندسی پایپ‌لاین RAG -->
+        <section class="rag-media-feature">
+            <div class="rag-rich-content">
+                <h2>چرا هوش مصنوعی پیش‌فرض برای اطلاعات سازمانی غیرقابل اعتماد و پرریسک است؟</h2>
+                <p>
+                    مدل‌های عمومی نظیر ChatGPT هیچ‌گونه اطلاعی از آیین‌نامه‌ها، قیمت‌گذاری‌های جدید، پرونده‌های پرسنلی و صورت‌های مالی اختصاصی شما ندارند. پرسش از این مدل‌ها معمولاً به «توهم آماری» و صدور اطلاعات نادرست با لحنی کاملاً مطمئن ختم می‌شود که فاجعه‌ای برای تصمیم‌گیری‌های حساس مدیریتی است.
+                </p>
+                <p>
+                    در پایپ‌لاین‌های اختصاصی RAG طراحی‌شده توسط آتراوب، متون ابتدا با الگوریتم‌های چانکینگ معنایی تکه‌تکه شده، به بردارهای ریاضی تبدیل می‌گردند و در
+                    <a href="{% url 'core:ai_vector_databases' %}" style="color: #38bdf8; font-weight: 700; text-decoration: underline;">پایگاه‌های داده برداری (Vector DBs)</a>
+                    ذخیره می‌شوند. در هنگام پرسش، نزدیک‌ترین مستندات بازیابی شده و به همراه اعتبارسنجی
+                    <a href="{% url 'core:backend_modular' %}" style="color: #38bdf8; font-weight: 700; text-decoration: underline;">معماری ماژولار جنگو</a>
+                    در پرامپت قرار می‌گیرند تا هوش مصنوعی تنها بر اساس واقعیت‌های ثبت‌شده پاسخ دهد.
+                </p>
+            </div>
+
+            <!-- جایگزین بلوک .rag-image-visual در فایل ai_rag_system.html -->
+<div class="rag-image-visual" style="background: #020617; border: 1.5px solid rgba(56, 189, 248, 0.35); padding: 24px; border-radius: 24px; box-shadow: 0 25px 60px -15px rgba(0,0,0,0.9), 0 0 35px rgba(6, 182, 212, 0.15);">
+    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 14px; margin-bottom: 18px; direction: ltr;">
+        <span style="font-family: monospace; font-size: 0.78rem; color: #38bdf8; font-weight: 700;">ATRA RAG CORE PIPELINE v2.4</span>
+        <span style="display: inline-flex; align-items: center; gap: 6px; font-size: 0.72rem; color: #34d399; font-weight: 800; background: rgba(16,185,129,0.15); padding: 3px 10px; border-radius: 6px;">
+            <span style="width: 6px; height: 6px; background: #10b981; border-radius: 50%;"></span> ZERO HALLUCINATION
+        </span>
+    </div>
+
+    <!-- دیاگرام مهندسی اختصاصی SVG پایپ‌لاین RAG -->
+    <svg viewBox="0 0 460 300" width="100%" height="auto" fill="none" xmlns="http://www.w3.org/2000/svg" style="display: block; direction: ltr;">
+        <defs>
+            <linearGradient id="cyanLine" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#06b6d4" />
+                <stop offset="100%" stop-color="#3b82f6" />
+            </linearGradient>
+            <linearGradient id="emeraldLine" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#3b82f6" />
+                <stop offset="100%" stop-color="#10b981" />
+            </linearGradient>
+        </defs>
+
+        <!-- نود ۱: اسناد خام -->
+        <rect x="20" y="20" width="100" height="60" rx="10" fill="#0f172a" stroke="#0284c7" stroke-width="1.5" />
+        <text x="70" y="46" fill="#ffffff" font-size="11" font-weight="bold" text-anchor="middle" font-family="monospace">Raw Docs</text>
+        <text x="70" y="62" fill="#64748b" font-size="9" text-anchor="middle">PDF, SQL, TXT</text>
+
+        <!-- مسیر اتصال ۱ به ۲ -->
+        <path d="M 120 50 L 170 50" stroke="url(#cyanLine)" stroke-width="2" stroke-dasharray="4 4" />
+
+        <!-- نود ۲: چانکینگ و امبدینگ -->
+        <rect x="170" y="20" width="120" height="60" rx="10" fill="#0f172a" stroke="#06b6d4" stroke-width="1.5" />
+        <text x="230" y="46" fill="#38bdf8" font-size="11" font-weight="bold" text-anchor="middle" font-family="monospace">Embeddings</text>
+        <text x="230" y="62" fill="#94a3b8" font-size="9" text-anchor="middle">1536-dim Vectors</text>
+
+        <!-- مسیر اتصال ۲ به ۳ -->
+        <path d="M 290 50 L 340 50" stroke="url(#cyanLine)" stroke-width="2" />
+
+        <!-- نود ۳: پایگاه برداری Qdrant -->
+        <rect x="340" y="20" width="100" height="60" rx="10" fill="#030712" stroke="#3b82f6" stroke-width="2" />
+        <text x="390" y="46" fill="#60a5fa" font-size="11" font-weight="bold" text-anchor="middle" font-family="monospace">Vector DB</text>
+        <text x="390" y="62" fill="#38bdf8" font-size="9" text-anchor="middle">HNSW Cosine Index</text>
+
+        <!-- خط هدایت عمودی به لایه رتبه‌بندی -->
+        <path d="M 390 80 L 390 130" stroke="#3b82f6" stroke-width="2" />
+
+        <!-- نود ۴: فیلتر Re-Ranker -->
+        <rect x="330" y="130" width="120" height="55" rx="10" fill="#0f172a" stroke="#818cf8" stroke-width="1.5" />
+        <text x="390" y="154" fill="#a5b4fc" font-size="10" font-weight="bold" text-anchor="middle" font-family="monospace">Re-Ranker Model</text>
+        <text x="390" y="170" fill="#64748b" font-size="8.5" text-anchor="middle">Top-K Scoring</text>
+
+        <!-- مسیر ورودی پرامپت کاربر -->
+        <rect x="20" y="210" width="110" height="60" rx="10" fill="#0f172a" stroke="#64748b" stroke-width="1.5" />
+        <text x="75" y="236" fill="#ffffff" font-size="10.5" font-weight="bold" text-anchor="middle" font-family="monospace">User Query</text>
+        <text x="75" y="252" fill="#94a3b8" font-size="8.5" text-anchor="middle">Semantic Query</text>
+
+        <path d="M 130 240 L 190 240" stroke="#38bdf8" stroke-width="2" />
+
+        <!-- نود ۵: مهندسی پرامپت تلفیقی -->
+        <rect x="190" y="210" width="110" height="60" rx="10" fill="#042f2e" stroke="#10b981" stroke-width="1.5" />
+        <text x="245" y="236" fill="#34d399" font-size="10.5" font-weight="bold" text-anchor="middle" font-family="monospace">Prompt Engine</text>
+        <text x="245" y="252" fill="#6ee7b7" font-size="8.5" text-anchor="middle">Context Injected</text>
+
+        <!-- اتصال Re-Ranker به پرامپت -->
+        <path d="M 330 157 L 245 157 L 245 210" stroke="url(#emeraldLine)" stroke-width="2" stroke-dasharray="3 3" />
+
+        <!-- خروجی نهایی به مدل زبانی -->
+        <path d="M 300 240 L 350 240" stroke="#10b981" stroke-width="2" />
+
+        <rect x="350" y="210" width="100" height="60" rx="10" fill="#064e3b" stroke="#34d399" stroke-width="2" />
+        <text x="400" y="236" fill="#ffffff" font-size="11" font-weight="bold" text-anchor="middle" font-family="monospace">LLM Core</text>
+        <text x="400" y="252" fill="#a7f3d0" font-size="8.5" text-anchor="middle">Cited Generation</text>
+    </svg>
+
+    <div style="margin-top: 18px; padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.06); display: flex; justify-content: space-between; font-size: 0.76rem; color: #94a3b8; direction: rtl;">
+        <span>نرخ بازیابی معنایی: <strong>۹۹.۲٪</strong></span>
+        <span>تاخیر جستجو در ۱ میلیون رکورد: <strong>۳.۲ میلی‌ثانیه</strong></span>
+    </div>
+</div>
+        </section>
+
+        <!-- دیاگرام ۶ مرحله‌ای جریان پردازش RAG -->
+        <section class="rag-workflow-wrapper">
+            <div class="section-header-centered">
+                <h2>خط لوله ۶ مرحله‌ای پردازش و استخراج هوشمند اسناد (RAG Pipeline)</h2>
+                <p>جریان استخراج داده از اسناد اولیه تا تولید پاسخ مستند توسط مدل زبانی</p>
+            </div>
+
+            <div class="rag-workflow-grid">
+                <div class="workflow-step-box">
+                    <div class="workflow-step-header">
+                        <span class="workflow-num">۱</span>
+                        <span class="workflow-tag">Document Parsing</span>
+                    </div>
+                    <h3 class="workflow-title">استخراج و پیش‌پردازش اسناد</h3>
+                    <p class="workflow-text">خوانش فایل‌های PDF، اسکن‌های متنی فارسی، فرم‌های اکسل و مایگریشن جداول PostgreSQL با حذف تگ‌های زائد.</p>
+                </div>
+
+                <div class="workflow-step-box">
+                    <div class="workflow-step-header">
+                        <span class="workflow-num">۲</span>
+                        <span class="workflow-tag">Semantic Chunking</span>
+                    </div>
+                    <h3 class="workflow-title">تکه‌بندی هوشمند معنایی</h3>
+                    <p class="workflow-text">تقسیم اسناد بر اساس سرفصل‌ها و پاراگراف‌ها با هم‌پوشانی متنی (Overlap) جهت جلوگیری از قطع زنجیره معنایی جملات.</p>
+                </div>
+
+                <div class="workflow-step-box">
+                    <div class="workflow-step-header">
+                        <span class="workflow-num">۳</span>
+                        <span class="workflow-tag">Dense Embeddings</span>
+                    </div>
+                    <h3 class="workflow-title">تبدیل به بردارهای چندبعدی</h3>
+                    <p class="workflow-text">استفاده از مدل‌های امبدینگ پیشرفته چندزبانه (BGE و Text-Embedding-3) جهت نگاشت مفاهیم به فضای ریاضی.</p>
+                </div>
+
+                <div class="workflow-step-box">
+                    <div class="workflow-step-header">
+                        <span class="workflow-num">۴</span>
+                        <span class="workflow-tag">Vector Indexing</span>
+                    </div>
+                    <h3 class="workflow-title">ایندکس‌گذاری در پایگاه برداری</h3>
+                    <p class="workflow-text">ذخیره‌سازی بردارها در Qdrant و Milvus با الگوریتم‌های HNSW برای جستجوی فوق‌سریع در کمتر از ۵ میلی‌ثانیه.</p>
+                </div>
+
+                <div class="workflow-step-box">
+                    <div class="workflow-step-header">
+                        <span class="workflow-num">۵</span>
+                        <span class="workflow-tag">Cross-Encoder ReRank</span>
+                    </div>
+                    <h3 class="workflow-title">رتبه‌بندی مجدد و فیلتر اسناد</h3>
+                    <p class="workflow-text">ارزیابی میزان انطباق تکه‌های بازیابی‌شده با سوال کاربر توسط مدل‌های Re-Ranker و حذف اطلاعات غیرمرتبط.</p>
+                </div>
+
+                <div class="workflow-step-box">
+                    <div class="workflow-step-header">
+                        <span class="workflow-num">۶</span>
+                        <span class="workflow-tag">Grounded Generation</span>
+                    </div>
+                    <h3 class="workflow-title">استنتاج با ذکر سند و شماره صفحه</h3>
+                    <p class="workflow-text">تولید پاسخ شفاف و مستند توسط مدل زبانی همراه با لینک مستقیم به فایل مرجع و بدون توهم محتوایی.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ماتریس بنچمارک مقایسه‌ای پایگاه دانش -->
+        <section class="rag-benchmark-card">
+            <div class="section-header-centered" style="margin-bottom: 25px;">
+                <h2>ماتریس ارزیابی دقت و امنیت: مدل خام در برابر سامانه RAG آتراوب</h2>
+                <p>تحلیل ریسک‌ها، نرخ خطا و انطباق با قوانین محرمانگی داده‌ها</p>
+            </div>
+
+            <div class="benchmark-table-scroller">
+                <table class="benchmark-styled-table">
+                    <thead>
+                        <tr>
+                            <th>شاخص ارزیابی</th>
+                            <th>چت‌بات‌های عمومی (ChatGPT/Claude)</th>
+                            <th>فاین‌تیونینگ سنتی مدل‌ها</th>
+                            <th>معماری سازمانی RAG آتراوب</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>نرخ تولید داده‌های غیرواقعی (Hallucination)</td>
+                            <td><span class="pill-danger">بالا (۱۵ تا ۲۵ درصد)</span></td>
+                            <td><span class="pill-danger">متوسط (۸ تا ۱۲ درصد)</span></td>
+                            <td><span class="pill-success">نزدیک به صفر (&lt; ۰.۵٪)</span></td>
+                        </tr>
+                        <tr>
+                            <td>امنیت و محرمانگی داده‌ها (Data Privacy)</td>
+                            <td><span class="pill-danger">خطر نشت روی سرورهای ابری</span></td>
+                            <td><span class="pill-success">قابل استقرار لوکال</span></td>
+                            <td><span class="pill-success">۱۰۰٪ لوکال و ایزوله On-Premise</span></td>
+                        </tr>
+                        <tr>
+                            <td>سرعت بروزرسانی اطلاعات جدید</td>
+                            <td><span class="pill-danger">وابسته به آپدیت‌های سالانه شرکت مادر</span></td>
+                            <td><span class="pill-danger">نیاز به بازآموزی چند روزه و هزینه GPU</span></td>
+                            <td><span class="pill-success">آنی (کمتر از چند ثانیه با وب‌سرویس)</span></td>
+                        </tr>
+                        <tr>
+                            <td>قابلیت استناد و پیوست اسناد مرجع</td>
+                            <td><span class="pill-danger">غیرممکن (تولید متن احتمالی)</span></td>
+                            <td><span class="pill-danger">غیرقابل ردیابی در وزن‌های مدل</span></td>
+                            <td><span class="pill-success">ارجاع قطعی به نام فایل و صفحه</span></td>
+                        </tr>
+                        <tr>
+                            <td>هزینه زیرساخت و نگهداری ماهانه</td>
+                            <td>هزینه دلاری به ازای توکن مصرفی</td>
+                            <td>بسیار سنگین برای کلاستر GPU</td>
+                            <td><span class="pill-success">اقتصادی و بدون هزینه ارزی</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- سوالات متداول سئو تخصصی دارک -->
+        <section class="faq-deep-block">
+            <div class="section-header-centered" style="margin-bottom: 30px;">
+                <h2>پرسش‌های متداول مدیران در خصوص راه‌اندازی پایگاه دانش RAG</h2>
+                <p>پاسخ شفاف به دغدغه‌های فنی، زیرساختی و امنیتی سازمان‌ها</p>
+            </div>
+            <div class="faq-grid">
+                <div class="faq-item active" style="background: rgba(3, 7, 18, 0.85); border-color: rgba(255, 255, 255, 0.08);">
+                    <div class="faq-question">
+                        <span class="q-text" style="color: #ffffff;">آیا امکان اتصال پایگاه دانش RAG به نرم‌افزارهای اتوماسیون اداری و CRM وجود دارد؟</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="answer-inner">
+                            <p style="color: #94a3b8;">بله؛ سامانه‌های RAG آتراوب دارای APIهای استاندارد RESTful و Webhook هستند و به راحتی با نرم‌افزارهای CRM، پورتال‌های سازمانی، اتوماسیون‌های اداری و ربات‌های تلگرام یا بله ادغام می‌شوند.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item active" style="background: rgba(3, 7, 18, 0.85); border-color: rgba(255, 255, 255, 0.08);">
+                    <div class="faq-question">
+                        <span class="q-text" style="color: #ffffff;">مدیریت دسترسی کارمندان به اسناد حساس (Role-Based Access) چگونه است؟</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="answer-inner">
+                            <p style="color: #94a3b8;">در پایگاه دانش RAG، بردارها دارای متادیتای سطوح دسترسی (RBAC) هستند؛ در نتیجه کارمندان عادی هرگز پاسخ‌هایی بر اساس اسناد محرمانه مدیران ارشد دریافت نخواهند کرد.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- بنر کال تو اکشن نهایی -->
+        <div class="rag-cta-universe">
+            <div>
+                <h3 style="font-size: 1.65rem; font-weight: 900; color: #ffffff; margin-bottom: 10px;">
+                    آماده‌اید پایگاه دانش هوشمند سازمان خود را با امنیت تضمین‌شده راه‌اندازی کنید؟
+                </h3>
+                <p style="color: #cbd5e1; font-size: 0.98rem; margin: 0; line-height: 1.85;">
+                    طراحی پایپ‌لاین چانکینگ، راه‌اندازی سرورهای پایگاه برداری و اتصال به مدل‌های بومی توسط تیم مهندسی آتراوب پیاده‌سازی می‌گردد.
+                </p>
+            </div>
+            <a href="{% url 'core:submit_ticket' %}" class="rag-cta-button">
+                سفارش راه‌اندازی پایگاه دانش RAG
+            </a>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

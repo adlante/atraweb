@@ -1,0 +1,247 @@
+{% extends 'parent/base.html' %}
+{% load static %}
+
+{% block title %}مدیریت صف‌های پردازش سنگین با Celery و Redis در جنگو | آتراوب{% endblock %}
+{% block meta_description %}پیاده‌سازی معماری پردازش غیرهمزمان (Async)، مدیریت صف‌های سنگین، زمان‌بندی جاب‌ها با Celery Beat و صف‌بندی پیام‌ها در Redis برای سامانه‌های تحت وب جنگو.{% endblock %}
+{% block meta_keywords %}مدیریت صف در جنگو, سلری و ردیس, پردازش پس زمینه پایتون, Celery Beat زمانبندی, مانیتورینگ Flower, تسک غیرهمزمان Django{% endblock %}
+
+{% block extra_schema %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "headline": "مدیریت صف‌های پردازش سنگین با Celery و Redis در جنگو",
+      "description": "معماری توزیع‌شده برای هندل تسک‌های طولانی‌مدت، پردازش‌های رسانه‌ای و همزمانی بالا با Celery و حافظه Redis",
+      "inLanguage": "fa-IR",
+      "author": {"@type": "Organization", "name": "آتراوب", "url": "https://atraweb.com"},
+      "publisher": {"@type": "Organization", "name": "آتراوب"}
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "چرا وب‌سرویس‌های مدرن به صف پردازش Celery نیاز دارند؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "پردازش‌هایی مانند ارسال پیامک، تبدیل ویدیو، پردازش تصویر با هوش مصنوعی و تولید گزارش‌های سنگین زمان‌بر هستند؛ با انتقال این کارها به سلری، کاربر بلافاصله پاسخ ۲۰۰ دریافت کرده و معطل پایان پردازش نمی‌ماند."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "نقش Redis به عنوان Message Broker در کنار Celery چیست؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "ردیس به دلیل نگهداری داده‌ها درون حافظه موقت (In-Memory)، پیام‌ها و شناسه‌های تسک‌ها را با سرعت فوق‌العاده بالا جابه‌جا کرده و صف پایدار و بدون تاخیری برای ورکرها می‌سازد."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+{% endblock %}
+
+{% block extra_css %}
+    <link href="{% static 'css/navbar.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="nginx-page-root">
+    <div class="container">
+
+        <!-- هدر معرفی بخش -->
+        <header class="bento-header">
+            <div class="linux-shield-badge">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                </svg>
+                <span>پردازش غیرهمزمان (Async) &amp; تسک‌های توزیع‌شده</span>
+            </div>
+            <h1 class="bento-title">
+                مدیریت صف‌های سنگین با <span class="text-gradient">Celery و Redis</span>
+            </h1>
+            <p>
+                انتقال پردازش‌های زمان‌بر به پس‌زمینه سرور، جلوگیری از بلاک شدن درخواست‌های HTTP، زمان‌بندی هوشمند وظایف و مانیتورینگ ۲۴/۷ ورکرها.
+            </p>
+        </header>
+
+        <!-- متن سئو و تبیین فنی -->
+        <article class="linux-spec-box highlight" style="margin-bottom: 40px;">
+            <h2 style="font-size: 1.45rem; margin-bottom: 16px; color: #0f172a;">چرا وب‌سرویس‌های پرسرعت به معماری Event-Driven و صف‌های پردازشی نیاز دارند؟</h2>
+            <p style="color: #475569; line-height: 1.95; font-size: 0.96rem; text-align: justify; margin-bottom: 16px;">
+                یکی از اشتباهات مرگبار در توسعه وب، اجرای پردازش‌های سنگین محاسباتی یا ارتباطات کند شبکه (نظیر ارسال نوتیفیکیشن، پردازش فایل و خروجی اکسل) درون چرخه مستقیم درخواست و پاسخ کلاینت (HTTP Request-Response Lifecycle) است. این امر باعث مسدود شدن ترد‌های وب‌سرور، افت شدید پاسخگویی و خطای تایم‌اوت ۵۰۴ در ترافیک بالا می‌گردد. تلفیق <strong>Celery</strong> به عنوان قدرتمندترین موتور پردازش ناهمگام با واسط حافظه‌محور <strong>Redis</strong> این مشکل را به طور ریشه‌ای حل می‌کند.
+            </p>
+            <p style="color: #475569; line-height: 1.95; font-size: 0.96rem; text-align: justify;">
+                این لایه وظایف را بدون مسدودسازی بک‌اند تحویل گرفته و هماهنگ با
+                <a href="{% url 'core:backend_modular' %}" style="color: #047857; font-weight: 700; text-decoration: underline;">معماری ماژولار جنگو</a>،
+                فرایند ذخیره‌سازی را در
+                <a href="{% url 'core:backend_postgresql' %}" style="color: #047857; font-weight: 700; text-decoration: underline;">پایگاه داده PostgreSQL</a>
+                تثبیت می‌کند تا حتی در اجرای وظایف طولانی
+                <a href="{% url 'core:ai_generative_studio' %}" style="color: #047857; font-weight: 700; text-decoration: underline;">استودیوهای تولید تصویر AI</a>،
+                وب‌سایت با نهایت سرعت کار کند.
+            </p>
+        </article>
+
+        <!-- ۴ کارت قابلیت‌های کلیدی -->
+        <section class="pillar-cards-section" style="padding: 10px 0 50px 0; background: transparent;">
+            <div class="pillar-cards-grid">
+
+                <div class="pillar-glass-card">
+                    <div class="pillar-icon-box">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                        </svg>
+                    </div>
+                    <h3 class="pillar-card-title">پاسخ‌دهی زیر ۲۰ میلی‌ثانیه به کاربر</h3>
+                    <p class="pillar-card-desc">
+                        تحویل فوری شناسه وظیفه (Task ID) به فرانت‌اند یا اپ فلاتر و سپردن کارهای سنگین به ورکر‌های پس‌زمینه بدون معطلی کاربر.
+                    </p>
+                </div>
+
+                <div class="pillar-glass-card">
+                    <div class="pillar-icon-box">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                    </div>
+                    <h3 class="pillar-card-title">زمان‌بندی هوشمند وظایف با Celery Beat</h3>
+                    <p class="pillar-card-desc">
+                        اجرای خودکار و دوره‌ای محاسبات مالی، پاکسازی کش، انقضای توکن‌ها و تهیه بکاپ‌های ساعتی دقیقاً مانند زمان‌بندی کرون‌جاب (Cron).
+                    </p>
+                </div>
+
+                <div class="pillar-glass-card">
+                    <div class="pillar-icon-box">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                        </svg>
+                    </div>
+                    <h3 class="pillar-card-title">مکانیزم تلاش مجدد خودکار (Auto-Retry)</h3>
+                    <p class="pillar-card-desc">
+                        تلاش مجدد در صورت خطای درگاه‌های خارجی، کاهش نمایی فاصله زمانی (Exponential Backoff) و انتقال تسک‌های ناموفق به Dead Letter Queue.
+                    </p>
+                </div>
+
+                <div class="pillar-glass-card">
+                    <div class="pillar-icon-box">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                            <line x1="8" y1="21" x2="16" y2="21"></line>
+                            <line x1="12" y1="17" x2="12" y2="21"></line>
+                        </svg>
+                    </div>
+                    <h3 class="pillar-card-title">داشبورد مانیتورینگ لایو با Flower</h3>
+                    <p class="pillar-card-desc">
+                        مشاهده گرافیکی وضعیت ورکرها، صف‌های فعال، مدت زمان ران‌تایم هر تسک، لود پردازنده و لاگ خطاهای احتمالی به صورت بلادرنگ.
+                    </p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- دیاگرام جریان کار صف و ورکرها -->
+        <section class="pipeline-diagram">
+            <h2 style="font-size: 1.35rem; margin-bottom: 12px; color: #0f172a;">معماری چرخه حیات تسک‌های غیرهمزمان از کلاینت تا پایان پردازش</h2>
+
+            <div class="pipeline-node">
+                <div class="pipeline-node-info">
+                    <div class="linux-step-item" style="margin-bottom: 8px;">
+                        <span class="linux-step-num">۱</span>
+                        <h3>فراخوانی وظیفه از بک‌اند جنگو (Task Dispatch)</h3>
+                    </div>
+                    <p>
+                        ارسال تسک با دستورات `.delay()` یا `.apply_async()` همراه با پارامترهای ضروری به صف پیام بدون نگه‌داشتن ترد اصلی برنامه.
+                    </p>
+                </div>
+                <div class="pipeline-tag">Django Core</div>
+            </div>
+
+            <div class="pipeline-node">
+                <div class="pipeline-node-info">
+                    <div class="linux-step-item" style="margin-bottom: 8px;">
+                        <span class="linux-step-num">۲</span>
+                        <h3>پایدارسازی و صف‌بندی در حافظه Redis Broker</h3>
+                    </div>
+                    <p>
+                        تفکیک پیام‌ها در صف‌های با اولویت بالا و معمولی در حافظه موقت رم، تضمین عدم گم شدن پیام‌ها در زمان ترافیک انبوه.
+                    </p>
+                </div>
+                <div class="pipeline-tag">Redis Queue</div>
+            </div>
+
+            <div class="pipeline-node">
+                <div class="pipeline-node-info">
+                    <div class="linux-step-item" style="margin-bottom: 8px;">
+                        <span class="linux-step-num">۳</span>
+                        <h3>مصرف پیام و پردازش توسط Celery Workers</h3>
+                    </div>
+                    <p>
+                        برداشتن تسک توسط نودهای مستقل پردازشی، اجرای کد درون کانتینرهای ایزوله و ثبت نتیجه نهایی در دیتابیس یا ردیس Backend.
+                    </p>
+                </div>
+                <div class="pipeline-tag">Async Workers</div>
+            </div>
+
+            <div class="pipeline-node">
+                <div class="pipeline-node-info">
+                    <div class="linux-step-item" style="margin-bottom: 8px;">
+                        <span class="linux-step-num">۴</span>
+                        <h3>اطلاع‌رسانی اتمام تسک به کاربر (WebSocket / Polling)</h3>
+                    </div>
+                    <p>
+                        ارسال نوتیفیکیشن پایان موفقیت‌آمیز عملیات از طریق سوکت یا استعلام کاربر برای دانلود فایل پردازش‌شده نهایی.
+                    </p>
+                </div>
+                <div class="pipeline-tag">Completed</div>
+            </div>
+        </section>
+
+        <!-- سوالات متداول سئو -->
+        <section class="premium-faq-section" style="background: transparent; padding: 40px 0;">
+            <div class="faq-container">
+                <div class="faq-header">
+                    <span class="faq-badge">پرسش‌های پرتکرار</span>
+                    <h2 class="faq-title">پرسش‌های متداول صف‌های پردازش Celery و Redis</h2>
+                </div>
+                <div class="faq-grid">
+                    <div class="faq-item highlight-offline active">
+                        <div class="faq-question">
+                            <span class="q-text">آیا در صورت ریستارت شدن سرور، تسک‌های درون صف از بین می‌روند؟</span>
+                        </div>
+                        <div class="faq-answer">
+                            <div class="answer-inner">
+                                <p>خیر؛ با فعال‌سازی مکانیزم‌های پایداری AOF و RDB در ردیس و استفاده از خاصیت تسک‌های ماندگار (Durable Tasks)، پیام‌ها ذخیره شده و پس از بوت مجدد سرور ادامه می‌یابند.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="faq-item highlight-offline active">
+                        <div class="faq-question">
+                            <span class="q-text">تفاوت صف‌های اولویت‌دار (Task Routing) در سلری چیست؟</span>
+                        </div>
+                        <div class="faq-answer">
+                            <div class="answer-inner">
+                                <p>می‌توان وظایف حساس و حیاتی مثل ارسال پیامک احراز هویت را در صفی با اولویت بالا قرار داد تا هیچ‌گاه پشت عملیات حجیم مانند خروجی اکسل یا رندرهای گرافیکی متوقف نشوند.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- کارت سفارش -->
+        <div class="custom-plan-card">
+            <div class="custom-plan-info">
+                <h3 class="custom-plan-title">نیاز به راه‌اندازی صف‌های پردازش پس‌زمینه و کاهش لود سرور دارید؟</h3>
+                <p class="custom-plan-desc">معماری و کانفیگ سرورهای Celery، کش ردیس و بهینه‌سازی وظایف ناهمگام را به مهندسین آتراوب بسپارید.</p>
+            </div>
+            <a href="{% url 'core:submit_ticket' %}" class="btn-custom">سفارش راه‌اندازی Celery/Redis</a>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,497 @@
+{% extends 'parent/base.html' %}
+{% load static %}
+
+{% block title %}بهینه‌سازی مصرف حافظه RAM و رندرینگ ۱۲۰ فریم در Flutter | آتراوب{% endblock %}
+{% block meta_description %}افزایش چشمگیر سرعت، رفع کامل لگ و افت فریم (Jank)، حذف نشت حافظه (Memory Leaks) و بهینه‌سازی مصرف باتری در اپلیکیشن‌های موبایل فلاتر.{% endblock %}
+{% block meta_keywords %}بهینه سازی فلاتر, رفع لگ اپلیکیشن Flutter, افزایش سرعت برنامه نویسی دارت, پروفایلینگ حافظه فلاتر, جلوگیری از memory leak دارت, رندرینگ ۱۲۰ فریم موبایل{% endblock %}
+
+{% block extra_schema %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "سرویس تیونینگ عملکرد و مانیتورینگ کارایی فلاتر آتراوب",
+      "operatingSystem": "iOS, Android",
+      "applicationCategory": "DeveloperApplication",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "IRR"
+      }
+    },
+    {
+      "@type": "TechArticle",
+      "headline": "راهنمای تخصصی رفع افت فریم و نشت حافظه در فریم‌ورک Flutter با DevTools",
+      "description": "بررسی رندرینگ بوم با موتور گرافیکی Impeller، مهار ساخت بی‌رویه ویجت‌ها، بازیافت تصاویر در لیست‌های نامتناهی و رندرینگ بدون وقفه در دارت",
+      "inLanguage": "fa-IR",
+      "author": {"@type": "Organization", "name": "آتراوب", "url": "https://atraweb.com"},
+      "publisher": {"@type": "Organization", "name": "آتراوب"}
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "علت اصلی لگ و افت فریم (Jank) هنگام اسکرول لیست‌ها در فلاتر چیست؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "بازسازی‌های غیرضروری ویجت‌ها (Unnecessary Rebuilds)، استفاده از متدهای سنگین محاسباتی در بدنه build و عدم استفاده از سازنده‌های const از عوامل اصلی اشغال پردازنده و پرش فریم هستند."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "چگونه نشت حافظه (Memory Leak) در اپلیکیشن‌های بزرگ شناسایی می‌شود؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "با آنالیز گراف تخصیص اشیاء در Flutter DevTools، بررسی عدم لغو اشتراک استریم‌ها (StreamSubscription.cancel) و مانیتورینگ دقیق چرخه‌های بستن کنترلرها (Controller.dispose)."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+{% endblock %}
+
+{% block extra_css %}
+    <link href="{% static 'css/navbar.css' %}" rel="stylesheet">
+    <style>
+        .perf-dark-canvas {
+            background-color: #030712 !important;
+            color: #f8fafc;
+            direction: rtl;
+            position: relative;
+            overflow: hidden;
+            padding: 50px 0 100px 0;
+            font-family: var(--font-main);
+        }
+
+        .perf-glow-amber {
+            position: absolute;
+            width: 580px;
+            height: 580px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(245, 158, 11, 0.2) 0%, transparent 70%);
+            filter: blur(110px);
+            top: 2%;
+            right: 8%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .perf-glow-orange {
+            position: absolute;
+            width: 480px;
+            height: 480px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(234, 88, 12, 0.16) 0%, transparent 70%);
+            filter: blur(100px);
+            bottom: 8%;
+            left: 5%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .perf-speed-lines {
+            position: absolute;
+            inset: 0;
+            background-image:
+                radial-gradient(rgba(245, 158, 11, 0.1) 1px, transparent 1px),
+                linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 28px 28px, 56px 56px, 56px 56px;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .perf-container {
+            max-width: 1260px;
+            margin: 0 auto;
+            padding: 0 24px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .perf-header-stage {
+            text-align: center;
+            max-width: 920px;
+            margin: 0 auto 60px auto;
+        }
+
+        .perf-tuning-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(245, 158, 11, 0.12);
+            border: 1px solid rgba(251, 191, 36, 0.35);
+            color: #fbbf24;
+            font-size: 0.84rem;
+            font-weight: 800;
+            padding: 6px 20px;
+            border-radius: 999px;
+            margin-bottom: 22px;
+            box-shadow: 0 0 25px rgba(245, 158, 11, 0.2);
+        }
+
+        .pulse-amber {
+            width: 8px;
+            height: 8px;
+            background: #f59e0b;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #f59e0b;
+            animation: pulseAmber 1.8s infinite;
+        }
+
+        @keyframes pulseAmber {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(0.85); }
+        }
+
+        .perf-title-hero {
+            font-size: 2.85rem;
+            font-weight: 900;
+            color: #ffffff;
+            line-height: 1.35;
+            margin-bottom: 22px;
+            letter-spacing: -0.5px;
+        }
+
+        .perf-title-hero span {
+            background: linear-gradient(135deg, #fbbf24 0%, #ea580c 50%, #38bdf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .perf-desc-lead {
+            color: #94a3b8;
+            font-size: 1.05rem;
+            line-height: 2;
+            margin: 0;
+            text-align: justify;
+            text-align-last: center;
+        }
+
+        /* داشبورد گرافیکی تله‌متری سخت‌افزار */
+        .perf-dashboard-showcase {
+            background: rgba(15, 23, 42, 0.65);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 28px;
+            padding: 40px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.7);
+            margin-bottom: 70px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .profiler-telemetry-box {
+            background: #090d16;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .telemetry-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .telemetry-val {
+            font-size: 2rem;
+            font-weight: 900;
+            color: #fbbf24;
+            direction: ltr;
+        }
+
+        .telemetry-lbl {
+            font-size: 0.78rem;
+            color: #94a3b8;
+            margin-top: 4px;
+        }
+
+        .perf-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 22px;
+            margin-bottom: 70px;
+        }
+
+        .perf-glass-card {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 22px;
+            padding: 30px 22px;
+            backdrop-filter: blur(16px);
+            transition: all 0.35s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .perf-glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #f59e0b, #ea580c);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .perf-glass-card:hover {
+            transform: translateY(-8px);
+            background: rgba(15, 23, 42, 0.9);
+            border-color: rgba(251, 191, 36, 0.45);
+            box-shadow: 0 20px 40px -10px rgba(245, 158, 11, 0.25);
+        }
+
+        .perf-glass-card:hover::before {
+            opacity: 1;
+        }
+
+        .perf-card-icon {
+            width: 54px;
+            height: 54px;
+            border-radius: 16px;
+            background: rgba(245, 158, 11, 0.15);
+            color: #fbbf24;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            border: 1px solid rgba(251, 191, 36, 0.25);
+        }
+
+        .perf-card-title {
+            font-size: 1.18rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 12px;
+        }
+
+        .perf-card-desc {
+            font-size: 0.88rem;
+            color: #94a3b8;
+            line-height: 1.85;
+            margin: 0;
+        }
+
+        .faq-perf-box {
+            background: rgba(13, 19, 33, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: 40px;
+            margin-bottom: 60px;
+        }
+
+        .perf-cta-banner {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.25) 0%, rgba(234, 88, 12, 0.18) 100%);
+            border: 1px solid rgba(251, 191, 36, 0.4);
+            border-radius: 24px;
+            padding: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 30px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+        }
+
+        .perf-cta-btn {
+            background: linear-gradient(135deg, #d97706 0%, #ea580c 100%);
+            color: #ffffff !important;
+            padding: 14px 34px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 0.95rem;
+            text-decoration: none;
+            white-space: nowrap;
+            box-shadow: 0 10px 25px rgba(245, 158, 11, 0.4);
+            border: 1px solid #fbbf24;
+            transition: all 0.25s ease;
+        }
+
+        .perf-cta-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(245, 158, 11, 0.6);
+            background: #b45309;
+        }
+
+        @media (max-width: 1024px) {
+            .perf-dashboard-showcase { grid-template-columns: 1fr; }
+            .perf-cards-grid { grid-template-columns: repeat(2, 1fr); }
+            .perf-cta-banner { flex-direction: column; text-align: center; }
+        }
+
+        @media (max-width: 640px) {
+            .perf-title-hero { font-size: 2.1rem; }
+            .perf-cards-grid { grid-template-columns: 1fr; }
+            .perf-dashboard-showcase { padding: 24px; }
+            .profiler-telemetry-box { grid-template-columns: 1fr; }
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+<div class="perf-dark-canvas">
+    <div class="perf-glow-amber"></div>
+    <div class="perf-glow-orange"></div>
+    <div class="perf-speed-lines"></div>
+
+    <div class="perf-container">
+
+        <header class="perf-header-stage">
+            <div class="perf-tuning-pill">
+                <span class="pulse-amber"></span>
+                <span>تیونینگ موتور Impeller و رندرینگ ۶۰ تا ۱۲۰ فریم بر ثانیه</span>
+            </div>
+
+            <h1 class="perf-title-hero">
+                بهینه‌سازی مصرف رم و <span class="text-gradient">عملکرد ۱۲۰ فریم</span> در Flutter
+            </h1>
+
+            <p class="perf-desc-lead">
+                رفع کامل لگ، پرش تصویر و توقف ناگهانی اپلیکیشن موبایل زیر بارهای سنگین؛ در آتراوب با پروفایلینگ دقیق کدهای دارت و استفاده از ابزارهای سطح پایین سیستم‌عامل، مصرف حافظه رم تا ۴۵ درصد کاهش یافته و پیمایش در اسکرول‌های نامتناهی با روان‌ترین نرخ فریم اجرا می‌شود.
+            </p>
+        </header>
+
+        <section class="perf-dashboard-showcase">
+            <div>
+                <h2 style="font-size: 1.55rem; font-weight: 900; color: #ffffff; margin-bottom: 16px;">
+                    رویکرد مهندسی آتراوب در حذف لگ و افت فریم (Zero-Jank Guarantee)
+                </h2>
+                <p style="color: #94a3b8; font-size: 0.95rem; line-height: 1.95; margin-bottom: 18px; text-align: justify;">
+                    افت فریم (Jank) زمانی رخ می‌دهد که زمان رندر یک فریم در UI Thread از ۱۶ میلی‌ثانیه فراتر رود. با متدهای تفکیک پردازش‌های سنگین به ورکرهای مجزا (Isolates) و بازیافت خودکار تصاویر خارج از کادر، اپلیکیشن شما همیشه واکنش‌گرا باقی می‌ماند.
+                </p>
+                <p style="color: #94a3b8; font-size: 0.95rem; line-height: 1.95; text-align: justify; margin: 0;">
+                    این بهینه‌سازی‌ها در تعامل با
+                    <a href="{% url 'core:backend_celery_redis' %}" style="color: #fbbf24; font-weight: 700; text-decoration: underline;">صف‌های سنگین سرور</a>
+                    پایداری بدون افت سرعت را حتی روی گوشی‌های اقتصادی و ضعیف‌تر نیز تضمین می‌کند.
+                </p>
+            </div>
+
+            <div class="profiler-telemetry-box">
+                <div class="telemetry-card">
+                    <div class="telemetry-val">120 FPS</div>
+                    <div class="telemetry-lbl">نرخ فریم رندرینگ بدون وقفه</div>
+                </div>
+                <div class="telemetry-card">
+                    <div class="telemetry-val">&lt; 45 MB</div>
+                    <div class="telemetry-lbl">میانگین مصرف رم در حالت فعال</div>
+                </div>
+                <div class="telemetry-card">
+                    <div class="telemetry-val">0 Leaks</div>
+                    <div class="telemetry-lbl">عدم نشت حافظه با DevTools</div>
+                </div>
+                <div class="telemetry-card">
+                    <div class="telemetry-val">8.2 ms</div>
+                    <div class="telemetry-lbl">زمان ساخت هر فریم گرافیکی</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="perf-cards-grid">
+            <div class="perf-glass-card">
+                <div class="perf-card-icon">
+                    <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                </div>
+                <h3 class="perf-card-title">تخصیص پردازش به Dart Isolates</h3>
+                <p class="perf-card-desc">انتقال محاسبات ریاضی، تجزیه جیسون‌های سنگین و رمزنگاری به نخ‌های پردازشی مستقل جهت روان ماندن رابط کاربری.</p>
+            </div>
+
+            <div class="perf-glass-card">
+                <div class="perf-card-icon">
+                    <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="2" y="2" width="20" height="8" rx="2"></rect>
+                        <rect x="2" y="14" width="20" height="8" rx="2"></rect>
+                        <line x1="6" y1="6" x2="6.01" y2="6"></line>
+                        <line x1="6" y1="18" x2="6.01" y2="18"></line>
+                    </svg>
+                </div>
+                <h3 class="perf-card-title">مدیریت هوشمند حافظه کش تصاویر</h3>
+                <p class="perf-card-desc">کاهش ابعاد بیت‌مپ‌ها پیش از ورود به حافظه رم، جلوگیری از پر شدن حافظه گرافیکی و بازیافت خودکار منابع خارج از صفحه.</p>
+            </div>
+
+            <div class="perf-glass-card">
+                <div class="perf-card-icon">
+                    <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                        <polyline points="2 17 12 22 22 17"></polyline>
+                        <polyline points="2 12 12 17 22 12"></polyline>
+                    </svg>
+                </div>
+                <h3 class="perf-card-title">بهینه‌سازی درخت ویجت‌ها (Const Constructors)</h3>
+                <p class="perf-card-desc">استفاده اصولی از ثابت‌ها در دارت جهت جلوگیری از تخصیص مجدد حافظه و پیشگیری از رندرهای بی‌مورد در صفحات شلوغ.</p>
+            </div>
+
+            <div class="perf-glass-card">
+                <div class="perf-card-icon">
+                    <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
+                    </svg>
+                </div>
+                <h3 class="perf-card-title">تحلیل و تست با ابزار DevTools</h3>
+                <p class="perf-card-desc">رهگیری خطوط نشت حافظه (Memory Leaks)، بستن به موقع کنترلرها و لغو اشتراک استریم‌ها قبل از خروج کاربر از صفحه.</p>
+            </div>
+        </section>
+
+        <section class="faq-perf-box">
+            <h2 style="font-size: 1.5rem; font-weight: 800; color: #ffffff; text-align: center; margin-bottom: 24px;">
+                پرسش‌های متداول بهینه‌سازی سرعت و پرفورمنس Flutter
+            </h2>
+            <div class="faq-grid">
+                <div class="faq-item active" style="background: rgba(3, 7, 18, 0.8); border-color: rgba(255, 255, 255, 0.08);">
+                    <div class="faq-question">
+                        <span class="q-text" style="color: #ffffff;">آیا بهینه‌سازی اپلیکیشن‌های آماده قبلی بدون بازنویسی کل پروژه ممکن است؟</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="answer-inner">
+                            <p style="color: #94a3b8;">بله؛ تیم آتراوب ابتدا با استفاده از پروفایلرهای سیستمی نقاط بحرانی (Bottlenecks) و نشت حافظه را شناسایی کرده و با ریفکتور لایه‌های پرهزینه، سرعت اپلیکیشن را بدون نیاز به بازنویسی کامل چند برابر می‌کند.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item active" style="background: rgba(3, 7, 18, 0.8); border-color: rgba(255, 255, 255, 0.08);">
+                    <div class="faq-question">
+                        <span class="q-text" style="color: #ffffff;">چگونه مصرف باتری گوشی توسط اپلیکیشن به حداقل می‌رسد؟</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="answer-inner">
+                            <p style="color: #94a3b8;">با کاهش نرخ بروزرسانی سنسورها، توقف تایمرها و انیمیشن‌های پس‌زمینه در زمان بسته شدن صفحه و بهره‌گیری از رندرینگ برداری مستقیم روی چیپست‌های گرافیکی دستگاه.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="perf-cta-banner">
+            <div>
+                <h3 style="font-size: 1.55rem; font-weight: 900; color: #ffffff; margin-bottom: 8px;">
+                    اپلیکیشن شما با افت فریم یا مصرف بالای حافظه رم روبه‌رو است؟
+                </h3>
+                <p style="color: #cbd5e1; font-size: 0.95rem; margin: 0; line-height: 1.8;">
+                    پروفایلینگ تخصصی، حل نشت حافظه و رساندن فریم‌ریت برنامه به ۱۲۰ هرتز را به مهندسین آتراوب بسپارید.
+                </p>
+            </div>
+            <a href="{% url 'core:submit_ticket' %}" class="perf-cta-btn">
+                درخواست آنالیز و بهینه‌سازی اپلیکیشن
+            </a>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

@@ -1,130 +1,818 @@
 {% extends 'parent/base.html' %}
 {% load static %}
 
-{% block title %}پلن مشاوره و فاین‌تیونینگ مدل‌های زبانی (LoRA / QLoRA) | آترا{% endblock %}
-{% block meta_description %}خدمات ارزیابی، ساخت دیتاست استاندارد و آموزش وزن‌های مدل‌های زبانی Llama و Mistral با متد LoRA؛ کاهش مصرف سخت‌افزار و بومی‌سازی هوش مصنوعی.{% endblock %}
-{% block meta_keywords %}مشاوره فاین تیونینگ, هزینه آموزش مدل هوش مصنوعی, سفارشی سازی LLM, ساخت دیتاست آموزشی هوش مصنوعی, اجرای لاما روی سرور{% endblock %}
+{% block title %}پلن‌های مشاوره و فاین‌تیونینگ مدل‌های زبانی (Fine-Tuning Consulting) | آتراوب{% endblock %}
+{% block meta_description %}تعرفه خدمات مشاوره تخصصی هوش مصنوعی و فاین‌تیونینگ مدل‌های زبانی Llama و DeepSeek با متد LoRA؛ کاهش هزینه‌های پردازش GPU و آموزش مدل سازمانی.{% endblock %}
+{% block meta_keywords %}قیمت فاین تیونینگ مدل زبانی, هزینه مشاوره هوش مصنوعی, تعرفه آموزش مدل Llama, پلن سفارشی سازی LLM, قرارداد مشاوره هوش مصنوعی شرکتی, محاسبه هزینه آموزش مدل زبانی{% endblock %}
 
 {% block extra_schema %}
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "Service",
-  "name": "مشاوره و فاین‌تیونینگ مدل‌های زبانی با LoRA",
-  "provider": {"@type": "Organization", "name": "آترا"},
-  "description": "آموزش و شخصی‌سازی مدل‌های متن‌باز برای کسب‌وکارها",
-  "areaServed": "IR"
+  "@graph": [
+    {
+      "@type": "Service",
+      "name": "خدمات مشاوره و فاین‌تیونینگ مدل‌های زبانی آتراوب",
+      "serviceType": "AI Consulting & Model Customization",
+      "provider": {
+        "@type": "Organization",
+        "name": "آتراوب"
+      },
+      "offers": {
+        "@type": "AggregateOffer",
+        "priceCurrency": "IRR",
+        "lowPrice": "150000000",
+        "highPrice": "850000000"
+      }
+    },
+    {
+      "@type": "TechArticle",
+      "headline": "راهنمای ارزیابی اقتصادی و فنی Fine-Tuning در برابر Prompt Engineering",
+      "description": "تحلیل شاخص‌های تصمیم‌گیری برای انتخاب مدل‌های متن‌باز، برآورد ظرفیت کارت گرافیک و ماتریس هزینه‌ای آموزش مدل‌های زبانی سازمانی",
+      "inLanguage": "fa-IR",
+      "author": {"@type": "Organization", "name": "آتراوب", "url": "https://atraweb.com"},
+      "publisher": {"@type": "Organization", "name": "آتراوب"}
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "پلن‌های مشاوره هوش مصنوعی آتراوب چه خروجی ملموسی به سازمان ارائه می‌دهد؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "خروجی شامل سند کامل معماری سیستم (Architecture Blueprint)، اعتبارسنجی اقتصادی انتخاب سخت‌افزار، بهینه‌سازی کدهای موجود، آماده‌سازی پایپ‌لاین تمیزکاری دیتاست و تست عملیاتی استنتاج مدل می‌باشد."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "آیا برای آموزش مدل حتماً نیاز به خرید سرورهای گران‌قیمت چندمیلیاردی است؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "خیر؛ در جلسات مشاوره با بهره‌گیری از تکنیک‌های QLoRA، کوانتایز ۴ بیتی و اجاره هدفمند کلاسترهای ابری ساعتی، هزینه آموزش مدل‌های ۷۰ میلیاردی تا ۸۵ درصد کاهش می‌یابد."
+          }
+        }
+      ]
+    }
+  ]
 }
 </script>
 {% endblock %}
 
 {% block extra_css %}
     <link href="{% static 'css/navbar.css' %}" rel="stylesheet">
+    <style>
+        /* ⚙️ زبان طراحی نئون کهربایی و چیدمان نواری ترمینالی (Linear Industrial Forge) */
+        .plan-forge-canvas {
+            background-color: #080603 !important;
+            color: #f1f5f9;
+            direction: rtl;
+            position: relative;
+            overflow-x: hidden;
+            padding: 55px 0 110px 0;
+            font-family: var(--font-main);
+            box-sizing: border-box;
+        }
+
+        .forge-flare-top {
+            position: absolute;
+            width: 550px;
+            height: 550px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(245, 158, 11, 0.16) 0%, transparent 70%);
+            filter: blur(120px);
+            top: 0;
+            right: 10%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .forge-flare-bottom {
+            position: absolute;
+            width: 480px;
+            height: 480px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(217, 119, 6, 0.12) 0%, transparent 70%);
+            filter: blur(110px);
+            bottom: 5%;
+            left: 5%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .forge-carbon-grid {
+            position: absolute;
+            inset: 0;
+            background-image:
+                radial-gradient(rgba(245, 158, 11, 0.08) 1.2px, transparent 1.2px),
+                linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+            background-size: 32px 32px, 64px 64px, 64px 64px;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .forge-container {
+            width: 100%;
+            max-width: 1260px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 2;
+            box-sizing: border-box;
+        }
+
+        /* هدر استودیو مشاوره */
+        .forge-header-block {
+            text-align: center;
+            max-width: 960px;
+            margin: 0 auto 55px auto;
+        }
+
+        .forge-chip-beacon {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(245, 158, 11, 0.08);
+            border: 1px solid rgba(245, 158, 11, 0.35);
+            color: #fbbf24;
+            font-size: clamp(0.75rem, 2vw, 0.86rem);
+            font-weight: 800;
+            padding: 7px 22px;
+            border-radius: 999px;
+            margin-bottom: 22px;
+            box-shadow: 0 0 25px rgba(245, 158, 11, 0.18);
+        }
+
+        .beacon-spark {
+            width: 8px;
+            height: 8px;
+            background: #f59e0b;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #f59e0b;
+            animation: sparkPulse 1.8s infinite;
+            flex-shrink: 0;
+        }
+
+        @keyframes sparkPulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.3; transform: scale(0.8); }
+        }
+
+        .forge-title-h1 {
+            font-size: clamp(1.85rem, 4.5vw, 3.2rem);
+            font-weight: 900;
+            color: #ffffff;
+            line-height: 1.35;
+            margin-bottom: 22px;
+            letter-spacing: -0.6px;
+        }
+
+        .forge-title-h1 span {
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #f97316 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .forge-desc-txt {
+            color: #94a3b8;
+            font-size: clamp(0.94rem, 2vw, 1.08rem);
+            line-height: 2;
+            margin: 0;
+            text-align: justify;
+            text-align-last: center;
+        }
+
+        /* کنسول محاسباتی معماری VRAM و ماتریس تانسور */
+        .forge-console-stage {
+            background: rgba(20, 15, 8, 0.75);
+            border: 1.5px solid rgba(245, 158, 11, 0.25);
+            border-radius: 26px;
+            padding: clamp(20px, 4vw, 40px);
+            backdrop-filter: blur(25px);
+            box-shadow: 0 30px 70px -15px rgba(0, 0, 0, 0.9);
+            margin-bottom: 65px;
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: 36px;
+            align-items: center;
+            box-sizing: border-box;
+        }
+
+        .forge-article-info h2 {
+            font-size: clamp(1.3rem, 2.8vw, 1.75rem);
+            font-weight: 900;
+            color: #ffffff;
+            margin-bottom: 16px;
+            line-height: 1.45;
+        }
+
+        .forge-article-info p {
+            color: #94a3b8;
+            font-size: 0.96rem;
+            line-height: 1.95;
+            text-align: justify;
+            margin-bottom: 16px;
+        }
+
+        /* قاب دیاگرام محاسباتی وکتوری */
+        .forge-svg-wrapper {
+            background: #040301;
+            border: 1.5px solid rgba(245, 158, 11, 0.35);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.85);
+            width: 100%;
+            box-sizing: border-box;
+            min-width: 0;
+        }
+
+        .forge-bar-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 12px;
+            margin-bottom: 14px;
+            direction: ltr;
+        }
+
+        .forge-code-lbl {
+            font-family: monospace;
+            font-size: 0.76rem;
+            color: #fbbf24;
+            font-weight: 700;
+        }
+
+        .forge-tag-pill {
+            background: rgba(245, 158, 11, 0.15);
+            color: #fbbf24;
+            font-size: 0.72rem;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 6px;
+        }
+
+        /* 🚀 چیدمان کاملاً متفاوت: پلن‌های خطی افقی (Horizontal Tier Rows) */
+        .forge-plans-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            margin-bottom: 75px;
+        }
+
+        .forge-row-plan {
+            background: rgba(22, 16, 9, 0.75);
+            border: 1.5px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: clamp(24px, 4vw, 36px);
+            backdrop-filter: blur(20px);
+            display: grid;
+            grid-template-columns: 280px 1fr 220px;
+            gap: 30px;
+            align-items: center;
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            box-sizing: border-box;
+        }
+
+        .forge-row-plan.premium {
+            background: rgba(30, 21, 10, 0.95);
+            border-color: #f59e0b;
+            box-shadow: 0 25px 50px -10px rgba(245, 158, 11, 0.25);
+        }
+
+        .forge-row-plan:hover {
+            transform: translateX(-6px);
+            border-color: #fbbf24;
+            box-shadow: 0 20px 40px -10px rgba(245, 158, 11, 0.2);
+        }
+
+        .row-tier-header h3 {
+            font-size: 1.45rem;
+            font-weight: 900;
+            color: #ffffff;
+            margin: 0 0 8px 0;
+        }
+
+        .row-tier-header .tier-badge {
+            display: inline-block;
+            font-size: 0.78rem;
+            font-weight: 800;
+            color: #fbbf24;
+            margin-bottom: 6px;
+        }
+
+        .row-tier-header p {
+            color: #94a3b8;
+            font-size: 0.88rem;
+            line-height: 1.7;
+            margin: 0;
+        }
+
+        .row-tier-specs {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px 20px;
+            border-right: 1px solid rgba(255, 255, 255, 0.08);
+            border-left: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 0 24px;
+        }
+
+        .spec-item-line {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.88rem;
+            color: #cbd5e1;
+        }
+
+        .spec-item-line svg {
+            width: 18px;
+            height: 18px;
+            color: #fbbf24;
+            flex-shrink: 0;
+        }
+
+        .row-tier-action {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .row-btn-action {
+            display: block;
+            width: 100%;
+            text-align: center;
+            padding: 14px 0;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: all 0.25s ease;
+            box-sizing: border-box;
+        }
+
+        .btn-forge-solid {
+            background: linear-gradient(135deg, #d97706 0%, #f59e0b 100%);
+            color: #ffffff !important;
+            border: none;
+            box-shadow: 0 10px 25px rgba(245, 158, 11, 0.35);
+        }
+
+        .btn-forge-solid:hover {
+            background: linear-gradient(135deg, #b45309 0%, #d97706 100%);
+            transform: translateY(-2px);
+        }
+
+        .btn-forge-outline {
+            background: transparent;
+            color: #ffffff !important;
+            border: 1.5px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-forge-outline:hover {
+            border-color: #f59e0b;
+            background: rgba(245, 158, 11, 0.15);
+        }
+
+        /* ماتریس مقایسه جزئیات فنی */
+        .forge-audit-panel {
+            background: rgba(18, 14, 8, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: clamp(20px, 4vw, 36px);
+            margin-bottom: 70px;
+            box-sizing: border-box;
+        }
+
+        .audit-head-txt {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .audit-head-txt h3 {
+            font-size: clamp(1.25rem, 2.5vw, 1.65rem);
+            font-weight: 900;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+
+        .audit-head-txt p {
+            color: #64748b;
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        .audit-table-scroll {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .audit-data-tbl {
+            width: 100%;
+            min-width: 680px;
+            border-collapse: collapse;
+            text-align: right;
+            font-size: 0.9rem;
+        }
+
+        .audit-data-tbl th {
+            padding: 16px 18px;
+            color: #fbbf24;
+            font-weight: 800;
+            background: rgba(255, 255, 255, 0.02);
+            border-bottom: 2px solid rgba(245, 158, 11, 0.3);
+            white-space: nowrap;
+        }
+
+        .audit-data-tbl td {
+            padding: 16px 18px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: #cbd5e1;
+            vertical-align: middle;
+            white-space: nowrap;
+        }
+
+        .audit-data-tbl tr:hover td {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .badge-forge-gold {
+            background: rgba(245, 158, 11, 0.18);
+            color: #fbbf24;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-weight: 800;
+            font-size: 0.78rem;
+        }
+
+        /* سوالات متداول سئو دارک */
+        .forge-faq-container {
+            background: rgba(18, 14, 8, 0.65);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: clamp(20px, 4vw, 40px);
+            margin-bottom: 65px;
+            box-sizing: border-box;
+        }
+
+        /* بنر فراخوان نهایی */
+        .forge-callout-panel {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.22) 0%, rgba(217, 119, 6, 0.16) 100%);
+            border: 1.5px solid rgba(245, 158, 11, 0.4);
+            border-radius: 24px;
+            padding: clamp(24px, 4vw, 44px);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 25px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+            box-sizing: border-box;
+        }
+
+        .forge-callout-btn {
+            background: linear-gradient(135deg, #d97706 0%, #f59e0b 100%);
+            color: #ffffff !important;
+            padding: 15px 34px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 0.96rem;
+            text-decoration: none;
+            white-space: nowrap;
+            box-shadow: 0 10px 30px rgba(245, 158, 11, 0.4);
+            border: 1px solid #fbbf24;
+            transition: all 0.25s ease;
+            text-align: center;
+        }
+
+        .forge-callout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(245, 158, 11, 0.6);
+            background: #b45309;
+        }
+
+        /* ریسپانسیو اختصاصی برای تبدیل ردیف‌های افقی به کارت‌های موبایل */
+        @media (max-width: 1024px) {
+            .forge-console-stage {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            .forge-row-plan {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+            .row-tier-specs {
+                border-right: none;
+                border-left: none;
+                border-top: 1px solid rgba(255, 255, 255, 0.08);
+                border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+                padding: 18px 0;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .row-tier-specs {
+                grid-template-columns: 1fr;
+            }
+            .forge-callout-panel {
+                flex-direction: column;
+                text-align: center;
+            }
+            .forge-callout-btn {
+                width: 100%;
+                box-sizing: border-box;
+            }
+        }
+    </style>
 {% endblock %}
 
 {% block content %}
-<section class="stability-wrapper">
-    <div class="stability-container">
+<div class="plan-forge-canvas">
+    <div class="forge-flare-top"></div>
+    <div class="forge-flare-bottom"></div>
+    <div class="forge-carbon-grid"></div>
 
-        <div class="stability-hero">
-            <div class="brand-badge">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
-                <span>شخصی‌سازی وزن‌ها و لحن سازمانی</span>
+    <div class="forge-container">
+
+        <!-- هدر تخصصی پلن مشاوره و فاین‌تیونینگ -->
+        <header class="forge-header-block">
+            <div class="forge-chip-beacon">
+                <span class="beacon-spark"></span>
+                <span>مشاوره استراتژیک، ارزیابی زیرساخت سخت‌افزاری و سفارشی‌سازی عمیق مدل‌ها</span>
             </div>
-            <h1 class="stability-main-title">
-                مشاوره و فاین‌تیونینگ مدل‌های <span class="uptime-highlight">LoRA / QLoRA</span>
+
+            <h1 class="forge-title-h1">
+                پلن‌های مشاوره و فاین‌تیونینگ <span class="text-gradient">Fine-Tuning &amp; Consulting</span>
             </h1>
-            <p class="stability-subtitle">
-                آیا بیزینس شما به خروجی‌های ساختاریافته، اصطلاحات فنی خاص و درک ادبیات منحصربه‌فرد نیاز دارد؟ مدل‌های زبانی را برای نیازمندی دقیق شما آموزش می‌دهیم.
+
+            <p class="forge-desc-txt">
+                جلوگیری از هدررفت بودجه‌های میلیاردی در خرید سرورهای نامناسب و آزمون‌وخطاهای پرهزینه؛ تیم ارشد هوش مصنوعی آتراوب با ارزیابی دقیق مدل‌های متن‌باز جهانی، متدولوژی‌های QLoRA و پالایش داده‌ها، سریع‌ترین و اقتصادی‌ترین مسیر پیاده‌سازی هوش مصنوعی را برای سازمان شما ترسیم می‌کند.
             </p>
-        </div>
+        </header>
 
-        <div class="dashboard-grid">
-            <div class="dashboard-card">
-                <div class="card-header">
-                    <div class="icon-wrapper">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
-                    </div>
-                    <div class="status-indicator">
-                        <span class="status-dot"></span>
-                        <span>Dataset Engineering</span>
-                    </div>
-                </div>
-                <h2 class="item-title">طراحی و غنی‌سازی دیتاست (Data Curation)</h2>
-                <p class="item-text">
-                    استخراج، پاکسازی و تبدیل اسناد و مکاتبات به دیتاست‌های استاندارد پرسش و پاسخ (Instruction Dataset) با فرمت بهینه برای آموزش بدون بیش‌برازش (Overfitting).
+        <!-- معرفی رسانه‌ای فنی با دیاگرام وکتوری کالبدشکافی VRAM -->
+        <section class="forge-console-stage">
+            <div class="forge-article-info">
+                <h2>چه زمانی سازمان شما به فاین‌تیونینگ تخصصی نیاز دارد؟</h2>
+                <p>
+                    هنگامی که نیاز به آموزش اصطلاحات صنف اختصاصی، تسلط به نگارش اسناد رسمی، یا خروجی دادن در قالب‌های پیچیده نرم‌افزاری دارید، مهندسی پرامپت به تنهایی پاسخگو نیست. فاین‌تیونینگ اصولی، وزن‌های مدل را به گونه‌ای بازتنظیم می‌کند که مانند کارشناس ارشد سازمان شما بیندیشد.
+                </p>
+                <p>
+                    مشاوران آتراوب با تجربه پیاده‌سازی
+                    <a href="{% url 'core:ai_finetuning_lora' %}" style="color: #fbbf24; font-weight: 700; text-decoration: underline;">تکنیک‌های کم‌رتبه LoRA</a>،
+                    انتخاب پایگاه‌های داده مناسب در
+                    <a href="{% url 'core:ai_vector_databases' %}" style="color: #fbbf24; font-weight: 700; text-decoration: underline;">موتورهای وکتور دیتابیس</a>
+                    و استقرار روی
+<a href="#docker-cluster" style="color: #fbbf24; font-weight: 700; text-decoration: underline;">کلاسترهای کانتینری داکر</a>                    بازدهی نهایی را تضمین می‌نمایند.
                 </p>
             </div>
 
-            <div class="dashboard-card">
-                <div class="card-header">
-                    <div class="icon-wrapper">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            <!-- دیاگرام وکتوری مقایسه مصرف حافظه GPU در SVG ریسپانسیو -->
+            <div class="forge-svg-wrapper">
+                <div class="forge-bar-top">
+                    <span class="forge-code-lbl">VRAM PROFILING: FULL vs QLORA OPTIMIZATION</span>
+                    <span class="forge-tag-pill">GPU BENCHMARK</span>
+                </div>
+
+                <svg viewBox="0 0 440 250" width="100%" height="auto" fill="none" xmlns="http://www.w3.org/2000/svg" style="display: block; direction: ltr;">
+                    <!-- نمودار میله‌ای ۱: روش سنتی -->
+                    <text x="20" y="45" fill="#94a3b8" font-size="10.5" font-family="monospace">Full Fine-Tuning (70B Model)</text>
+                    <rect x="20" y="55" width="380" height="30" rx="6" fill="#1c1917" stroke="#ef4444" stroke-width="1.5"/>
+                    <rect x="22" y="57" width="376" height="26" rx="4" fill="#ef4444" opacity="0.3"/>
+                    <text x="385" y="74" fill="#f87171" font-size="10" font-weight="bold" text-anchor="end">640 GB VRAM (8x A100 Required)</text>
+
+                    <!-- نمودار میله‌ای ۲: LoRA استاندارد -->
+                    <text x="20" y="115" fill="#94a3b8" font-size="10.5" font-family="monospace">LoRA 16-bit (70B Model)</text>
+                    <rect x="20" y="125" width="380" height="30" rx="6" fill="#1c1917" stroke="#f59e0b" stroke-width="1.5"/>
+                    <rect x="22" y="127" width="190" height="26" rx="4" fill="#f59e0b" opacity="0.4"/>
+                    <text x="200" y="144" fill="#fbbf24" font-size="10" font-weight="bold">80 GB VRAM</text>
+
+                    <!-- نمودار میله‌ای ۳: QLoRA بهینه‌سازی آتراوب -->
+                    <text x="20" y="185" fill="#94a3b8" font-size="10.5" font-family="monospace">Atraweb QLoRA 4-bit (70B Model)</text>
+                    <rect x="20" y="195" width="380" height="30" rx="6" fill="#1c1917" stroke="#10b981" stroke-width="2"/>
+                    <rect x="22" y="197" width="75" height="26" rx="4" fill="#10b981" opacity="0.6"/>
+                    <text x="105" y="214" fill="#34d399" font-size="11" font-weight="bold">&lt; 24 GB (Single RTX 4090)</text>
+                </svg>
+
+                <div style="margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.06); display: flex; justify-content: space-between; font-size: 0.78rem; color: #94a3b8; direction: rtl;">
+                    <span>صرفه‌جویی در سخت‌افزار: <strong>بیش از ۸۵ درصد</strong></span>
+                    <span>سرعت استقرار پایلوت: <strong>کمتر از ۷ روز کاری</strong></span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 🚀 چیدمان کاملاً متفاوت: پلن‌های خطی افقی (Horizontal Tier Rows) -->
+        <section class="forge-plans-stack">
+
+            <!-- پلن ۱: مشاوره استراتژیک -->
+            <div class="forge-row-plan">
+                <div class="row-tier-header">
+                    <span class="tier-badge">فاز اول ارزیابی</span>
+                    <h3>مشاوره و ممیزی معماری AI</h3>
+                    <p>بررسی اسناد سازمان، امکان‌سنجی فنی و تدوین نقشه راه بدون هزینه‌های سربار.</p>
+                </div>
+
+                <div class="row-tier-specs">
+                    <div class="spec-item-line">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        <span>جلسات فشرده تحلیل نیازمندی‌ها و دیتاسورس‌ها</span>
                     </div>
-                    <div class="status-indicator">
-                        <span class="status-dot"></span>
-                        <span>Low-VRAM Tech</span>
+                    <div class="spec-item-line">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        <span>مقایسه فنی رویکرد RAG در برابر Fine-Tuning</span>
+                    </div>
+                    <div class="spec-item-line">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        <span>ارزیابی بودجه سخت‌افزاری و کارت‌های گرافیک</span>
+                    </div>
+                    <div class="spec-item-line">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        <span>تحویل سند نهایی معماری فنی (Blueprint)</span>
                     </div>
                 </div>
-                <h2 class="item-title">آموزش پارامتری کم‌مصرف (PEFT & QLoRA)</h2>
-                <p class="item-text">
-                    آموزش وزن‌ها با تکنیک‌های مدرن ۴ بیتی بدون نیاز به کلاسترهای چند ده هزار دلاری سرور؛ امکان آموزش مدل‌های ۸ و ۱۴ میلیاردی روی کارت‌های گرافیک تک‌کاربره تجاری.
+
+                <div class="row-tier-action">
+                    <a href="{% url 'core:submit_ticket' %}" class="row-btn-action btn-forge-outline">
+                        رزرو جلسه مشاوره
+                    </a>
+                </div>
+            </div>
+
+            <!-- پلن ۲: فاین‌تیونینگ مدل‌های زبانی متوسط (Featured) -->
+            <div class="forge-row-plan premium">
+                <div class="row-tier-header">
+                    <span class="tier-badge" style="color: #34d399;">محبوب‌ترین انتخاب تخصصی</span>
+                    <h3>پلن فاین‌تیونینگ LoRA Core</h3>
+                    <p>آموزش آداپتورهای سبک‌وزن برای مدل‌های ۷B تا ۱۴B با لحن، کلمات و مستندات سازمانی.</p>
+                </div>
+
+                <div class="row-tier-specs">
+                    <div class="spec-item-line">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        <span>تمیزکاری و ساخت دیتاست جفتی تا ۱۰,۰۰۰ نمونه</span>
+                    </div>
+                    <div class="spec-item-line">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        <span>آموزش آداپتور LoRA با متد QLoRA 4-bit</span>
+                    </div>
+                    <div class="spec-item-line">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        <span>کاهش بیش‌برازش و بهینه‌سازی منحنی Loss</span>
+                    </div>
+                    <div class="spec-item-line">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        <span>تحویل فایل نهایی با فرمت استاندارد Safetensors</span>
+                    </div>
+                </div>
+
+                <div class="row-tier-action">
+                    <a href="{% url 'core:submit_ticket' %}" class="row-btn-action btn-forge-solid">
+                        سفارش فاین‌تیونینگ Core
+                    </a>
+                </div>
+            </div>
+
+            <!-- پلن ۳: فاین‌تیونینگ مدل‌های سنگین سازمانی -->
+            <div class="forge-row-plan">
+                <div class="row-tier-header">
+                    <span class="tier-badge">سازمان‌های بزرگ و کلاسترهای GPU</span>
+                    <h3>پلن انترپرایز ۷۰B Custom</h3>
+                    <p>سفارشی‌سازی سنگین‌ترین مدل‌های زبانی متن‌باز جهان با داده‌های انحصاری صنعت.</p>
+                </div>
+
+                <div class="row-tier-specs">
+                    <div class="spec-item-line">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        <span>آموزش مدل‌های ۷۰B و کدهای تخصصی پایتون</span>
+                    </div>
+                    <div class="spec-item-line">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        <span>پالایش خودکار دیتاست با مدل‌های ارزیاب (LLM-as-a-Judge)</span>
+                    </div>
+                    <div class="spec-item-line">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        <span>استقرار روی سرور استنتاج فوق‌سریع vLLM</span>
+                    </div>
+                    <div class="spec-item-line">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        <span>تضمین عدم پسرفت دانش عمومی مدل (Alignment)</span>
+                    </div>
+                </div>
+
+                <div class="row-tier-action">
+                    <a href="{% url 'core:submit_ticket' %}" class="row-btn-action btn-forge-outline">
+                        مشاوره پلن انترپرایز ۷۰B
+                    </a>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- جدول ممیزی فنی و شاخص‌های کیفی تحویل -->
+        <section class="forge-audit-panel">
+            <div class="audit-head-txt">
+                <h3>ماتریس شفافیت فازها، تحویل و پشتیبانی در پلن‌های فاین‌تیونینگ</h3>
+                <p>تضمین کیفیت خروجی، تست‌های اعتبارسنجی بنچمارک و عدم فراموشی فاجعه‌بار</p>
+            </div>
+
+            <div class="audit-table-scroll">
+                <table class="audit-data-tbl">
+                    <thead>
+                        <tr>
+                            <th>شاخص ارزیابی و فاز اجرایی</th>
+                            <th>مشاوره و ممیزی AI</th>
+                            <th>پلن فاین‌تیونینگ LoRA Core</th>
+                            <th>پلن انترپرایز ۷۰B Custom</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>مدل‌های پایه قابل پشتیبانی</td>
+                            <td>تمام مدل‌های متن‌باز و ابری</td>
+                            <td>Llama 3 (8B) / DeepSeek (7B-14B)</td>
+                            <td><span class="badge-forge-gold">Llama 3 (70B) / Mistral Large</span></td>
+                        </tr>
+                        <tr>
+                            <td>نحوه آماده‌سازی داده‌ها</td>
+                            <td>ارزیابی و گزارش نواقص داده</td>
+                            <td>پاکسازی و ساخت فرمت Alpaca/ShareGPT</td>
+                            <td><span class="badge-forge-gold">پایپ‌لاین خودکار فیلترینگ با مدل ارزیاب</span></td>
+                        </tr>
+                        <tr>
+                            <td>فرمت فایل و آداپتور تحویلی</td>
+                            <td>سند معماری PDF + دیاگرام</td>
+                            <td>آداپتور LoRA (۲۰ الی ۵۰ مگابایت)</td>
+                            <td><span class="badge-forge-gold">ادغام کامل وزن‌ها (Merged Model GGUF/HF)</span></td>
+                        </tr>
+                        <tr>
+                            <td>مدت زمان تحویل کامل فاز</td>
+                            <td>۳ الی ۵ روز کاری</td>
+                            <td>۱۰ الی ۱۵ روز کاری</td>
+                            <td><span class="badge-forge-gold">۳ الی ۵ هفته کاری به همراه پایلوت</span></td>
+                        </tr>
+                        <tr>
+                            <td>آموزش تیم فنی کارفرما</td>
+                            <td>جلسه ارائه و Q&amp;A</td>
+                            <td>داکیومنت ران مدل با Ollama/vLLM</td>
+                            <td><span class="badge-forge-gold">کارگاه حضوری انتقال دانش فنی استقرار</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- سوالات متداول سئو دارک -->
+        <section class="forge-faq-container">
+            <h2 style="font-size: clamp(1.25rem, 2.5vw, 1.55rem); font-weight: 800; color: #ffffff; text-align: center; margin-bottom: 24px;">
+                پرسش‌های متداول مدیران درباره فاین‌تیونینگ و مشاوره هوش مصنوعی
+            </h2>
+            <div class="faq-grid">
+                <div class="faq-item active" style="background: rgba(14, 10, 5, 0.85); border-color: rgba(255, 255, 255, 0.08);">
+                    <div class="faq-question">
+                        <span class="q-text" style="color: #ffffff;">آیا بعد از فاین‌تیونینگ، مدل توانایی‌های عمومی خود را از دست می‌دهد؟</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="answer-inner">
+                            <p style="color: #94a3b8;">خیر؛ با تنظیم رنک‌های ماتریس LoRA، تنظیم ضریب Alpha و ترکیب درصدی از دیتاست‌های عمومی در کنار داده‌های اختصاصی، از پدیده «فراموشی فاجعه‌بار» (Catastrophic Forgetting) جلوگیری می‌شود.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item active" style="background: rgba(14, 10, 5, 0.85); border-color: rgba(255, 255, 255, 0.08);">
+                    <div class="faq-question">
+                        <span class="q-text" style="color: #ffffff;">چگونه می‌توانیم کیفیت مدل آموزش‌دیده را به صورت مستند ارزیابی کنیم؟</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="answer-inner">
+                            <p style="color: #94a3b8;">پیش از آموزش، بخشی از داده‌ها به عنوان مجموعه تست (Validation Set) جدا شده و در پایان با معیارهای استانداردی نظیر Perplexity، BLEU Score و ارزیابی انسانی نابینای دوطرفه مورد سنجش قرار می‌گیرد.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- بنر فراخوان نهایی -->
+        <div class="forge-callout-panel">
+            <div>
+                <h3 style="font-size: clamp(1.2rem, 2.5vw, 1.6rem); font-weight: 900; color: #ffffff; margin-bottom: 8px;">
+                    می‌خواهید مدل زبانی اختصاصی سازمان خود را با کمترین هزینه آموزش دهید؟
+                </h3>
+                <p style="color: #cbd5e1; font-size: 0.95rem; margin: 0; line-height: 1.85;">
+                    جلسه مشاوره اولیه و تحلیل امکان‌سنجی پروژه‌تان را با کارشناسان ارشد یادگیری عمیق آتراوب تنظیم نمایید.
                 </p>
             </div>
-
-            <div class="dashboard-card">
-                <div class="card-header">
-                    <div class="icon-wrapper">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                    </div>
-                    <div class="status-indicator">
-                        <span class="status-dot"></span>
-                        <span>Structured Output</span>
-                    </div>
-                </div>
-                <h2 class="item-title">تضمین خروجی‌های ساخت‌یافته و فکت‌محور</h2>
-                <p class="item-text">
-                    آموزش مدل به نحوی که پاسخ‌ها را در ساختار بدون نقص JSON، جدول یا فیلدهای مورد انتظار وب‌سرویس تولید کند و خطاهای خارج از چهارچوب را به صفر برساند.
-                </p>
-            </div>
-
-            <div class="dashboard-card">
-                <div class="card-header">
-                    <div class="icon-wrapper">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
-                    </div>
-                    <div class="status-indicator">
-                        <span class="status-dot"></span>
-                        <span>Fast Inference</span>
-                    </div>
-                </div>
-                <h2 class="item-title">کوانتیزه‌سازی و اجرای پرسرعت اینفرنس</h2>
-                <p class="item-text">
-                    تبدیل وزن‌های آموزش‌دیده به فرمت‌های AWQ و GGUF و استقرار بر روی موتورهای اجرایی vLLM جهت استریم فوق‌سریع پاسخ‌ها به هزاران کاربر همزمان.
-                </p>
-            </div>
-
-            <div class="dashboard-card full-width-card">
-                <div class="icon-wrapper" style="width: 75px; height: 75px;">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"></path></svg>
-                </div>
-                <div class="card-content">
-                    <h3 class="item-title">مشاوره امکان‌سنجی فنی و انتخاب مدل پایه</h3>
-                    <p class="item-text">
-                        قبل از صرف هزینه‌های سنگین سرور، نیاز شما بررسی می‌شود تا مشخص شود آیا راه‌حل در RAG نهفته است یا فاین‌تیونینگ؛ و مدل پایه مناسب (Llama 3 ،Mistral یا Qwen) انتخاب خواهد شد.
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <div class="custom-plan-card">
-            <div class="custom-plan-info">
-                <h3 class="custom-plan-title">مدل زبانی هوشمند اختصاصی برند خود را راه‌اندازی کنید</h3>
-                <p class="custom-plan-desc">جلسه مشاوره و تست اولیه را با تیم فنی هوش مصنوعی آترا شروع کنید.</p>
-            </div>
-            <a href="{% url 'core:submit_ticket' %}" class="btn-custom">درخواست مشاوره و Fine-Tuning</a>
+            <a href="{% url 'core:submit_ticket' %}" class="forge-callout-btn">
+                درخواست جلسه مشاوره تخصصی
+            </a>
         </div>
 
     </div>
-</section>
+</div>
 {% endblock %}

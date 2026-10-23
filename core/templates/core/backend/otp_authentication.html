@@ -1,0 +1,248 @@
+{% extends 'parent/base.html' %}
+{% load static %}
+
+{% block title %}سیستم احراز هویت پیامکی OTP و توکن‌های JWT در جنگو | آتراوب{% endblock %}
+{% block meta_description %}پیاده‌سازی سیستم لاگین و ثبت‌نام با کد تایید پیامکی (OTP)، صدور و اعتبارسنجی امن توکن‌های JWT، ریت‌لیمیتینگ ضد بروت‌فورس و اتصال به درگاه‌های معتبر پیامک.{% endblock %}
+{% block meta_keywords %}احراز هویت پیامکی, سیستم OTP جنگو, لاگین با پیامک جنگو, توکن JWT جنگو رست, امنیت وب سرویس پایتون, احراز هویت دو مرحله ای{% endblock %}
+
+{% block extra_schema %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "headline": "سیستم احراز هویت پیامکی OTP و اعتبارسنجی JWT در جنگو",
+      "description": "معماری احراز هویت مدرن موبایل‌محور با کدهای تایید یکبارمصرف و توکن‌های بدون حالت در وب‌سرویس‌های پایتون",
+      "inLanguage": "fa-IR",
+      "author": {"@type": "Organization", "name": "آتراوب", "url": "https://atraweb.com"},
+      "publisher": {"@type": "Organization", "name": "آتراوب"}
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "چگونه از حملات SMS Flooding و هدررفت هزینه پیامک جلوگیری می‌شود؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "با پیاده‌سازی مکانیزم‌های Rate Limiting مبتنی بر Redis، کنترل درخواست‌ها بر اساس آی‌پی و شماره تلفن، ایجاد فاصله زمانی اجباری بین ارسال‌ها و بهره‌گیری از هانی‌پات‌های نامرئی."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "کدهای OTP با چه الگوریتمی تولید و نگهداری می‌شوند؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "کدها با متدهای رمزنگاری تصادفی امن تولید شده، به صورت هش‌شده در حافظه پرسرعت Redis با زمان انقضای محدود (معمولاً ۱ تا ۲ دقیقه) ذخیره شده و پس از یک بار مصرف یا منقضی شدن خودکار حذف می‌گردند."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+{% endblock %}
+
+{% block extra_css %}
+    <link href="{% static 'css/navbar.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="nginx-page-root">
+    <div class="container">
+
+        <!-- هدر معرفی بخش -->
+        <header class="bento-header">
+            <div class="linux-shield-badge">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+                <span>امنیت وب‌سرویس &amp; بدون کلمه عبور (Passwordless)</span>
+            </div>
+            <h1 class="bento-title">
+                سیستم احراز هویت پیامکی <span class="text-gradient">OTP و توکن‌های JWT</span>
+            </h1>
+            <p>
+                پیاده‌سازی مکانیزم ثبت‌نام و ورود شماره‌محور، ذخیره‌سازی موقت در ردیس، صدور توکن‌های دسترسی امن و محافظت در برابر حملات تزریق و نفوذ.
+            </p>
+        </header>
+
+        <!-- متن سئو و تبیین فنی -->
+        <article class="linux-spec-box highlight" style="margin-bottom: 40px;">
+            <h2 style="font-size: 1.45rem; margin-bottom: 16px; color: #0f172a;">چرا احراز هویت پیامکی مدرن جایگزین پسوردهای سنتی شده است؟</h2>
+            <p style="color: #475569; line-height: 1.95; font-size: 0.96rem; text-align: justify; margin-bottom: 16px;">
+                فراموشی رمزهای عبور، حملات فیشینگ و نشت اطلاعات از دلایل اصلی نارضایتی کاربران و آسیب‌پذیری‌های امنیتی در سامانه‌های تحت وب و اپلیکیشن‌های موبایل است. احراز هویت مبتنی بر کدهای یکبارمصرف (One-Time Password) با ترکیب توکن‌های استاندارد <strong>JSON Web Token (JWT)</strong>، تجربه‌ای سریع، امن و بدون پسورد فراهم می‌سازد. در این رویکرد، احراز هویت کاربران اپلیکیشن و وب‌سایت در چند ثانیه انجام می‌شود بدون اینکه بار سنگینی روی دیتابیس اصلی تحمیل شود.
+            </p>
+            <p style="color: #475569; line-height: 1.95; font-size: 0.96rem; text-align: justify;">
+                در ساختار پیاده‌سازی شده در آتراوب، توکن‌های لاگین با
+                <a href="{% url 'core:backend_modular' %}" style="color: #047857; font-weight: 700; text-decoration: underline;">معماری ماژولار جنگو</a>
+                همگام بوده و عملیات ارسال غیرهمزمان کدهای پیامکی به لایه صف‌های
+                <a href="{% url 'core:backend_celery_redis' %}" style="color: #047857; font-weight: 700; text-decoration: underline;">Celery و Redis</a>
+                سپرده می‌شود تا زمان انتظار کاربر برای دریافت کد به حداقل ممکن برسد.
+            </p>
+        </article>
+
+        <!-- ۴ کارت قابلیت‌های کلیدی -->
+        <section class="pillar-cards-section" style="padding: 10px 0 50px 0; background: transparent;">
+            <div class="pillar-cards-grid">
+
+                <div class="pillar-glass-card">
+                    <div class="pillar-icon-box">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="pillar-card-title">مکانیزم ضد اسپم و Rate Limiting</h3>
+                    <p class="pillar-card-desc">
+                        جلوگیری از حملات بروت‌فورس، هدررفت هزینه پیامک و درخواست‌های تکراری با لایه ریت‌لیمیتینگ هوشمند روی آی‌پی و شماره کاربر.
+                    </p>
+                </div>
+
+                <div class="pillar-glass-card">
+                    <div class="pillar-icon-box">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
+                            <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
+                            <line x1="6" y1="6" x2="6.01" y2="6"></line>
+                            <line x1="6" y1="18" x2="6.01" y2="18"></line>
+                        </svg>
+                    </div>
+                    <h3 class="pillar-card-title">کش موقت کدهای OTP در Redis</h3>
+                    <p class="pillar-card-desc">
+                        ذخیره کدهای رمزشده با منقضی‌شدن خودکار (TTL ۶۰ تا ۱۲۰ ثانیه) بدون ایجاد بار و پر کردن جداول پایگاه‌داده <span class="tech-tag">PostgreSQL</span>.
+                    </p>
+                </div>
+
+                <div class="pillar-glass-card">
+                    <div class="pillar-icon-box">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="2" y1="12" x2="22" y2="12"></line>
+                            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="pillar-card-title">چرخه توکن‌های Access و Refresh</h3>
+                    <p class="pillar-card-desc">
+                        استفاده از معماری بدون حالت (Stateless) با کلیدهای رمزنگاری RSA و پیاده‌سازی مکانیزم Blacklist برای توکن‌های منقضی یا مشکوک.
+                    </p>
+                </div>
+
+                <div class="pillar-glass-card">
+                    <div class="pillar-icon-box">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                            <polyline points="22,6 12,13 2,6"></polyline>
+                        </svg>
+                    </div>
+                    <h3 class="pillar-card-title">اتصال چندگانه به درگاه‌های SMS</h3>
+                    <p class="pillar-card-desc">
+                        خط لوله ارسال پترن سریع خدماتی (کاوانگار، فراز اس‌ام‌اس و سرویس‌های ابری) با سوئیچ اتوماتیک در صورت بروز تاخیر یا قطعی درگاه.
+                    </p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- دیاگرام مراحل خط لوله ورود با کد یکبارمصرف -->
+        <section class="pipeline-diagram">
+            <h2 style="font-size: 1.35rem; margin-bottom: 12px; color: #0f172a;">جریان امنیتی تایید هویت و صدور توکن کاربری</h2>
+
+            <div class="pipeline-node">
+                <div class="pipeline-node-info">
+                    <div class="linux-step-item" style="margin-bottom: 8px;">
+                        <span class="linux-step-num">۱</span>
+                        <h3>اعتبارسنجی شماره و بررسی لایه Rate Limit</h3>
+                    </div>
+                    <p>
+                        بررسی فرمت شماره استاندارد، سنجش سقف درخواست در بازه زمانی تعیین‌شده در Redis و مسدودسازی آنی رفتارهای غیرعادی.
+                    </p>
+                </div>
+                <div class="pipeline-tag">Security Shield</div>
+            </div>
+
+            <div class="pipeline-node">
+                <div class="pipeline-node-info">
+                    <div class="linux-step-item" style="margin-bottom: 8px;">
+                        <span class="linux-step-num">۲</span>
+                        <h3>تولید کد رمزشده و ارسال غیرهمزمان با Celery</h3>
+                    </div>
+                    <p>
+                        تولید کد ۵ رقمی امن، کش کردن هش کد در ردیس با مهلت ۱۲۰ ثانیه و واگذاری ارسال پیامک به صف برای جلوگیری از بلاک شدن وب‌سرویس.
+                    </p>
+                </div>
+                <div class="pipeline-tag">Celery Task</div>
+            </div>
+
+            <div class="pipeline-node">
+                <div class="pipeline-node-info">
+                    <div class="linux-step-item" style="margin-bottom: 8px;">
+                        <span class="linux-step-num">۳</span>
+                        <h3>اعتبارسنجی کد ورودی و جلوگیری از حدس زدن</h3>
+                    </div>
+                    <p>
+                        مقایسه کد واردشده با هش ذخیره شده، محدودسازی تعداد تلاش به حداکثر ۳ بار و ابطال سریع کد در صورت تکرار اشتباه.
+                    </p>
+                </div>
+                <div class="pipeline-tag">Hash Verification</div>
+            </div>
+
+            <div class="pipeline-node">
+                <div class="pipeline-node-info">
+                    <div class="linux-step-item" style="margin-bottom: 8px;">
+                        <span class="linux-step-num">۴</span>
+                        <h3>ایجاد یا بازیابی کاربر و صدور جفت توکن JWT</h3>
+                    </div>
+                    <p>
+                        ثبت کاربر در صورت جدید بودن در پایگاه داده PostgreSQL، صدور توکن دسترسی کوتاه‌مدت و توکن رفرش بلندمدت برای کلاینت فرانت و فلاتر.
+                    </p>
+                </div>
+                <div class="pipeline-tag">JWT Issued</div>
+            </div>
+        </section>
+
+        <!-- سوالات متداول سئو -->
+        <section class="premium-faq-section" style="background: transparent; padding: 40px 0;">
+            <div class="faq-container">
+                <div class="faq-header">
+                    <span class="faq-badge">پرسش‌های پرتکرار</span>
+                    <h2 class="faq-title">پرسش‌های متداول سیستم احراز هویت پیامکی و JWT</h2>
+                </div>
+                <div class="faq-grid">
+                    <div class="faq-item highlight-offline active">
+                        <div class="faq-question">
+                            <span class="q-text">آیا احراز هویت پیامکی برای کاربران خارج از کشور نیز قابل استفاده است؟</span>
+                        </div>
+                        <div class="faq-answer">
+                            <div class="answer-inner">
+                                <p>بله؛ می‌توان در کنار پیامک، احراز هویت بر پایه ایمیل یا اپلیکیشن‌های Authenticator (مانند Google Authenticator بر پایه الگوریتم TOTP) را به عنوان روش جایگزین فعال کرد.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="faq-item highlight-offline active">
+                        <div class="faq-question">
+                            <span class="q-text">در صورت سرقت توکن کاربر، چگونه دسترسی وی مسدود می‌شود؟</span>
+                        </div>
+                        <div class="faq-answer">
+                            <div class="answer-inner">
+                                <p>با بهره‌گیری از جدول توکن‌های مسدودشده (Blacklist) در ردیس یا پایگاه‌داده و ابطال همزمان تمامی Refresh Tokenهای فعال از بخش ادمین سیستم.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- کارت سفارش -->
+        <div class="custom-plan-card">
+            <div class="custom-plan-info">
+                <h3 class="custom-plan-title">نیاز به پیاده‌سازی سیستم ورود و ثبت‌نام پیامکی امن دارید؟</h3>
+                <p class="custom-plan-desc">پیاده‌سازی ماژول اختصاصی OTP، کنترل هزینه پیامک و صدور توکن‌های ضد هک JWT را به مهندسین آتراوب بسپارید.</p>
+            </div>
+            <a href="{% url 'core:submit_ticket' %}" class="btn-custom">سفارش ماژول احراز هویت</a>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

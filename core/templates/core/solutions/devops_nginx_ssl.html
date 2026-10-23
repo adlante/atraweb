@@ -1,73 +1,696 @@
 {% extends 'parent/base.html' %}
 {% load static %}
 
-{% block title %}کانفیگ وب‌سرور Nginx و گواهی امنیتی SSL | آترا{% endblock %}
-{% block meta_description %}پیکربندی Nginx برای پایتون و جنگو با Gunicorn/Uvicorn، فعال‌سازی HTTP/2 و SSL نمره A+، کش فایل‌های استاتیک و توازن بار.{% endblock %}
+{% block title %}کانفیگ تخصصی وب‌سرور Nginx، راه‌اندازی SSL و Reverse Proxy | آتراوب{% endblock %}
+{% block meta_description %}پیکربندی حرفه‌ای وب‌سرور Nginx، پیاده‌سازی گواهی‌های SSL/TLS 1.3 معتبر، کش استاتیک فایل‌ها، مهار حملات با Rate Limiting و لود بالانسینگ جنگو.{% endblock %}
+{% block meta_keywords %}کانفیگ Nginx جنگو, نصب SSL رایگان, راه اندازی Reverse Proxy, تنظیم لود بالانسر Nginx, افزایش سرعت لود با Gzip و Brotli, ریدایرکت HTTPS لینوکس{% endblock %}
 
 {% block extra_schema %}
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "headline": "کانفیگ حرفه‌ای وب‌سرور Nginx و SSL",
-  "author": {"@type": "Organization", "name": "آترا"}
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "سرویس پیکربندی و بهینه‌سازی وب‌سرور Nginx آتراوب",
+      "operatingSystem": "Linux Ubuntu, Debian",
+      "applicationCategory": "NetworkApplication",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "IRR"
+      }
+    },
+    {
+      "@type": "TechArticle",
+      "headline": "راهنمای جامع تیونینگ Nginx، هدرهای امنیتی HSTS و فشرده‌سازی بروتلی",
+      "description": "نحوه اتصال سوکت‌های یونیکس به Gunicorn، تنظیم بافرهای پراکسی، پیکربندی هدرهای امنیتی CSP و استقرار SSL درجه A+ در بنچمارک SSL Labs",
+      "inLanguage": "fa-IR",
+      "author": {"@type": "Organization", "name": "آتراوب", "url": "https://atraweb.com"},
+      "publisher": {"@type": "Organization", "name": "آتراوب"}
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "چرا استفاده از Nginx به عنوان پروکسی معکوس (Reverse Proxy) برای وب‌سایت‌ها الزامی است؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "انجین‌ایکس فایل‌های استاتیک و رسانه‌ای را مستقیماً از حافظه دیسک بدون درگیر کردن پردازنده پایتون تحویل می‌دهد، فرآیند رمزگشایی سنگین SSL را به دوش می‌کشد و با ایزوله‌سازی کلاینت‌ها از افت فریم و مسدود شدن سوکت‌های وب‌سرویس جلوگیری می‌کند."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "گواهی‌های SSL نصب‌شده توسط آتراوب چگونه تمدید می‌شوند؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "گواهی‌های صادرشده از طریق پایپ‌لاین‌های خودکار Certbot همراه با کران‌جاب‌های زمان‌بندی‌شده مانیتور شده و پیش از منقضی شدن، بدون نیاز به اقدام دستی و با ریلود لحظه‌ای Nginx به صورت دائمی تمدید می‌گردند."
+          }
+        }
+      ]
+    }
+  ]
 }
 </script>
 {% endblock %}
 
+{% block extra_css %}
+    <link href="{% static 'css/navbar.css' %}" rel="stylesheet">
+    <style>
+        /* 🌐 استایل اختصاصی: شبکه پروکسی معکوس نئون فیروزه‌ای و باینری تیره */
+        .ngx-proxy-canvas {
+            background-color: #020b14 !important;
+            color: #e2e8f0;
+            direction: rtl;
+            position: relative;
+            overflow-x: hidden;
+            padding: 55px 0 110px 0;
+            font-family: var(--font-main);
+            box-sizing: border-box;
+        }
+
+        .ngx-ambient-cyan {
+            position: absolute;
+            width: 580px;
+            height: 580px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0, 242, 254, 0.16) 0%, transparent 70%);
+            filter: blur(120px);
+            top: 0;
+            right: 5%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .ngx-ambient-blue {
+            position: absolute;
+            width: 520px;
+            height: 520px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(6, 182, 212, 0.14) 0%, transparent 70%);
+            filter: blur(110px);
+            bottom: 5%;
+            left: 5%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .ngx-binary-lines {
+            position: absolute;
+            inset: 0;
+            background-image:
+                radial-gradient(rgba(6, 182, 212, 0.12) 1.2px, transparent 1.2px),
+                linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+            background-size: 32px 32px, 64px 64px, 64px 64px;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .ngx-container {
+            width: 100%;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 2;
+            box-sizing: border-box;
+        }
+
+        /* هدر استودیو وب‌سرور */
+        .ngx-hero-header {
+            text-align: center;
+            max-width: 980px;
+            margin: 0 auto 55px auto;
+        }
+
+        .ngx-status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(0, 242, 254, 0.08);
+            border: 1px solid rgba(6, 182, 212, 0.35);
+            color: #38bdf8;
+            font-size: clamp(0.75rem, 2vw, 0.86rem);
+            font-weight: 800;
+            padding: 7px 22px;
+            border-radius: 999px;
+            margin-bottom: 22px;
+            box-shadow: 0 0 25px rgba(0, 242, 254, 0.2);
+        }
+
+        .ngx-pulse-orb {
+            width: 8px;
+            height: 8px;
+            background: #00f2fe;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #00f2fe;
+            animation: ngxPulse 1.8s infinite;
+            flex-shrink: 0;
+        }
+
+        @keyframes ngxPulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.3; transform: scale(0.8); }
+        }
+
+        .ngx-main-title {
+            font-size: clamp(1.85rem, 4.5vw, 3.2rem);
+            font-weight: 900;
+            color: #ffffff;
+            line-height: 1.35;
+            margin-bottom: 22px;
+            letter-spacing: -0.6px;
+        }
+
+        .ngx-main-title span {
+            background: linear-gradient(135deg, #00f2fe 0%, #38bdf8 50%, #4facfe 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .ngx-lead-desc {
+            color: #94a3b8;
+            font-size: clamp(0.94rem, 2vw, 1.08rem);
+            line-height: 2;
+            margin: 0;
+            text-align: justify;
+            text-align-last: center;
+        }
+
+        /* استیج دیاگرام روتینگ شبکه و کانفیگ شبیه‌ساز زنده Nginx */
+        .ngx-routing-stage {
+            background: rgba(7, 20, 36, 0.8);
+            border: 1.5px solid rgba(6, 182, 212, 0.3);
+            border-radius: 26px;
+            padding: clamp(20px, 4vw, 42px);
+            backdrop-filter: blur(25px);
+            box-shadow: 0 30px 70px -15px rgba(0, 0, 0, 0.9);
+            margin-bottom: 70px;
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 38px;
+            align-items: center;
+            box-sizing: border-box;
+        }
+
+        .ngx-article-info h2 {
+            font-size: clamp(1.3rem, 2.8vw, 1.75rem);
+            font-weight: 900;
+            color: #ffffff;
+            margin-bottom: 16px;
+            line-height: 1.45;
+        }
+
+        .ngx-article-info p {
+            color: #94a3b8;
+            font-size: 0.96rem;
+            line-height: 1.95;
+            text-align: justify;
+            margin-bottom: 16px;
+        }
+
+        /* فریم شبیه‌ساز بلاک سرور انجین‌ایکس */
+        .ngx-code-box {
+            background: #01060d;
+            border: 1.5px solid rgba(6, 182, 212, 0.35);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.85);
+            width: 100%;
+            box-sizing: border-box;
+            min-width: 0;
+            font-family: monospace;
+            direction: ltr;
+        }
+
+        .code-box-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 12px;
+            margin-bottom: 14px;
+        }
+
+        .code-box-title {
+            font-size: 0.76rem;
+            color: #38bdf8;
+            font-weight: 700;
+        }
+
+        .code-badge-a {
+            background: rgba(16, 185, 129, 0.15);
+            color: #34d399;
+            font-size: 0.72rem;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 6px;
+        }
+
+        /* چیدمان نامتقارن بخش ماژول‌های وب‌سرور */
+        .ngx-features-split {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            margin-bottom: 70px;
+        }
+
+        .ngx-feature-card {
+            background: rgba(8, 22, 40, 0.7);
+            border: 1.5px solid rgba(255, 255, 255, 0.08);
+            border-radius: 22px;
+            padding: 30px 24px;
+            backdrop-filter: blur(18px);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .ngx-feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #00f2fe, #4facfe);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .ngx-feature-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(6, 182, 212, 0.45);
+            background: rgba(8, 22, 40, 0.95);
+            box-shadow: 0 20px 40px -10px rgba(0, 242, 254, 0.22);
+        }
+
+        .ngx-feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .ngx-icon-holder {
+            width: 52px;
+            height: 52px;
+            border-radius: 15px;
+            background: rgba(0, 242, 254, 0.12);
+            color: #38bdf8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 18px;
+            border: 1px solid rgba(6, 182, 212, 0.28);
+        }
+
+        .ngx-icon-holder svg {
+            width: 26px;
+            height: 26px;
+        }
+
+        .ngx-card-h3 {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 12px;
+            line-height: 1.45;
+        }
+
+        .ngx-card-p {
+            font-size: 0.9rem;
+            color: #94a3b8;
+            line-height: 1.85;
+            margin: 0;
+        }
+
+        /* ماتریس مقایسه عملکرد و امنیت وب‌سرور */
+        .ngx-table-container {
+            background: rgba(7, 20, 36, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: clamp(20px, 4vw, 36px);
+            margin-bottom: 70px;
+            box-sizing: border-box;
+        }
+
+        .ngx-table-head {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .ngx-table-head h3 {
+            font-size: clamp(1.25rem, 2.5vw, 1.65rem);
+            font-weight: 900;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+
+        .ngx-table-head p {
+            color: #64748b;
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        .ngx-scroll-wrap {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .ngx-data-tbl {
+            width: 100%;
+            min-width: 680px;
+            border-collapse: collapse;
+            text-align: right;
+            font-size: 0.9rem;
+        }
+
+        .ngx-data-tbl th {
+            padding: 16px 18px;
+            color: #38bdf8;
+            font-weight: 800;
+            background: rgba(255, 255, 255, 0.02);
+            border-bottom: 2px solid rgba(6, 182, 212, 0.3);
+            white-space: nowrap;
+        }
+
+        .ngx-data-tbl td {
+            padding: 16px 18px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: #cbd5e1;
+            vertical-align: middle;
+            white-space: nowrap;
+        }
+
+        .ngx-data-tbl tr:hover td {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .badge-cyan-win {
+            background: rgba(0, 242, 254, 0.18);
+            color: #38bdf8;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-weight: 800;
+            font-size: 0.78rem;
+        }
+
+        /* سوالات متداول سئو دارک */
+        .ngx-faq-box {
+            background: rgba(7, 20, 36, 0.65);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: clamp(20px, 4vw, 40px);
+            margin-bottom: 65px;
+            box-sizing: border-box;
+        }
+
+        /* بنر فراخوان نهایی */
+        .ngx-cta-bar {
+            background: linear-gradient(135deg, rgba(0, 242, 254, 0.22) 0%, rgba(6, 182, 212, 0.16) 100%);
+            border: 1.5px solid rgba(6, 182, 212, 0.4);
+            border-radius: 24px;
+            padding: clamp(24px, 4vw, 44px);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 25px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+            box-sizing: border-box;
+        }
+
+        .ngx-cta-btn {
+            background: linear-gradient(135deg, #0284c7 0%, #00f2fe 100%);
+            color: #020b14 !important;
+            padding: 15px 34px;
+            border-radius: 12px;
+            font-weight: 900;
+            font-size: 0.96rem;
+            text-decoration: none;
+            white-space: nowrap;
+            box-shadow: 0 10px 30px rgba(0, 242, 254, 0.4);
+            border: 1px solid #38bdf8;
+            transition: all 0.25s ease;
+            text-align: center;
+        }
+
+        .ngx-cta-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(0, 242, 254, 0.6);
+            background: #00f2fe;
+        }
+
+        /* ریسپانسیو اختصاصی موبایل و تبلت */
+        @media (max-width: 1024px) {
+            .ngx-routing-stage {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            .ngx-features-split {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .ngx-cta-bar {
+                flex-direction: column;
+                text-align: center;
+            }
+            .ngx-cta-btn {
+                width: 100%;
+                box-sizing: border-box;
+            }
+        }
+    </style>
+{% endblock %}
+
 {% block content %}
-<section class="nginx-page-root">
-    <div class="container text-center">
-        <span class="linux-shield-badge">⚡ Reverse Proxy & Fast TLS Handshake</span>
-        <h1 class="hero-main-title" style="color: #0f172a;">
-            وب‌سرور فوق‌سریع <span class="text-emerald-glow">Nginx و گواهی‌های معتبر SSL</span>
-        </h1>
-        <p class="hero-lead-text" style="margin: 0 auto 30px auto; color: #475569;">
-            انتقال ترافیک با پروتکل‌های مدرن، کش سمت سرور، فشرده‌سازی بروتلی و ایجاد سد دفاعی مستحکم برای وب‌سرویس‌ها.
-        </p>
+<div class="ngx-proxy-canvas">
+    <div class="ngx-ambient-cyan"></div>
+    <div class="ngx-ambient-blue"></div>
+    <div class="ngx-binary-lines"></div>
+
+    <div class="ngx-container">
+
+        <!-- هدر تخصصی کانفیگ Nginx و SSL -->
+        <header class="ngx-hero-header">
+            <div class="ngx-status-pill">
+                <span class="ngx-pulse-orb"></span>
+                <span>پیکربندی پروکسی معکوس Nginx، لایسنس SSL و شتاب‌بخشی لود HTTP/2 &amp; HTTP/3</span>
+            </div>
+
+            <h1 class="ngx-main-title">
+                کانفیگ وب‌سرور <span class="text-gradient">Nginx و گواهی امنیتی SSL</span>
+            </h1>
+
+            <p class="ngx-lead-desc">
+                پایان خطاهای ریدایرکت، تاخیرهای لود و گواهی‌های نامعتبر SSL؛ در آتراوب، وب‌سرور Nginx برای فریم‌ورک جنگو و FastAPI با آخرین استانداردهای رمزنگاری TLS 1.3، کش فشرده Brotli و مهار حملات بروت‌فورس پیکربندی می‌شود.
+            </p>
+        </header>
+
+        <!-- معرفی رسانه‌ای فنی با دیاگرام وکتوری مسیر پروکسی معکوس -->
+        <section class="ngx-routing-stage">
+            <div class="ngx-article-info">
+                <h2>چرا پایتون به تنهایی نباید مستقیماً در معرض ترافیک وب قرار گیرد؟</h2>
+                <p>
+                    سرورهای اپلیکیشن پایتون نظیر Gunicorn یا Uvicorn برای محاسبات منطق تجاری برنامه بهینه‌سازی شده‌اند، نه برای پاسخگویی به درخواست‌های کند و حجیم اینترنت. سپردن باز کردن سوکت، هندشیک امنیتی و سرو فایل‌های استاتیک به پایتون باعث اشغال پردازنده و دان‌تایم پروژه می‌شود.
+                </p>
+                <p>
+                    کانفیگ Nginx آتراوب با اتصال بهینه‌شده به
+                    <a href="{% url 'core:devops_linux_ubuntu' %}" style="color: #38bdf8; font-weight: 700; text-decoration: underline;">سرورهای لینوکس اوبونتو</a>
+                    و استقرار کانتینری در
+                    <a href="{% url 'core:devops_docker_container' %}" style="color: #38bdf8; font-weight: 700; text-decoration: underline;">Docker</a>،
+                    سرعت تحویل بسته‌ها را تا ۴ برابر افزایش داده و مصرف رم سرور را مهار می‌کند.
+                </p>
+            </div>
+
+            <!-- دیاگرام زنده بلاک Nginx به همراه مسیر روتینگ سوکت به زبان SVG -->
+            <div class="ngx-code-box">
+                <div class="code-box-header">
+                    <span class="code-box-title">/etc/nginx/sites-available/atraweb.conf</span>
+                    <span class="code-badge-a">SSL LABS A+ VERIFIED</span>
+                </div>
+
+                <svg viewBox="0 0 440 250" width="100%" height="auto" fill="none" xmlns="http://www.w3.org/2000/svg" style="display: block;">
+                    <!-- خطوط کانفیگ شل انجین‌ایکس -->
+                    <text x="15" y="25" fill="#38bdf8" font-size="10.5" font-family="monospace">upstream django_cluster {</text>
+                    <text x="35" y="45" fill="#a7f3d0" font-size="9.5" font-family="monospace">    server unix:/run/gunicorn.sock fail_timeout=0;</text>
+                    <text x="15" y="65" fill="#38bdf8" font-size="10.5" font-family="monospace">}</text>
+
+                    <!-- بلوک سرور امن -->
+                    <text x="15" y="90" fill="#38bdf8" font-size="10.5" font-family="monospace">server {</text>
+                    <text x="35" y="110" fill="#fbbf24" font-size="9.5" font-family="monospace">    listen 443 ssl http2;</text>
+                    <text x="35" y="130" fill="#cbd5e1" font-size="9.5" font-family="monospace">    ssl_protocols TLSv1.2 TLSv1.3;</text>
+                    <text x="35" y="150" fill="#cbd5e1" font-size="9.5" font-family="monospace">    add_header Strict-Transport-Security "max-age=63072000";</text>
+
+                    <!-- لوکیشن استاتیک و پراکسی -->
+                    <text x="35" y="175" fill="#34d399" font-size="9.5" font-family="monospace">    location /static/ { expires 30d; access_log off; }</text>
+                    <text x="35" y="195" fill="#38bdf8" font-size="9.5" font-family="monospace">    location / { proxy_pass http://django_cluster; }</text>
+                    <text x="15" y="215" fill="#38bdf8" font-size="10.5" font-family="monospace">}</text>
+
+                    <!-- پایش ریدایرکت ۸۰ به ۴۴۳ -->
+                    <text x="15" y="238" fill="#64748b" font-size="8.5" font-family="monospace"># Auto HTTP -> HTTPS 301 Permanent Redirect Active</text>
+                </svg>
+
+                <div style="margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.06); display: flex; justify-content: space-between; font-size: 0.78rem; color: #94a3b8; direction: rtl;">
+                    <span>پروتکل‌های فعال: <strong>HTTP/2 و TLS 1.3</strong></span>
+                    <span>فشرده‌سازی: <strong>Gzip و Brotli پویا</strong></span>
+                </div>
+            </div>
+        </section>
+
+        <!-- چیدمان نامتقارن ۲ ستونه ماژول‌های وب‌سرور -->
+        <section class="ngx-features-split">
+            <div class="ngx-feature-card">
+                <div>
+                    <div class="ngx-icon-holder">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                        </svg>
+                    </div>
+                    <h3 class="ngx-card-h3">راه‌اندازی گواهی SSL با رتبه امنیتی A+</h3>
+                    <p class="ngx-card-p">پیاده‌سازی خودکار گواهی Let's Encrypt یا لایسنس‌های تجاری با هدرهای امنیتی HSTS، CSP و جلوگیری از جعل گواهی در تست‌های جهانی.</p>
+                </div>
+            </div>
+
+            <div class="ngx-feature-card">
+                <div>
+                    <div class="ngx-icon-holder">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                        </svg>
+                    </div>
+                    <h3 class="ngx-card-h3">پروکسی معکوس و کش فایل‌های استاتیک</h3>
+                    <p class="ngx-card-p">تحویل آنی فایل‌های CSS، جاوااسکریپت و تصاویر بدون رجوع به پردازنده پایتون به همراه کش طولانی‌مدت در مرورگر کاربر.</p>
+                </div>
+            </div>
+
+            <div class="ngx-feature-card">
+                <div>
+                    <div class="ngx-icon-holder">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                        </svg>
+                    </div>
+                    <h3 class="ngx-card-h3">کنترل نرخ ترافیک و مهار حملات (Rate Limiting)</h3>
+                    <p class="ngx-card-p">محدودسازی سقف ارسال درخواست به لاگین یا پرداخت به ازای هر آی‌پی جهت پیشگیری قطعی از حملات بروت‌فورس و اسپم سرور.</p>
+                </div>
+            </div>
+
+            <div class="ngx-feature-card">
+                <div>
+                    <div class="ngx-icon-holder">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="2" y1="12" x2="22" y2="12"></line>
+                            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="ngx-card-h3">لود بالانسینگ و توزیع بار کلاسترها</h3>
+                    <p class="ngx-card-p">توزیع هوشمند درخواست‌های ورودی میان چندین سرور یا کانتینر با الگوریتم‌های Round Robin و Least Connections بدون قطعی.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- جدول بنچمارک مقایسه‌ای وب‌سرور -->
+        <section class="ngx-table-container">
+            <div class="ngx-table-head">
+                <h3>ماتریس کارایی و امنیت: وب‌سرور Nginx در برابر اجرای مستقیم Gunicorn</h3>
+                <p>تفاوت نرخ تحویل درخواست‌ها، مصرف حافظه رم و امتیاز امنیتی در تست‌های استاندارد</p>
+            </div>
+
+            <div class="ngx-scroll-wrap">
+                <table class="ngx-data-tbl">
+                    <thead>
+                        <tr>
+                            <th>شاخص عملکردی</th>
+                            <th>اتصال مستقیم کلاینت به پایتون (Gunicorn/Uvicorn)</th>
+                            <th>معماری پروکسی معکوس Nginx آتراوب</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>تحویل فایل‌های استاتیک و مدیا</td>
+                            <td>اشغال ترد‌های پایتون و افت شدید سرعت</td>
+                            <td><span class="badge-cyan-win">تحویل مستقیم بدون وابستگی به پایتون با کش ۳۰ روزه</span></td>
+                        </tr>
+                        <tr>
+                            <td>پردازش پروتکل امنیتی SSL/TLS</td>
+                            <td>بار سنگین محاسباتی روی پردازنده پایتون</td>
+                            <td><span class="badge-cyan-win">رمزگشایی فوق‌سریع در سطح وب‌سرور با TLS 1.3</span></td>
+                        </tr>
+                        <tr>
+                            <td>مهار حملات بات‌ها و Slowloris</td>
+                            <td>مسدود شدن سوکت‌ها و کرش کامل اپلیکیشن</td>
+                            <td><span class="badge-cyan-win">بافرینگ کلاینت و مسدودسازی با Rate Limiting</span></td>
+                        </tr>
+                        <tr>
+                            <td>امتیاز امنیتی در Qualys SSL Labs</td>
+                            <td>رتبه B یا C (به دلیل نبود هدرهای HSTS/CSP)</td>
+                            <td><span class="badge-cyan-win">رتبه پایدار A+ با رمزنگاری مدرن و ایمن</span></td>
+                        </tr>
+                        <tr>
+                            <td>ریدایرکت دائمی و مدیریت دامنه‌ها</td>
+                            <td>نیاز به کدنویسی اختصاصی در بک‌اند جنگو</td>
+                            <td><span class="badge-cyan-win">ریدایرکت ۳۰۱ بدون تاخیر در لایه شبکه Nginx</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- سوالات متداول سئو دارک -->
+        <section class="ngx-faq-box">
+            <h2 style="font-size: clamp(1.25rem, 2.5vw, 1.55rem); font-weight: 800; color: #ffffff; text-align: center; margin-bottom: 24px;">
+                پرسش‌های متداول مدیران فنی درباره کانفیگ Nginx و SSL
+            </h2>
+            <div class="faq-grid">
+                <div class="faq-item active" style="background: rgba(2, 11, 20, 0.85); border-color: rgba(255, 255, 255, 0.08);">
+                    <div class="faq-question">
+                        <span class="q-text" style="color: #ffffff;">آیا بعد از تمدید خودکار گواهی SSL، نیاز به ری‌استارت دستی وب‌سرور است؟</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="answer-inner">
+                            <p style="color: #94a3b8;">خیر؛ در کانفیگ‌های آتراوب، هوک‌های بازبارگذاری خودکار (systemctl reload nginx) تعریف شده‌اند که گواهی جدید را بدون لحظه‌ای قطعی و ری‌استارت کامل در حافظه بارگذاری می‌کنند.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item active" style="background: rgba(2, 11, 20, 0.85); border-color: rgba(255, 255, 255, 0.08);">
+                    <div class="faq-question">
+                        <span class="q-text" style="color: #ffffff;">چگونه فعال‌سازی پروتکل HTTP/2 سرعت لود وب‌سایت را چند برابر می‌کند؟</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="answer-inner">
+                            <p style="color: #94a3b8;">پروتکل HTTP/2 با فناوری Multiplexing به مرورگر اجازه می‌دهد تمام فایل‌های CSS، فونت‌ها و اسکریپت‌ها را روی یک اتصال همزمان TCP بدون صف دریافت کند که لود صفحه را به زیر ۱ ثانیه می‌رساند.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- بنر فراخوان نهایی -->
+        <div class="ngx-cta-bar">
+            <div>
+                <h3 style="font-size: clamp(1.2rem, 2.5vw, 1.6rem); font-weight: 900; color: #ffffff; margin-bottom: 8px;">
+                    می‌خواهید امنیت و سرعت تحویل وب‌سایت خود را با Nginx به سطح A+ ارتقا دهید؟
+                </h3>
+                <p style="color: #cbd5e1; font-size: 0.95rem; margin: 0; line-height: 1.85;">
+                    پیکربندی پروکسی معکوس، نصب گواهی دائمی SSL و لود بالانسر توسط مهندسین دوآپس آتراوب پیاده‌سازی می‌گردد.
+                </p>
+            </div>
+            <a href="{% url 'core:submit_ticket' %}" class="ngx-cta-btn">
+                درخواست کانفیگ تخصصی Nginx
+            </a>
+        </div>
+
     </div>
-
-    <!-- خط سیر جریان ترافیک اینترنت تا سرور -->
-    <div class="pipeline-diagram">
-        <div class="pipeline-node">
-            <div class="pipeline-node-info">
-                <h3>۱. لایه دریافت ترافیک و احراز هویت TLS 1.3</h3>
-                <p>مذاکره رمزنگاری سریع با مدرن‌ترین سایفرها برای کسب بالاترین نمره امنیتی (A+ Score در SSL Labs).</p>
-            </div>
-            <span class="pipeline-tag">HTTPS / 443</span>
-        </div>
-
-        <div class="pipeline-node">
-            <div class="pipeline-node-info">
-                <h3>۲. فشرده‌سازی آنی محتوا و کنترل نرخ (Rate Limiting)</h3>
-                <p>کاهش حجم فایل‌ها تا ۷۰٪ با الگوریتم‌های Gzip/Brotli و مهار ربات‌های مخرب و درخواست‌های اسپم.</p>
-            </div>
-            <span class="pipeline-tag">Brotli // DDoS Guard</span>
-        </div>
-
-        <div class="pipeline-node">
-            <div class="pipeline-node-info">
-                <h3>۳. سرو مستقل فایل‌های استاتیک و مدیا</h3>
-                <p>پاسخ‌دهی مستقیم به تصاویر و کدهای فرانت‌اند بدون کوچک‌ترین درگیرسازی حافظه و پردازنده پایتون.</p>
-            </div>
-            <span class="pipeline-tag">Direct Disk Stream</span>
-        </div>
-
-        <div class="pipeline-node">
-            <div class="pipeline-node-info">
-                <h3>۴. پاس دادن به سوکت امن Gunicorn و استریم هوش مصنوعی</h3>
-                <p>انتقال امن از طریق Unix Socket به بک‌اند جنگو همراه با باز نگه داشتن استریم توکن‌های زنده (SSE Buffer-Free).</p>
-            </div>
-            <span class="pipeline-tag">Unix Domain Socket</span>
-        </div>
-    </div>
-
-    <div class="custom-plan-card" style="max-width: 1100px; margin: 40px auto 0;">
-        <div class="custom-plan-info">
-            <h3 class="custom-plan-title">سرعت سایت یا خطاهای مکرر SSL شما را کلافه کرده است؟</h3>
-            <p class="custom-plan-desc">پیکربندی Nginx و تمدید دائمی گواهی‌های SSL را به مهندسین آترا بسپارید.</p>
-        </div>
-        <a href="{% url 'core:submit_ticket' %}" class="btn-custom">بهینه‌سازی وب‌سرور Nginx</a>
-    </div>
-</section>
+</div>
 {% endblock %}

@@ -1,119 +1,727 @@
 {% extends 'parent/base.html' %}
 {% load static %}
 
-{% block title %}کانتینرسازی و استقرار با Docker و Docker Compose | آترا{% endblock %}
-{% block meta_description %}کانتینرسازی پروژه‌های جنگو، دیتابیس PostgreSQL، ورکر‌های Celery و مدل‌های هوش مصنوعی با Docker؛ ایزولاسیون کامل و استقرار یک‌کلیکه.{% endblock %}
+{% block title %}کانتینرسازی با داکر (Docker & Docker Compose) و ایزولاسیون سرور | آتراوب{% endblock %}
+{% block meta_description %}داکرایز تخصصی وب‌سایت‌های جنگو، میکروسرویس‌ها و پایگاه‌های داده؛ راه‌اندازی کانتینرهای ایزوله Docker Compose، شبکه‌های Bridge و ارکستریشن بدون دان‌تایم.{% endblock %}
+{% block meta_keywords %}داکرایز کردن جنگو, کانتینرسازی Docker, آموزش داکر کامپوز, استقرار پروژه با داکر, ایزولاسیون سرور داکر, داکرایز دیتابیس لینوکس, راه اندازی Docker Swarm{% endblock %}
 
 {% block extra_schema %}
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "headline": "کانتینرسازی با Docker و Docker Compose",
-  "author": {"@type": "Organization", "name": "آترا"}
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "سرویس کانتینرسازی و داکرایز تخصصی آتراوب",
+      "operatingSystem": "Linux, Docker Engine 26+, Docker Compose v2",
+      "applicationCategory": "DeveloperApplication",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "IRR"
+      }
+    },
+    {
+      "@type": "TechArticle",
+      "headline": "راهنمای مهندسی کانتینرسازی نرم‌افزار، ایمیج‌های Multi-Stage و امنیت Docker",
+      "description": "نحوه کاهش حجم ایمیج‌های داکر تا ۸۰ درصد با الگوهای Alpine، ایزولاسیون متغیرهای محیطی، تنظیم والوم‌های پایدار دیتابیس و مدیریت شبکه‌های کانتینری",
+      "inLanguage": "fa-IR",
+      "author": {"@type": "Organization", "name": "آتراوب", "url": "https://atraweb.com"},
+      "publisher": {"@type": "Organization", "name": "آتراوب"}
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "چرا داکرایز کردن پروژه‌ها خطاهای ناسازگاری سرور را برای همیشه حل می‌کند؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "داکر کل سیستم‌عامل کوچک‌شده، پایتون، پکیج‌ها و باینری‌های مورد نیاز را درون یک کانتینر ایزوله بسته‌بندی می‌کند؛ در نتیجه پروژه بدون توجه به نسخه لینوکس یا کانفیگ‌های میزبان، دقیقاً همانند سیستم توسعه‌دهنده در محیط پروداکشن اجرا می‌شود."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "آیا اجرای پایگاه داده در کانتینر داکر خطر از دست رفتن داده‌ها را دارد؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "خیر؛ با استفاده از تکنیک Named Volumes و Bind Mounts، کلیه اطلاعات دیتابیس مستقیماً روی دیسک فیزیکی سرور لینوکس نگهداری می‌شود و حتی با تخریب یا آپدیت کانتینر، داده‌ها ۱۰۰٪ دست‌نخورده باقی می‌مانند."
+          }
+        }
+      ]
+    }
+  ]
 }
 </script>
 {% endblock %}
 
+{% block extra_css %}
+    <link href="{% static 'css/navbar.css' %}" rel="stylesheet">
+    <style>
+        /* 🚢 پالت لجستیک و کانتینری داکر: شل متالیک و نئون اوشنیک */
+        .dkr-industrial-root {
+            background-color: #020612 !important;
+            color: #f1f5f9;
+            direction: rtl;
+            position: relative;
+            overflow-x: hidden;
+            padding: 55px 0 110px 0;
+            font-family: var(--font-main);
+            box-sizing: border-box;
+        }
+
+        .dkr-cargo-glow-1 {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(2, 132, 199, 0.16) 0%, transparent 70%);
+            filter: blur(130px);
+            top: 0;
+            right: 5%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .dkr-cargo-glow-2 {
+            position: absolute;
+            width: 520px;
+            height: 520px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(6, 182, 212, 0.14) 0%, transparent 70%);
+            filter: blur(120px);
+            bottom: 5%;
+            left: 5%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .dkr-blueprint-grid {
+            position: absolute;
+            inset: 0;
+            background-image:
+                radial-gradient(rgba(2, 132, 199, 0.12) 1.2px, transparent 1.2px),
+                linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+            background-size: 32px 32px, 64px 64px, 64px 64px;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .dkr-main-container {
+            width: 100%;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 2;
+            box-sizing: border-box;
+        }
+
+        /* هدر استودیو کانتینرسازی */
+        .dkr-header-box {
+            text-align: center;
+            max-width: 980px;
+            margin: 0 auto 55px auto;
+        }
+
+        .dkr-chip-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(2, 132, 199, 0.08);
+            border: 1px solid rgba(56, 189, 248, 0.35);
+            color: #38bdf8;
+            font-size: clamp(0.75rem, 2vw, 0.86rem);
+            font-weight: 800;
+            padding: 7px 22px;
+            border-radius: 999px;
+            margin-bottom: 22px;
+            box-shadow: 0 0 25px rgba(2, 132, 199, 0.2);
+        }
+
+        .dkr-dot-beacon {
+            width: 8px;
+            height: 8px;
+            background: #0284c7;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #0284c7;
+            animation: dkrPulseDot 1.8s infinite;
+            flex-shrink: 0;
+        }
+
+        @keyframes dkrPulseDot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.3; transform: scale(0.8); }
+        }
+
+        .dkr-hero-title {
+            font-size: clamp(1.85rem, 4.5vw, 3.2rem);
+            font-weight: 900;
+            color: #ffffff;
+            line-height: 1.35;
+            margin-bottom: 22px;
+            letter-spacing: -0.6px;
+        }
+
+        .dkr-hero-title span {
+            background: linear-gradient(135deg, #38bdf8 0%, #0284c7 50%, #06b6d4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .dkr-summary-txt {
+            color: #94a3b8;
+            font-size: clamp(0.94rem, 2vw, 1.08rem);
+            line-height: 2;
+            margin: 0;
+            text-align: justify;
+            text-align-last: center;
+        }
+
+        /* بخش مهندسی رسانه‌ای با دیاگرام ارکستریشن کانتینری SVG */
+        .dkr-cluster-stage {
+            background: rgba(8, 18, 36, 0.8);
+            border: 1.5px solid rgba(2, 132, 199, 0.3);
+            border-radius: 26px;
+            padding: clamp(20px, 4vw, 42px);
+            backdrop-filter: blur(25px);
+            box-shadow: 0 30px 70px -15px rgba(0, 0, 0, 0.9);
+            margin-bottom: 70px;
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 38px;
+            align-items: center;
+            box-sizing: border-box;
+        }
+
+        .dkr-stage-info h2 {
+            font-size: clamp(1.3rem, 2.8vw, 1.75rem);
+            font-weight: 900;
+            color: #ffffff;
+            margin-bottom: 16px;
+            line-height: 1.45;
+        }
+
+        .dkr-stage-info p {
+            color: #94a3b8;
+            font-size: 0.96rem;
+            line-height: 1.95;
+            text-align: justify;
+            margin-bottom: 16px;
+        }
+
+        /* فریم اختصاصی دیاگرام داکر کامپوز به صورت SVG */
+        .dkr-svg-terminal-box {
+            background: #01040a;
+            border: 1.5px solid rgba(2, 132, 199, 0.35);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.85);
+            width: 100%;
+            box-sizing: border-box;
+            min-width: 0;
+            direction: ltr;
+        }
+
+        .dkr-svg-topline {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 12px;
+            margin-bottom: 14px;
+        }
+
+        .dkr-compose-tag {
+            font-family: monospace;
+            font-size: 0.76rem;
+            color: #38bdf8;
+            font-weight: 700;
+        }
+
+        .dkr-badge-active {
+            background: rgba(16, 185, 129, 0.15);
+            color: #34d399;
+            font-size: 0.72rem;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 6px;
+        }
+
+        /* 📦 چیدمان کاملاً جدید: بلوک‌های کانتینری زنجیره‌ای (Modular Cargo Stack) */
+        .dkr-cargo-stack {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            margin-bottom: 70px;
+        }
+
+        .dkr-cargo-pod {
+            background: rgba(6, 15, 30, 0.75);
+            border: 1.5px solid rgba(255, 255, 255, 0.08);
+            border-radius: 22px;
+            padding: 30px 24px;
+            backdrop-filter: blur(20px);
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dkr-cargo-pod::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(180deg, #0284c7, #38bdf8);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .dkr-cargo-pod:hover {
+            transform: translateY(-6px);
+            border-color: rgba(56, 189, 248, 0.45);
+            background: rgba(6, 15, 30, 0.95);
+            box-shadow: 0 20px 40px -10px rgba(2, 132, 199, 0.22);
+        }
+
+        .dkr-cargo-pod:hover::before {
+            opacity: 1;
+        }
+
+        .dkr-pod-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            background: rgba(2, 132, 199, 0.12);
+            color: #38bdf8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(2, 132, 199, 0.3);
+            flex-shrink: 0;
+        }
+
+        .dkr-pod-icon svg {
+            width: 26px;
+            height: 26px;
+        }
+
+        .dkr-pod-body h3 {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin: 0 0 10px 0;
+            line-height: 1.45;
+        }
+
+        .dkr-pod-body p {
+            font-size: 0.9rem;
+            color: #94a3b8;
+            line-height: 1.85;
+            margin: 0;
+        }
+
+        /* ماتریس بنچمارک مقایسه‌ای داکر */
+        .dkr-table-wrap {
+            background: rgba(8, 18, 36, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: clamp(20px, 4vw, 36px);
+            margin-bottom: 70px;
+            box-sizing: border-box;
+        }
+
+        .dkr-table-head {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .dkr-table-head h3 {
+            font-size: clamp(1.25rem, 2.5vw, 1.65rem);
+            font-weight: 900;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+
+        .dkr-table-head p {
+            color: #64748b;
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        .dkr-scroll-table {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .dkr-benchmark-tbl {
+            width: 100%;
+            min-width: 680px;
+            border-collapse: collapse;
+            text-align: right;
+            font-size: 0.9rem;
+        }
+
+        .dkr-benchmark-tbl th {
+            padding: 16px 18px;
+            color: #38bdf8;
+            font-weight: 800;
+            background: rgba(255, 255, 255, 0.02);
+            border-bottom: 2px solid rgba(2, 132, 199, 0.3);
+            white-space: nowrap;
+        }
+
+        .dkr-benchmark-tbl td {
+            padding: 16px 18px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: #cbd5e1;
+            vertical-align: middle;
+            white-space: nowrap;
+        }
+
+        .dkr-benchmark-tbl tr:hover td {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .badge-dkr-win {
+            background: rgba(2, 132, 199, 0.18);
+            color: #38bdf8;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-weight: 800;
+            font-size: 0.78rem;
+        }
+
+        /* سوالات متداول سئو دارک */
+        .dkr-faq-panel {
+            background: rgba(8, 18, 36, 0.65);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: clamp(20px, 4vw, 40px);
+            margin-bottom: 65px;
+            box-sizing: border-box;
+        }
+
+        /* بنر فراخوان نهایی */
+        .dkr-cta-pod {
+            background: linear-gradient(135deg, rgba(2, 132, 199, 0.22) 0%, rgba(6, 182, 212, 0.16) 100%);
+            border: 1.5px solid rgba(56, 189, 248, 0.4);
+            border-radius: 24px;
+            padding: clamp(24px, 4vw, 44px);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 25px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+            box-sizing: border-box;
+        }
+
+        .dkr-cta-btn {
+            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+            color: #ffffff !important;
+            padding: 15px 34px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 0.96rem;
+            text-decoration: none;
+            white-space: nowrap;
+            box-shadow: 0 10px 30px rgba(2, 132, 199, 0.4);
+            border: 1px solid #38bdf8;
+            transition: all 0.25s ease;
+            text-align: center;
+        }
+
+        .dkr-cta-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(2, 132, 199, 0.6);
+            background: #0284c7;
+        }
+
+        /* ریسپانسیو اختصاصی موبایل و تبلت */
+        @media (max-width: 1024px) {
+            .dkr-cluster-stage {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            .dkr-cargo-stack {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dkr-cargo-pod {
+                flex-direction: column;
+                gap: 14px;
+            }
+            .dkr-cta-pod {
+                flex-direction: column;
+                text-align: center;
+            }
+            .dkr-cta-btn {
+                width: 100%;
+                box-sizing: border-box;
+            }
+        }
+    </style>
+{% endblock %}
+
 {% block content %}
-<section class="docker-page-root">
-    <div class="container text-center">
-        <span class="linux-shield-badge">🐳 Microservices & Container Orchestration</span>
-        <h1 class="hero-main-title" style="color: #0f172a;">
-            کانتینرسازی استاندارد با <span class="text-emerald-glow">Docker & Compose</span>
-        </h1>
-        <p class="hero-lead-text" style="margin: 0 auto 30px auto; color: #475569;">
-            ایزوله‌سازی سرویس‌ها، مهاجرت بدون دردسر بین سرورهای مختلف و استقرار یکپارچه بدون تداخل نسخه‌ها.
-        </p>
+<div class="dkr-industrial-root">
+    <div class="dkr-cargo-glow-1"></div>
+    <div class="dkr-cargo-glow-2"></div>
+    <div class="dkr-blueprint-grid"></div>
+
+    <div class="dkr-main-container">
+
+        <!-- هدر تخصصی کانتینرسازی داکر -->
+        <header class="dkr-header-box">
+            <div class="dkr-chip-tag">
+                <span class="dkr-dot-beacon"></span>
+                <span>بسته‌بندی ایزوله، ایمیج‌های Multi-Stage و مدیریت کلاسترهای Docker Compose</span>
+            </div>
+
+            <h1 class="dkr-hero-title">
+                کانتینرسازی و داکرایز <span class="text-gradient">Docker &amp; Containerization</span>
+            </h1>
+
+            <p class="dkr-summary-txt">
+                پایان جمله معروف «روی سیستم من کار می‌کرد اما روی سرور کار نمی‌کند»؛ در آتراوب، تمامی ماژول‌های جنگو، سلری، ردیس و دیتابیس در کانتینرهای مستقل داکر بسته‌بندی شده و جابه‌جایی بین سرورها در کمتر از چند دقیقه با حفظ ۱۰۰٪ داده‌ها انجام می‌پذیرد.
+            </p>
+        </header>
+
+        <!-- معرفی رسانه‌ای فنی با دیاگرام وکتوری داکر کامپوز -->
+        <section class="dkr-cluster-stage">
+            <div class="dkr-stage-info">
+                <h2>چرا کانتینرسازی سرویس‌ها پیش‌نیاز قطعی پایداری در مقیاس صنعتی است؟</h2>
+                <p>
+                    نصب مستقیم پکیج‌ها روی سیستم‌عامل سرور باعث تداخل نسخه‌ها، خطاهای ناشی از آپدیت‌های ناخواسته لینوکس و ساعت‌ها اتلاف وقت هنگام تعویض سرور می‌شود. داکر برنامه‌ها را در جعبه‌های مستقل با رم و سی‌پی‌یوی سهمیه‌بندی‌شده قرار می‌دهد.
+                </p>
+                <p>
+                    کانتینرهای بهینه‌شده آتراوب منطبق با
+                    <a href="{% url 'core:devops_nginx_ssl' %}" style="color: #38bdf8; font-weight: 700; text-decoration: underline;">وب‌سرور Nginx و SSL</a>،
+                    ایمن‌سازی در
+                    <a href="{% url 'core:devops_linux_ubuntu' %}" style="color: #38bdf8; font-weight: 700; text-decoration: underline;">سرورهای لینوکس اوبونتو</a>
+                    و هماهنگی با
+                    <a href="{% url 'core:backend_celery_redis' %}" style="color: #38bdf8; font-weight: 700; text-decoration: underline;">صف‌های توزیع‌شده Redis</a>
+                    طراحی می‌گردند تا فرآیند بروزرسانی با یک دستور Git Pull و در کسری از ثانیه تکمیل شود.
+                </p>
+            </div>
+
+            <!-- دیاگرام وکتوری داکر کامپوز در SVG ریسپانسیو -->
+            <div class="dkr-svg-terminal-box">
+                <div class="dkr-svg-topline">
+                    <span class="dkr-compose-tag">docker-compose.prod.yml (Bridge Network)</span>
+                    <span class="dkr-badge-active">UPTIME: 100% HEALTHY</span>
+                </div>
+
+                <svg viewBox="0 0 440 250" width="100%" height="auto" fill="none" xmlns="http://www.w3.org/2000/svg" style="display: block;">
+                    <!-- کانتینر پروکسی -->
+                    <rect x="20" y="25" width="115" height="55" rx="8" fill="#041226" stroke="#0284c7" stroke-width="1.5" />
+                    <text x="77" y="48" fill="#ffffff" font-size="10.5" font-weight="bold" text-anchor="middle" font-family="monospace">proxy_service</text>
+                    <text x="77" y="66" fill="#38bdf8" font-size="8.5" text-anchor="middle">Nginx:alpine (80/443)</text>
+
+                    <!-- اتصال کانتینرها -->
+                    <path d="M 135 52 L 175 52" stroke="#38bdf8" stroke-width="2" />
+
+                    <!-- کانتینر وب جنگو -->
+                    <rect x="175" y="25" width="125" height="55" rx="8" fill="#041226" stroke="#06b6d4" stroke-width="1.5" />
+                    <text x="237" y="48" fill="#ffffff" font-size="10.5" font-weight="bold" text-anchor="middle" font-family="monospace">web_app</text>
+                    <text x="237" y="66" fill="#67e8f9" font-size="8.5" text-anchor="middle">Django:5.2 (Gunicorn)</text>
+
+                    <!-- اتصال وب به دیتابیس -->
+                    <path d="M 300 52 L 340 52" stroke="#06b6d4" stroke-width="2" />
+
+                    <!-- کانتینر دیتابیس -->
+                    <rect x="340" y="25" width="85" height="55" rx="8" fill="#041226" stroke="#10b981" stroke-width="1.5" />
+                    <text x="382" y="48" fill="#ffffff" font-size="10" font-weight="bold" text-anchor="middle" font-family="monospace">db_postgres</text>
+                    <text x="382" y="66" fill="#34d399" font-size="8" text-anchor="middle">PostgreSQL:16</text>
+
+                    <!-- خطوط اتصال ورکر و کش -->
+                    <path d="M 237 80 L 237 125" stroke="#38bdf8" stroke-width="2" stroke-dasharray="3 3"/>
+
+                    <!-- کانتینر ورکر سلری -->
+                    <rect x="175" y="125" width="125" height="50" rx="8" fill="#041226" stroke="#f59e0b" stroke-width="1.5" />
+                    <text x="237" y="147" fill="#ffffff" font-size="10" font-weight="bold" text-anchor="middle" font-family="monospace">celery_worker</text>
+                    <text x="237" y="163" fill="#fbbf24" font-size="8" text-anchor="middle">Async Tasks Queue</text>
+
+                    <!-- کانتینر این‌مموری ردیس -->
+                    <rect x="20" y="125" width="115" height="50" rx="8" fill="#041226" stroke="#ef4444" stroke-width="1.5" />
+                    <text x="77" y="147" fill="#ffffff" font-size="10" font-weight="bold" text-anchor="middle" font-family="monospace">redis_cache</text>
+                    <text x="77" y="163" fill="#f87171" font-size="8" text-anchor="middle">Redis:7-alpine</text>
+
+                    <path d="M 135 150 L 175 150" stroke="#f59e0b" stroke-width="2" />
+
+                    <!-- فریم والوم‌ها و دیسک فیزیکی -->
+                    <rect x="20" y="195" width="405" height="45" rx="8" fill="#020817" stroke="rgba(255,255,255,0.1)"/>
+                    <text x="222" y="215" fill="#94a3b8" font-size="9.5" font-weight="bold" text-anchor="middle" font-family="monospace">Persistent Host Volumes: /var/lib/docker/volumes/</text>
+                    <text x="222" y="230" fill="#34d399" font-size="8" text-anchor="middle">Data is fully preserved across container recreation &amp; rebuilds</text>
+                </svg>
+
+                <div style="margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.06); display: flex; justify-content: space-between; font-size: 0.78rem; color: #94a3b8; direction: rtl;">
+                    <span>سایز ایمیج‌ها با Alpine: <strong>کاهش بیش از ۷۰٪</strong></span>
+                    <span>سیاست ری‌استارت: <strong>restart: always</strong></span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 📦 چیدمان کاملاً جدید: بلوک‌های کانتینری زنجیره‌ای (Modular Cargo Stack) -->
+        <section class="dkr-cargo-stack">
+            <div class="dkr-cargo-pod">
+                <div class="dkr-pod-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                        <polyline points="2 17 12 22 22 17"></polyline>
+                        <polyline points="2 12 12 17 22 12"></polyline>
+                    </svg>
+                </div>
+                <div class="dkr-pod-body">
+                    <h3>ساخت ایمیج‌های چندمرحله‌ای (Multi-Stage Builds)</h3>
+                    <p>جداسازی کدهای کامپایل از محیط نهایی اجرا، جهت کاهش حجم ایمیج داکر از ۱ گیگابایت به کمتر از ۱۵۰ مگابایت و جلوگیری از نشت کدهای حساس پروژه.</p>
+                </div>
+            </div>
+
+            <div class="dkr-cargo-pod">
+                <div class="dkr-pod-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="2" y="2" width="20" height="8" rx="2"></rect>
+                        <rect x="2" y="14" width="20" height="8" rx="2"></rect>
+                        <line x1="6" y1="6" x2="6.01" y2="6"></line>
+                        <line x1="6" y1="18" x2="6.01" y2="18"></line>
+                    </svg>
+                </div>
+                <div class="dkr-pod-body">
+                    <h3>ارکستریشن چندکانتینری با Docker Compose</h3>
+                    <p>تعریف تمام سرویس‌های پروژه (وب‌سرور، ورکرها، تسک‌های زمان‌بندی‌شده و دیتابیس) درون یک فایل واحد با امکان اجرای کل پروژه تنها با یک دستور.</p>
+                </div>
+            </div>
+
+            <div class="dkr-cargo-pod">
+                <div class="dkr-pod-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                    </svg>
+                </div>
+                <div class="dkr-pod-body">
+                    <h3>ایزولاسیون کامل شبکه‌ها (Bridge &amp; Overlay)</h3>
+                    <p>عدم افشای پورت‌های دیتابیس و ردیس به اینترنت عمومی؛ کانتینرها صرفاً از طریق شبکه داخلی رمزنگاری‌شده داکر با یکدیگر تبادل داده می‌کنند.</p>
+                </div>
+            </div>
+
+            <div class="dkr-cargo-pod">
+                <div class="dkr-pod-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                </div>
+                <div class="dkr-pod-body">
+                    <h3>دیپلوی بدون دان‌تایم و بروزرسانی لحظه‌ای</h3>
+                    <p>استفاده از تگ‌های نسخه‌بندی داکر برای تعویض بدون وقفه کانتینر قدیمی با نسخه جدید در صورت انتشار آپدیت‌های سورس‌کد و قابلیت بازگشت آنی (Rollback).</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ماتریس بنچمارک مقایسه‌ای داکر -->
+        <section class="dkr-table-wrap">
+            <div class="dkr-table-head">
+                <h3>ماتریس مقایسه: استقرار سنتی در برابر معماری کانتینری Docker آتراوب</h3>
+                <p>بررسی شاخص‌های سهولت انتقال، خطاهای محیطی و سرعت بازیابی از حوادث سرور</p>
+            </div>
+
+            <div class="dkr-scroll-table">
+                <table class="dkr-benchmark-tbl">
+                    <thead>
+                        <tr>
+                            <th>شاخص استقرار و نگهداری</th>
+                            <th>استقرار سنتی مستقیم روی سرور (Bare-Metal)</th>
+                            <th>معماری کانتینری Docker آتراوب</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>مدت زمان مهاجرت و انتقال به سرور جدید</td>
+                            <td>چندین ساعت تا چند روز برای کانفیگ دستی پیش‌نیازها</td>
+                            <td><span class="badge-dkr-win">کمتر از ۵ دقیقه با دستور docker-compose up</span></td>
+                        </tr>
+                        <tr>
+                            <td>ایزولاسیون منابع پردازنده و حافظه RAM</td>
+                            <td>نشت حافظه یک اسکریپت کل سرور را به زانو درمی‌آورد</td>
+                            <td><span class="badge-dkr-win">سهمیه‌بندی دقیق محدودیت رم و CPU به ازای هر کانتینر</span></td>
+                        </tr>
+                        <tr>
+                            <td>تداخل نسخه‌های پایتون و لایبری‌ها</td>
+                            <td>احتمال بالای ناسازگاری پکیج‌های مشترک سرور</td>
+                            <td><span class="badge-dkr-win">ایزولاسیون ۱۰۰٪ بدون کوچک‌ترین تداخل محیطی</span></td>
+                        </tr>
+                        <tr>
+                            <td>امکان تست دقیق قبل از دیپلوی روی پروداکشن</td>
+                            <td>تست روی ویندوز یا مک با رفتار متفاوت از لینوکس</td>
+                            <td><span class="badge-dkr-win">رفتار ۱۰۰٪ یکسان روی لپ‌تاپ برنامه‌نویس و سرور اصلی</span></td>
+                        </tr>
+                        <tr>
+                            <td>بازگشت سریع به نسخه قبل در صورت باگ (Rollback)</td>
+                            <td>دشوار و زمان‌بر با ریسک باقی ماندن فایل‌های ناقص</td>
+                            <td><span class="badge-dkr-win">سوئیچ آنی به تگ ایمیج نسخه پیشین در کسری از ثانیه</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- سوالات متداول سئو دارک -->
+        <section class="dkr-faq-panel">
+            <h2 style="font-size: clamp(1.25rem, 2.5vw, 1.55rem); font-weight: 800; color: #ffffff; text-align: center; margin-bottom: 24px;">
+                پرسش‌های متداول توسعه‌دهندگان پیرامون کانتینرسازی با Docker
+            </h2>
+            <div class="faq-grid">
+                <div class="faq-item active" style="background: rgba(2, 6, 18, 0.85); border-color: rgba(255, 255, 255, 0.08);">
+                    <div class="faq-question">
+                        <span class="q-text" style="color: #ffffff;">آیا داکر باعث افت سرعت یا کاهش عملکرد نرم‌افزار نسبت به اجرای مستقیم می‌شود؟</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="answer-inner">
+                            <p style="color: #94a3b8;">خیر؛ داکر برخلاف ماشین‌های مجازی (VM) از لایه شبیه‌ساز سخت‌افزار استفاده نمی‌کند، بلکه مستقیماً با هسته لینوکس از طریق تکنولوژی cgroups و Namespaces در ارتباط است؛ افت سرعت در پردازش‌های وب تقریباً صفر است.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item active" style="background: rgba(2, 6, 18, 0.85); border-color: rgba(255, 255, 255, 0.08);">
+                    <div class="faq-question">
+                        <span class="q-text" style="color: #ffffff;">مدیریت متغیرهای محیطی حساس (مانند کلیدهای API و پسورد دیتابیس) در داکر چگونه است؟</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="answer-inner">
+                            <p style="color: #94a3b8;">تمامی اطلاعات محرمانه از فایل‌های سورس‌کد تفکیک شده و از طریق فایل‌های ایمن env. یا مکانیزم Docker Secrets در زمان اجرای کانتینر بارگذاری می‌شوند تا هیچ پسوردی وارد گیت‌ریپازیتوری نشود.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- بنر فراخوان نهایی -->
+        <div class="dkr-cta-pod">
+            <div>
+                <h3 style="font-size: clamp(1.2rem, 2.5vw, 1.6rem); font-weight: 900; color: #ffffff; margin-bottom: 8px;">
+                    می‌خواهید پروژه‌های نرم‌افزاری خود را به صورت استاندارد داکرایز کنید؟
+                </h3>
+                <p style="color: #cbd5e1; font-size: 0.95rem; margin: 0; line-height: 1.85;">
+                    نگارش Dockerfileهای حرفه‌ای، راه‌اندازی داکر کامپوز و ایزولاسیون کامل زیرساخت توسط مهندسین آتراوب انجام می‌شود.
+                </p>
+            </div>
+            <a href="{% url 'core:submit_ticket' %}" class="dkr-cta-btn">
+                درخواست کانتینرسازی و داکرایز پروژه
+            </a>
+        </div>
+
     </div>
-
-    <!-- گرید کارت‌های سرویس‌های داکر -->
-    <div class="container-tiles-grid">
-        <div class="container-tile">
-            <div>
-                <div class="tile-status-bar">
-                    <span class="tile-status-pill"><span class="dot"></span> Web Container</span>
-                    <span class="tile-port">:8000</span>
-                </div>
-                <h3 style="font-size: 1.2rem; margin: 0 0 10px;">Django REST Service</h3>
-                <p style="font-size: 0.88rem; color: #64748b; line-height: 1.7; margin: 0;">
-                    بسته‌بندی اختصاصی کدهای پایتون در ایمیج چندمرحله‌ای (Multi-Stage) با حداقل حجم ممکن و بدون کتابخانه‌های اضافی کامپایلر.
-                </p>
-            </div>
-        </div>
-
-        <div class="container-tile">
-            <div>
-                <div class="tile-status-bar">
-                    <span class="tile-status-pill"><span class="dot"></span> DB Container</span>
-                    <span class="tile-port">:5432</span>
-                </div>
-                <h3 style="font-size: 1.2rem; margin: 0 0 10px;">PostgreSQL Database</h3>
-                <p style="font-size: 0.88rem; color: #64748b; line-height: 1.7; margin: 0;">
-                    اتصال به حجم‌های پایدار (Named Volumes) بر روی دیسک سرور برای تضمین حفظ اطلاعات حتی پس از حذف یا آپدیت کانتینر.
-                </p>
-            </div>
-        </div>
-
-        <div class="container-tile">
-            <div>
-                <div class="tile-status-bar">
-                    <span class="tile-status-pill"><span class="dot"></span> Queue Container</span>
-                    <span class="tile-port">:6379</span>
-                </div>
-                <h3 style="font-size: 1.2rem; margin: 0 0 10px;">Redis & Celery Workers</h3>
-                <p style="font-size: 0.88rem; color: #64748b; line-height: 1.7; margin: 0;">
-                    تفکیک کامل پردازش‌های صف ناهمگام و کش رم از اپلیکیشن اصلی با شبکه داخلی اختصاصی داکر (Bridge Network).
-                </p>
-            </div>
-        </div>
-
-        <div class="container-tile">
-            <div>
-                <div class="tile-status-bar">
-                    <span class="tile-status-pill"><span class="dot"></span> Vector Container</span>
-                    <span class="tile-port">:6333</span>
-                </div>
-                <h3 style="font-size: 1.2rem; margin: 0 0 10px;">Qdrant Vector DB</h3>
-                <p style="font-size: 0.88rem; color: #64748b; line-height: 1.7; margin: 0;">
-                    موتور جستجوی برداری اسناد سازمانی ایزوله، آماده دریافت کوئری‌های معنایی بدون دسترسی مستقیم از بیرون شبکه سرور.
-                </p>
-            </div>
-        </div>
-
-        <div class="container-tile">
-            <div>
-                <div class="tile-status-bar">
-                    <span class="tile-status-pill"><span class="dot"></span> Proxy Container</span>
-                    <span class="tile-port">:80 / :443</span>
-                </div>
-                <h3 style="font-size: 1.2rem; margin: 0 0 10px;">Nginx Gateway</h3>
-                <p style="font-size: 0.88rem; color: #64748b; line-height: 1.7; margin: 0;">
-                    هدایت خودکار ترافیک ورودی به کانتینرهای مربوطه بر اساس دامنه و ساب‌دامین با کشف خودکار سرویس‌ها (Service Discovery).
-                </p>
-            </div>
-        </div>
-
-        <div class="container-tile">
-            <div>
-                <div class="tile-status-bar">
-                    <span class="tile-status-pill"><span class="dot"></span> Backup Service</span>
-                    <span class="tile-port">Daily Cron</span>
-                </div>
-                <h3 style="font-size: 1.2rem; margin: 0 0 10px;">Automated Backup Container</h3>
-                <p style="font-size: 0.88rem; color: #64748b; line-height: 1.7; margin: 0;">
-                    تهیه خودکار بکاپ فشرده دیتابیس در هر شب، رمزنگاری و ارسال امن به فضای ابری با کمترین مصرف منابع پردازنده.
-                </p>
-            </div>
-        </div>
-    </div>
-
-    <div class="custom-plan-card" style="max-width: 1200px; margin: 40px auto 0;">
-        <div class="custom-plan-info">
-            <h3 class="custom-plan-title">می‌خواهید کل استک فنی خود را با یک دستور روی هر سروری بالا بیاورید؟</h3>
-            <p class="custom-plan-desc">داکرایز اصولی و تنظیم فایل‌های داکر کامپوز پروداکشن پروژه شما را انجام می‌دهیم.</p>
-        </div>
-        <a href="{% url 'core:submit_ticket' %}" class="btn-custom">سفارش کانتینرسازی با Docker</a>
-    </div>
-</section>
+</div>
 {% endblock %}
