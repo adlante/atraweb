@@ -1,9 +1,14 @@
 User-agent: *
+Allow: /
+
+# مسدودسازی بخش‌های امنیتی و پنل‌های کاربری
 Disallow: /admin/
 Disallow: /atra-studio-vault/
 Disallow: /accounts/
-Disallow: /static/
-Disallow: /media/
+
+# دسترسی به فایل‌های استاتیک و رسانه برای رندر کامل سایت در گوگل
+Allow: /static/
+Allow: /media/
 
 # آدرس نقشه سایت برای ربات‌های جستجوگر
-Sitemap: https://atradev.ir/sitemap.xml
+Sitemap: https://atraweb.com/sitemap.xml
