@@ -11,8 +11,8 @@ SECRET_KEY = os.getenv(
     'django-insecure-z(mf%g7cp-$7yx3+#ji!det*rz2&5d5t1akiss6@o@v39&_kni'
 )
 
-# در لوکال مقدار پیش‌فرض True است، روی سرور با تعریف متغیر DJANGO_DEBUG=False خاموش می‌شود
-DEBUG = os.getenv('DJANGO_DEBUG', 'True') == 'True'
+# دیباگ در سرور False است (در صورت نیاز به عیب‌یابی موقت True کنید)
+DEBUG = False
 
 ALLOWED_HOSTS = [
     'atraweb.com',
@@ -22,12 +22,14 @@ ALLOWED_HOSTS = [
     'localhost',
 ]
 
-# دامنه معتبر برای فرم‌های امن و ورود به ادمین در محیط پروداکشن
 CSRF_TRUSTED_ORIGINS = [
     'https://atraweb.com',
     'https://www.atraweb.com',
     'http://46.249.101.21',
 ]
+
+# به Nginx اعلام می‌کند که درخواست امن از طریق HTTPS ارسال شده است
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -59,11 +61,11 @@ ROOT_URLCONF = 'AtraDev.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],  # خواندن پوشه تمپلیت روت شامل robots.txt
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
-                'django.template.context_processors.debug',  # اضافه شد
+                'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
@@ -74,26 +76,17 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'AtraDev.wsgi.application'
 
-# Database
-# لوکال: SQLite3 | سرور: PostgreSQL
-if os.getenv('USE_POSTGRESQL', 'False') == 'True':
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': os.getenv('DB_NAME', 'atraweb_db'),
-            'USER': os.getenv('DB_USER', 'atra_user'),
-            'PASSWORD': os.getenv('DB_PASSWORD', 'AtraPassword2026!'),
-            'HOST': os.getenv('DB_HOST', 'localhost'),
-            'PORT': os.getenv('DB_PORT', '5432'),
-        }
+# اتصال مستقیم و دائمی به پایگاه داده PostgreSQL
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('DB_NAME', 'atraweb_db'),
+        'USER': os.getenv('DB_USER', 'atra_user'),
+        'PASSWORD': os.getenv('DB_PASSWORD', 'AtraPassword2026!'),
+        'HOST': os.getenv('DB_HOST', 'localhost'),
+        'PORT': os.getenv('DB_PORT', '5432'),
     }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
-    }
+}
 
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
@@ -114,8 +107,6 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'  # اضافه شد
 
 AUTH_USER_MODEL = 'accounts.User'
 
