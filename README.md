@@ -1,59 +1,35 @@
-# Atra Accounting: Your Secure, Offline-First Desktop Accounting Solution
+# آتراوب | AtraWeb
 
-<!-- Optional: Badges can be added here later for build status, version, etc. -->
-<!-- ![Version](https://img.shields.io/badge/version-1.0.0-blue.svg) -->
-<!-- ![License](https://img.shields.io/badge/license-MIT-green.svg) -->
+[![Website](https://img.shields.io/badge/Official_Website-atraweb.com-0284c7?style=flat-square)](https://atraweb.com)
+[![Status](https://img.shields.io/badge/Production-Live-10b981?style=flat-square)](https://atraweb.com)
+[![Stack](https://img.shields.io/badge/Stack-Django%20%7C%20FastAPI%20%7C%20Flutter-8b5cf6?style=flat-square)](https://atraweb.com)
 
-## 🚀 Overview
+**آتراوب (AtraWeb)**؛ استودیو مهندسی نرم‌افزار، توسعه سیستم‌های وب سازمانی و استقرار زیرساخت‌های نوین هوش مصنوعی (Generative AI & RAG).
 
-**Atra Accounting** is a robust, offline-first desktop application meticulously crafted for small businesses, freelancers, and individuals seeking a secure and intuitive solution for their financial management. Say goodbye to internet dependencies and cloud privacy concerns! With Atra, all your sensitive financial data stays right where it belongs: on your local machine, under your complete control.
+---
 
-Manage your invoices, track expenses, generate comprehensive financial reports, and maintain a clear overview of your financial health, all without needing an internet connection.
+### 🌐 دسترسی به بخش‌ها و خدمات اصلی سایت
 
-## ✨ Key Features
+* **وب‌سایت رسمی آتراوب:** [https://atraweb.com](https://atraweb.com)
+* **استودیو تولید تصویر و طراحی ژنراتیو (Flux & SDXL):** [atraweb.com/ai/generative-studio](https://atraweb.com/ai/generative-studio/)
+* **پایگاه دانش هوشمند سازمانی و معماری RAG:** [atraweb.com/ai/rag-knowledge-base](https://atraweb.com/ai/rag-knowledge-base/)
+* **پایگاه‌های داده برداری (Vector Databases):** [atraweb.com/ai/vector-databases](https://atraweb.com/ai/vector-databases/)
+* **توسعه سرویس‌های بک‌اند و معماری ابری:** [atraweb.com/plans/backend-api](https://atraweb.com/plans/backend-api/)
+* **طراحی اپلیکیشن‌های کراس‌پلتفرم فلاتر (Flutter):** [atraweb.com/flutter/crossplatform](https://atraweb.com/flutter/crossplatform/)
+* **نمونه‌کارها و پروژه‌های اجرا شده:** [atraweb.com/portfolio](https://atraweb.com/portfolio/)
 
-*   **Offline-First Design:** Full functionality available without an internet connection. Your data is always accessible.
-*   **Enhanced Data Security:** All financial information is stored locally, ensuring maximum privacy and control.
-*   **Intuitive Invoice Management:** Create, send, track, and manage invoices with ease.
-*   **Comprehensive Expense Tracking:** Categorize and monitor all your business expenses.
-*   **Powerful Reporting:** Generate essential financial reports (e.g., Income/Expense, Balance Sheet) to gain insights into your business performance.
-*   **User-Friendly Interface:** A clean and straightforward design ensures a smooth user experience.
-*   **Dashboard Overview:** Get a quick snapshot of your financial status at a glance.
-*   **Data Export/Import:** Easily backup or transfer your financial data.
+---
 
-## 🌟 Why Choose Atra Accounting?
+### 🛠 پشته فنی و معماری نرم‌افزار (Tech Stack)
 
-In today's interconnected world, privacy and data control are paramount. Atra Accounting offers a unique advantage by putting you back in charge of your financial data. It's perfect for:
+* **Backend & APIs:** Python, Django REST Framework, FastAPI, Celery, Redis
+* **Frontend & Mobile:** Flutter (Android/iOS), Modern Responsive Web
+* **AI Pipelines:** ComfyUI, Flux.1, Stable Diffusion XL, PyMuPDF, Vector Embeddings
+* **Database & Infrastructure:** PostgreSQL, Docker, Nginx, Gunicorn, Linux (Ubuntu Server)
 
-*   Businesses operating in areas with unreliable internet.
-*   Professionals who prioritize local data storage and privacy.
-*   Anyone seeking a no-nonsense, efficient accounting tool that just works, offline.
+---
 
-## 📸 Screenshots
+### 📞 ارتباط و ثبت سفارش
 
-*(This section is a placeholder. Once your app has a UI, replace this text with actual screenshots!)*
-
-| Dashboard Overview | Invoice Creation | Expense Tracking |
-| :----------------: | :--------------: | :--------------: |
-| ![Dashboard Placeholder](https://via.placeholder.com/400x250?text=Dashboard) | ![Invoice Placeholder](https://via.placeholder.com/400x250?text=Invoice+Form) | ![Expense Placeholder](https://via.placeholder.com/400x250?text=Expense+List) |
-*More screenshots coming soon!*
-
-## 📦 Installation
-
-*(This section will vary depending on how you package your desktop app. Here are common scenarios.)*
-
-### For End Users:
-
-1.  **Download the latest installer:** Visit the [Releases page](https://github.com/adlante/atra-accounting/releases) (link will be live once you create releases).
-2.  **Run the installer:** Follow the on-screen instructions to install Atra Accounting on your system (Windows, macOS, Linux).
-3.  **Launch the application:** Find "Atra Accounting" in your applications menu and start managing your finances!
-
-### For Developers (from source):
-
-*(Adjust these steps based on your actual tech stack, e.g., Node.js, Python, Electron, React, etc.)*
-
-1.  **Clone the repository:**
-```bash
-git clone https://github.com/adlante/atra-accounting.git
-cd atra-accounting
-
+جهت دریافت مشاوره فنی و ثبت تیکت خدمات سازمانی به پرتال پشتیبانی مراجعه کنید:
+[https://atraweb.com/support/ticket/](https://atraweb.com/support/ticket/)
